@@ -104,6 +104,15 @@
 
         TB_DiscountName.Text = Item(1).ToString()
         TB_Description.Text = Item(2).ToString()
+
+        Dim type As Integer = CInt(Item(3))
+
+        If type = 20 Then
+            CB_Type.SelectedIndex = 1
+        ElseIf type = 30 Then
+            CB_Type.SelectedIndex = 2
+        End If
+
         TB_AuthorizeBy.Text = Item(7).ToString()
         TB_Ammount.Text = Item(5).ToString()
 
