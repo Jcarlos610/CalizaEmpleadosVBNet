@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
+  <Profiles />
+  <Settings>
+    <Setting Name="PicturesOfEmployees" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\Users\jcarl\OneDrive\Imágenes\ImagenesEmpleados</Value>
+    </Setting>
+    <Setting Name="WorkTimeFiles" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\Temp\CalizaEmpleados\RelojChecador</Value>
+    </Setting>
+    <Setting Name="ConnectionString" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Data Source=JUANSANCHEZ\SQLEXPRESS;Initial Catalog=CalizaEmpleados;Integrated Security=True;TrustServerCertificate=True</Value>
+    </Setting>
+    <Setting Name="WorkTimeFilesEntry" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\Temp\CalizaEmpleados\RelojChecador\Entradas</Value>
+    </Setting>
+    <Setting Name="WorkTimeFilesExit" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\Temp\CalizaEmpleados\RelojChecador\Salidas</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
