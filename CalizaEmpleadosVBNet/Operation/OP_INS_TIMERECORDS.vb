@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports System.Windows.Forms.VisualStyles
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar
 Imports Microsoft.Data.SqlClient
 
 Public Class OP_INS_TIMERECORDS
@@ -122,33 +123,70 @@ Public Class OP_INS_TIMERECORDS
             Dim empName As String = empInfo(1).ToString
             Dim hourText As String = values(2).Trim()
             Dim timeValue As DateTime = ParseSpanishTime(hourText)
+
+            If FileTye = 30 AndAlso timeValue.Hour < 12 Then
+                timeValue = timeValue.AddHours(12)
+            End If
+
             Dim fullDateTime As DateTime = fileDate.Date.Add(timeValue.TimeOfDay)
-            Dim toleranceTime As DateTime = DateTime.Parse("07:10:00")
-            Dim limitTime As DateTime = DateTime.Parse("07:00:00")
 
-            Dim Comment As String = "Puntual"
+            If FileTye = 20 Then
+                'Logic for Entry File
+                Dim toleranceTime As DateTime = DateTime.Parse("07:10:00")
+                Dim limitTime As DateTime = DateTime.Parse("07:00:00")
 
-            If timeValue.TimeOfDay > limitTime.TimeOfDay AndAlso timeValue.TimeOfDay <= toleranceTime.TimeOfDay Then
-                Comment = "Tolerancia"
-            ElseIf timeValue.TimeOfDay > toleranceTime.TimeOfDay Then
-                Comment = "Retardo"
+                Dim Comment As String = "Puntual"
+
+                If timeValue.TimeOfDay > limitTime.TimeOfDay AndAlso timeValue.TimeOfDay <= toleranceTime.TimeOfDay Then
+                    Comment = "Tolerancia"
+                ElseIf timeValue.TimeOfDay > toleranceTime.TimeOfDay Then
+                    Comment = "Retardo"
+                End If
+
+                Dim rowIndex As Integer = DGV_FileContent.Rows.Add(
+                    EmplID,
+                    empName,
+                    fileDate.ToString("dd/MM/yyyy"),
+                    timeValue.ToString("HH:mm:ss"),
+                    fullDateTime,
+                    Comment
+                )
+
+                If Comment = "Tolerancia" Then
+                    DGV_FileContent.Rows(rowIndex).DefaultCellStyle.BackColor = Color.LightGoldenrodYellow
+                ElseIf Comment = "Retardo" Then
+                    DGV_FileContent.Rows(rowIndex).DefaultCellStyle.BackColor = Color.MistyRose
+                End If
+            Else
+                'Logic for Exit file
+                Dim ToleranceEnd As DateTime = DateTime.Parse("18:00:00")
+                Dim EndTime As DateTime = DateTime.Parse("17:30:00")
+
+                Dim Comment As String = "Salida Puntual"
+
+                If timeValue.TimeOfDay > EndTime.TimeOfDay AndAlso timeValue.TimeOfDay <= ToleranceEnd.TimeOfDay Then
+                    Comment = "Salida Puntual"
+                ElseIf timeValue.TimeOfDay < EndTime.TimeOfDay Then
+                    Comment = "Salida anticipada"
+                ElseIf timeValue.TimeOfDay > ToleranceEnd.TimeOfDay Then
+                    Comment = "Salida con tiempo adicional"
+                End If
+
+                Dim rowIndex As Integer = DGV_FileContent.Rows.Add(
+                    EmplID,
+                    empName,
+                    fileDate.ToString("dd/MM/yyyy"),
+                    timeValue.ToString("HH:mm:ss"),
+                    fullDateTime,
+                    Comment
+                )
+
+                If Comment = "Salida anticipada" Then
+                    DGV_FileContent.Rows(rowIndex).DefaultCellStyle.BackColor = Color.MistyRose
+                ElseIf Comment = "Salida con tiempo adicional" Then
+                    DGV_FileContent.Rows(rowIndex).DefaultCellStyle.BackColor = Color.LightGoldenrodYellow
+                End If
             End If
-
-            Dim rowIndex As Integer = DGV_FileContent.Rows.Add(
-                EmplID,
-                empName,
-                fileDate.ToString("dd/MM/yyyy"),
-                timeValue.ToString("HH:mm:ss"),
-                fullDateTime,
-                Comment
-            )
-
-            If Comment = "Tolerancia" Then
-                DGV_FileContent.Rows(rowIndex).DefaultCellStyle.BackColor = Color.LightGoldenrodYellow
-            ElseIf Comment = "Retardo" Then
-                DGV_FileContent.Rows(rowIndex).DefaultCellStyle.BackColor = Color.MistyRose
-            End If
-
         Next
 
         If MessageBox.Show("¿Desea agregar algún comentario?.", "Información", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
@@ -166,12 +204,22 @@ Public Class OP_INS_TIMERECORDS
 
     Private Function ParseSpanishTime(timeText As String) As DateTime
 
+        timeText = timeText.ToLower()
+
         timeText = timeText.Replace("a. m.", "AM")
         timeText = timeText.Replace("p. m.", "PM")
         timeText = timeText.Replace("a.m.", "AM")
         timeText = timeText.Replace("p.m.", "PM")
+        timeText = timeText.Replace("am", "AM")
+        timeText = timeText.Replace("pm", "PM")
 
-        Return DateTime.Parse(timeText)
+        Dim parsedTime As DateTime
+
+        If DateTime.TryParse(timeText, parsedTime) Then
+            Return parsedTime
+        Else
+            Throw New Exception("Formato de hora inválido: " & timeText)
+        End If
 
     End Function
 
@@ -183,83 +231,98 @@ Public Class OP_INS_TIMERECORDS
 
         If DGV_FileContent.Rows.Count = 0 Then Exit Sub
 
+        RegisterFileContent()
+
+    End Sub
+
+    Private Sub RegisterFileContent()
         Dim conn As New SqlConnection(My.Settings.ConnectionString)
+        Dim trans As SqlTransaction = Nothing
         conn.Open()
-
         Try
-
             Dim FileComment As String = TB_Comment.Text
             Dim NumberOfRecords As Integer = DGV_FileContent.Rows.Count
-
             Dim AssistanceFileHeader As New CL_AsistanceFiles(FileTye, FileName, NumberOfRecords, FileComment, AppUser, Date.Now)
 
             'VALIDAR SI EL ARCHIVO YA EXISTE
             If AssistanceFileHeader.FileAlreadyExists(conn) Then
-
-                MessageBox.Show("El archivo: " & FileName & vbCrLf &
-                                "ya fue registrado anteriormente.",
-                                "Archivo duplicado",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning)
+                MessageBox.Show("El archivo: " & FileName & vbCrLf & "ya fue registrado anteriormente.", "Archivo duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 InitializationOfFields()
                 CB_Options.Enabled = True
-
                 conn.Close()
                 Exit Sub
-
             End If
 
             'INICIAR TRANSACCIÓN SOLO SI NO EXISTE
-            Dim trans As SqlTransaction = conn.BeginTransaction()
-
+            trans = conn.BeginTransaction()
             Dim L_HFILE_ID As Integer = AssistanceFileHeader.InsertAsistanceFileHeader(conn, trans)
 
-            For Each Line As DataGridViewRow In DGV_FileContent.Rows
+            If L_HFILE_ID <> 0 Then
+                For Each Line As DataGridViewRow In DGV_FileContent.Rows
+                    Dim Item As New CL_AsistanceFiles
+                    Item.HFILE_ID = L_HFILE_ID
+                    Item.EMPL_ID = Line.Cells("EmpID").Value
+                    If Line.Cells("Comment").Value = "Puntual" Then
+                        Item.ENTTYPE_ID = 10
+                    ElseIf Line.Cells("Comment").Value = "Tolerancia" Then
+                        Item.ENTTYPE_ID = 20
+                    ElseIf Line.Cells("Comment").Value = "Retardo" Then
+                        Item.ENTTYPE_ID = 30
+                    ElseIf Line.Cells("Comment").Value = "Salida Puntual" Then
+                        Item.ENTTYPE_ID = 40
+                    ElseIf Line.Cells("Comment").Value = "Salida anticipada" Then
+                        Item.ENTTYPE_ID = 50
+                    ElseIf Line.Cells("Comment").Value = "Salida con tiempo adicional" Then
+                        Item.ENTTYPE_ID = 80
+                    End If
+                    Dim fecha As DateTime = DateTime.ParseExact(
+                        Line.Cells("DATE").Value.ToString(),
+                        "dd/MM/yyyy",
+                        System.Globalization.CultureInfo.InvariantCulture
+                    )
 
-                Dim Item As New CL_AsistanceFiles
+                    Item.IFILE_DATE = fecha
+                    Item.IFILE_EXTIME = Line.Cells("TIME").Value
+                    Item.IFILE_EXDATI = Line.Cells("FullDateTime").Value
+                    'Item.IFILE_EXTIME = Nothing
+                    'Item.IFILE_EXDATI = Nothing
+                    Item.InsertAsistanceFileItem(conn, trans)
+                Next
 
-                Item.HFILE_ID = L_HFILE_ID
-                Item.EMPL_ID = Line.Cells("EmpID").Value
+                trans.Commit()
+                MessageBox.Show("Archivo: " & FileName & vbCrLf & "se registró correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-                If Line.Cells("Comment").Value = "Puntual" Then
-                    Item.ENTTYPE_ID = 10
-                ElseIf Line.Cells("Comment").Value = "Tolerancia" Then
-                    Item.ENTTYPE_ID = 20
-                ElseIf Line.Cells("Comment").Value = "Retardo" Then
-                    Item.ENTTYPE_ID = 30
-                End If
+                'Make Full Time Calculation
 
-                Item.IFILE_DATE = Line.Cells("DATE").Value
-                Item.IFILE_TIME = Line.Cells("TIME").Value
-                Item.IFILE_DATI = Line.Cells("FullDateTime").Value
-
-                Item.InsertAsistanceFileItem(conn, trans)
-
-            Next
-
-            trans.Commit()
-
-            MessageBox.Show("Archivo: " & FileName & vbCrLf &
-                            "se registró correctamente.",
-                            "Información",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Information)
-
-            InitializationOfFields()
-            CB_Options.Enabled = True
-
+                InitializationOfFields()
+                CB_Options.Enabled = True
+            Else
+                MessageBox.Show("Ocurrió un error con el ID del archivo.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                InitializationOfFields()
+                CB_Options.Enabled = True
+                conn.Close()
+                Exit Sub
+            End If
         Catch ex As Exception
-
-            MessageBox.Show("Error: " & ex.Message,
-                            "Error",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error)
-
+            If trans IsNot Nothing Then
+                trans.Rollback()
+            End If
+            MessageBox.Show("Error: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
-
             conn.Close()
-
         End Try
-
     End Sub
+
+    Private Function CalculateFullTimebyCompleteFile(ByVal HFILE_TYPE As Integer, ByVal HFILE_NAME As Integer) As Boolean
+        Dim Result As Boolean = False
+        Dim Employee = New CL_Employee()
+        Dim ActiveEmployees As DataTable = Employee.Get_AllActiveEmployeesID()
+
+        'Check all active employees
+        For Each EmployeeRow As DataRow In ActiveEmployees.Rows
+
+        Next
+
+        Return Result
+    End Function
 End Class

@@ -18,8 +18,10 @@ Public Class CL_AsistanceFiles
     Private _EMPL_ID As Object
     Private _ENTTYPE_ID As Object
     Private _IFILE_DATE As Object
-    Private _IFILE_TIME As Object
-    Private _IFILE_DATI As Object
+    Private _IFILE_ENTIME As Object
+    Private _IFILE_EXTIME As Object
+    Private _IFILE_ENDATI As Object
+    Private _IFILE_EXDATI As Object
 
 
     Public Property HFILE_ID As Object
@@ -112,21 +114,12 @@ Public Class CL_AsistanceFiles
         End Set
     End Property
 
-    Public Property IFILE_TIME As Object
+    Public Property IFILE_ENTIME As Object
         Get
-            Return _IFILE_TIME
+            Return _IFILE_ENTIME
         End Get
         Set(value As Object)
-            _IFILE_TIME = value
-        End Set
-    End Property
-
-    Public Property IFILE_DATI As Object
-        Get
-            Return _IFILE_DATI
-        End Get
-        Set(value As Object)
-            _IFILE_DATI = value
+            _IFILE_ENTIME = value
         End Set
     End Property
 
@@ -136,6 +129,33 @@ Public Class CL_AsistanceFiles
         End Get
         Set(value As Object)
             _HFILE_TYPE = value
+        End Set
+    End Property
+
+    Public Property IFILE_EXTIME As Object
+        Get
+            Return _IFILE_EXTIME
+        End Get
+        Set(value As Object)
+            _IFILE_EXTIME = value
+        End Set
+    End Property
+
+    Public Property IFILE_ENDATI As Object
+        Get
+            Return _IFILE_ENDATI
+        End Get
+        Set(value As Object)
+            _IFILE_ENDATI = value
+        End Set
+    End Property
+
+    Public Property IFILE_EXDATI As Object
+        Get
+            Return _IFILE_EXDATI
+        End Get
+        Set(value As Object)
+            _IFILE_EXDATI = value
         End Set
     End Property
 
@@ -155,20 +175,8 @@ Public Class CL_AsistanceFiles
         _HFILE_RDATE = HFILE_RDATE
     End Sub
 
-    ''Header Constructor with ID
-    'Sub New(HFILE_ID, HFILE_NAME, HFILE_RECOR, HFILE_COME, HFILE_CREBY, HFILE_RDATE)
-    '    DB_Connection = New SqlConnection(My.Settings.ConnectionString)
-
-    '    _HFILE_ID = HFILE_ID
-    '    _HFILE_NAME = HFILE_NAME
-    '    _HFILE_RECOR = HFILE_RECOR
-    '    _HFILE_COME = HFILE_COME
-    '    _HFILE_CREBY = HFILE_CREBY
-    '    _HFILE_RDATE = HFILE_RDATE
-    'End Sub
-
     'Item Constructor
-    Sub New(HFILE_ID, HFILE_TYPE, EMPL_ID, ENTTYPE_ID, IFILE_DATE, IFILE_TIME, IFILE_DATI)
+    Sub New(HFILE_ID, HFILE_TYPE, EMPL_ID, ENTTYPE_ID, IFILE_DATE, IFILE_ENTIME, IFILE_ENDATI, IFILE_EXTIME, IFILE_EXDATI)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
         _HFILE_ID = HFILE_ID
@@ -176,23 +184,11 @@ Public Class CL_AsistanceFiles
         _EMPL_ID = EMPL_ID
         _ENTTYPE_ID = ENTTYPE_ID
         _IFILE_DATE = IFILE_DATE
-        _IFILE_TIME = IFILE_TIME
-        _IFILE_DATI = IFILE_DATI
+        _IFILE_ENTIME = IFILE_ENTIME
+        _IFILE_ENDATI = IFILE_ENDATI
+        _IFILE_EXTIME = IFILE_EXTIME
+        _IFILE_EXDATI = IFILE_EXDATI
     End Sub
-
-    ''Item Constructor with ID
-    'Sub New(IFILE_ID, HFILE_ID, EMPL_ID, ENTTYPE_ID, IFILE_DATE, IFILE_TIME, IFILE_DATI)
-    '    DB_Connection = New SqlConnection(My.Settings.ConnectionString)
-
-    '    _IFILE_ID = IFILE_ID
-    '    _HFILE_ID = HFILE_ID
-    '    _EMPL_ID = EMPL_ID
-    '    _ENTTYPE_ID = ENTTYPE_ID
-    '    _IFILE_DATE = IFILE_DATE
-    '    _IFILE_TIME = IFILE_TIME
-    '    _IFILE_DATI = IFILE_DATI
-
-    'End Sub
 
     Public Function InsertAsistanceFileHeader(conn As SqlConnection, trans As SqlTransaction) As Integer
 
@@ -235,8 +231,8 @@ Public Class CL_AsistanceFiles
         DB_Command.Parameters.AddWithValue("@EMPL_ID", _EMPL_ID)
         DB_Command.Parameters.AddWithValue("@ENTTYPE_ID", _ENTTYPE_ID)
         DB_Command.Parameters.AddWithValue("@IFILE_DATE", _IFILE_DATE)
-        DB_Command.Parameters.AddWithValue("@IFILE_TIME", _IFILE_TIME)
-        DB_Command.Parameters.AddWithValue("@IFILE_DATI", _IFILE_DATI)
+        DB_Command.Parameters.AddWithValue("@IFILE_ENTIME", _IFILE_ENTIME)
+        DB_Command.Parameters.AddWithValue("@IFILE_ENDATI", _IFILE_ENDATI)
 
         DB_Command.ExecuteNonQuery()
 

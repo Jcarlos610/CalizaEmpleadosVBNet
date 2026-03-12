@@ -31,7 +31,6 @@ Partial Class OP_INS_TIMERECORDS
         GB_FileContent = New GroupBox()
         TB_Comment = New TextBox()
         LB_Comment = New Label()
-        Label1 = New Label()
         GB_WorkTme.SuspendLayout()
         CType(DGV_FileContent, ComponentModel.ISupportInitialize).BeginInit()
         GB_FileContent.SuspendLayout()
@@ -123,22 +122,12 @@ Partial Class OP_INS_TIMERECORDS
         LB_Comment.TabIndex = 3
         LB_Comment.Text = "Comentario:"
         ' 
-        ' Label1
-        ' 
-        Label1.AutoSize = True
-        Label1.Location = New Point(841, 94)
-        Label1.Name = "Label1"
-        Label1.Size = New Size(41, 15)
-        Label1.TabIndex = 4
-        Label1.Text = "Label1"
-        ' 
         ' OP_INS_TIMERECORDS
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1242, 694)
-        Controls.Add(Label1)
         Controls.Add(GB_FileContent)
         Controls.Add(GB_WorkTme)
         Name = "OP_INS_TIMERECORDS"
@@ -150,7 +139,6 @@ Partial Class OP_INS_TIMERECORDS
         GB_FileContent.ResumeLayout(False)
         GB_FileContent.PerformLayout()
         ResumeLayout(False)
-        PerformLayout()
     End Sub
 
     Friend WithEvents GB_WorkTme As GroupBox
@@ -162,5 +150,4 @@ Partial Class OP_INS_TIMERECORDS
     Friend WithEvents GB_FileContent As GroupBox
     Friend WithEvents TB_Comment As TextBox
     Friend WithEvents LB_Comment As Label
-    Friend WithEvents Label1 As Label
 End Class
