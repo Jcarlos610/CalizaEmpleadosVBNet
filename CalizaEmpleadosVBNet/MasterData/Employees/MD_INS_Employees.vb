@@ -157,11 +157,18 @@ Public Class MD_INS_Employees
             Dim Id_Employee As Integer = Employees.Id
             Dim Description_Employee As String = Employees.Descripcion
 
-            Dim Employee = New CL_Employee(TB_EmployeeName.Text, TB_LastName1.Text, TB_LastName2.Text, DT_BornDate.Value, TB_BornCity.Text, TB_PersonalAddress.Text, TB_PhoneNumber.Text, TB_EmailAddress.Text, TB_CivilStatus.Text, TB_Curp.Text, TB_SocialNumber.Text, TB_RFC.Text, TB_FiscalAddress.Text, TB_BankName.Text, TB_BankAccount.Text, Id_Company, Id_TypeOfEmployee, DT_EntryDate.Value, DT_RegistrationDate.Value, Id_Position, Id_Supervisor, TB_VacationsDays.Text, TB_BaseSalary.Text, TB_EmergencyContact.Text, TB_Relationship.Text, TB_EmergencyPhone.Text, TB_Baneficiary.Text, AppUser, PB_Picture.Tag, 1)
+            Dim PhotoPath As String = Nothing
+
+            If PB_Picture.Tag IsNot Nothing Then
+                PhotoPath = PB_Picture.Tag.ToString()
+            End If
+
+
+            Dim Employee = New CL_Employee(TB_EmployeeName.Text, TB_LastName1.Text, TB_LastName2.Text, DT_BornDate.Value, TB_BornCity.Text, TB_PersonalAddress.Text, TB_PhoneNumber.Text, TB_EmailAddress.Text, TB_CivilStatus.Text, TB_Curp.Text, TB_SocialNumber.Text, TB_RFC.Text, TB_FiscalAddress.Text, TB_BankName.Text, TB_BankAccount.Text, Id_Company, Id_TypeOfEmployee, DT_EntryDate.Value, DT_RegistrationDate.Value, Id_Position, Id_Supervisor, TB_VacationsDays.Text, TB_BaseSalary.Text, TB_EmergencyContact.Text, TB_Relationship.Text, TB_EmergencyPhone.Text, TB_Baneficiary.Text, AppUser, PhotoPath, 1)
 
 
             If Employee.InsertEmployee() Then
-                MessageBox.Show("El beneficio " + TB_EmployeeName.Text + " fue creado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("El empleado " + TB_EmployeeName.Text + " fue creado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 InitializationOfFields()
             End If
 
@@ -176,7 +183,11 @@ Public Class MD_INS_Employees
             If ofd.ShowDialog() = DialogResult.OK Then
 
                 Dim SourcePath As String = ofd.FileName
-                Dim DestinationPath As String = My.Settings.PicturesOfEmployees
+                'Dim DestinationPath As String = My.Settings.PicturesOfEmployees
+                Dim DestinationPath As String =
+                Path.Combine(Application.StartupPath, "Images", "Employees")
+
+
 
                 ' Ensure that the path exist
                 If Not Directory.Exists(DestinationPath) Then

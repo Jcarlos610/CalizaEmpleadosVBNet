@@ -244,6 +244,13 @@ Public Class MD_UPD_Benefits
 
         TB_BenefitName.Text = Item(1).ToString()
         TB_Description.Text = Item(2).ToString()
+        Dim type As Integer = CInt(Item(3))
+
+        If type = 20 Then
+            CB_Type.SelectedIndex = 1
+        ElseIf type = 30 Then
+            CB_Type.SelectedIndex = 2
+        End If
         TB_AuthorizeBy.Text = Item(6).ToString()
         DT_ValidFrom.Value = CDate(Item(11))
         DT_ValidTo.Value = CDate(Item(12))

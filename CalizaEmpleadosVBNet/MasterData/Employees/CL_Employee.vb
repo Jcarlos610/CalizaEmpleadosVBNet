@@ -981,7 +981,11 @@ Public Class CL_Employee
             DB_Command.Parameters.AddWithValue("EMPL_ETELE", _EMPL_ETELE)
             DB_Command.Parameters.AddWithValue("EMPL_EBENE", _EMPL_EBENE)
             DB_Command.Parameters.AddWithValue("EMPL_CREBY", _EMPL_CREBY)
-            DB_Command.Parameters.AddWithValue("EMPL_PHOTO", _EMPL_PHOTO)
+            If _EMPL_PHOTO Is Nothing Then
+                DB_Command.Parameters.AddWithValue("EMPL_PHOTO", DBNull.Value)
+            Else
+                DB_Command.Parameters.AddWithValue("EMPL_PHOTO", _EMPL_PHOTO)
+            End If
             DB_Command.Parameters.AddWithValue("EMPL_STAT", _EMPL_STAT)
 
             DB_Command.ExecuteNonQuery()
