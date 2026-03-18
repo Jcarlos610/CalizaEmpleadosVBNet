@@ -48,9 +48,11 @@ Partial Class MD_INS_Position
         GB_PositionData.Controls.Add(TB_Description)
         GB_PositionData.Controls.Add(TB_PositionName)
         GB_PositionData.Controls.Add(LB_PositionName)
-        GB_PositionData.Location = New Point(12, 46)
+        GB_PositionData.Location = New Point(17, 77)
+        GB_PositionData.Margin = New Padding(4, 5, 4, 5)
         GB_PositionData.Name = "GB_PositionData"
-        GB_PositionData.Size = New Size(790, 182)
+        GB_PositionData.Padding = New Padding(4, 5, 4, 5)
+        GB_PositionData.Size = New Size(1129, 303)
         GB_PositionData.TabIndex = 0
         GB_PositionData.TabStop = False
         GB_PositionData.Text = "Datos de la posición"
@@ -58,24 +60,27 @@ Partial Class MD_INS_Position
         ' LB_AuthorizeBy
         ' 
         LB_AuthorizeBy.AutoSize = True
-        LB_AuthorizeBy.Location = New Point(16, 80)
+        LB_AuthorizeBy.Location = New Point(23, 133)
+        LB_AuthorizeBy.Margin = New Padding(4, 0, 4, 0)
         LB_AuthorizeBy.Name = "LB_AuthorizeBy"
-        LB_AuthorizeBy.Size = New Size(89, 15)
+        LB_AuthorizeBy.Size = New Size(137, 25)
         LB_AuthorizeBy.TabIndex = 13
         LB_AuthorizeBy.Text = "Autorizado por:"
         ' 
         ' TB_AuthorizeBy
         ' 
-        TB_AuthorizeBy.Location = New Point(16, 95)
+        TB_AuthorizeBy.Location = New Point(23, 158)
+        TB_AuthorizeBy.Margin = New Padding(4, 5, 4, 5)
         TB_AuthorizeBy.Name = "TB_AuthorizeBy"
-        TB_AuthorizeBy.Size = New Size(222, 23)
+        TB_AuthorizeBy.Size = New Size(315, 31)
         TB_AuthorizeBy.TabIndex = 12
         ' 
         ' Button1
         ' 
-        Button1.Location = New Point(690, 144)
+        Button1.Location = New Point(986, 240)
+        Button1.Margin = New Padding(4, 5, 4, 5)
         Button1.Name = "Button1"
-        Button1.Size = New Size(75, 23)
+        Button1.Size = New Size(107, 38)
         Button1.TabIndex = 11
         Button1.Text = "Registrar"
         Button1.UseVisualStyleBackColor = True
@@ -83,50 +88,56 @@ Partial Class MD_INS_Position
         ' TB_Salary
         ' 
         TB_Salary.BackColor = SystemColors.Info
-        TB_Salary.Location = New Point(16, 144)
+        TB_Salary.Location = New Point(23, 240)
+        TB_Salary.Margin = New Padding(4, 5, 4, 5)
         TB_Salary.Name = "TB_Salary"
-        TB_Salary.Size = New Size(134, 23)
+        TB_Salary.Size = New Size(190, 31)
         TB_Salary.TabIndex = 10
         ' 
         ' LB_Salaray
         ' 
         LB_Salaray.AutoSize = True
-        LB_Salaray.Location = New Point(16, 126)
+        LB_Salaray.Location = New Point(23, 210)
+        LB_Salaray.Margin = New Padding(4, 0, 4, 0)
         LB_Salaray.Name = "LB_Salaray"
-        LB_Salaray.Size = New Size(92, 15)
+        LB_Salaray.Size = New Size(141, 25)
         LB_Salaray.TabIndex = 9
         LB_Salaray.Text = "Salario tabulado"
         ' 
         ' LB_Description
         ' 
         LB_Description.AutoSize = True
-        LB_Description.Location = New Point(250, 29)
+        LB_Description.Location = New Point(357, 48)
+        LB_Description.Margin = New Padding(4, 0, 4, 0)
         LB_Description.Name = "LB_Description"
-        LB_Description.Size = New Size(69, 15)
+        LB_Description.Size = New Size(104, 25)
         LB_Description.TabIndex = 8
         LB_Description.Text = "Descripción"
         ' 
         ' TB_Description
         ' 
-        TB_Description.Location = New Point(250, 47)
+        TB_Description.Location = New Point(357, 78)
+        TB_Description.Margin = New Padding(4, 5, 4, 5)
         TB_Description.Multiline = True
         TB_Description.Name = "TB_Description"
-        TB_Description.Size = New Size(404, 70)
+        TB_Description.Size = New Size(575, 114)
         TB_Description.TabIndex = 7
         ' 
         ' TB_PositionName
         ' 
-        TB_PositionName.Location = New Point(16, 47)
+        TB_PositionName.Location = New Point(23, 78)
+        TB_PositionName.Margin = New Padding(4, 5, 4, 5)
         TB_PositionName.Name = "TB_PositionName"
-        TB_PositionName.Size = New Size(222, 23)
+        TB_PositionName.Size = New Size(315, 31)
         TB_PositionName.TabIndex = 1
         ' 
         ' LB_PositionName
         ' 
         LB_PositionName.AutoSize = True
-        LB_PositionName.Location = New Point(16, 29)
+        LB_PositionName.Location = New Point(23, 48)
+        LB_PositionName.Margin = New Padding(4, 0, 4, 0)
         LB_PositionName.Name = "LB_PositionName"
-        LB_PositionName.Size = New Size(106, 15)
+        LB_PositionName.Size = New Size(163, 25)
         LB_PositionName.TabIndex = 0
         LB_PositionName.Text = "Nombre de puesto"
         ' 
@@ -135,20 +146,23 @@ Partial Class MD_INS_Position
         DGV_PositionsList.AllowUserToAddRows = False
         DGV_PositionsList.AllowUserToDeleteRows = False
         DGV_PositionsList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_PositionsList.Location = New Point(12, 249)
+        DGV_PositionsList.Location = New Point(17, 415)
+        DGV_PositionsList.Margin = New Padding(4, 5, 4, 5)
         DGV_PositionsList.Name = "DGV_PositionsList"
         DGV_PositionsList.ReadOnly = True
-        DGV_PositionsList.Size = New Size(1218, 342)
+        DGV_PositionsList.RowHeadersWidth = 62
+        DGV_PositionsList.Size = New Size(1740, 409)
         DGV_PositionsList.TabIndex = 11
         ' 
         ' MD_INS_Position
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(1242, 694)
+        ClientSize = New Size(1774, 1050)
         Controls.Add(DGV_PositionsList)
         Controls.Add(GB_PositionData)
+        Margin = New Padding(4, 5, 4, 5)
         Name = "MD_INS_Position"
         Text = "Crear posiciones."
         WindowState = FormWindowState.Maximized

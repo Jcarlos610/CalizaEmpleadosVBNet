@@ -30,54 +30,62 @@ Partial Class ST_INS_Companies
         LB_TaxCode = New Label()
         GroupBox1 = New GroupBox()
         BT_Register = New Button()
+        DGV_CompaniesList = New DataGridView()
         GroupBox1.SuspendLayout()
+        CType(DGV_CompaniesList, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' TB_CompanyName
         ' 
-        TB_CompanyName.Location = New Point(16, 46)
+        TB_CompanyName.Location = New Point(23, 77)
+        TB_CompanyName.Margin = New Padding(4, 5, 4, 5)
         TB_CompanyName.Name = "TB_CompanyName"
-        TB_CompanyName.Size = New Size(445, 23)
+        TB_CompanyName.Size = New Size(634, 31)
         TB_CompanyName.TabIndex = 1
         ' 
         ' TB_OfficialName
         ' 
-        TB_OfficialName.Location = New Point(16, 92)
+        TB_OfficialName.Location = New Point(23, 153)
+        TB_OfficialName.Margin = New Padding(4, 5, 4, 5)
         TB_OfficialName.Name = "TB_OfficialName"
-        TB_OfficialName.Size = New Size(445, 23)
+        TB_OfficialName.Size = New Size(634, 31)
         TB_OfficialName.TabIndex = 2
         ' 
         ' TB_TaxCode
         ' 
-        TB_TaxCode.Location = New Point(504, 92)
+        TB_TaxCode.Location = New Point(720, 153)
+        TB_TaxCode.Margin = New Padding(4, 5, 4, 5)
         TB_TaxCode.Name = "TB_TaxCode"
-        TB_TaxCode.Size = New Size(100, 23)
+        TB_TaxCode.Size = New Size(141, 31)
         TB_TaxCode.TabIndex = 3
         ' 
         ' LB_ConpanyName
         ' 
         LB_ConpanyName.AutoSize = True
-        LB_ConpanyName.Location = New Point(16, 29)
+        LB_ConpanyName.Location = New Point(23, 48)
+        LB_ConpanyName.Margin = New Padding(4, 0, 4, 0)
         LB_ConpanyName.Name = "LB_ConpanyName"
-        LB_ConpanyName.Size = New Size(115, 15)
+        LB_ConpanyName.Size = New Size(176, 25)
         LB_ConpanyName.TabIndex = 5
         LB_ConpanyName.Text = "Nombre de empresa"
         ' 
         ' LB_OfficialName
         ' 
         LB_OfficialName.AutoSize = True
-        LB_OfficialName.Location = New Point(16, 74)
+        LB_OfficialName.Location = New Point(23, 123)
+        LB_OfficialName.Margin = New Padding(4, 0, 4, 0)
         LB_OfficialName.Name = "LB_OfficialName"
-        LB_OfficialName.Size = New Size(73, 15)
+        LB_OfficialName.Size = New Size(112, 25)
         LB_OfficialName.TabIndex = 6
         LB_OfficialName.Text = "Razón Social"
         ' 
         ' LB_TaxCode
         ' 
         LB_TaxCode.AutoSize = True
-        LB_TaxCode.Location = New Point(504, 77)
+        LB_TaxCode.Location = New Point(720, 128)
+        LB_TaxCode.Margin = New Padding(4, 0, 4, 0)
         LB_TaxCode.Name = "LB_TaxCode"
-        LB_TaxCode.Size = New Size(28, 15)
+        LB_TaxCode.Size = New Size(43, 25)
         LB_TaxCode.TabIndex = 7
         LB_TaxCode.Text = "RFC"
         ' 
@@ -90,35 +98,54 @@ Partial Class ST_INS_Companies
         GroupBox1.Controls.Add(LB_ConpanyName)
         GroupBox1.Controls.Add(TB_OfficialName)
         GroupBox1.Controls.Add(TB_TaxCode)
-        GroupBox1.Location = New Point(12, 46)
+        GroupBox1.Location = New Point(17, 77)
+        GroupBox1.Margin = New Padding(4, 5, 4, 5)
         GroupBox1.Name = "GroupBox1"
-        GroupBox1.Size = New Size(749, 135)
+        GroupBox1.Padding = New Padding(4, 5, 4, 5)
+        GroupBox1.Size = New Size(1070, 225)
         GroupBox1.TabIndex = 8
         GroupBox1.TabStop = False
         GroupBox1.Text = "Datos de empresa"
         ' 
         ' BT_Register
         ' 
-        BT_Register.Location = New Point(654, 92)
+        BT_Register.Location = New Point(934, 153)
+        BT_Register.Margin = New Padding(4, 5, 4, 5)
         BT_Register.Name = "BT_Register"
-        BT_Register.Size = New Size(75, 23)
+        BT_Register.Size = New Size(107, 38)
         BT_Register.TabIndex = 8
         BT_Register.Text = "Registrar"
         BT_Register.UseVisualStyleBackColor = True
         ' 
+        ' DGV_CompaniesList
+        ' 
+        DGV_CompaniesList.AllowUserToAddRows = False
+        DGV_CompaniesList.AllowUserToDeleteRows = False
+        DGV_CompaniesList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        DGV_CompaniesList.Location = New Point(17, 317)
+        DGV_CompaniesList.Margin = New Padding(4, 5, 4, 5)
+        DGV_CompaniesList.Name = "DGV_CompaniesList"
+        DGV_CompaniesList.ReadOnly = True
+        DGV_CompaniesList.RowHeadersWidth = 62
+        DGV_CompaniesList.Size = New Size(1275, 380)
+        DGV_CompaniesList.TabIndex = 14
+        ' 
         ' ST_INS_Companies
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(800, 450)
+        ClientSize = New Size(1143, 750)
+        Controls.Add(DGV_CompaniesList)
         Controls.Add(GroupBox1)
         ForeColor = SystemColors.ControlText
+        Margin = New Padding(4, 5, 4, 5)
         Name = "ST_INS_Companies"
         Text = "Crear Empresa"
         WindowState = FormWindowState.Maximized
         GroupBox1.ResumeLayout(False)
         GroupBox1.PerformLayout()
+        CType(DGV_CompaniesList, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
     Friend WithEvents TB_CompanyName As TextBox
@@ -129,4 +156,5 @@ Partial Class ST_INS_Companies
     Friend WithEvents LB_TaxCode As Label
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents BT_Register As Button
+    Friend WithEvents DGV_CompaniesList As DataGridView
 End Class

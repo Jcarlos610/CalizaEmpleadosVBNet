@@ -157,4 +157,28 @@
             NewScreen.Show()
         End If
     End Sub
+
+    Private Sub ReportesToolStripMenuItem7_Click(sender As Object, e As EventArgs) Handles ReportesToolStripMenuItem7.Click
+        Dim NewScreen = New MD_RPT_Employees
+        If TheFormIsAlreadyLoaded(NewScreen.Name) Then
+            NewScreen.MdiParent = Me
+            NewScreen.Show()
+        End If
+    End Sub
+
+    Private Sub CrearDepartamentoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CrearDepartamentoToolStripMenuItem.Click
+        Dim NewScreen = New MD_INS_Departments
+        If TheFormIsAlreadyLoaded(NewScreen.Name) Then
+            NewScreen.MdiParent = Me
+            NewScreen.Show()
+        End If
+    End Sub
+
+    Private Sub EditarExistenteToolStripMenuItem4_Click(sender As Object, e As EventArgs) Handles EditarExistenteToolStripMenuItem4.Click
+        Dim NewScreen = New MD_UPD_Departments
+        If TheFormIsAlreadyLoaded(NewScreen.Name) Then
+            NewScreen.MdiParent = Me
+            NewScreen.Show()
+        End If
+    End Sub
 End Class

@@ -580,10 +580,12 @@ Public Class CL_Employee
     Private _EMPL_SUPER As Object
     Private _EMPL_DVAC As Object
     Private _EMPL_SALAR As Object
+    Private _DEPT_ID As Object
     Private _EMPL_ECONT As Object
     Private _EMPL_EPARE As Object
     Private _EMPL_ETELE As Object
     Private _EMPL_EBENE As Object
+    Private _EMPL_COSTC As Object
     Private _EMPL_CREBY As Object
     Private _EMPL_PHOTO As Object
     Private _EMPL_STAT As Object
@@ -867,11 +869,29 @@ Public Class CL_Employee
         End Set
     End Property
 
+    Public Property EMPL_COSTC As Object
+        Get
+            Return _EMPL_COSTC
+        End Get
+        Set(value As Object)
+            _EMPL_COSTC = value
+        End Set
+    End Property
+
+    Public Property DEPT_ID As Object
+        Get
+            Return _DEPT_ID
+        End Get
+        Set(value As Object)
+            _DEPT_ID = value
+        End Set
+    End Property
+
     Sub New()
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
     End Sub
 
-    Sub New(EMPL_ID, EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT)
+    Sub New(EMPL_ID, EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, DEPT_ID, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_COSTC, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
         _EMPL_ID = EMPL_ID
@@ -898,17 +918,19 @@ Public Class CL_Employee
         _EMPL_SUPER = EMPL_SUPER
         _EMPL_DVAC = EMPL_DVAC
         _EMPL_SALAR = EMPL_SALAR
+        _DEPT_ID = DEPT_ID
         _EMPL_ECONT = EMPL_ECONT
         _EMPL_EPARE = EMPL_EPARE
         _EMPL_ETELE = EMPL_ETELE
         _EMPL_EBENE = EMPL_EBENE
+        _EMPL_COSTC = EMPL_COSTC
         _EMPL_CREBY = EMPL_CREBY
         _EMPL_PHOTO = EMPL_PHOTO
         _EMPL_STAT = EMPL_STAT
 
 
     End Sub
-    Sub New(EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT)
+    Sub New(EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, DEPT_ID, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_COSTC, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
         _EMPL_NAME = EMPL_NAME
@@ -934,10 +956,12 @@ Public Class CL_Employee
         _EMPL_SUPER = EMPL_SUPER
         _EMPL_DVAC = EMPL_DVAC
         _EMPL_SALAR = EMPL_SALAR
+        _DEPT_ID = DEPT_ID
         _EMPL_ECONT = EMPL_ECONT
         _EMPL_EPARE = EMPL_EPARE
         _EMPL_ETELE = EMPL_ETELE
         _EMPL_EBENE = EMPL_EBENE
+        _EMPL_COSTC = EMPL_COSTC
         _EMPL_CREBY = EMPL_CREBY
         _EMPL_PHOTO = EMPL_PHOTO
         _EMPL_STAT = EMPL_STAT
@@ -976,10 +1000,12 @@ Public Class CL_Employee
             DB_Command.Parameters.AddWithValue("EMPL_SUPER", _EMPL_SUPER)
             DB_Command.Parameters.AddWithValue("EMPL_DVAC", _EMPL_DVAC)
             DB_Command.Parameters.AddWithValue("EMPL_SALAR", _EMPL_SALAR)
+            DB_Command.Parameters.AddWithValue("DEPT_ID", _DEPT_ID) 'DEPT_ID
             DB_Command.Parameters.AddWithValue("EMPL_ECONT", _EMPL_ECONT)
             DB_Command.Parameters.AddWithValue("EMPL_EPARE", _EMPL_EPARE)
             DB_Command.Parameters.AddWithValue("EMPL_ETELE", _EMPL_ETELE)
             DB_Command.Parameters.AddWithValue("EMPL_EBENE", _EMPL_EBENE)
+            DB_Command.Parameters.AddWithValue("EMPL_COSTC", _EMPL_COSTC) 'EMPL_COSTC
             DB_Command.Parameters.AddWithValue("EMPL_CREBY", _EMPL_CREBY)
             If _EMPL_PHOTO Is Nothing Then
                 DB_Command.Parameters.AddWithValue("EMPL_PHOTO", DBNull.Value)
@@ -1136,10 +1162,12 @@ Public Class CL_Employee
             DB_Command.Parameters.AddWithValue("EMPL_SUPER", _EMPL_SUPER)
             DB_Command.Parameters.AddWithValue("EMPL_DVAC", _EMPL_DVAC)
             DB_Command.Parameters.AddWithValue("EMPL_SALAR", _EMPL_SALAR)
+            DB_Command.Parameters.AddWithValue("DEPT_ID", _DEPT_ID)
             DB_Command.Parameters.AddWithValue("EMPL_ECONT", _EMPL_ECONT)
             DB_Command.Parameters.AddWithValue("EMPL_EPARE", _EMPL_EPARE)
             DB_Command.Parameters.AddWithValue("EMPL_ETELE", _EMPL_ETELE)
             DB_Command.Parameters.AddWithValue("EMPL_EBENE", _EMPL_EBENE)
+            DB_Command.Parameters.AddWithValue("EMPL_COSTC", _EMPL_COSTC)
             DB_Command.Parameters.AddWithValue("EMPL_PHOTO", _EMPL_PHOTO)
             DB_Command.Parameters.AddWithValue("EMPL_STAT", _EMPL_STAT)
 
@@ -1210,5 +1238,110 @@ Public Class CL_Employee
             Return Nothing
         End Try
     End Function
+
+    Public Function GetEmployeesByCompany(ByVal CompanyID As Integer) As DataTable
+
+        Try
+
+            DB_Command = New SqlCommand With {
+            .CommandText = "SEL_EMPLOYEES_BY_COMPANY",
+            .CommandType = CommandType.StoredProcedure
+        }
+
+            DB_Command.Parameters.AddWithValue("@COMP_ID", CompanyID)
+
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+
+            DB_Reader = DB_Command.ExecuteReader()
+
+            Dim table As New DataTable
+            table.Load(DB_Reader)
+
+            DB_Reader.Close()
+            DB_Connection.Close()
+
+            Return table
+
+        Catch ex As Exception
+
+            DB_Connection.Close()
+            MsgBox(ex.Message)
+
+            Return Nothing
+
+        End Try
+
+    End Function
+
+    Public Function GetEmployeeReport(ByVal EmployeeID As Integer) As DataTable
+
+        Try
+
+            DB_Command = New SqlCommand With {
+            .CommandText = "SEL_GETALLEMPLOYEES",
+            .CommandType = CommandType.StoredProcedure
+        }
+
+            DB_Command.Parameters.AddWithValue("@EMPL_ID", EmployeeID)
+
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+
+            DB_Reader = DB_Command.ExecuteReader()
+
+            Dim table As New DataTable
+            table.Load(DB_Reader)
+
+            DB_Reader.Close()
+            DB_Connection.Close()
+
+            Return table
+
+        Catch ex As Exception
+
+            DB_Connection.Close()
+            MsgBox(ex.Message)
+
+            Return Nothing
+
+        End Try
+
+    End Function
+
+    Public Function Get_AllCompanies() As DataTable
+
+        Try
+
+            DB_Command = New SqlCommand With {
+            .CommandText = "SEL_LISTOFCOMPANIES",
+            .CommandType = CommandType.StoredProcedure
+        }
+
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+
+            DB_Reader = DB_Command.ExecuteReader()
+
+            Dim table As New DataTable
+            table.Load(DB_Reader)
+
+            DB_Reader.Close()
+            DB_Connection.Close()
+
+            Return table
+
+        Catch ex As Exception
+
+            DB_Connection.Close()
+            MsgBox(ex.Message)
+
+            Return Nothing
+
+        End Try
+
+    End Function
+
+
 
 End Class

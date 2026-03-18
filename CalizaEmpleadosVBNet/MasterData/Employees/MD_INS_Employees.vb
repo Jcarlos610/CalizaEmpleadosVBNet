@@ -54,6 +54,22 @@ Public Class MD_INS_Employees
         TB_EmergencyPhone.Text = ""
         TB_Baneficiary.Text = ""
 
+        Dim Departments = New CL_Departments
+        Dim ListOfDepartments As DataTable = Departments.Get_ListOfDepartments()
+
+        CB_Department.Items.Clear()
+
+        For Each Item As DataRow In ListOfDepartments.Rows
+            CB_Department.Items.Add(New ComboItem With {
+        .Id = CInt(Item(0)),
+        .Descripcion = Item(1).ToString
+    })
+        Next
+
+        CB_Department.DisplayMember = "Descripcion"
+        CB_Department.ValueMember = "Id"
+        CB_Department.SelectedIndex = 0
+
         Dim imagePath As String = Path.Combine(
             Application.StartupPath,
             "System_Images",
@@ -131,7 +147,10 @@ Public Class MD_INS_Employees
             MessageBox.Show("Favor de indicar tipo de empleado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         ElseIf CB_Position.SelectedItem Is Nothing Then
             MessageBox.Show("Favor de seleccionar la posición a ocupar.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        ElseIf CB_Department.SelectedItem Is Nothing Then
+            MessageBox.Show("Favor de seleccionar un departamento.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         Else
+
             'select the company
             Dim Company As ComboItem = CType(CB_Company.SelectedItem, ComboItem)
             Dim Id_Company As Integer = Company.Id
@@ -163,10 +182,42 @@ Public Class MD_INS_Employees
                 PhotoPath = PB_Picture.Tag.ToString()
             End If
 
+            Dim Department As ComboItem = CType(CB_Department.SelectedItem, ComboItem)
+            Dim Id_Department As Integer = Department.Id
 
-            Dim Employee = New CL_Employee(TB_EmployeeName.Text, TB_LastName1.Text, TB_LastName2.Text, DT_BornDate.Value, TB_BornCity.Text, TB_PersonalAddress.Text, TB_PhoneNumber.Text, TB_EmailAddress.Text, TB_CivilStatus.Text, TB_Curp.Text, TB_SocialNumber.Text, TB_RFC.Text, TB_FiscalAddress.Text, TB_BankName.Text, TB_BankAccount.Text, Id_Company, Id_TypeOfEmployee, DT_EntryDate.Value, DT_RegistrationDate.Value, Id_Position, Id_Supervisor, TB_VacationsDays.Text, TB_BaseSalary.Text, TB_EmergencyContact.Text, TB_Relationship.Text, TB_EmergencyPhone.Text, TB_Baneficiary.Text, AppUser, PhotoPath, 1)
-
-
+            Dim Employee = New CL_Employee(
+            TB_EmployeeName.Text,
+            TB_LastName1.Text,
+            TB_LastName2.Text,
+            DT_BornDate.Value,
+            TB_BornCity.Text,
+            TB_PersonalAddress.Text,
+            TB_PhoneNumber.Text,
+            TB_EmailAddress.Text,
+            TB_CivilStatus.Text,
+            TB_Curp.Text,
+            TB_SocialNumber.Text,
+            TB_RFC.Text,
+            TB_FiscalAddress.Text,
+            TB_BankName.Text,
+            TB_BankAccount.Text,
+            Id_Company,
+            Id_TypeOfEmployee,
+            DT_EntryDate.Value,
+            DT_RegistrationDate.Value,
+            Id_Position,
+            Id_Supervisor,
+            TB_VacationsDays.Text,
+            TB_BaseSalary.Text,
+            Id_Department,              'NUEVO
+            TB_EmergencyContact.Text,
+            TB_Relationship.Text,
+            TB_EmergencyPhone.Text,
+            TB_Baneficiary.Text,
+            TB_Costc.Text,         'NUEVO
+            AppUser,
+            PhotoPath,
+            1)
             If Employee.InsertEmployee() Then
                 MessageBox.Show("El empleado " + TB_EmployeeName.Text + " fue creado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 InitializationOfFields()

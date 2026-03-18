@@ -25,6 +25,7 @@ Public Class ST_INS_Users
 
     Private Sub ST_Users_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
+        InitializationOfFields()
 
     End Sub
 
@@ -50,6 +51,7 @@ Public Class ST_INS_Users
 
                 If User.InsertSystemUser() Then
                     MessageBox.Show("El usuario " & tb_UserName.Text & "se creo correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    InitializationOfFields()
                 End If
             End If
         End If
@@ -57,5 +59,45 @@ Public Class ST_INS_Users
 
 
     End Sub
+
+    Private Sub InitializationOfFields()
+
+        TB_FirstName.Text = ""
+        TB_LastName.Text = ""
+        TB_Email.Text = ""
+        tb_UserName.Text = ""
+        TB_Password.Text = ""
+
+        Display_Record()
+
+    End Sub
+
+    Private Sub Display_Record()
+
+        Dim user As New CL_Users()
+
+        DGV_UsersList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+        DGV_UsersList.AutoResizeColumns()
+        DGV_UsersList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+
+        DGV_UsersList.DataSource = user.GetUsersList()
+
+        'Cambiar nombres de columnas
+        DGV_UsersList.Columns("USER_ID").HeaderText = "ID"
+        DGV_UsersList.Columns("COMPLETE_NAME").HeaderText = "Nombre Completo"
+        DGV_UsersList.Columns("USER_FNAME").HeaderText = "Nombre"
+        DGV_UsersList.Columns("USER_LNAME").HeaderText = "Apellido"
+        DGV_UsersList.Columns("USER_EMAIL").HeaderText = "Correo"
+        DGV_UsersList.Columns("USER_NAME").HeaderText = "Usuario"
+        DGV_UsersList.Columns("USER_PASSW").HeaderText = "Contraseña"
+        DGV_UsersList.Columns("USER_LACCESS").HeaderText = "Último acceso"
+        DGV_UsersList.Columns("USER_DATREG").HeaderText = "Fecha de registro"
+
+        'Ocultar contraseña
+        'DGV_UsersList.Columns("USER_PASSW").Visible = False
+
+    End Sub
+
+
 
 End Class

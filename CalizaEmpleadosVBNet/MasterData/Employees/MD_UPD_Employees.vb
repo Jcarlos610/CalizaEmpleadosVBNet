@@ -27,6 +27,7 @@ Public Class MD_UPD_Employees
         TB_FiscalAddress.Text = ""
         TB_BankName.Text = ""
         TB_BankAccount.Text = ""
+        CB_Status.Checked = False
 
         CB_Company.DataSource = Nothing
         CB_EmployeeType.Items.Clear()
@@ -69,6 +70,26 @@ Public Class MD_UPD_Employees
 
         If CB_Company.Items.Count > 0 Then
             CB_Company.SelectedIndex = 0
+        End If
+
+        'Department
+        CB_Department.Items.Clear()
+
+        Dim Departments = New CL_Departments
+        Dim ListOfDepartments As DataTable = Departments.Get_ListOfDepartments()
+
+        For Each Item As DataRow In ListOfDepartments.Rows
+            CB_Department.Items.Add(New ComboItem With {
+        .Id = CInt(Item(0)),
+        .Descripcion = Item(1).ToString
+    })
+        Next
+
+        CB_Department.DisplayMember = "Descripcion"
+        CB_Department.ValueMember = "Id"
+
+        If CB_Department.Items.Count > 0 Then
+            CB_Department.SelectedIndex = 0
         End If
 
         'POSITION
@@ -167,6 +188,9 @@ Public Class MD_UPD_Employees
             PhotoPath = PB_Picture.Tag.ToString()
         End If
 
+        Dim Department As ComboItem = CType(CB_Department.SelectedItem, ComboItem)
+        Dim Id_Department As Integer = Department.Id
+
         Dim Employee As New CL_Employee(
             SelectedEmployeeID,
             TB_EmployeeName.Text,
@@ -192,14 +216,18 @@ Public Class MD_UPD_Employees
             Id_Supervisor,
             TB_VacationsDays.Text,
             TB_BaseSalary.Text,
+            Id_Department,
             TB_EmergencyContact.Text,
             TB_Relationship.Text,
             TB_EmergencyPhone.Text,
             TB_Baneficiary.Text,
+            TB_Costc.Text,
             AppUser,
             PhotoPath,
-            1
+            CB_Status.Checked
         )
+
+        Employee.EMPL_STAT = CB_Status.Checked
 
         If Employee.UpdateEmployee() Then
 
@@ -258,15 +286,16 @@ Public Class MD_UPD_Employees
 
             TB_VacationsDays.Text = Item(25).ToString
             TB_BaseSalary.Text = Item(26).ToString
+            SelectComboById(CB_Department, CInt(Item(27)))
+            TB_EmergencyContact.Text = Item(28).ToString
+            TB_Relationship.Text = Item(29).ToString
+            TB_EmergencyPhone.Text = Item(30).ToString
+            TB_Baneficiary.Text = Item(31).ToString
+            TB_Costc.Text = Item(32).ToString
 
-            TB_EmergencyContact.Text = Item(27).ToString
-            TB_Relationship.Text = Item(28).ToString
-            TB_EmergencyPhone.Text = Item(29).ToString
-            TB_Baneficiary.Text = Item(30).ToString
+            If Not IsDBNull(Item(34)) Then
 
-            If Not IsDBNull(Item(32)) Then
-
-                Dim PhotoPath As String = Item(32).ToString
+                Dim PhotoPath As String = Item(34).ToString
 
                 If File.Exists(PhotoPath) Then
                     Using imgTemp As Image = Image.FromFile(PhotoPath)
@@ -276,6 +305,8 @@ Public Class MD_UPD_Employees
                 End If
 
             End If
+
+            CB_Status.Checked = Item(35)
 
         Next
 
