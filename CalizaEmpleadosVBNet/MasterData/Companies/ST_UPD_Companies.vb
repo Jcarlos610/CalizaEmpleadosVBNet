@@ -12,6 +12,9 @@
         TB_CompanyName.Enabled = False
         TB_OfficialName.Enabled = False
         TB_TaxCode.Enabled = False
+
+        InitializationOfFields()
+
     End Sub
 
     Private Sub CB_Companies_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_Companies.SelectedIndexChanged
@@ -50,6 +53,8 @@
                     If Company.UpdateCompany() Then
                         MessageBox.Show("la empresa: " & TB_CompanyName.Text & " se actualizó correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
+                        InitializationOfFields()
+
                         'Reload Data
                         CB_Companies.DataSource = Company.GetCompanies()
                         CB_Companies.DisplayMember = "COMP_NAME"
@@ -70,4 +75,33 @@
             End If
         End If
     End Sub
+
+    Private Sub Display_Record()
+
+        Dim company As New CL_Companies()
+
+        DGV_CompaniesList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+        DGV_CompaniesList.AutoResizeColumns()
+        DGV_CompaniesList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+
+        DGV_CompaniesList.DataSource = company.GetCompaniesList()
+
+        'Cambiar nombres de columnas
+        DGV_CompaniesList.Columns("COMP_ID").HeaderText = "ID"
+        DGV_CompaniesList.Columns("COMP_NAME").HeaderText = "Empresa"
+        DGV_CompaniesList.Columns("COMP_ONAME").HeaderText = "Razón Social"
+        DGV_CompaniesList.Columns("COMP_TCODE").HeaderText = "RFC"
+
+    End Sub
+
+    Private Sub InitializationOfFields()
+
+        TB_CompanyName.Text = ""
+        TB_OfficialName.Text = ""
+        TB_TaxCode.Text = ""
+
+        Display_Record()
+
+    End Sub
+
 End Class

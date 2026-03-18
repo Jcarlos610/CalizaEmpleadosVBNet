@@ -302,4 +302,32 @@ Public Class CL_Users
             Return ValidUser
         End Try
     End Function
+
+    Public Function GetUsersList()
+
+        Dim dt As New DataTable()
+
+        Try
+            DB_Command = New SqlCommand With {
+            .CommandText = "SEL_SYSTEMUSERS",
+            .CommandType = CommandType.StoredProcedure
+        }
+
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+
+            dt.Load(DB_Command.ExecuteReader())
+
+            DB_Connection.Close()
+
+            Return dt
+
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_Users.GetUsersList()")
+            Return Nothing
+        End Try
+
+    End Function
+
 End Class

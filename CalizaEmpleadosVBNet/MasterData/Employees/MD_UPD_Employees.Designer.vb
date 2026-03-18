@@ -23,6 +23,7 @@ Partial Class MD_UPD_Employees
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         GB_PersonalInformation = New GroupBox()
+        CB_Status = New CheckBox()
         BT_EmployeeUpdate = New Button()
         TB_SocialNumber = New TextBox()
         GB_EmergencyInfo = New GroupBox()
@@ -36,6 +37,10 @@ Partial Class MD_UPD_Employees
         TB_EmergencyContact = New TextBox()
         LB_SocialSecurityNumber = New Label()
         GB_EmployeeInformation = New GroupBox()
+        TB_Costc = New TextBox()
+        Label2 = New Label()
+        CB_Department = New ComboBox()
+        Label1 = New Label()
         CB_Position = New ComboBox()
         LB_Position = New Label()
         CB_Supervisor = New ComboBox()
@@ -98,6 +103,7 @@ Partial Class MD_UPD_Employees
         ' 
         ' GB_PersonalInformation
         ' 
+        GB_PersonalInformation.Controls.Add(CB_Status)
         GB_PersonalInformation.Controls.Add(BT_EmployeeUpdate)
         GB_PersonalInformation.Controls.Add(TB_SocialNumber)
         GB_PersonalInformation.Controls.Add(GB_EmergencyInfo)
@@ -135,6 +141,17 @@ Partial Class MD_UPD_Employees
         GB_PersonalInformation.TabIndex = 101
         GB_PersonalInformation.TabStop = False
         GB_PersonalInformation.Text = "Información personal"
+        ' 
+        ' CB_Status
+        ' 
+        CB_Status.AutoSize = True
+        CB_Status.Location = New Point(1673, 24)
+        CB_Status.Margin = New Padding(4, 5, 4, 5)
+        CB_Status.Name = "CB_Status"
+        CB_Status.Size = New Size(86, 29)
+        CB_Status.TabIndex = 408
+        CB_Status.Text = "Status"
+        CB_Status.UseVisualStyleBackColor = True
         ' 
         ' BT_EmployeeUpdate
         ' 
@@ -257,6 +274,10 @@ Partial Class MD_UPD_Employees
         ' 
         ' GB_EmployeeInformation
         ' 
+        GB_EmployeeInformation.Controls.Add(TB_Costc)
+        GB_EmployeeInformation.Controls.Add(Label2)
+        GB_EmployeeInformation.Controls.Add(CB_Department)
+        GB_EmployeeInformation.Controls.Add(Label1)
         GB_EmployeeInformation.Controls.Add(CB_Position)
         GB_EmployeeInformation.Controls.Add(LB_Position)
         GB_EmployeeInformation.Controls.Add(CB_Supervisor)
@@ -281,6 +302,43 @@ Partial Class MD_UPD_Employees
         GB_EmployeeInformation.TabIndex = 300
         GB_EmployeeInformation.TabStop = False
         GB_EmployeeInformation.Text = "Información de empleado"
+        ' 
+        ' TB_Costc
+        ' 
+        TB_Costc.Location = New Point(1383, 143)
+        TB_Costc.Margin = New Padding(4, 5, 4, 5)
+        TB_Costc.Name = "TB_Costc"
+        TB_Costc.Size = New Size(153, 31)
+        TB_Costc.TabIndex = 412
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Location = New Point(1377, 115)
+        Label2.Margin = New Padding(4, 0, 4, 0)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(147, 25)
+        Label2.TabIndex = 411
+        Label2.Text = "Centro de costos"
+        ' 
+        ' CB_Department
+        ' 
+        CB_Department.FormattingEnabled = True
+        CB_Department.Location = New Point(1502, 63)
+        CB_Department.Margin = New Padding(4, 5, 4, 5)
+        CB_Department.Name = "CB_Department"
+        CB_Department.Size = New Size(201, 33)
+        CB_Department.TabIndex = 410
+        ' 
+        ' Label1
+        ' 
+        Label1.AutoSize = True
+        Label1.Location = New Point(1502, 35)
+        Label1.Margin = New Padding(4, 0, 4, 0)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(127, 25)
+        Label1.TabIndex = 409
+        Label1.Text = "Departamento"
         ' 
         ' CB_Position
         ' 
@@ -865,4 +923,9 @@ Partial Class MD_UPD_Employees
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents DGV_AllEmployees As DataGridView
     Friend WithEvents LB_Title As Label
+    Friend WithEvents Label1 As Label
+    Friend WithEvents CB_Department As ComboBox
+    Friend WithEvents Label2 As Label
+    Friend WithEvents TB_Costc As TextBox
+    Friend WithEvents CB_Status As CheckBox
 End Class

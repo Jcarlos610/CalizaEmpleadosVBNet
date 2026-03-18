@@ -158,24 +158,24 @@
         End If
     End Sub
 
-    Private Sub RegistroManualToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RegistroManualToolStripMenuItem.Click
-        Dim NewScreen = New OP_INS_TIMERECORDSMANUALLY
+    Private Sub ReportesToolStripMenuItem7_Click(sender As Object, e As EventArgs) Handles ReportesToolStripMenuItem7.Click
+        Dim NewScreen = New MD_RPT_Employees
         If TheFormIsAlreadyLoaded(NewScreen.Name) Then
             NewScreen.MdiParent = Me
             NewScreen.Show()
         End If
     End Sub
 
-    Private Sub RegistroManualToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles RegistroManualToolStripMenuItem1.Click
-        Dim NewScreen = New OP_INS_MANUALLUNCHHOURS
+    Private Sub CrearDepartamentoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CrearDepartamentoToolStripMenuItem.Click
+        Dim NewScreen = New MD_INS_Departments
         If TheFormIsAlreadyLoaded(NewScreen.Name) Then
             NewScreen.MdiParent = Me
             NewScreen.Show()
         End If
     End Sub
 
-    Private Sub AnalisisSemanalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AnalisisSemanalToolStripMenuItem.Click
-        Dim NewScreen = New OP_SEL_MainWeekReport
+    Private Sub EditarExistenteToolStripMenuItem4_Click(sender As Object, e As EventArgs) Handles EditarExistenteToolStripMenuItem4.Click
+        Dim NewScreen = New MD_UPD_Departments
         If TheFormIsAlreadyLoaded(NewScreen.Name) Then
             NewScreen.MdiParent = Me
             NewScreen.Show()

@@ -204,4 +204,32 @@ Public Class CL_Companies
         End Try
     End Function
 
+    Public Function GetCompaniesList()
+
+        Dim dt As New DataTable()
+
+        Try
+            DB_Command = New SqlCommand With {
+            .CommandText = "SEL_COMPANIES",
+            .CommandType = CommandType.StoredProcedure
+        }
+
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+
+            dt.Load(DB_Command.ExecuteReader())
+
+            DB_Connection.Close()
+
+            Return dt
+
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_Companies.GetCompaniesList()")
+            Return Nothing
+        End Try
+
+    End Function
+
+
 End Class

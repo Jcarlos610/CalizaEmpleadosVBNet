@@ -39,6 +39,9 @@ Public Class ST_UPD_Users
         TB_Email.Enabled = False
         TB_UserName.Enabled = False
         TB_Password.Enabled = False
+
+        InitializationOfFields()
+
     End Sub
 
     Private Sub BT_UpdateUser_Click(sender As Object, e As EventArgs) Handles BT_UpdateUser.Click
@@ -63,6 +66,8 @@ Public Class ST_UPD_Users
 
                 If User.UpdateUser() Then
                     MessageBox.Show("El usuario: " & TB_UserName.Text & " se actualizó correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                    InitializationOfFields()
 
                     'Load companies information into de combobox
                     CB_Users.DataSource = User.GetUsers()
@@ -110,4 +115,61 @@ Public Class ST_UPD_Users
 
         End If
     End Sub
+
+    Private Sub Display_Record()
+
+        Dim user As New CL_Users()
+
+        DGV_UsersList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+        DGV_UsersList.AutoResizeColumns()
+        DGV_UsersList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+
+        DGV_UsersList.DataSource = user.GetUsersList()
+
+        'Cambiar nombres de columnas
+        DGV_UsersList.Columns("USER_ID").HeaderText = "ID"
+        DGV_UsersList.Columns("COMPLETE_NAME").HeaderText = "Nombre Completo"
+        DGV_UsersList.Columns("USER_FNAME").HeaderText = "Nombre"
+        DGV_UsersList.Columns("USER_LNAME").HeaderText = "Apellido"
+        DGV_UsersList.Columns("USER_EMAIL").HeaderText = "Correo"
+        DGV_UsersList.Columns("USER_NAME").HeaderText = "Usuario"
+        DGV_UsersList.Columns("USER_PASSW").HeaderText = "Contraseña"
+        DGV_UsersList.Columns("USER_LACCESS").HeaderText = "Último acceso"
+        DGV_UsersList.Columns("USER_DATREG").HeaderText = "Fecha de registro"
+
+        'Ocultar contraseña
+        'DGV_UsersList.Columns("USER_PASSW").Visible = False
+
+    End Sub
+
+    Private Sub InitializationOfFields()
+
+        Dim users As New CL_Users
+
+        'Cargar usuarios en ComboBox
+        CB_Users.DataSource = users.GetUsers()
+        CB_Users.DisplayMember = "COMPLETE_NAME"
+        CB_Users.ValueMember = "USER_ID"
+        CB_Users.SelectedIndex = 0
+
+        'Limpiar campos
+        TB_FirstName.Text = ""
+        TB_LastName.Text = ""
+        TB_Email.Text = ""
+        TB_UserName.Text = ""
+        TB_Password.Text = ""
+
+        'Deshabilitar campos
+        TB_FirstName.Enabled = False
+        TB_LastName.Enabled = False
+        TB_Email.Enabled = False
+        TB_UserName.Enabled = False
+        TB_Password.Enabled = False
+
+        Display_Record()
+
+    End Sub
+
+
+
 End Class
