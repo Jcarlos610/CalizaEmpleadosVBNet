@@ -299,6 +299,7 @@ Public Class CL_Users
         Catch ex As Exception
             DB_Connection.Close()
             MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_Users.ValidationUser()")
+            Return ValidUser
         End Try
     End Function
 End Class

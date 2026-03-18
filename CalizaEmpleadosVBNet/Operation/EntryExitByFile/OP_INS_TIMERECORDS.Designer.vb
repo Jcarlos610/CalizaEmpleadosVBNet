@@ -31,9 +31,14 @@ Partial Class OP_INS_TIMERECORDS
         GB_FileContent = New GroupBox()
         TB_Comment = New TextBox()
         LB_Comment = New Label()
+        GB_LoadedInformation = New GroupBox()
+        DGV_Registerinformation = New DataGridView()
+        BT_CleanFields = New Button()
         GB_WorkTme.SuspendLayout()
         CType(DGV_FileContent, ComponentModel.ISupportInitialize).BeginInit()
         GB_FileContent.SuspendLayout()
+        GB_LoadedInformation.SuspendLayout()
+        CType(DGV_Registerinformation, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' GB_WorkTme
@@ -80,27 +85,27 @@ Partial Class OP_INS_TIMERECORDS
         DGV_FileContent.Location = New Point(16, 27)
         DGV_FileContent.Name = "DGV_FileContent"
         DGV_FileContent.ReadOnly = True
-        DGV_FileContent.Size = New Size(998, 439)
+        DGV_FileContent.Size = New Size(852, 211)
         DGV_FileContent.TabIndex = 1
         ' 
         ' BT_RegisterInformation
         ' 
-        BT_RegisterInformation.Location = New Point(878, 476)
+        BT_RegisterInformation.BackColor = Color.LightYellow
+        BT_RegisterInformation.Location = New Point(1042, 421)
         BT_RegisterInformation.Name = "BT_RegisterInformation"
         BT_RegisterInformation.Size = New Size(136, 23)
         BT_RegisterInformation.TabIndex = 2
         BT_RegisterInformation.Text = "Registrar información"
-        BT_RegisterInformation.UseVisualStyleBackColor = True
+        BT_RegisterInformation.UseVisualStyleBackColor = False
         ' 
         ' GB_FileContent
         ' 
         GB_FileContent.Controls.Add(TB_Comment)
         GB_FileContent.Controls.Add(LB_Comment)
         GB_FileContent.Controls.Add(DGV_FileContent)
-        GB_FileContent.Controls.Add(BT_RegisterInformation)
         GB_FileContent.Location = New Point(12, 159)
         GB_FileContent.Name = "GB_FileContent"
-        GB_FileContent.Size = New Size(1035, 513)
+        GB_FileContent.Size = New Size(886, 285)
         GB_FileContent.TabIndex = 3
         GB_FileContent.TabStop = False
         GB_FileContent.Text = "Información del archivo"
@@ -108,7 +113,7 @@ Partial Class OP_INS_TIMERECORDS
         ' TB_Comment
         ' 
         TB_Comment.BackColor = SystemColors.ButtonHighlight
-        TB_Comment.Location = New Point(95, 477)
+        TB_Comment.Location = New Point(95, 244)
         TB_Comment.Name = "TB_Comment"
         TB_Comment.Size = New Size(452, 23)
         TB_Comment.TabIndex = 4
@@ -116,28 +121,64 @@ Partial Class OP_INS_TIMERECORDS
         ' LB_Comment
         ' 
         LB_Comment.AutoSize = True
-        LB_Comment.Location = New Point(16, 480)
+        LB_Comment.Location = New Point(16, 247)
         LB_Comment.Name = "LB_Comment"
         LB_Comment.Size = New Size(73, 15)
         LB_Comment.TabIndex = 3
         LB_Comment.Text = "Comentario:"
+        ' 
+        ' GB_LoadedInformation
+        ' 
+        GB_LoadedInformation.Controls.Add(DGV_Registerinformation)
+        GB_LoadedInformation.Location = New Point(12, 450)
+        GB_LoadedInformation.Name = "GB_LoadedInformation"
+        GB_LoadedInformation.Size = New Size(1277, 240)
+        GB_LoadedInformation.TabIndex = 4
+        GB_LoadedInformation.TabStop = False
+        GB_LoadedInformation.Text = "Información registrada"
+        ' 
+        ' DGV_Registerinformation
+        ' 
+        DGV_Registerinformation.AllowUserToAddRows = False
+        DGV_Registerinformation.AllowUserToDeleteRows = False
+        DGV_Registerinformation.AllowUserToOrderColumns = True
+        DGV_Registerinformation.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        DGV_Registerinformation.Location = New Point(17, 22)
+        DGV_Registerinformation.Name = "DGV_Registerinformation"
+        DGV_Registerinformation.ReadOnly = True
+        DGV_Registerinformation.Size = New Size(1244, 204)
+        DGV_Registerinformation.TabIndex = 0
+        ' 
+        ' BT_CleanFields
+        ' 
+        BT_CleanFields.Location = New Point(1184, 421)
+        BT_CleanFields.Name = "BT_CleanFields"
+        BT_CleanFields.Size = New Size(105, 23)
+        BT_CleanFields.TabIndex = 5
+        BT_CleanFields.Text = "Limpiar Campos"
+        BT_CleanFields.UseVisualStyleBackColor = True
         ' 
         ' OP_INS_TIMERECORDS
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(1242, 694)
+        ClientSize = New Size(1408, 694)
+        Controls.Add(BT_CleanFields)
+        Controls.Add(GB_LoadedInformation)
         Controls.Add(GB_FileContent)
+        Controls.Add(BT_RegisterInformation)
         Controls.Add(GB_WorkTme)
         Name = "OP_INS_TIMERECORDS"
-        Text = "Registrar horas de entrada y salida"
+        Text = "Registrar entrada y salida desde archivo"
         WindowState = FormWindowState.Maximized
         GB_WorkTme.ResumeLayout(False)
         GB_WorkTme.PerformLayout()
         CType(DGV_FileContent, ComponentModel.ISupportInitialize).EndInit()
         GB_FileContent.ResumeLayout(False)
         GB_FileContent.PerformLayout()
+        GB_LoadedInformation.ResumeLayout(False)
+        CType(DGV_Registerinformation, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
 
@@ -150,4 +191,7 @@ Partial Class OP_INS_TIMERECORDS
     Friend WithEvents GB_FileContent As GroupBox
     Friend WithEvents TB_Comment As TextBox
     Friend WithEvents LB_Comment As Label
+    Friend WithEvents GB_LoadedInformation As GroupBox
+    Friend WithEvents DGV_Registerinformation As DataGridView
+    Friend WithEvents BT_CleanFields As Button
 End Class
