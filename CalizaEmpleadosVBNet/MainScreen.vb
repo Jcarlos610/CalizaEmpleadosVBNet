@@ -181,4 +181,28 @@
             NewScreen.Show()
         End If
     End Sub
+
+    Private Sub RegistroManualToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RegistroManualToolStripMenuItem.Click
+        Dim NewScreen = New OP_INS_TIMERECORDSMANUALLY
+        If TheFormIsAlreadyLoaded(NewScreen.Name) Then
+            NewScreen.MdiParent = Me
+            NewScreen.Show()
+        End If
+    End Sub
+
+    Private Sub RegistroManualToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles RegistroManualToolStripMenuItem1.Click
+        Dim NewScreen = New OP_INS_MANUALLUNCHHOURS
+        If TheFormIsAlreadyLoaded(NewScreen.Name) Then
+            NewScreen.MdiParent = Me
+            NewScreen.Show()
+        End If
+    End Sub
+
+    Private Sub AnalisisSemanalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AnalisisSemanalToolStripMenuItem.Click
+        Dim NewScreen = New OP_SEL_MainWeekReport
+        If TheFormIsAlreadyLoaded(NewScreen.Name) Then
+            NewScreen.MdiParent = Me
+            NewScreen.Show()
+        End If
+    End Sub
 End Class

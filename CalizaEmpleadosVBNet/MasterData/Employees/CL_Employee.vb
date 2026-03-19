@@ -1342,6 +1342,31 @@ Public Class CL_Employee
 
     End Function
 
+    Public Function Get_AllActiveEmployeesListForLunchHours() As DataTable
+
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "SEL_ALLACTIVEEMPLOYEESLISTFORLUNCHHOURS",
+                .CommandType = CommandType.StoredProcedure
+            }
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+            DB_Reader = DB_Command.ExecuteReader()
+            DB_Command.Connection = DB_Connection
+            Dim LocalTable As New DataTable
+
+            LocalTable.Load(DB_Reader)
+            DB_Reader.Close()
+            DB_Connection.Close()
+            Return LocalTable
+
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_Employees.Get_AllActiveEmployeesID()")
+
+            Return Nothing
+        End Try
+    End Function
 
 
 End Class

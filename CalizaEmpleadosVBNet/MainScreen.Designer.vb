@@ -388,10 +388,10 @@ Partial Class MainScreen
         RegistroDeHorasDeComidaToolStripMenuItem.Text = "Registro de horas de comida"
         ' 
         ' PorArchivoToolStripMenuItem1
-        ' 
-        PorArchivoToolStripMenuItem1.Name = "PorArchivoToolStripMenuItem1"
-        PorArchivoToolStripMenuItem1.Size = New Size(242, 34)
-        PorArchivoToolStripMenuItem1.Text = "Por archivo"
+        ' xxx
+        'PorArchivoToolStripMenuItem1.Name = "PorArchivoToolStripMenuItem1"
+        'PorArchivoToolStripMenuItem1.Size = New Size(242, 34)
+        'PorArchivoToolStripMenuItem1.Text = "Por archivo"
         ' 
         ' RegistroManualToolStripMenuItem1
         ' 
@@ -425,17 +425,17 @@ Partial Class MainScreen
         ReportesToolStripMenuItem3.Text = "Reportes"
         ' 
         ' AmonestacionesToolStripMenuItem1
-        ' 
-        AmonestacionesToolStripMenuItem1.DropDownItems.AddRange(New ToolStripItem() {RegistrarNuevaToolStripMenuItem, ReportesToolStripMenuItem2})
-        AmonestacionesToolStripMenuItem1.Name = "AmonestacionesToolStripMenuItem1"
-        AmonestacionesToolStripMenuItem1.Size = New Size(342, 34)
-        AmonestacionesToolStripMenuItem1.Text = "Amonestaciones"
-        ' 
-        ' RegistrarNuevaToolStripMenuItem
-        ' 
-        RegistrarNuevaToolStripMenuItem.Name = "RegistrarNuevaToolStripMenuItem"
-        RegistrarNuevaToolStripMenuItem.Size = New Size(235, 34)
-        RegistrarNuevaToolStripMenuItem.Text = "Registrar nueva"
+        ' xxx
+        'AmonestacionesToolStripMenuItem1.DropDownItems.AddRange(New ToolStripItem() {RegistrarNuevaToolStripMenuItem, ReportesToolStripMenuItem2})
+        'AmonestacionesToolStripMenuItem1.Name = "AmonestacionesToolStripMenuItem1"
+        'AmonestacionesToolStripMenuItem1.Size = New Size(342, 34)
+        'AmonestacionesToolStripMenuItem1.Text = "Amonestaciones"
+        '' xxxx
+        '' RegistrarNuevaToolStripMenuItem
+        '' xxxx
+        'RegistrarNuevaToolStripMenuItem.Name = "RegistrarNuevaToolStripMenuItem"
+        'RegistrarNuevaToolStripMenuItem.Size = New Size(235, 34)
+        'RegistrarNuevaToolStripMenuItem.Text = "Registrar nueva"
         ' 
         ' ReportesToolStripMenuItem2
         ' 
@@ -600,5 +600,8 @@ Partial Class MainScreen
     Friend WithEvents DepartamentosToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CrearDepartamentoToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents EditarExistenteToolStripMenuItem4 As ToolStripMenuItem
+
+    Friend WithEvents ReportesToolStripMenuItem2 As ToolStripMenuItem
+    Friend WithEvents AnalisisSemanalToolStripMenuItem As ToolStripMenuItem
 
 End Class
