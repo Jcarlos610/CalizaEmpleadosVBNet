@@ -37,8 +37,7 @@ Public Class OP_INS_MANUALLUNCHHOURS
             DGV_ActiveEmployeesInfo.Columns(1).ReadOnly = True
             DGV_ActiveEmployeesInfo.Columns(2).ReadOnly = True
             DGV_ActiveEmployeesInfo.Columns(3).ReadOnly = True
-            DGV_ActiveEmployeesInfo.Columns(4).ReadOnly = True
-            DGV_ActiveEmployeesInfo.Columns(5).DefaultCellStyle.BackColor = Color.LightGoldenrodYellow
+            DGV_ActiveEmployeesInfo.Columns(4).DefaultCellStyle.BackColor = Color.LightGoldenrodYellow
 
         Catch ex As Exception
             MessageBox.Show(ex.Message)
@@ -49,7 +48,7 @@ Public Class OP_INS_MANUALLUNCHHOURS
     'Validar que solo se capturen números
     Private Sub DGV_ActiveEmployeesInfo_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles DGV_ActiveEmployeesInfo.EditingControlShowing
 
-        If DGV_ActiveEmployeesInfo.CurrentCell.ColumnIndex = 5 Then
+        If DGV_ActiveEmployeesInfo.CurrentCell.ColumnIndex = 4 Then
 
             Dim txt As TextBox = CType(e.Control, TextBox)
 
@@ -100,8 +99,6 @@ Public Class OP_INS_MANUALLUNCHHOURS
             Next
 
             MessageBox.Show("Horas registradas correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            BT_LuchHoursRegister.Enabled = False
-            DGV_ActiveEmployeesInfo.Columns.Clear()
         Catch ex As Exception
             MessageBox.Show(ex.Message)
 
@@ -109,29 +106,7 @@ Public Class OP_INS_MANUALLUNCHHOURS
 
     End Sub
 
-
-    Private Sub DGV_ActiveEmployeesInfo_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_ActiveEmployeesInfo.CellEndEdit
-
-        Dim cell = DGV_ActiveEmployeesInfo.Rows(e.RowIndex).Cells(e.ColumnIndex)
-
-        If cell.Value Is Nothing Then Exit Sub
-
-        Dim number As Decimal
-
-        If Not Decimal.TryParse(cell.Value.ToString(), number) Then
-            MessageBox.Show("Solo se permiten números.")
-            cell.Value = ""
-            Exit Sub
-        End If
-
-        If number > 5 Then
-            MessageBox.Show("Solo se permiten valores del 0 al 5.")
-            cell.Value = ""
-        End If
-
-    End Sub
-
-    Private Sub DTP_DateLunchHours_MouseCaptureChanged(sender As Object, e As EventArgs) Handles DTP_DateLunchHours.MouseCaptureChanged
+    Private Sub DTP_DateLunchHours_Leave(sender As Object, e As EventArgs) Handles DTP_DateLunchHours.Leave
         BT_LuchHoursRegister.Enabled = True
     End Sub
 End Class

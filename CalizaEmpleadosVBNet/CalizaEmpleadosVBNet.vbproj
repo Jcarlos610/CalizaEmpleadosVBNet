@@ -25,12 +25,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Update="Operation\MainWeekReportSalaryCalculation\OP_SEL_MainWeekReportSalaryCalculation.vb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Operation\MainWeekReportAsistance\OP_SEL_MainWeekReportAsistance.vb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
