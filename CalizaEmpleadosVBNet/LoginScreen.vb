@@ -12,17 +12,37 @@ Public Class LoginScreen
     End Function
 
     Private Sub BT_Access_Click(sender As Object, e As EventArgs) Handles BT_Access.Click
-        Dim User As New CL_Users()
-        If User.ValidationUser(TB_UserName.Text, HashPassword(TB_Password.Text)) Then
-            DeterminarEntorno()
 
-            'Global variable for user
+        Dim User As New CL_Users()
+
+        If User.ValidationUser(TB_UserName.Text, TB_Password.Text) Then
+
+            ' 🔥 PRIMERO obtener USER_ID
+            Dim dt As DataTable = User.GetUserDataByUsername(TB_UserName.Text)
+
+            If dt.Rows.Count > 0 Then
+                GlobalUserID = CInt(dt.Rows(0)("USER_ID"))
+            End If
+
+            ' 🔥 luego ya lo demás
+            DeterminarEntorno()
             AppUser = TB_UserName.Text
 
-            MainScreen.Text = MainScreen.Text & " - " & FirstName & " " & LastName & " -  [" & Envirotment & "]"
+            Dim main As MainScreen = CType(Me.MdiParent, MainScreen)
+
+            main.AplicarPermisos() ' 👈 ahora sí funciona
+
+            main.Text = main.Text & " - " & FirstName & " " & LastName & " - [" & Envirotment & "]"
+
             Me.Close()
+
+        Else
+            MessageBox.Show("Usuario o contraseña incorrectos")
         End If
+
     End Sub
+
+
 
     Private Sub DeterminarEntorno()
         Dim cadenaConexion As String = My.Settings.ConnectionString

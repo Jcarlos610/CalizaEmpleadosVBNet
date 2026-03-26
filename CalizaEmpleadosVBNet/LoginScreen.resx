@@ -123,10 +123,14 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="LB_User.Location" type="System.Drawing.Point, System.Drawing">
-    <value>553, 264</value>
+    <value>790, 440</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="LB_User.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="LB_User.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 15</value>
+    <value>72, 25</value>
   </data>
   <data name="LB_User.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -147,16 +151,19 @@
     <value>2</value>
   </data>
   <data name="TB_UserName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>626, 261</value>
+    <value>894, 435</value>
+  </data>
+  <data name="TB_UserName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TB_UserName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 23</value>
+    <value>141, 31</value>
   </data>
   <data name="TB_UserName.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="TB_UserName.Text" xml:space="preserve">
-    <value>jcarlos</value>
+    <value>dsarahi</value>
   </data>
   <data name="&gt;&gt;TB_UserName.Name" xml:space="preserve">
     <value>TB_UserName</value>
@@ -174,10 +181,13 @@
     <value>True</value>
   </data>
   <data name="LB_Password.Location" type="System.Drawing.Point, System.Drawing">
-    <value>553, 289</value>
+    <value>790, 482</value>
+  </data>
+  <data name="LB_Password.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="LB_Password.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 15</value>
+    <value>101, 25</value>
   </data>
   <data name="LB_Password.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -198,19 +208,22 @@
     <value>5</value>
   </data>
   <data name="TB_Password.Location" type="System.Drawing.Point, System.Drawing">
-    <value>626, 286</value>
+    <value>894, 477</value>
+  </data>
+  <data name="TB_Password.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="TB_Password.PasswordChar" type="System.Char, mscorlib" xml:space="preserve">
     <value>*</value>
   </data>
   <data name="TB_Password.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 23</value>
+    <value>141, 31</value>
   </data>
   <data name="TB_Password.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="TB_Password.Text" xml:space="preserve">
-    <value>jcSAP#2050YA</value>
+    <value>12345</value>
   </data>
   <data name="&gt;&gt;TB_Password.Name" xml:space="preserve">
     <value>TB_Password</value>
@@ -225,10 +238,13 @@
     <value>3</value>
   </data>
   <data name="BT_Access.Location" type="System.Drawing.Point, System.Drawing">
-    <value>651, 315</value>
+    <value>930, 525</value>
+  </data>
+  <data name="BT_Access.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="BT_Access.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>107, 38</value>
   </data>
   <data name="BT_Access.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -1835,10 +1851,13 @@
     <value>Stretch</value>
   </data>
   <data name="PictureBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
+    <value>17, 20</value>
+  </data>
+  <data name="PictureBox1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="PictureBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>615, 326</value>
+    <value>879, 543</value>
   </data>
   <data name="PictureBox1.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -1862,10 +1881,13 @@
     <value>Arial, 11pt, style=Bold</value>
   </data>
   <data name="LB_Title.Location" type="System.Drawing.Point, System.Drawing">
-    <value>553, 235</value>
+    <value>790, 392</value>
+  </data>
+  <data name="LB_Title.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="LB_Title.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 18</value>
+    <value>193, 26</value>
   </data>
   <data name="LB_Title.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -1892,13 +1914,16 @@
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>7, 15</value>
+    <value>10, 25</value>
   </data>
   <data name="$this.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Stretch</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>755, 350</value>
+    <value>1079, 583</value>
+  </data>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 5, 4, 5</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
