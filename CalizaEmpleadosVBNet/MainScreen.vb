@@ -199,7 +199,15 @@
     End Sub
 
     Private Sub AnalisisSemanalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AnalisisSemanalToolStripMenuItem.Click
-        Dim NewScreen = New OP_SEL_MainWeekReport
+        Dim NewScreen = New OP_SEL_MainWeekReportAsistance
+        If TheFormIsAlreadyLoaded(NewScreen.Name) Then
+            NewScreen.MdiParent = Me
+            NewScreen.Show()
+        End If
+    End Sub
+
+    Private Sub AnalisisSalarioSemanalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AnalisisSalarioSemanalToolStripMenuItem.Click
+        Dim NewScreen = New OP_SEL_MainWeekReportSalaryCalculation
         If TheFormIsAlreadyLoaded(NewScreen.Name) Then
             NewScreen.MdiParent = Me
             NewScreen.Show()
