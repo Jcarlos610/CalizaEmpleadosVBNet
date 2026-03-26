@@ -1,175 +1,155 @@
 ﻿Imports System.Security.Cryptography
 Imports System.Text
-Imports System.Net.Mail
-Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.Data.SqlClient
 
 Public Class ST_UPD_Users
 
-    Public Function HashPassword(password As String) As String
-        Using sha As SHA256 = SHA256.Create()
-            Dim bytes = Encoding.UTF8.GetBytes(password)
-            Dim hash = sha.ComputeHash(bytes)
-            Return Convert.ToBase64String(hash)
-        End Using
-    End Function
-
-    Public Function IsValidEmail(email As String) As Boolean
-        If String.IsNullOrWhiteSpace(email) Then Return False
-
-        Try
-            Dim addr As New MailAddress(email)
-            Return addr.Address = email
-        Catch
-            Return False
-        End Try
-    End Function
+    Private SelectedUserID As Integer = 0
 
     Private Sub ST_UPD_Users_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim users = New CL_Users
+        LoadUsers()
+        LoadRolesGrid()
+    End Sub
 
-        'Load companies information
-        CB_Users.DataSource = users.GetUsers()
-        CB_Users.DisplayMember = "COMPLETE_NAME"
-        CB_Users.ValueMember = "USER_ID"
-        CB_Users.SelectedIndex = 0
 
-        'Disable fields
-        TB_FirstName.Enabled = False
-        TB_LastName.Enabled = False
-        TB_Email.Enabled = False
-        TB_UserName.Enabled = False
-        TB_Password.Enabled = False
+    Private Sub LoadUsers()
 
-        InitializationOfFields()
+        Dim user As New CL_Users()
+        DGV_Roles.DataSource = user.GetUsersDetailed()
+
+        With DGV_Roles
+            If .Columns.Contains("USER_ID") Then .Columns("USER_ID").Visible = False
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+        End With
 
     End Sub
 
+
+    Private Sub LoadRolesGrid()
+
+        Dim cn As New SqlConnection(My.Settings.ConnectionString)
+        Dim cmd As New SqlCommand("SELECT ROLE_ID, ROLE_NAME FROM ST_Roles", cn)
+        Dim dt As New DataTable()
+
+        cn.Open()
+        dt.Load(cmd.ExecuteReader())
+        cn.Close()
+
+        dt.Columns.Add("Seleccionado", GetType(Boolean))
+
+        DGV_RolesSelection.DataSource = dt
+
+        With DGV_RolesSelection
+            .AllowUserToAddRows = False
+
+            .Columns("Seleccionado").DisplayIndex = 0
+            .Columns("Seleccionado").HeaderText = "Asignar"
+
+            .Columns("ROLE_ID").Visible = False
+            .Columns("ROLE_NAME").HeaderText = "Rol"
+
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+        End With
+
+    End Sub
+
+
+    '========================
+    ' CARGAR ROLES DEL USUARIO
+    '========================
+    Private Sub LoadUserRoles(USER_ID As Integer)
+
+        For Each row As DataGridViewRow In DGV_RolesSelection.Rows
+            row.Cells("Seleccionado").Value = False
+        Next
+
+        Dim user As New CL_Users()
+        Dim dt As DataTable = user.GetUserRoles(USER_ID)
+
+        For Each dbRow As DataRow In dt.Rows
+            For Each gridRow As DataGridViewRow In DGV_RolesSelection.Rows
+
+                If CInt(gridRow.Cells("ROLE_ID").Value) = CInt(dbRow("ROLE_ID")) Then
+                    gridRow.Cells("Seleccionado").Value = True
+                End If
+
+            Next
+        Next
+
+    End Sub
+
+    '========================
+    ' ACTUALIZAR USUARIO
+    '========================
     Private Sub BT_UpdateUser_Click(sender As Object, e As EventArgs) Handles BT_UpdateUser.Click
 
-        If TB_FirstName.Text = "" Then
-            MessageBox.Show("Favor de ingresar el nombre completo del usuario.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        ElseIf TB_LastName.Text = "" Then
-            MessageBox.Show("Favor de ingresar el/los apellido(s).", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        ElseIf TB_Email.Text = "" Then
-            MessageBox.Show("Favor de ingresar un email.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        ElseIf TB_UserName.Text = "" Then
-            MessageBox.Show("Favor de ingresar el nombre de usuario.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        ElseIf TB_Password.Text = "" Then
-            MessageBox.Show("Favor de ingresar un password.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        Else
-            'All fields were completed
-            If Not IsValidEmail(TB_Email.Text) Then
-                MessageBox.Show("Ingrese una dirección de correo válida", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                TB_Email.Focus()
-            Else
-                Dim User = New CL_Users(CB_Users.SelectedValue, TB_FirstName.Text, TB_LastName.Text, TB_Email.Text, TB_UserName.Text, HashPassword(TB_Password.Text))
-
-                If User.UpdateUser() Then
-                    MessageBox.Show("El usuario: " & TB_UserName.Text & " se actualizó correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-                    InitializationOfFields()
-
-                    'Load companies information into de combobox
-                    CB_Users.DataSource = User.GetUsers()
-                    CB_Users.DisplayMember = "COMPLETE_NAME"
-                    CB_Users.ValueMember = "USER_ID"
-                    CB_Users.SelectedIndex = 0
-
-                    'Disable fields
-                    TB_FirstName.Enabled = False
-                    TB_LastName.Enabled = False
-                    TB_Email.Enabled = False
-                    TB_UserName.Enabled = False
-                    TB_Password.Enabled = False
-
-                    'Disable fields
-                    TB_FirstName.Text = ""
-                    TB_LastName.Text = ""
-                    TB_Email.Text = ""
-                    TB_UserName.Text = ""
-                    TB_Password.Text = ""
-
-                End If
-            End If
+        If SelectedUserID = 0 Then
+            MessageBox.Show("Selecciona un usuario")
+            Exit Sub
         End If
-    End Sub
 
-    Private Sub CB_Users_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_Users.SelectedIndexChanged
-        Dim Users = New CL_Users()
-
-        If CB_Users.SelectedIndex <> 0 Then
-            TB_FirstName.Enabled = True
-            TB_LastName.Enabled = True
-            TB_Email.Enabled = True
-            TB_UserName.Enabled = True
-            TB_Password.Enabled = True
-            Users.USER_ID = CB_Users.SelectedValue
-            Dim LT_Users As DataTable = Users.GetUserData()
-
-            For Each item As DataRow In LT_Users.Rows
-                TB_FirstName.Text = item("USER_FNAME").ToString
-                TB_LastName.Text = item("USER_LNAME").ToString
-                TB_Email.Text = item("USER_EMAIL").ToString
-                TB_UserName.Text = item("USER_NAME").ToString
-            Next
-
+        If TB_UserName.Text.Trim = "" Then
+            MessageBox.Show("Ingresa usuario")
+            Exit Sub
         End If
-    End Sub
-
-    Private Sub Display_Record()
 
         Dim user As New CL_Users()
 
-        DGV_UsersList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
-        DGV_UsersList.AutoResizeColumns()
-        DGV_UsersList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+        Dim password As String = TB_Password.Text.Trim
 
-        DGV_UsersList.DataSource = user.GetUsersList()
+        '🔥 si no cambia password, no lo tocamos
+        If password = "" Then
+            password = Nothing
+        Else
+            password = user.HashPassword(password)
+        End If
 
-        'Cambiar nombres de columnas
-        DGV_UsersList.Columns("USER_ID").HeaderText = "ID"
-        DGV_UsersList.Columns("COMPLETE_NAME").HeaderText = "Nombre Completo"
-        DGV_UsersList.Columns("USER_FNAME").HeaderText = "Nombre"
-        DGV_UsersList.Columns("USER_LNAME").HeaderText = "Apellido"
-        DGV_UsersList.Columns("USER_EMAIL").HeaderText = "Correo"
-        DGV_UsersList.Columns("USER_NAME").HeaderText = "Usuario"
-        DGV_UsersList.Columns("USER_PASSW").HeaderText = "Contraseña"
-        DGV_UsersList.Columns("USER_LACCESS").HeaderText = "Último acceso"
-        DGV_UsersList.Columns("USER_DATREG").HeaderText = "Fecha de registro"
+        Dim updUser As New CL_Users(
+            SelectedUserID,
+            DBNull.Value,
+            TB_UserName.Text.Trim,
+            If(password Is Nothing, DBNull.Value, password)
+        )
 
-        'Ocultar contraseña
-        'DGV_UsersList.Columns("USER_PASSW").Visible = False
+        If updUser.UpdateUser() Then
 
-    End Sub
+            '🔥 actualizar roles
+            user.DeleteUserRoles(SelectedUserID)
 
-    Private Sub InitializationOfFields()
+            For Each row As DataGridViewRow In DGV_RolesSelection.Rows
 
-        Dim users As New CL_Users
+                If Not IsDBNull(row.Cells("Seleccionado").Value) AndAlso CBool(row.Cells("Seleccionado").Value) = True Then
 
-        'Cargar usuarios en ComboBox
-        CB_Users.DataSource = users.GetUsers()
-        CB_Users.DisplayMember = "COMPLETE_NAME"
-        CB_Users.ValueMember = "USER_ID"
-        CB_Users.SelectedIndex = 0
+                    Dim ROLE_ID As Integer = CInt(row.Cells("ROLE_ID").Value)
+                    user.AssignRoleToUser(SelectedUserID, ROLE_ID)
 
-        'Limpiar campos
-        TB_FirstName.Text = ""
-        TB_LastName.Text = ""
-        TB_Email.Text = ""
-        TB_UserName.Text = ""
-        TB_Password.Text = ""
+                End If
 
-        'Deshabilitar campos
-        TB_FirstName.Enabled = False
-        TB_LastName.Enabled = False
-        TB_Email.Enabled = False
-        TB_UserName.Enabled = False
-        TB_Password.Enabled = False
+            Next
 
-        Display_Record()
+            MessageBox.Show("Usuario actualizado correctamente")
+
+            LoadUsers()
+
+        End If
 
     End Sub
 
+    Private Sub DGV_Roles_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Roles.CellContentClick
+        If e.RowIndex < 0 Then Exit Sub
 
+        SelectedUserID = CInt(DGV_Roles.Rows(e.RowIndex).Cells("USER_ID").Value)
 
+        Dim user As New CL_Users()
+        user.USER_ID = SelectedUserID
+
+        Dim dt = user.GetUserData()
+
+        If dt.Rows.Count > 0 Then
+            TB_UserName.Text = dt.Rows(0)("USER_NAME").ToString()
+            '🔥 password no se muestra por seguridad
+        End If
+
+        LoadUserRoles(SelectedUserID)
+    End Sub
 End Class

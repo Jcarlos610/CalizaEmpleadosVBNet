@@ -25,45 +25,42 @@ Partial Class ST_INS_Users
         GroupBox1 = New GroupBox()
         TB_Password = New TextBox()
         LB_Password = New Label()
-        LB_LastName = New Label()
-        TB_LastName = New TextBox()
-        tb_UserName = New TextBox()
+        TB_UserName = New TextBox()
         LB_User = New Label()
         BT_RegisterUser = New Button()
-        LB_Email = New Label()
-        TB_FirstName = New TextBox()
-        LB_FirstName = New Label()
-        TB_Email = New TextBox()
-        DGV_UsersList = New DataGridView()
+        DGV_RolesSelection = New DataGridView()
+        DGV_Roles = New DataGridView()
+        DGV_Employees = New DataGridView()
+        DGV_Permissions = New DataGridView()
+        GroupBox2 = New GroupBox()
+        BT_SaveRoles = New Button()
         GroupBox1.SuspendLayout()
-        CType(DGV_UsersList, ComponentModel.ISupportInitialize).BeginInit()
+        CType(DGV_RolesSelection, ComponentModel.ISupportInitialize).BeginInit()
+        CType(DGV_Roles, ComponentModel.ISupportInitialize).BeginInit()
+        CType(DGV_Employees, ComponentModel.ISupportInitialize).BeginInit()
+        CType(DGV_Permissions, ComponentModel.ISupportInitialize).BeginInit()
+        GroupBox2.SuspendLayout()
         SuspendLayout()
         ' 
         ' GroupBox1
         ' 
         GroupBox1.Controls.Add(TB_Password)
         GroupBox1.Controls.Add(LB_Password)
-        GroupBox1.Controls.Add(LB_LastName)
-        GroupBox1.Controls.Add(TB_LastName)
-        GroupBox1.Controls.Add(tb_UserName)
+        GroupBox1.Controls.Add(TB_UserName)
         GroupBox1.Controls.Add(LB_User)
         GroupBox1.Controls.Add(BT_RegisterUser)
-        GroupBox1.Controls.Add(LB_Email)
-        GroupBox1.Controls.Add(TB_FirstName)
-        GroupBox1.Controls.Add(LB_FirstName)
-        GroupBox1.Controls.Add(TB_Email)
-        GroupBox1.Location = New Point(17, 77)
+        GroupBox1.Location = New Point(17, 344)
         GroupBox1.Margin = New Padding(4, 5, 4, 5)
         GroupBox1.Name = "GroupBox1"
         GroupBox1.Padding = New Padding(4, 5, 4, 5)
-        GroupBox1.Size = New Size(1070, 288)
+        GroupBox1.Size = New Size(620, 174)
         GroupBox1.TabIndex = 10
         GroupBox1.TabStop = False
         GroupBox1.Text = "Datos de usuario"
         ' 
         ' TB_Password
         ' 
-        TB_Password.Location = New Point(223, 232)
+        TB_Password.Location = New Point(223, 83)
         TB_Password.Margin = New Padding(4, 5, 4, 5)
         TB_Password.Name = "TB_Password"
         TB_Password.PasswordChar = "*"c
@@ -73,43 +70,25 @@ Partial Class ST_INS_Users
         ' LB_Password
         ' 
         LB_Password.AutoSize = True
-        LB_Password.Location = New Point(223, 202)
+        LB_Password.Location = New Point(223, 53)
         LB_Password.Margin = New Padding(4, 0, 4, 0)
         LB_Password.Name = "LB_Password"
         LB_Password.Size = New Size(87, 25)
         LB_Password.TabIndex = 9
         LB_Password.Text = "Password"
         ' 
-        ' LB_LastName
+        ' TB_UserName
         ' 
-        LB_LastName.AutoSize = True
-        LB_LastName.Location = New Point(347, 52)
-        LB_LastName.Margin = New Padding(4, 0, 4, 0)
-        LB_LastName.Name = "LB_LastName"
-        LB_LastName.Size = New Size(86, 25)
-        LB_LastName.TabIndex = 3
-        LB_LastName.Text = "Apellidos"
-        ' 
-        ' TB_LastName
-        ' 
-        TB_LastName.Location = New Point(347, 82)
-        TB_LastName.Margin = New Padding(4, 5, 4, 5)
-        TB_LastName.Name = "TB_LastName"
-        TB_LastName.Size = New Size(364, 31)
-        TB_LastName.TabIndex = 4
-        ' 
-        ' tb_UserName
-        ' 
-        tb_UserName.Location = New Point(21, 232)
-        tb_UserName.Margin = New Padding(4, 5, 4, 5)
-        tb_UserName.Name = "tb_UserName"
-        tb_UserName.Size = New Size(180, 31)
-        tb_UserName.TabIndex = 8
+        TB_UserName.Location = New Point(21, 82)
+        TB_UserName.Margin = New Padding(4, 5, 4, 5)
+        TB_UserName.Name = "TB_UserName"
+        TB_UserName.Size = New Size(180, 31)
+        TB_UserName.TabIndex = 8
         ' 
         ' LB_User
         ' 
         LB_User.AutoSize = True
-        LB_User.Location = New Point(21, 202)
+        LB_User.Location = New Point(21, 53)
         LB_User.Margin = New Padding(4, 0, 4, 0)
         LB_User.Name = "LB_User"
         LB_User.Size = New Size(162, 25)
@@ -118,7 +97,7 @@ Partial Class ST_INS_Users
         ' 
         ' BT_RegisterUser
         ' 
-        BT_RegisterUser.Location = New Point(940, 230)
+        BT_RegisterUser.Location = New Point(502, 121)
         BT_RegisterUser.Margin = New Padding(4, 5, 4, 5)
         BT_RegisterUser.Name = "BT_RegisterUser"
         BT_RegisterUser.Size = New Size(107, 38)
@@ -126,62 +105,87 @@ Partial Class ST_INS_Users
         BT_RegisterUser.Text = "Registrar"
         BT_RegisterUser.UseVisualStyleBackColor = True
         ' 
-        ' LB_Email
+        ' DGV_RolesSelection
         ' 
-        LB_Email.AutoSize = True
-        LB_Email.Location = New Point(21, 128)
-        LB_Email.Margin = New Padding(4, 0, 4, 0)
-        LB_Email.Name = "LB_Email"
-        LB_Email.Size = New Size(54, 25)
-        LB_Email.TabIndex = 5
-        LB_Email.Text = "Email"
+        DGV_RolesSelection.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        DGV_RolesSelection.Location = New Point(21, 48)
+        DGV_RolesSelection.Name = "DGV_RolesSelection"
+        DGV_RolesSelection.RowHeadersWidth = 62
+        DGV_RolesSelection.Size = New Size(372, 226)
+        DGV_RolesSelection.TabIndex = 14
         ' 
-        ' TB_FirstName
+        ' DGV_Roles
         ' 
-        TB_FirstName.Location = New Point(21, 82)
-        TB_FirstName.Margin = New Padding(4, 5, 4, 5)
-        TB_FirstName.Name = "TB_FirstName"
-        TB_FirstName.Size = New Size(315, 31)
-        TB_FirstName.TabIndex = 2
+        DGV_Roles.AllowUserToAddRows = False
+        DGV_Roles.AllowUserToDeleteRows = False
+        DGV_Roles.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        DGV_Roles.Location = New Point(668, 335)
+        DGV_Roles.Margin = New Padding(4, 5, 4, 5)
+        DGV_Roles.Name = "DGV_Roles"
+        DGV_Roles.ReadOnly = True
+        DGV_Roles.RowHeadersWidth = 62
+        DGV_Roles.Size = New Size(785, 183)
+        DGV_Roles.TabIndex = 13
         ' 
-        ' LB_FirstName
+        ' DGV_Employees
         ' 
-        LB_FirstName.AutoSize = True
-        LB_FirstName.Location = New Point(21, 53)
-        LB_FirstName.Margin = New Padding(4, 0, 4, 0)
-        LB_FirstName.Name = "LB_FirstName"
-        LB_FirstName.Size = New Size(96, 25)
-        LB_FirstName.TabIndex = 1
-        LB_FirstName.Text = "Nombre(s)"
+        DGV_Employees.AllowUserToAddRows = False
+        DGV_Employees.AllowUserToDeleteRows = False
+        DGV_Employees.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        DGV_Employees.Location = New Point(17, 77)
+        DGV_Employees.Margin = New Padding(4, 5, 4, 5)
+        DGV_Employees.Name = "DGV_Employees"
+        DGV_Employees.ReadOnly = True
+        DGV_Employees.RowHeadersWidth = 62
+        DGV_Employees.Size = New Size(1436, 226)
+        DGV_Employees.TabIndex = 14
         ' 
-        ' TB_Email
+        ' DGV_Permissions
         ' 
-        TB_Email.Location = New Point(21, 158)
-        TB_Email.Margin = New Padding(4, 5, 4, 5)
-        TB_Email.Name = "TB_Email"
-        TB_Email.Size = New Size(371, 31)
-        TB_Email.TabIndex = 6
+        DGV_Permissions.AllowUserToAddRows = False
+        DGV_Permissions.AllowUserToDeleteRows = False
+        DGV_Permissions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        DGV_Permissions.Location = New Point(668, 549)
+        DGV_Permissions.Margin = New Padding(4, 5, 4, 5)
+        DGV_Permissions.Name = "DGV_Permissions"
+        DGV_Permissions.ReadOnly = True
+        DGV_Permissions.RowHeadersWidth = 62
+        DGV_Permissions.Size = New Size(785, 262)
+        DGV_Permissions.TabIndex = 15
         ' 
-        ' DGV_UsersList
+        ' GroupBox2
         ' 
-        DGV_UsersList.AllowUserToAddRows = False
-        DGV_UsersList.AllowUserToDeleteRows = False
-        DGV_UsersList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_UsersList.Location = New Point(17, 378)
-        DGV_UsersList.Margin = New Padding(4, 5, 4, 5)
-        DGV_UsersList.Name = "DGV_UsersList"
-        DGV_UsersList.ReadOnly = True
-        DGV_UsersList.RowHeadersWidth = 62
-        DGV_UsersList.Size = New Size(1275, 380)
-        DGV_UsersList.TabIndex = 13
+        GroupBox2.Controls.Add(DGV_RolesSelection)
+        GroupBox2.Controls.Add(BT_SaveRoles)
+        GroupBox2.Location = New Point(17, 537)
+        GroupBox2.Margin = New Padding(4, 5, 4, 5)
+        GroupBox2.Name = "GroupBox2"
+        GroupBox2.Padding = New Padding(4, 5, 4, 5)
+        GroupBox2.Size = New Size(620, 293)
+        GroupBox2.TabIndex = 16
+        GroupBox2.TabStop = False
+        GroupBox2.Text = "Asignar rol"
+        ' 
+        ' BT_SaveRoles
+        ' 
+        BT_SaveRoles.Location = New Point(493, 236)
+        BT_SaveRoles.Margin = New Padding(4, 5, 4, 5)
+        BT_SaveRoles.Name = "BT_SaveRoles"
+        BT_SaveRoles.Size = New Size(107, 38)
+        BT_SaveRoles.TabIndex = 11
+        BT_SaveRoles.Text = "Registrar"
+        BT_SaveRoles.UseVisualStyleBackColor = True
         ' 
         ' ST_INS_Users
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(1143, 750)
-        Controls.Add(DGV_UsersList)
+        ClientSize = New Size(1774, 1050)
+        Controls.Add(GroupBox2)
+        Controls.Add(DGV_Permissions)
+        Controls.Add(DGV_Employees)
+        Controls.Add(DGV_Roles)
         Controls.Add(GroupBox1)
         Margin = New Padding(4, 5, 4, 5)
         Name = "ST_INS_Users"
@@ -189,21 +193,24 @@ Partial Class ST_INS_Users
         WindowState = FormWindowState.Maximized
         GroupBox1.ResumeLayout(False)
         GroupBox1.PerformLayout()
-        CType(DGV_UsersList, ComponentModel.ISupportInitialize).EndInit()
+        CType(DGV_RolesSelection, ComponentModel.ISupportInitialize).EndInit()
+        CType(DGV_Roles, ComponentModel.ISupportInitialize).EndInit()
+        CType(DGV_Employees, ComponentModel.ISupportInitialize).EndInit()
+        CType(DGV_Permissions, ComponentModel.ISupportInitialize).EndInit()
+        GroupBox2.ResumeLayout(False)
         ResumeLayout(False)
     End Sub
 
     Friend WithEvents GroupBox1 As GroupBox
-    Friend WithEvents LB_LastName As Label
-    Friend WithEvents TB_LastName As TextBox
-    Friend WithEvents tb_UserName As TextBox
+    Friend WithEvents TB_UserName As TextBox
     Friend WithEvents LB_User As Label
     Friend WithEvents BT_RegisterUser As Button
-    Friend WithEvents LB_Email As Label
-    Friend WithEvents TB_FirstName As TextBox
-    Friend WithEvents LB_FirstName As Label
-    Friend WithEvents TB_Email As TextBox
     Friend WithEvents TB_Password As TextBox
     Friend WithEvents LB_Password As Label
-    Friend WithEvents DGV_UsersList As DataGridView
+    Friend WithEvents DGV_Roles As DataGridView
+    Friend WithEvents DGV_Employees As DataGridView
+    Friend WithEvents DGV_Permissions As DataGridView
+    Friend WithEvents DGV_RolesSelection As DataGridView
+    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents BT_SaveRoles As Button
 End Class

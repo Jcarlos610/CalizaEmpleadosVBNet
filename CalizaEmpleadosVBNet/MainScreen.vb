@@ -1,23 +1,17 @@
 ﻿Public Class MainScreen
     Private Function TheFormIsAlreadyLoaded(ByVal pFormName As String) As Boolean
 
-        TheFormIsAlreadyLoaded = False
-
-        'If FirstName Is Nothing And pFormName IsNot "LoginScreen" Then
-        '    TheFormIsAlreadyLoaded = True
-        '    Exit Function
-        'End If
-
-        'Temporal FULL access
-        TheFormIsAlreadyLoaded = True
-        Exit Function
+        If FirstName Is Nothing AndAlso pFormName <> "LoginScreen" Then
+            Return False
+        End If
 
         For Each frm As Form In Application.OpenForms
             If frm.Name.Equals(pFormName) Then
-                TheFormIsAlreadyLoaded = True
-                Exit Function
+                Return False
             End If
         Next
+
+        Return True
 
     End Function
 
@@ -58,7 +52,140 @@
     Private Sub MainScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoginScreen.MdiParent = Me
         LoginScreen.Show()
+
+        AsignarEventosMenu(MenuStrip1.Items)
     End Sub
+
+    Private Sub AsignarEventosMenu(items As ToolStripItemCollection)
+
+        For Each item As ToolStripItem In items
+
+            If TypeOf item Is ToolStripMenuItem Then
+
+                Dim menu As ToolStripMenuItem = CType(item, ToolStripMenuItem)
+
+                ' Si tiene hijos → recorrerlos
+                If menu.DropDownItems.Count > 0 Then
+                    AsignarEventosMenu(menu.DropDownItems)
+                Else
+                    ' Si tiene Tag → asignar click automático
+                    If menu.Tag IsNot Nothing Then
+                        AddHandler menu.Click, AddressOf Menu_Click
+                    End If
+                End If
+
+            End If
+
+        Next
+
+    End Sub
+
+    Private Sub Menu_Click(sender As Object, e As EventArgs)
+
+        Dim item As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
+        Dim formName As String = item.Tag.ToString()
+
+        Dim user As New CL_Users()
+
+        ' 🔥 VALIDAR PERMISO ANTES DE ABRIR
+        If Not user.TienePermiso(GlobalUserID, formName) Then
+            MessageBox.Show("No tienes permiso para acceder a este formulario", "Acceso denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+        Try
+            'Dim frmType As Type = Type.GetType("CalizaEmpleadosVBNet." & formName)
+
+            Dim frmType As Type = Nothing
+
+            For Each t In System.Reflection.Assembly.GetExecutingAssembly().GetTypes()
+                If t.Name = formName Then
+                    frmType = t
+                    Exit For
+                End If
+            Next
+
+
+
+            If frmType IsNot Nothing Then
+                Dim frm As Form = CType(Activator.CreateInstance(frmType), Form)
+                frm.MdiParent = Me
+                frm.Show()
+            Else
+                MessageBox.Show("No se encontró el formulario: " & formName)
+
+            End If
+
+
+        Catch ex As Exception
+            MessageBox.Show("Error al abrir: " & ex.Message)
+        End Try
+
+    End Sub
+
+
+    Public Sub aplicarpermisos()
+
+
+
+        Dim user As New CL_Users()
+
+        For Each item As ToolStripMenuItem In MenuStrip1.Items
+            AplicarPermisosMenu(item, user)
+        Next
+
+
+
+    End Sub
+
+
+    Private Sub AplicarPermisosMenu(item As ToolStripMenuItem, user As CL_Users)
+
+        ' 🔹 SOLO validar si tiene hijos (submenús)
+        If item.DropDownItems.Count > 0 Then
+
+            ' El padre SIEMPRE visible
+            item.Visible = True
+
+            For Each subItem As ToolStripItem In item.DropDownItems
+
+                If TypeOf subItem Is ToolStripMenuItem Then
+
+                    Dim menuHijo As ToolStripMenuItem = CType(subItem, ToolStripMenuItem)
+
+                    If menuHijo.Tag IsNot Nothing Then
+
+                        If user.TienePermiso(GlobalUserID, menuHijo.Tag.ToString()) Then
+                            menuHijo.Visible = True
+                        Else
+                            menuHijo.Visible = False
+                        End If
+
+                    End If
+
+                End If
+
+            Next
+
+        Else
+            ' 🔹 Si NO tiene hijos (es un botón solo)
+            If item.Tag IsNot Nothing Then
+
+                If user.TienePermiso(GlobalUserID, item.Tag.ToString()) Then
+                    item.Visible = True
+                Else
+                    item.Visible = False
+                End If
+
+            End If
+        End If
+
+    End Sub
+
+
+
+
+
 
     Private Sub CrearNuevoToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles CrearNuevoToolStripMenuItem1.Click
         Dim NewScreen = New MD_INS_Benefits
@@ -200,6 +327,22 @@
 
     Private Sub AnalisisSemanalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AnalisisSemanalToolStripMenuItem.Click
         Dim NewScreen = New OP_SEL_MainWeekReport
+        If TheFormIsAlreadyLoaded(NewScreen.Name) Then
+            NewScreen.MdiParent = Me
+            NewScreen.Show()
+        End If
+    End Sub
+
+    Private Sub CrearNuevoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CrearNuevoToolStripMenuItem.Click
+        Dim NewScreen = New ST_INS_Roles
+        If TheFormIsAlreadyLoaded(NewScreen.Name) Then
+            NewScreen.MdiParent = Me
+            NewScreen.Show()
+        End If
+    End Sub
+
+    Private Sub EditarExistenteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EditarExistenteToolStripMenuItem.Click
+        Dim NewScreen = New ST_UPD_Roles
         If TheFormIsAlreadyLoaded(NewScreen.Name) Then
             NewScreen.MdiParent = Me
             NewScreen.Show()
