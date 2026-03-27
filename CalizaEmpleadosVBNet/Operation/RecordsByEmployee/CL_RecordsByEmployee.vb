@@ -575,4 +575,87 @@ Public Class CL_RecordsByEmployee
         End Try
     End Function
 
+    Public Function Get_DayRecordsByEmployee(ByVal startDate As Date, ByVal endDate As Date, ByVal EMPL_ID As Integer) As DataTable
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "SEL_DAYRECORDSBYEMPLOYEE",
+                .CommandType = CommandType.StoredProcedure
+            }
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+            DB_Command.Parameters.AddWithValue("startDate", startDate)
+            DB_Command.Parameters.AddWithValue("endDate", endDate)
+            DB_Command.Parameters.AddWithValue("EMPL_ID", EMPL_ID)
+            DB_Reader = DB_Command.ExecuteReader()
+            DB_Command.Connection = DB_Connection
+            Dim LocalTable As New DataTable
+
+            LocalTable.Load(DB_Reader)
+            DB_Reader.Close()
+            DB_Connection.Close()
+            Return LocalTable
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_RecordsByEmployee.Get_DayRecordsByEmployee()")
+
+            Return Nothing
+        End Try
+    End Function
+
+    Public Function Get_DayRecordsByEmployeeAndType(ByVal startDate As Date, ByVal endDate As Date, ByVal EMPL_ID As Integer, ByVal MOVE_ID As Integer) As DataTable
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "SEL_DAYRECORDSBYEMPLOYEEANDTYPE",
+                .CommandType = CommandType.StoredProcedure
+            }
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+            DB_Command.Parameters.AddWithValue("startDate", startDate)
+            DB_Command.Parameters.AddWithValue("endDate", endDate)
+            DB_Command.Parameters.AddWithValue("EMPL_ID", EMPL_ID)
+            DB_Command.Parameters.AddWithValue("MOVE_ID", MOVE_ID)
+            DB_Reader = DB_Command.ExecuteReader()
+            DB_Command.Connection = DB_Connection
+            Dim LocalTable As New DataTable
+
+            LocalTable.Load(DB_Reader)
+            DB_Reader.Close()
+            DB_Connection.Close()
+            Return LocalTable
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_RecordsByEmployee.Get_DayRecordsByEmployeeAndType()")
+
+            Return Nothing
+        End Try
+    End Function
+
+    Public Function Get_LuchHoursByEmployee(ByVal startDate As Date, ByVal endDate As Date, ByVal EMPL_ID As Integer, ByVal MOVE_ID As Integer) As DataTable
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "SEL_LUNCHHOURSBYEMPLOYEE",
+                .CommandType = CommandType.StoredProcedure
+            }
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+            DB_Command.Parameters.AddWithValue("startDate", startDate)
+            DB_Command.Parameters.AddWithValue("endDate", endDate)
+            DB_Command.Parameters.AddWithValue("EMPL_ID", EMPL_ID)
+            DB_Command.Parameters.AddWithValue("MOVE_ID", MOVE_ID)
+            DB_Reader = DB_Command.ExecuteReader()
+            DB_Command.Connection = DB_Connection
+            Dim LocalTable As New DataTable
+
+            LocalTable.Load(DB_Reader)
+            DB_Reader.Close()
+            DB_Connection.Close()
+            Return LocalTable
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_RecordsByEmployee.Get_LuchHoursByEmployee()")
+
+            Return Nothing
+        End Try
+    End Function
+
 End Class
