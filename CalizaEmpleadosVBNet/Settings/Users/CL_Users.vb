@@ -348,10 +348,15 @@ Public Class CL_Users
     End Function
 
     Public Function TienePermiso(USER_ID As Integer, FORM_NAME As String) As Boolean
+
+        If EsAdmin() Then
+            Return True
+        End If
+
         Dim dt As DataTable = GetUserPermissions(USER_ID)
 
-        If dt Is Nothing Then Return False
 
+        If dt Is Nothing Then Return False
 
 
         For Each row As DataRow In dt.Rows
@@ -499,7 +504,7 @@ Public Class CL_Users
 
         Try
             DB_Command = New SqlCommand("
-            SELECT USER_ID 
+            SELECT USER_ID, USER_NAME
             FROM System_Users 
             WHERE USER_NAME = @USER_NAME", DB_Connection)
 
@@ -538,6 +543,20 @@ Public Class CL_Users
             MsgBox(ex.Message)
             Return Nothing
         End Try
+
+    End Function
+
+    Public Function EsAdmin() As Boolean
+
+        If String.IsNullOrEmpty(GlobalUserName) Then
+            Return False
+        End If
+
+        If GlobalUserName.ToUpper() = "ADMINCALIZA" Then
+            Return True
+        End If
+
+        Return False
 
     End Function
 

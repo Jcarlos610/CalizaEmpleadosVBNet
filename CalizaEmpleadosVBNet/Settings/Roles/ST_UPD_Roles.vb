@@ -58,36 +58,12 @@ Public Class ST_UPD_Roles
 
     End Sub
 
-    '========================
-    ' GRID ROLES
-    '========================
+
     Private Sub Display_Record()
-
-        'Dim report As New CL_Roles()
-
-        'DGV_RoleList.DataSource = report.Get_AllRoles()
-
-        'With DGV_RoleList
-
-        '    .Columns("ROLE_ID").HeaderText = "ID"
-        '    .Columns("ROLE_NAME").HeaderText = "Nombre del rol"
-        '    .Columns("ROLE_DESCR").HeaderText = "Descripción"
-        '    .Columns("ROLE_DATEC").HeaderText = "Fecha creación"
-        '    .Columns("ROLE_CREBY").HeaderText = "Creado por"
-        '    .Columns("ROLE_AUTH").HeaderText = "Autorizado por"
-        '    .Columns("ROLE_STAT").HeaderText = "Activo"
-
-        '    .Columns("ROLE_DATEC").DefaultCellStyle.Format = "dd/MM/yyyy"
-
-        '    .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
-
-        'End With
 
     End Sub
 
-    '========================
-    ' SELECCIONAR ROL
-    '========================
+
     Private Sub CB_AllRoles_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_AllRoles.SelectedIndexChanged
 
         If Not FormLoaded Then Exit Sub
@@ -198,6 +174,45 @@ Public Class ST_UPD_Roles
     '========================
     ' AGREGAR PERMISO
     '========================
+    'Private Sub BT_AddPermission_Click(sender As Object, e As EventArgs) Handles BT_AddPermission.Click
+
+    '    If CB_AllRoles.SelectedValue Is Nothing Then Exit Sub
+
+    '    If CInt(CB_Forms.SelectedValue) = 0 Then
+    '        MessageBox.Show("Selecciona un formulario válido")
+    '        Exit Sub
+    '    End If
+
+    '    Dim ROLE_ID As Integer = CInt(CB_AllRoles.SelectedValue)
+    '    Dim FORM_ID As Integer = CInt(CB_Forms.SelectedValue)
+
+    '    Dim cn As New SqlConnection(My.Settings.ConnectionString)
+    '    Dim cmd As New SqlCommand("INS_ROLEDETAIL", cn)
+
+    '    cmd.CommandType = CommandType.StoredProcedure
+    '    cmd.Parameters.AddWithValue("@ROLE_ID", ROLE_ID)
+    '    cmd.Parameters.AddWithValue("@FORM_ID", FORM_ID)
+    '    cmd.Parameters.AddWithValue("@DESCR", TB_FormDescription.Text)
+
+    '    Try
+    '        cn.Open()
+    '        cmd.ExecuteNonQuery()
+    '        cn.Close()
+
+    '        MessageBox.Show("Permiso agregado")
+
+    '        LoadPermissions(ROLE_ID)
+
+    '        CB_Forms.SelectedIndex = 0
+    '        TB_FormDescription.Text = ""
+
+    '    Catch ex As Exception
+    '        MessageBox.Show("Error: " & ex.Message)
+    '    End Try
+
+    'End Sub
+
+
     Private Sub BT_AddPermission_Click(sender As Object, e As EventArgs) Handles BT_AddPermission.Click
 
         If CB_AllRoles.SelectedValue Is Nothing Then Exit Sub
@@ -210,6 +225,17 @@ Public Class ST_UPD_Roles
         Dim ROLE_ID As Integer = CInt(CB_AllRoles.SelectedValue)
         Dim FORM_ID As Integer = CInt(CB_Forms.SelectedValue)
 
+        ' 🔥 VALIDAR DUPLICADO EN GRID
+        For Each row As DataGridViewRow In DGV_Permissions.Rows
+
+            If CInt(row.Cells("FORM_ID").Value) = FORM_ID Then
+                MessageBox.Show("Este formulario ya está asignado a este rol")
+                Exit Sub
+            End If
+
+        Next
+
+        ' 🔥 INSERTAR SOLO SI NO EXISTE
         Dim cn As New SqlConnection(My.Settings.ConnectionString)
         Dim cmd As New SqlCommand("INS_ROLEDETAIL", cn)
 
@@ -235,6 +261,7 @@ Public Class ST_UPD_Roles
         End Try
 
     End Sub
+
 
     '========================
     ' ELIMINAR PERMISO

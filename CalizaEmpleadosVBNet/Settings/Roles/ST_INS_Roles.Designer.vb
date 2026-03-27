@@ -136,7 +136,7 @@ Partial Class ST_INS_Roles
         DGV_RoleList.Name = "DGV_RoleList"
         DGV_RoleList.ReadOnly = True
         DGV_RoleList.RowHeadersWidth = 62
-        DGV_RoleList.Size = New Size(1216, 260)
+        DGV_RoleList.Size = New Size(1226, 260)
         DGV_RoleList.TabIndex = 12
         ' 
         ' GroupBox2
@@ -149,7 +149,7 @@ Partial Class ST_INS_Roles
         GroupBox2.Margin = New Padding(4, 5, 4, 5)
         GroupBox2.Name = "GroupBox2"
         GroupBox2.Padding = New Padding(4, 5, 4, 5)
-        GroupBox2.Size = New Size(752, 307)
+        GroupBox2.Size = New Size(748, 335)
         GroupBox2.TabIndex = 14
         GroupBox2.TabStop = False
         GroupBox2.Text = "Asignar permisos"
@@ -157,26 +157,25 @@ Partial Class ST_INS_Roles
         ' CB_Forms
         ' 
         CB_Forms.FormattingEnabled = True
-        CB_Forms.Location = New Point(23, 37)
-        CB_Forms.Margin = New Padding(4, 5, 4, 5)
+        CB_Forms.Location = New Point(23, 48)
         CB_Forms.Name = "CB_Forms"
-        CB_Forms.Size = New Size(577, 33)
-        CB_Forms.TabIndex = 0
+        CB_Forms.Size = New Size(410, 33)
+        CB_Forms.TabIndex = 18
         ' 
         ' BT_Assing
         ' 
-        BT_Assing.Location = New Point(624, 257)
+        BT_Assing.Location = New Point(621, 270)
         BT_Assing.Margin = New Padding(4, 5, 4, 5)
         BT_Assing.Name = "BT_Assing"
         BT_Assing.Size = New Size(107, 38)
-        BT_Assing.TabIndex = 8
+        BT_Assing.TabIndex = 17
         BT_Assing.Text = "Asignar"
         BT_Assing.UseVisualStyleBackColor = True
         ' 
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Location = New Point(25, 82)
+        Label2.Location = New Point(23, 99)
         Label2.Margin = New Padding(4, 0, 4, 0)
         Label2.Name = "Label2"
         Label2.Size = New Size(104, 25)
@@ -185,7 +184,7 @@ Partial Class ST_INS_Roles
         ' 
         ' TB_FormDescription
         ' 
-        TB_FormDescription.Location = New Point(25, 117)
+        TB_FormDescription.Location = New Point(23, 135)
         TB_FormDescription.Margin = New Padding(4, 5, 4, 5)
         TB_FormDescription.Multiline = True
         TB_FormDescription.Name = "TB_FormDescription"
@@ -197,12 +196,12 @@ Partial Class ST_INS_Roles
         DGV_Permissions.AllowUserToAddRows = False
         DGV_Permissions.AllowUserToDeleteRows = False
         DGV_Permissions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_Permissions.Location = New Point(783, 606)
+        DGV_Permissions.Location = New Point(793, 606)
         DGV_Permissions.Margin = New Padding(4, 5, 4, 5)
         DGV_Permissions.Name = "DGV_Permissions"
         DGV_Permissions.ReadOnly = True
         DGV_Permissions.RowHeadersWidth = 62
-        DGV_Permissions.Size = New Size(450, 307)
+        DGV_Permissions.Size = New Size(450, 335)
         DGV_Permissions.TabIndex = 15
         ' 
         ' ST_INS_Roles
@@ -238,8 +237,6 @@ Partial Class ST_INS_Roles
     Friend WithEvents TB_AuthorizeBy As TextBox
     Friend WithEvents DGV_RoleList As DataGridView
     Friend WithEvents GroupBox2 As GroupBox
-    Friend WithEvents CB_Forms As ComboBox
-    Friend WithEvents BT_Assing As Button
     Friend WithEvents Label1 As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents TextBox1 As TextBox
@@ -247,4 +244,6 @@ Partial Class ST_INS_Roles
     Friend WithEvents TB_FormDescription As TextBox
     Friend WithEvents DGV_Permissions As DataGridView
     Friend WithEvents TextBox3 As TextBox
+    Friend WithEvents BT_Assing As Button
+    Friend WithEvents CB_Forms As ComboBox
 End Class
