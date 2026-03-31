@@ -74,4 +74,8 @@ Public Class LoginScreen
         Dim frm As New FRM_ResetPassword()
         frm.ShowDialog()
     End Sub
+
+    Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
+
+    End Sub
 End Class
