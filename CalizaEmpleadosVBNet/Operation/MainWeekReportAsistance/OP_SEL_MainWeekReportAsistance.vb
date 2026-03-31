@@ -216,36 +216,31 @@ Public Class OP_SEL_MainWeekReportAsistance
         DTP_EndDate.Visible = True
     End Sub
 
-    Private Sub DGV_CompleteWeekInfo_CellClick(sender As Object, e As DataGridViewCellEventArgs)
-
-        If e.RowIndex < 0 Then Exit Sub
-
-        Dim row As DataGridViewRow = DGV_CompleteWeekInfo.Rows(e.RowIndex)
-
-        SelectedEmployeeID = CInt(row.Cells(1).Value)
-
-        Dim EmployeeRecords As New CL_RecordsByEmployee
-        Dim EmployeeInfo = EmployeeRecords.Get_WeekRecordsDetailsBYEmployee(DTP_StartDate.Value, DTP_EndDate.Value, SelectedEmployeeID)
-
-        DGV_DetailsByEmployee.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
-        DGV_DetailsByEmployee.AutoResizeColumns
-        DGV_DetailsByEmployee.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-        DGV_DetailsByEmployee.DataSource = EmployeeInfo
-
-    End Sub
-
     Private Sub DTP_WeekSelector_ValueChanged_1(sender As Object, e As EventArgs) Handles DTP_WeekSelector.ValueChanged
         LoadWeek()
     End Sub
 
-    'Private Sub InitializeComponent()
-    '    SuspendLayout()
-    '    ' 
-    '    ' OP_SEL_MainWeekReport
-    '    ' 
-    '    ClientSize = New Size(284, 261)
-    '    Name = "OP_SEL_MainWeekReport"
-    '    ResumeLayout(False)
+    Private Sub DGV_CompleteWeekInfo_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_CompleteWeekInfo.CellClick
 
-    'End Sub
+    End Sub
+
+    Private Sub DGV_CompleteWeekInfo_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_CompleteWeekInfo.MouseClick
+
+        Dim hit As DataGridView.HitTestInfo = DGV_CompleteWeekInfo.HitTest(e.X, e.Y)
+
+        If hit.RowIndex >= 0 Then
+            Dim row As DataGridViewRow = DGV_CompleteWeekInfo.Rows(hit.RowIndex)
+
+            Dim Employee_Id As Integer = CInt(row.Cells(1).Value)
+
+            Dim EmployeeRecords As New CL_RecordsByEmployee
+            Dim EmployeeInfo = EmployeeRecords.Get_WeekRecordsDetailsBYEmployee(DTP_StartDate.Value, DTP_EndDate.Value, Employee_Id)
+
+            DGV_DetailsByEmployee.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+            DGV_DetailsByEmployee.AutoResizeColumns()
+            DGV_DetailsByEmployee.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+            DGV_DetailsByEmployee.DataSource = EmployeeInfo
+        End If
+
+    End Sub
 End Class

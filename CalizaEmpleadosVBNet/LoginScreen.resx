@@ -156,7 +156,7 @@
     <value>1</value>
   </data>
   <data name="TB_UserName.Text" xml:space="preserve">
-    <value>jcarlos</value>
+    <value>ADMINCALIZA</value>
   </data>
   <data name="&gt;&gt;TB_UserName.Name" xml:space="preserve">
     <value>TB_UserName</value>
@@ -210,7 +210,7 @@
     <value>3</value>
   </data>
   <data name="TB_Password.Text" xml:space="preserve">
-    <value>test123</value>
+    <value>12345</value>
   </data>
   <data name="&gt;&gt;TB_Password.Name" xml:space="preserve">
     <value>TB_Password</value>

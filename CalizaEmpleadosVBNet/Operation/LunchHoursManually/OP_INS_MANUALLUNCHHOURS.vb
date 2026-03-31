@@ -1,15 +1,26 @@
 ﻿Imports System.Data
+Imports DocumentFormat.OpenXml.Spreadsheet
+Imports System.Diagnostics.Metrics
+Imports System.Windows.Forms.ComponentModel.Com2Interop
+Imports DocumentFormat.OpenXml.Bibliography
+Imports DocumentFormat.OpenXml.Drawing
+Imports DocumentFormat.OpenXml.Math
+Imports DocumentFormat.OpenXml.Wordprocessing
+Imports Microsoft.Identity.Client
+Imports System.Drawing
+Imports System
 
 Public Class OP_INS_MANUALLUNCHHOURS
 
-    Private MOVE_ID As Integer = 250
+    Private LUNCH_MOVE As Integer = 250 ' Lunch Hours
+    Private BANN_MOVE As Integer = 270 ' Lunch Hours
 
     Private Sub OP_INS_MANUALLUNCHHOURS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         LoadActiveEmployees()
 
         DTP_DateLunchHours.Value = DateTime.Now
-        BT_LuchHoursRegister.Enabled = False
+        BT_RegisterInfo.Enabled = False
 
     End Sub
 
@@ -17,20 +28,27 @@ Public Class OP_INS_MANUALLUNCHHOURS
     Private Sub LoadActiveEmployees()
         Try
             Dim Employees As New CL_Employee
-            Dim dt As DataTable = Employees.Get_AllActiveEmployeesListForLunchHours()
-            DGV_ActiveEmployeesInfo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
-            DGV_ActiveEmployeesInfo.AutoResizeColumns()
+            Dim dt As DataTable = Employees.Get_AllActiveEmployeesListForLunchHoursAndBanns()
             DGV_ActiveEmployeesInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
             DGV_ActiveEmployeesInfo.DataSource = dt
 
             'Agregar columna editable de horas
-            Dim colHoras As New DataGridViewTextBoxColumn
+            Dim ColLunchHours As New DataGridViewTextBoxColumn
 
-            colHoras.Name = "DREMPL_LHOUR"
-            colHoras.HeaderText = "Cantidad de horas"
-            colHoras.ValueType = GetType(Decimal)
+            ColLunchHours.Name = "DREMPL_LHOUR"
+            ColLunchHours.HeaderText = "Horas de Comida"
+            ColLunchHours.ValueType = GetType(Decimal)
 
-            DGV_ActiveEmployeesInfo.Columns.Add(colHoras)
+            DGV_ActiveEmployeesInfo.Columns.Add(ColLunchHours)
+
+            'Agregar columna editable de horas
+            Dim ColBannQuant As New DataGridViewTextBoxColumn
+
+            ColBannQuant.Name = "DREMPL_BQUANT"
+            ColBannQuant.HeaderText = "No. de Amonestaciones"
+            ColBannQuant.ValueType = GetType(Decimal)
+
+            DGV_ActiveEmployeesInfo.Columns.Add(ColBannQuant)
 
             'Configuración visual
             DGV_ActiveEmployeesInfo.Columns(0).ReadOnly = True
@@ -38,7 +56,24 @@ Public Class OP_INS_MANUALLUNCHHOURS
             DGV_ActiveEmployeesInfo.Columns(2).ReadOnly = True
             DGV_ActiveEmployeesInfo.Columns(3).ReadOnly = True
             DGV_ActiveEmployeesInfo.Columns(4).ReadOnly = True
-            DGV_ActiveEmployeesInfo.Columns(5).DefaultCellStyle.BackColor = Color.LightGoldenrodYellow
+            DGV_ActiveEmployeesInfo.Columns(5).DefaultCellStyle.BackColor = System.Drawing.Color.LightGoldenrodYellow
+            DGV_ActiveEmployeesInfo.Columns(6).DefaultCellStyle.BackColor = System.Drawing.Color.LightCyan
+
+            DGV_ActiveEmployeesInfo.Columns(0).Width = 40
+            DGV_ActiveEmployeesInfo.Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            DGV_ActiveEmployeesInfo.Columns(1).Width = 220
+            DGV_ActiveEmployeesInfo.Columns(1).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+            DGV_ActiveEmployeesInfo.Columns(2).Width = 40
+            DGV_ActiveEmployeesInfo.Columns(2).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            DGV_ActiveEmployeesInfo.Columns(3).Width = 280
+            DGV_ActiveEmployeesInfo.Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+            DGV_ActiveEmployeesInfo.Columns(4).Width = 100
+            DGV_ActiveEmployeesInfo.Columns(4).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+            DGV_ActiveEmployeesInfo.Columns(5).Width = 150
+            DGV_ActiveEmployeesInfo.Columns(5).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+            DGV_ActiveEmployeesInfo.Columns(6).Width = 150
+            DGV_ActiveEmployeesInfo.Columns(6).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+
 
         Catch ex As Exception
             MessageBox.Show(ex.Message)
@@ -49,7 +84,7 @@ Public Class OP_INS_MANUALLUNCHHOURS
     'Validar que solo se capturen números
     Private Sub DGV_ActiveEmployeesInfo_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles DGV_ActiveEmployeesInfo.EditingControlShowing
 
-        If DGV_ActiveEmployeesInfo.CurrentCell.ColumnIndex = 5 Then
+        If DGV_ActiveEmployeesInfo.CurrentCell.ColumnIndex = 5 Or DGV_ActiveEmployeesInfo.CurrentCell.ColumnIndex = 6 Then
 
             Dim txt As TextBox = CType(e.Control, TextBox)
 
@@ -73,39 +108,135 @@ Public Class OP_INS_MANUALLUNCHHOURS
 
     End Sub
 
+    Private Function GetWeekRange(selectedDate As Date) As Tuple(Of Date, Date)
 
-    'Registrar horas
-    Private Sub BT_LuchHoursRegister_Click(sender As Object, e As EventArgs) Handles BT_LuchHoursRegister.Click
+        Dim startDate As Date = selectedDate
 
-        Try
+        While startDate.DayOfWeek <> DayOfWeek.Thursday
+            startDate = startDate.AddDays(-1)
+        End While
 
-            For Each row As DataGridViewRow In DGV_ActiveEmployeesInfo.Rows
-                If row.IsNewRow Then Continue For
-                If row.Cells("DREMPL_LHOUR").Value Is Nothing Then Continue For
-                Dim hoursValue As Decimal
+        Dim endDate As Date = startDate.AddDays(6)
 
-                If Decimal.TryParse(row.Cells("DREMPL_LHOUR").Value.ToString(), hoursValue) Then
-                    If hoursValue <= 0 Then Continue For
-                    Dim EMPL_ID As Integer = Convert.ToInt32(row.Cells(3).Value)
-                    Dim NewRecordByEmployee As New CL_RecordsByEmployee()
+        Return System.Tuple.Create(startDate, endDate)
 
-                    NewRecordByEmployee.EMPL_ID = EMPL_ID
-                    NewRecordByEmployee.MOVE_ID = MOVE_ID
-                    NewRecordByEmployee.REMPL_CREBY = AppUser
-                    NewRecordByEmployee.REMPL_RDATE = DateTime.Now
-                    NewRecordByEmployee.DREMPL_DATE = DTP_DateLunchHours.Value.Date
-                    NewRecordByEmployee.DREMPL_LHOUR = hoursValue
-                    NewRecordByEmployee.InsertLunchHoursRecordByEmployee()
-                End If
-            Next
+    End Function
 
-            MessageBox.Show("Horas registradas correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            BT_LuchHoursRegister.Enabled = False
-            DGV_ActiveEmployeesInfo.Columns.Clear()
-        Catch ex As Exception
-            MessageBox.Show(ex.Message)
 
-        End Try
+    'Registrar valores
+    Private Sub BT_RegisterInfo_Click(sender As Object, e As EventArgs) Handles BT_RegisterInfo.Click
+        Dim weekRange = GetWeekRange(DTP_DateLunchHours.Value)
+
+        Dim startDate As Date = weekRange.Item1
+        Dim endDate As Date = weekRange.Item2
+
+        Dim ExistRecords = New CL_RecordsByEmployee
+        Dim Records As DataTable = ExistRecords.Get_ExistHoursBannsRecords(startDate, endDate)
+
+        If Records.Rows.Count > 0 Then
+            MessageBox.Show("Ya fueron ingresados los registros de la semana seleccionada.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Else
+            Try
+
+                For Each row As DataGridViewRow In DGV_ActiveEmployeesInfo.Rows
+                    If row.IsNewRow Then Continue For
+
+                    'Both are nothing
+                    If row.Cells("DREMPL_LHOUR").Value Is Nothing And row.Cells("DREMPL_BQUANT").Value Is Nothing Then Continue For
+
+                    'We have only Lunch Hours
+                    If row.Cells("DREMPL_LHOUR").Value IsNot Nothing And row.Cells("DREMPL_BQUANT").Value Is Nothing Then
+                        Dim hoursValue As Decimal
+
+                        If Not Decimal.TryParse(row.Cells("DREMPL_LHOUR").Value.ToString(), hoursValue) Then
+                            MessageBox.Show("Favor de verificar los valores ingresados", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        Else
+                            If hoursValue <= 0 Then
+                                MessageBox.Show("Favor de verificar que solo haya números validos", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                            ElseIf (hoursValue > 0 And hoursValue <= 5) Then
+
+                                Dim EMPL_ID As Integer = Convert.ToInt32(row.Cells(4).Value)
+                                Dim NewRecordByEmployee As New CL_RecordsByEmployee()
+
+                                NewRecordByEmployee.EMPL_ID = EMPL_ID
+                                NewRecordByEmployee.MOVE_ID = LUNCH_MOVE
+                                NewRecordByEmployee.REMPL_CREBY = AppUser
+                                NewRecordByEmployee.REMPL_RDATE = DateTime.Now
+                                NewRecordByEmployee.DREMPL_DATE = DTP_DateLunchHours.Value.Date
+                                NewRecordByEmployee.DREMPL_LHOUR = hoursValue
+                                NewRecordByEmployee.InsertLunchHoursRecordByEmployee()
+                            End If
+                        End If
+                    End If
+
+                    'We have only Banns Number
+                    If row.Cells("DREMPL_LHOUR").Value Is Nothing And row.Cells("DREMPL_BQUANT").Value IsNot Nothing Then
+                        Dim BannsValue As Decimal
+
+                        If Not Decimal.TryParse(row.Cells("DREMPL_BQUANT").Value.ToString(), BannsValue) Then
+                            MessageBox.Show("Favor de verificar los valores ingresados", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        Else
+                            If BannsValue <= 0 Then
+                                MessageBox.Show("Favor de verificar que solo haya números validos", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                            ElseIf (BannsValue > 0 And BannsValue <= 6) Then
+
+                                Dim EMPL_ID As Integer = Convert.ToInt32(row.Cells(4).Value)
+                                Dim NewRecordByEmployee As New CL_RecordsByEmployee()
+
+                                NewRecordByEmployee.EMPL_ID = EMPL_ID
+                                NewRecordByEmployee.MOVE_ID = BANN_MOVE
+                                NewRecordByEmployee.REMPL_CREBY = AppUser
+                                NewRecordByEmployee.REMPL_RDATE = DateTime.Now
+                                NewRecordByEmployee.DREMPL_DATE = DTP_DateLunchHours.Value.Date
+                                NewRecordByEmployee.DREMPL_BQUANT = BannsValue
+                                NewRecordByEmployee.InsertBannsQuantityRecordByEmployee()
+
+                            End If
+                        End If
+                    End If
+
+                    'Both are nothing
+                    If row.Cells("DREMPL_LHOUR").Value IsNot Nothing And row.Cells("DREMPL_BQUANT").Value IsNot Nothing Then
+                        Dim hoursValue As Decimal
+                        Dim BannsValue As Decimal
+
+                        If Not Decimal.TryParse(row.Cells("DREMPL_LHOUR").Value.ToString(), hoursValue) Or
+                                        Not Decimal.TryParse(row.Cells("DREMPL_BQUANT").Value.ToString(), BannsValue) Then
+                            MessageBox.Show("Favor de verificar los valores ingresados", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        Else
+                            If hoursValue <= 0 Or BannsValue <= 0 Then
+                                MessageBox.Show("Favor de verificar que solo haya números validos", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                            ElseIf ((hoursValue > 0 And hoursValue <= 5) And (BannsValue > 0 And BannsValue <= 6)) Then 'Both have value
+
+                                Dim EMPL_ID As Integer = Convert.ToInt32(row.Cells(4).Value)
+                                Dim NewRecordByEmployee As New CL_RecordsByEmployee()
+
+                                NewRecordByEmployee.EMPL_ID = EMPL_ID
+                                NewRecordByEmployee.REMPL_CREBY = AppUser
+                                NewRecordByEmployee.MOVE_ID = BANN_MOVE
+                                NewRecordByEmployee.REMPL_RDATE = DateTime.Now
+                                NewRecordByEmployee.DREMPL_DATE = DTP_DateLunchHours.Value.Date
+                                NewRecordByEmployee.DREMPL_LHOUR = hoursValue
+                                NewRecordByEmployee.DREMPL_BQUANT = BannsValue
+                                NewRecordByEmployee.InsertBannsQuantityRecordByEmployee()
+                                NewRecordByEmployee.MOVE_ID = LUNCH_MOVE
+                                NewRecordByEmployee.InsertLunchHoursRecordByEmployee()
+
+                            End If
+                        End If
+                    End If
+
+                Next
+
+                MessageBox.Show("Se regitró la información correctamente.", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                BT_RegisterInfo.Enabled = False
+                DGV_ActiveEmployeesInfo.Columns.Clear()
+            Catch ex As Exception
+                MessageBox.Show(ex.Message)
+
+            End Try
+        End If
+
 
     End Sub
 
@@ -132,6 +263,6 @@ Public Class OP_INS_MANUALLUNCHHOURS
     End Sub
 
     Private Sub DTP_DateLunchHours_MouseCaptureChanged(sender As Object, e As EventArgs) Handles DTP_DateLunchHours.MouseCaptureChanged
-        BT_LuchHoursRegister.Enabled = True
+        BT_RegisterInfo.Enabled = True
     End Sub
 End Class

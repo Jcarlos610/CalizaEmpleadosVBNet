@@ -379,7 +379,7 @@ Partial Class MainScreen
         ' 
         IncidenciasToolStripMenuItem1.DropDownItems.AddRange(New ToolStripItem() {PorArchivoToolStripMenuItem, RegistroManualToolStripMenuItem, ReportesToolStripMenuItem4})
         IncidenciasToolStripMenuItem1.Name = "IncidenciasToolStripMenuItem1"
-        IncidenciasToolStripMenuItem1.Size = New Size(224, 22)
+        IncidenciasToolStripMenuItem1.Size = New Size(324, 22)
         IncidenciasToolStripMenuItem1.Text = "Registro de entradas/salidas"
         ' 
         ' PorArchivoToolStripMenuItem
@@ -406,39 +406,39 @@ Partial Class MainScreen
         ' 
         RegistroDeHorasDeComidaToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {RegistroManualToolStripMenuItem1, ReporteToolStripMenuItem})
         RegistroDeHorasDeComidaToolStripMenuItem.Name = "RegistroDeHorasDeComidaToolStripMenuItem"
-        RegistroDeHorasDeComidaToolStripMenuItem.Size = New Size(224, 22)
-        RegistroDeHorasDeComidaToolStripMenuItem.Text = "Registro de horas de comida"
+        RegistroDeHorasDeComidaToolStripMenuItem.Size = New Size(324, 22)
+        RegistroDeHorasDeComidaToolStripMenuItem.Text = "Registro de horas de comida y Amonestaciones"
         ' 
         ' RegistroManualToolStripMenuItem1
         ' 
         RegistroManualToolStripMenuItem1.Name = "RegistroManualToolStripMenuItem1"
-        RegistroManualToolStripMenuItem1.Size = New Size(160, 22)
+        RegistroManualToolStripMenuItem1.Size = New Size(180, 22)
         RegistroManualToolStripMenuItem1.Tag = "OP_INS_MANUALLUNCHHOURS"
-        RegistroManualToolStripMenuItem1.Text = "Registro manual"
+        RegistroManualToolStripMenuItem1.Text = "Registro Semanal"
         ' 
         ' ReporteToolStripMenuItem
         ' 
         ReporteToolStripMenuItem.Name = "ReporteToolStripMenuItem"
-        ReporteToolStripMenuItem.Size = New Size(160, 22)
+        ReporteToolStripMenuItem.Size = New Size(180, 22)
         ReporteToolStripMenuItem.Text = "Reportes"
         ' 
         ' PermisosToolStripMenuItem
         ' 
         PermisosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {RegistrarPermisoToolStripMenuItem, ReportesToolStripMenuItem3})
         PermisosToolStripMenuItem.Name = "PermisosToolStripMenuItem"
-        PermisosToolStripMenuItem.Size = New Size(224, 22)
+        PermisosToolStripMenuItem.Size = New Size(324, 22)
         PermisosToolStripMenuItem.Text = "Permisos"
         ' 
         ' RegistrarPermisoToolStripMenuItem
         ' 
         RegistrarPermisoToolStripMenuItem.Name = "RegistrarPermisoToolStripMenuItem"
-        RegistrarPermisoToolStripMenuItem.Size = New Size(166, 22)
+        RegistrarPermisoToolStripMenuItem.Size = New Size(180, 22)
         RegistrarPermisoToolStripMenuItem.Text = "Registrar Permiso"
         ' 
         ' ReportesToolStripMenuItem3
         ' 
         ReportesToolStripMenuItem3.Name = "ReportesToolStripMenuItem3"
-        ReportesToolStripMenuItem3.Size = New Size(166, 22)
+        ReportesToolStripMenuItem3.Size = New Size(180, 22)
         ReportesToolStripMenuItem3.Text = "Reportes"
         ' 
         ' BeneficiosToolStripMenuItem1
@@ -452,7 +452,7 @@ Partial Class MainScreen
         ' 
         BeneficiosToolStripMenuItem2.DropDownItems.AddRange(New ToolStripItem() {RegistroDePrestamoToolStripMenuItem, ReportesToolStripMenuItem})
         BeneficiosToolStripMenuItem2.Name = "BeneficiosToolStripMenuItem2"
-        BeneficiosToolStripMenuItem2.Size = New Size(160, 22)
+        BeneficiosToolStripMenuItem2.Size = New Size(180, 22)
         BeneficiosToolStripMenuItem2.Text = "Ahorros"
         ' 
         ' RegistroDePrestamoToolStripMenuItem
@@ -471,7 +471,7 @@ Partial Class MainScreen
         ' 
         PrestamosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {RegistrarPrestamoToolStripMenuItem, RegistrarAbonoToolStripMenuItem, ReportesToolStripMenuItem1})
         PrestamosToolStripMenuItem.Name = "PrestamosToolStripMenuItem"
-        PrestamosToolStripMenuItem.Size = New Size(160, 22)
+        PrestamosToolStripMenuItem.Size = New Size(180, 22)
         PrestamosToolStripMenuItem.Text = "Prestamos"
         ' 
         ' RegistrarPrestamoToolStripMenuItem
@@ -496,7 +496,7 @@ Partial Class MainScreen
         ' 
         PagoAnticipadoToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {RegistrarNuevoToolStripMenuItem})
         PagoAnticipadoToolStripMenuItem.Name = "PagoAnticipadoToolStripMenuItem"
-        PagoAnticipadoToolStripMenuItem.Size = New Size(160, 22)
+        PagoAnticipadoToolStripMenuItem.Size = New Size(180, 22)
         PagoAnticipadoToolStripMenuItem.Text = "Pago anticipado"
         ' 
         ' RegistrarNuevoToolStripMenuItem

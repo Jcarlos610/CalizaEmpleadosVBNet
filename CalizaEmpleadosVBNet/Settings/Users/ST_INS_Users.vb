@@ -31,9 +31,7 @@ Public Class ST_INS_Users
 
     End Sub
 
-    '========================
-    ' EMPLEADOS
-    '========================
+
     Private Sub LoadEmployees()
 
         Dim emp As New CL_Employee()
@@ -43,9 +41,7 @@ Public Class ST_INS_Users
 
     End Sub
 
-    '========================
-    ' USUARIOS
-    '========================
+
     Private Sub LoadUsers()
 
         Dim user As New CL_Users()
@@ -66,9 +62,6 @@ Public Class ST_INS_Users
 
     End Sub
 
-    '========================
-    ' ROLES (CHECKBOX)
-    '========================
     Private Sub LoadRolesGrid()
 
         Dim cn As New SqlConnection(My.Settings.ConnectionString)
@@ -93,16 +86,13 @@ Public Class ST_INS_Users
 
             .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
 
-            '🔥 EVITA FILA VACÍA
             .AllowUserToAddRows = False
 
         End With
 
     End Sub
 
-    '========================
-    ' SELECCIONAR USUARIO
-    '========================
+
     Private Sub DGV_Roles_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Roles.CellClick
 
         If e.RowIndex < 0 Then Exit Sub
@@ -113,9 +103,7 @@ Public Class ST_INS_Users
 
     End Sub
 
-    '========================
-    ' CARGAR ROLES DEL USUARIO
-    '========================
+
     Private Sub LoadUserRoles(USER_ID As Integer)
 
         For Each row As DataGridViewRow In DGV_RolesSelection.Rows
@@ -137,9 +125,7 @@ Public Class ST_INS_Users
 
     End Sub
 
-    '========================
-    ' VER PERMISOS
-    '========================
+
     Private Sub DGV_RolesSelection_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_RolesSelection.CellClick
 
         If e.RowIndex < 0 Then Exit Sub
@@ -160,7 +146,6 @@ Public Class ST_INS_Users
 
         DGV_Permissions.DataSource = dt
 
-        '🔥 FORMATO AMIGABLE
         With DGV_Permissions
 
             If .Columns.Contains("FORM_ID") Then .Columns("FORM_ID").Visible = False
@@ -178,9 +163,7 @@ Public Class ST_INS_Users
 
     End Sub
 
-    '========================
-    ' CREAR USUARIO
-    '========================
+
     Private Sub BT_RegisterUser_Click(sender As Object, e As EventArgs) Handles BT_RegisterUser.Click
 
         If TB_UserName.Text.Trim = "" Or TB_Password.Text.Trim = "" Then
@@ -200,6 +183,9 @@ Public Class ST_INS_Users
             MessageBox.Show("El usuario ya existe")
             Exit Sub
         End If
+
+        Dim u As New CL_Users()
+        MessageBox.Show(u.HashPassword("12345"))
 
         Dim EMPL_ID As Integer = CInt(DGV_Employees.CurrentRow.Cells(0).Value)
 
@@ -224,9 +210,7 @@ Public Class ST_INS_Users
 
     End Sub
 
-    '========================
-    ' GUARDAR ROLES
-    '========================
+
     Private Sub BT_SaveRoles_Click(sender As Object, e As EventArgs) Handles BT_SaveRoles.Click
 
         If SelectedUserID = 0 Then
@@ -256,11 +240,5 @@ Public Class ST_INS_Users
 
     End Sub
 
-    '========================
-    ' EVITAR ERROR VISUAL
-    '========================
-    Private Sub DGV_RolesSelection_DataError(sender As Object, e As DataGridViewDataErrorEventArgs) Handles DGV_RolesSelection.DataError
-        ' Evita error visual feo del DataGridView
-    End Sub
 
 End Class

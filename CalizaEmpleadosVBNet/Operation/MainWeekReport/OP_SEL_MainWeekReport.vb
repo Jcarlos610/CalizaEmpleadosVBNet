@@ -217,7 +217,6 @@ Public Class OP_SEL_MainWeekReport
     End Sub
 
     Private Sub DGV_CompleteWeekInfo_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_CompleteWeekInfo.CellClick
-
         If e.RowIndex < 0 Then Exit Sub
 
         Dim row As DataGridViewRow = DGV_CompleteWeekInfo.Rows(e.RowIndex)
@@ -231,6 +230,9 @@ Public Class OP_SEL_MainWeekReport
         DGV_DetailsByEmployee.AutoResizeColumns()
         DGV_DetailsByEmployee.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         DGV_DetailsByEmployee.DataSource = EmployeeInfo
+    End Sub
 
+    Private Sub DGV_DetailsByEmployee_Click(sender As Object, e As EventArgs) Handles DGV_DetailsByEmployee.Click
+        MsgBox("test")
     End Sub
 End Class

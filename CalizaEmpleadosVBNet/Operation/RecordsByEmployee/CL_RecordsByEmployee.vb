@@ -15,6 +15,7 @@ Public Class CL_RecordsByEmployee
     Private _DREMPL_EXDATI As Object
     Private _DREMPL_COME As Object
     Private _DREMPL_LHOUR As Object
+    Private _DREMPL_BQUANT As Object
 
     Public Property EMPL_ID As Object
         Get
@@ -103,6 +104,15 @@ Public Class CL_RecordsByEmployee
         End Get
         Set(value As Object)
             _DREMPL_LHOUR = value
+        End Set
+    End Property
+
+    Public Property DREMPL_BQUANT As Object
+        Get
+            Return _DREMPL_BQUANT
+        End Get
+        Set(value As Object)
+            _DREMPL_BQUANT = value
         End Set
     End Property
 
@@ -441,6 +451,7 @@ Public Class CL_RecordsByEmployee
         End Try
     End Function
 
+
     Public Function InsertLunchHoursRecordByEmployee()
 
         Try
@@ -467,6 +478,34 @@ Public Class CL_RecordsByEmployee
             Return Nothing
         End Try
     End Function
+
+    Public Function InsertBannsQuantityRecordByEmployee()
+
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "INS_BANNSQUANTITYRECORDBYEMPLOYEE",
+                .CommandType = CommandType.StoredProcedure
+            }
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+            DB_Command.Parameters.AddWithValue("EMPL_ID", _EMPL_ID)
+            DB_Command.Parameters.AddWithValue("MOVE_ID", _MOVE_ID)
+            DB_Command.Parameters.AddWithValue("REMPL_CREBY", _REMPL_CREBY)
+            DB_Command.Parameters.AddWithValue("REMPL_RDATE", _REMPL_RDATE)
+            DB_Command.Parameters.AddWithValue("DREMPL_DATE", _DREMPL_DATE)
+            DB_Command.Parameters.AddWithValue("DREMPL_BQUANT", DREMPL_BQUANT)
+            DB_Command.ExecuteNonQuery()
+
+            DB_Connection.Close()
+            Return True
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_RecordByEmployee.InsertBannsQuantityRecordByEmployee()")
+
+            Return Nothing
+        End Try
+    End Function
+
 
     Public Function Get_WeekRecords(ByVal startDate As Date, ByVal endDate As Date) As DataTable
         Try
@@ -653,6 +692,59 @@ Public Class CL_RecordsByEmployee
         Catch ex As Exception
             DB_Connection.Close()
             MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_RecordsByEmployee.Get_LuchHoursByEmployee()")
+
+            Return Nothing
+        End Try
+    End Function
+
+    Public Function Get_BannQuantityByEmployee(ByVal startDate As Date, ByVal endDate As Date, ByVal EMPL_ID As Integer, ByVal MOVE_ID As Integer) As DataTable
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "SEL_BANNSQUANTITYBYEMPLOYEE",
+                .CommandType = CommandType.StoredProcedure
+            }
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+            DB_Command.Parameters.AddWithValue("startDate", startDate)
+            DB_Command.Parameters.AddWithValue("endDate", endDate)
+            DB_Command.Parameters.AddWithValue("EMPL_ID", EMPL_ID)
+            DB_Command.Parameters.AddWithValue("MOVE_ID", MOVE_ID)
+            DB_Reader = DB_Command.ExecuteReader()
+            DB_Command.Connection = DB_Connection
+            Dim LocalTable As New DataTable
+
+            LocalTable.Load(DB_Reader)
+            DB_Reader.Close()
+            DB_Connection.Close()
+            Return LocalTable
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_RecordsByEmployee.Get_BannQuantityByEmployee()")
+
+            Return Nothing
+        End Try
+    End Function
+    Public Function Get_ExistHoursBannsRecords(ByVal startDate As Date, ByVal endDate As Date) As DataTable
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "SEL_EXISTLUNCHANDBANNSRECORDS",
+                .CommandType = CommandType.StoredProcedure
+            }
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+            DB_Command.Parameters.AddWithValue("startDate", startDate)
+            DB_Command.Parameters.AddWithValue("endDate", endDate)
+            DB_Reader = DB_Command.ExecuteReader()
+            DB_Command.Connection = DB_Connection
+            Dim LocalTable As New DataTable
+
+            LocalTable.Load(DB_Reader)
+            DB_Reader.Close()
+            DB_Connection.Close()
+            Return LocalTable
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_RecordsByEmployee.Get_ExistHoursBannsRecords()")
 
             Return Nothing
         End Try

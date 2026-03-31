@@ -351,6 +351,8 @@ Public Class CL_Benefits
     Private _BENEF_VALTO As Object
     Private _BENEF_AMMOU As Object
 
+    Private _EMPL_ID As Object
+
     Public Property BENEF_ID As Object
         Get
             Return _BENEF_ID
@@ -465,6 +467,15 @@ Public Class CL_Benefits
         End Get
         Set(value As Object)
             _BENEF_AMMOU = value
+        End Set
+    End Property
+
+    Public Property EMPL_ID As Object
+        Get
+            Return _EMPL_ID
+        End Get
+        Set(value As Object)
+            _EMPL_ID = value
         End Set
     End Property
 
@@ -703,6 +714,33 @@ Public Class CL_Benefits
             Return Nothing
         End Try
     End Function
+
+    Public Function Get_BenefitIDDetailsByEmployee() As DataTable
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "SEL_GETBENEFITIDDETAILSBYEMPLOYEE",
+                .CommandType = CommandType.StoredProcedure
+            }
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+            DB_Command.Parameters.AddWithValue("BENEF_ID", BENEF_ID)
+            DB_Command.Parameters.AddWithValue("EMPL_ID", EMPL_ID)
+            DB_Reader = DB_Command.ExecuteReader()
+            DB_Command.Connection = DB_Connection
+            Dim LocalTable As New DataTable
+
+            LocalTable.Load(DB_Reader)
+            DB_Reader.Close()
+            DB_Connection.Close()
+            Return LocalTable
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_Benefits.Get_BenefitIDDetailsByEmployee()")
+
+            Return Nothing
+        End Try
+    End Function
+
 
 End Class
 

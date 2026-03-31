@@ -12,7 +12,9 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
     Private Sub OP_SEL_MainWeekReportSalaryCalculation_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         DTP_WeekSelector.Value = Today
+        LB_StartDate.Visible = False
         DTP_StartDate.Visible = False
+        LB_EndDate.Visible = False
         DTP_EndDate.Visible = False
 
     End Sub
@@ -134,6 +136,9 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         EmployeesInfo.Columns.Add("Ext. D", GetType(String))
         EmployeesInfo.Columns.Add("Ext. T", GetType(String))
         EmployeesInfo.Columns.Add("H. Comida", GetType(Decimal))
+        EmployeesInfo.Columns.Add("Bono Prod.", GetType(String))
+        EmployeesInfo.Columns.Add("Bono BP", GetType(String))
+        EmployeesInfo.Columns.Add("Amonest..", GetType(Decimal))
         EmployeesInfo.Columns.Add("Calculado", GetType(String))
 
         'DGV_CompleteWeekInfo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
@@ -142,7 +147,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
         DGV_CompleteWeekInfo.DataSource = EmployeesInfo
         DGV_CompleteWeekInfo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None
-        'DGV_CompleteWeekInfo.Columns("Empresa").Width = 80
+        DGV_CompleteWeekInfo.Columns("Empresa").Width = 220
         DGV_CompleteWeekInfo.Columns("No.").Width = 40
         DGV_CompleteWeekInfo.Columns("Nombre Completo").Width = 180
         DGV_CompleteWeekInfo.Columns("Posición").Width = 150
@@ -158,16 +163,28 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
         DGV_CompleteWeekInfo.Columns("S. Diario").Width = 65
         DGV_CompleteWeekInfo.Columns("S. Diario").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
-        DGV_CompleteWeekInfo.Columns("H. Comida").Width = 70
-        DGV_CompleteWeekInfo.Columns("H. Comida").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Ext. S").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         DGV_CompleteWeekInfo.Columns("Ext. S").Width = 50
         DGV_CompleteWeekInfo.Columns("Ext. D").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         DGV_CompleteWeekInfo.Columns("Ext. D").Width = 50
         DGV_CompleteWeekInfo.Columns("Ext. T").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         DGV_CompleteWeekInfo.Columns("Ext. T").Width = 50
+        DGV_CompleteWeekInfo.Columns("H. Comida").Width = 70
+        DGV_CompleteWeekInfo.Columns("H. Comida").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("H. Comida").ToolTipText = "Horas de comida"
+        DGV_CompleteWeekInfo.Columns("Bono Prod.").Width = 80
+        DGV_CompleteWeekInfo.Columns("Bono Prod.").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Bono Prod.").ToolTipText = "Bono de Productividad"
+        DGV_CompleteWeekInfo.Columns("Bono BP").Width = 70
+        DGV_CompleteWeekInfo.Columns("Bono BP").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Bono BP").ToolTipText = "Bono de actitud y buenas practicas"
+        DGV_CompleteWeekInfo.Columns("Amonest..").Width = 70
+        DGV_CompleteWeekInfo.Columns("Amonest..").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Amonest..").ToolTipText = "Número de amonestaciones"
         DGV_CompleteWeekInfo.Columns("Calculado").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         DGV_CompleteWeekInfo.Columns("Calculado").Width = 65
+
+
 
         PaintCells()
         MainSalaryCalculation()
@@ -237,32 +254,17 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
     Private Sub DTP_WeekSelector_MouseLeave(sender As Object, e As EventArgs)
         DTP_StartDate.Visible = True
-
+        LB_StartDate.Visible = True
         DTP_EndDate.Visible = True
+        LB_EndDate.Visible = True
     End Sub
-
-    'Private Sub DGV_CompleteWeekInfo_CellClick(sender As Object, e As DataGridViewCellEventArgs)
-
-    '    If e.RowIndex < 0 Then Exit Sub
-
-    '    Dim row As DataGridViewRow = DGV_CompleteWeekInfo.Rows(e.RowIndex)
-
-    '    SelectedEmployeeID = CInt(row.Cells(1).Value)
-
-    '    Dim EmployeeRecords As New CL_RecordsByEmployee
-    '    Dim EmployeeInfo = EmployeeRecords.Get_WeekRecordsDetailsBYEmployee(DTP_StartDate.Value, DTP_EndDate.Value, SelectedEmployeeID)
-
-    '    DGV_BenefitsDetailsByEmployee.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
-    '    DGV_BenefitsDetailsByEmployee.AutoResizeColumns()
-    '    DGV_BenefitsDetailsByEmployee.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-    '    DGV_BenefitsDetailsByEmployee.DataSource = EmployeeInfo
-
-    'End Sub
 
     Private Sub DTP_WeekSelector_ValueChanged_1(sender As Object, e As EventArgs) Handles DTP_WeekSelector.ValueChanged
         LoadWeek()
         DTP_StartDate.Visible = True
         DTP_EndDate.Visible = True
+        LB_StartDate.Visible = True
+        LB_EndDate.Visible = True
 
     End Sub
 
@@ -270,6 +272,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         Dim CumulativesEmployees As DataTable = Get_CumulativesByEmployee()
         Dim CounterLine As Integer = 0
 
+        'Scroll trough the list of employees into the DGV
         For Each EmployeeCum As DataRow In CumulativesEmployees.Rows
             Dim CounterOfDays As Integer = 0
             Dim EmployeeID As Integer = CInt(EmployeeCum(0))
@@ -317,6 +320,14 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
             DGV_CompleteWeekInfo.Rows(CounterLine).Cells(17).Value = LunchHours
 
+            'Get lunch hours by employee
+            Dim BannsRecords As DataTable = RecordsbyEmployee.Get_BannQuantityByEmployee(DTP_StartDate.Value, DTP_EndDate.Value, EmployeeID, 270)
+            Dim BannsQuantity As Decimal = 0
+            For Each BannRecord As DataRow In BannsRecords.Rows
+                BannsQuantity = CDec(BannRecord(7))
+            Next
+
+            DGV_CompleteWeekInfo.Rows(CounterLine).Cells(20).Value = BannsQuantity
 
             Dim Benefits As New CL_Benefits
             Dim ListOfBenefits As DataTable = Benefits.Get_AllActiveManualAutomaticBenefits
@@ -329,15 +340,41 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 Dim DailyBenefit As Decimal = BenefitAmmount / 7
 
                 Select Case BenefitID
-                    Case 10 ' Bono de buenas practicas o actitud
-                        NewSalary = CalculationAttitudeBenefit(CounterA, CounterF, CounterFJ, CounterR, BaseSalary, BenefitAmmount, SundaySalary, DailySalary)
-                        If CounterA = 6 Then
-                            DGV_CompleteWeekInfo.Rows(CounterLine).Cells(9).Value = "A"
-                            DGV_CompleteWeekInfo.Rows(CounterLine).Cells(9).Style.BackColor = System.Drawing.Color.FromArgb(CByte(192), CByte(255), CByte(192))
-                            Comment = "Empleado tuvo asistencia completa, se le otorga bono de actitud y buenas prácticas + día domingo completo."
+                    Case 10
+                        'Lets verify if employee has the benefitID
+                        Dim BenefDetail As New CL_Benefits
+                        BenefDetail.BENEF_ID = BenefitID
+                        BenefDetail.EMPL_ID = EmployeeID
+                        Dim TBenefitDetails As DataTable = BenefDetail.Get_BenefitIDDetailsByEmployee()
+
+                        If TBenefitDetails.Rows.Count > 0 Then
+                            DGV_CompleteWeekInfo.Rows(CounterLine).Cells(18).Value = BenefitAmmount.ToString("C2")
+                        Else
+                            BenefitAmmount = 0.0
+                            DGV_CompleteWeekInfo.Rows(CounterLine).Cells(18).Value = BenefitAmmount.ToString("C2")
                         End If
-                        DGV_CompleteWeekInfo.Rows(CounterLine).Cells(18).Value = NewSalary.ToString("C2")
+                    Case 90, 100, 110, 120, 130, 140, 150, 160, 170 ' Bono de buenas practicas o actitud
+
+                        'Lets verify if employee has the benefitID
+                        Dim BenefDetail As New CL_Benefits
+                        BenefDetail.BENEF_ID = BenefitID
+                        BenefDetail.EMPL_ID = EmployeeID
+                        Dim TBenefitDetails As DataTable = BenefDetail.Get_BenefitIDDetailsByEmployee()
+
+                        If TBenefitDetails.Rows.Count > 0 Then
+                            DGV_CompleteWeekInfo.Rows(CounterLine).Cells(19).Value = BenefitAmmount.ToString("C2")
+                            NewSalary = CalculationAttitudeBenefit(CounterA, CounterF, CounterFJ, CounterR, BaseSalary, BenefitAmmount, SundaySalary, DailySalary)
+                            If CounterA = 6 And BannsQuantity = 0 Then
+                                DGV_CompleteWeekInfo.Rows(CounterLine).Cells(9).Value = "A"
+                                DGV_CompleteWeekInfo.Rows(CounterLine).Cells(9).Style.BackColor = System.Drawing.Color.FromArgb(CByte(192), CByte(255), CByte(192))
+                                Comment = "Empleado tuvo asistencia completa, se le otorga bono de actitud y buenas prácticas + día domingo completo."
+                            End If
+                            DGV_CompleteWeekInfo.Rows(CounterLine).Cells(21).Value = NewSalary.ToString("C2")
+                        End If
+                    Case Else
+                        DGV_CompleteWeekInfo.Rows(CounterLine).Cells(19).Value = BenefitAmmount.ToString("C2")
                 End Select
+                BenefitAmmount = 0.0
             Next
             CounterLine += 1
         Next
@@ -471,4 +508,22 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         Return NewSalary
     End Function
 
+    Private Sub DGV_CompleteWeekInfo_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_CompleteWeekInfo.MouseClick
+        Dim hit As DataGridView.HitTestInfo = DGV_CompleteWeekInfo.HitTest(e.X, e.Y)
+
+        If hit.RowIndex >= 0 Then
+            Dim row As DataGridViewRow = DGV_CompleteWeekInfo.Rows(hit.RowIndex)
+
+            Dim Employee_Id As Integer = CInt(row.Cells(1).Value)
+
+            Dim EmployeeRecords As New CL_RecordsByEmployee
+            Dim EmployeeInfo = EmployeeRecords.Get_WeekRecordsDetailsBYEmployee(DTP_StartDate.Value, DTP_EndDate.Value, Employee_Id)
+
+            DGV_BenefitsDetailsByEmployee.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+            DGV_BenefitsDetailsByEmployee.AutoResizeColumns()
+            DGV_BenefitsDetailsByEmployee.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+            DGV_BenefitsDetailsByEmployee.DataSource = EmployeeInfo
+        End If
+
+    End Sub
 End Class

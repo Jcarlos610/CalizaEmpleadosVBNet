@@ -444,7 +444,7 @@ Partial Class OP_SEL_MainWeekReport
         ' 
         ' OP_SEL_MainWeekReport
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1262, 708)
