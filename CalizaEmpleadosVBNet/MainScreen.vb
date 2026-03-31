@@ -360,13 +360,20 @@
         Menu_Click(sender, e)
     End Sub
 
-    Private Sub AnalisisSemanalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AnalisisSemanalToolStripMenuItem.Click
-        'Dim NewScreen = New OP_SEL_MainWeekReport
-        'If TheFormIsAlreadyLoaded(NewScreen.Name) Then
-        '    NewScreen.MdiParent = Me
-        '    NewScreen.Show()
-        'End If
-        Menu_Click(sender, e)
+    Private Sub CrearNuevoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CrearNuevoToolStripMenuItem.Click
+        Dim NewScreen = New ST_INS_Roles
+        If TheFormIsAlreadyLoaded(NewScreen.Name) Then
+            NewScreen.MdiParent = Me
+            NewScreen.Show()
+        End If
+    End Sub
+
+    Private Sub EditarExistenteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EditarExistenteToolStripMenuItem.Click
+        Dim NewScreen = New ST_UPD_Roles
+        If TheFormIsAlreadyLoaded(NewScreen.Name) Then
+            NewScreen.MdiParent = Me
+            NewScreen.Show()
+        End If
     End Sub
 
     Private Sub CrearNuevoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CrearNuevoToolStripMenuItem.Click
@@ -376,6 +383,12 @@
         '    NewScreen.Show()
         'End If
         Menu_Click(sender, e)
+    Private Sub AnalisisSemanalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AnalisisSemanalToolStripMenuItem.Click
+        Dim NewScreen = New OP_SEL_MainWeekReportAsistance
+        If TheFormIsAlreadyLoaded(NewScreen.Name) Then
+            NewScreen.MdiParent = Me
+            NewScreen.Show()
+        End If
     End Sub
 
     Private Sub EditarExistenteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EditarExistenteToolStripMenuItem.Click
@@ -416,6 +429,11 @@
             login.MdiParent = Me
             login.Show()
 
+    Private Sub AnalisisDeSalarioToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AnalisisDeSalarioToolStripMenuItem.Click
+        Dim NewScreen = New OP_SEL_MainWeekReportSalaryCalculation
+        If TheFormIsAlreadyLoaded(NewScreen.Name) Then
+            NewScreen.MdiParent = Me
+            NewScreen.Show()
         End If
     End Sub
 

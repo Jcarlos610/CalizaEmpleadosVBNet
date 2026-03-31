@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class OP_SEL_MainWeekReport
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+Partial Class OP_SEL_MainWeekReportAsistance
     Inherits System.Windows.Forms.Form
 
     'Form reemplaza a Dispose para limpiar la lista de componentes.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class OP_SEL_MainWeekReport
     'NOTA: el Diseñador de Windows Forms necesita el siguiente procedimiento
     'Se puede modificar usando el Diseñador de Windows Forms.  
     'No lo modifique con el editor de código.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         GB_NumberOfWeek = New GroupBox()
         DTP_EndDate = New DateTimePicker()
@@ -148,7 +148,7 @@ Partial Class OP_SEL_MainWeekReport
         DGV_CompleteWeekInfo.Location = New Point(12, 199)
         DGV_CompleteWeekInfo.Name = "DGV_CompleteWeekInfo"
         DGV_CompleteWeekInfo.ReadOnly = True
-        DGV_CompleteWeekInfo.Size = New Size(1232, 244)
+        DGV_CompleteWeekInfo.Size = New Size(1539, 244)
         DGV_CompleteWeekInfo.TabIndex = 1
         ' 
         ' PN_1
@@ -439,15 +439,15 @@ Partial Class OP_SEL_MainWeekReport
         DGV_DetailsByEmployee.Location = New Point(12, 459)
         DGV_DetailsByEmployee.Name = "DGV_DetailsByEmployee"
         DGV_DetailsByEmployee.ReadOnly = True
-        DGV_DetailsByEmployee.Size = New Size(1232, 237)
+        DGV_DetailsByEmployee.Size = New Size(1539, 237)
         DGV_DetailsByEmployee.TabIndex = 22
         ' 
-        ' OP_SEL_MainWeekReport
+        ' OP_SEL_MainWeekReportAsistance
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(1262, 708)
+        ClientSize = New Size(1563, 708)
         Controls.Add(DGV_DetailsByEmployee)
         Controls.Add(Label13)
         Controls.Add(Panel2)
@@ -471,7 +471,7 @@ Partial Class OP_SEL_MainWeekReport
         Controls.Add(PN_1)
         Controls.Add(DGV_CompleteWeekInfo)
         Controls.Add(GB_NumberOfWeek)
-        Name = "OP_SEL_MainWeekReport"
+        Name = "OP_SEL_MainWeekReportAsistance"
         Text = "Reporte semanal"
         WindowState = FormWindowState.Maximized
         GB_NumberOfWeek.ResumeLayout(False)

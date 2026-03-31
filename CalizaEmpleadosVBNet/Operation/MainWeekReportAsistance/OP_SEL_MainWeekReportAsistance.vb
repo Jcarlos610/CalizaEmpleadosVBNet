@@ -1,12 +1,12 @@
 ﻿Imports Microsoft.Identity.Client
 
-Public Class OP_SEL_MainWeekReport
+Public Class OP_SEL_MainWeekReportAsistance
     Dim SelectedEmployeeID As Integer = 0
 
     Private Sub OP_SEL_MainWeekReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         DTP_WeekSelector.Value = Today
-        LoadWeek()
+        'LoadWeek()
         DTP_StartDate.Visible = False
         DTP_EndDate.Visible = False
     End Sub
@@ -25,9 +25,9 @@ Public Class OP_SEL_MainWeekReport
 
     End Function
 
-    Private Sub DTP_WeekSelector_ValueChanged(sender As Object, e As EventArgs) Handles DTP_WeekSelector.ValueChanged
-        LoadWeek()
-    End Sub
+    'Private Sub DTP_WeekSelector_ValueChanged(sender As Object, e As EventArgs)
+    '    LoadWeek()
+    'End Sub
 
     Private Sub LoadWeek()
 
@@ -210,29 +210,37 @@ Public Class OP_SEL_MainWeekReport
 
     End Sub
 
-    Private Sub DTP_WeekSelector_MouseLeave(sender As Object, e As EventArgs) Handles DTP_WeekSelector.MouseLeave
+    Private Sub DTP_WeekSelector_MouseLeave(sender As Object, e As EventArgs)
         DTP_StartDate.Visible = True
 
         DTP_EndDate.Visible = True
     End Sub
 
-    Private Sub DGV_CompleteWeekInfo_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_CompleteWeekInfo.CellClick
-        If e.RowIndex < 0 Then Exit Sub
-
-        Dim row As DataGridViewRow = DGV_CompleteWeekInfo.Rows(e.RowIndex)
-
-        SelectedEmployeeID = CInt(row.Cells(1).Value)
-
-        Dim EmployeeRecords As New CL_RecordsByEmployee
-        Dim EmployeeInfo As DataTable = EmployeeRecords.Get_WeekRecordsDetailsBYEmployee(DTP_StartDate.Value, DTP_EndDate.Value, SelectedEmployeeID)
-
-        DGV_DetailsByEmployee.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
-        DGV_DetailsByEmployee.AutoResizeColumns()
-        DGV_DetailsByEmployee.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-        DGV_DetailsByEmployee.DataSource = EmployeeInfo
+    Private Sub DTP_WeekSelector_ValueChanged_1(sender As Object, e As EventArgs) Handles DTP_WeekSelector.ValueChanged
+        LoadWeek()
     End Sub
 
-    Private Sub DGV_DetailsByEmployee_Click(sender As Object, e As EventArgs) Handles DGV_DetailsByEmployee.Click
-        MsgBox("test")
+    Private Sub DGV_CompleteWeekInfo_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_CompleteWeekInfo.CellClick
+
+    End Sub
+
+    Private Sub DGV_CompleteWeekInfo_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_CompleteWeekInfo.MouseClick
+
+        Dim hit As DataGridView.HitTestInfo = DGV_CompleteWeekInfo.HitTest(e.X, e.Y)
+
+        If hit.RowIndex >= 0 Then
+            Dim row As DataGridViewRow = DGV_CompleteWeekInfo.Rows(hit.RowIndex)
+
+            Dim Employee_Id As Integer = CInt(row.Cells(1).Value)
+
+            Dim EmployeeRecords As New CL_RecordsByEmployee
+            Dim EmployeeInfo = EmployeeRecords.Get_WeekRecordsDetailsBYEmployee(DTP_StartDate.Value, DTP_EndDate.Value, Employee_Id)
+
+            DGV_DetailsByEmployee.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+            DGV_DetailsByEmployee.AutoResizeColumns()
+            DGV_DetailsByEmployee.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+            DGV_DetailsByEmployee.DataSource = EmployeeInfo
+        End If
+
     End Sub
 End Class

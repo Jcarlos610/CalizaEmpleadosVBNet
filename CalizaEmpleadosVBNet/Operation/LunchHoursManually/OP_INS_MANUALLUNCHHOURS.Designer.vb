@@ -23,7 +23,7 @@ Partial Class OP_INS_MANUALLUNCHHOURS
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         GB_EmployeesList = New GroupBox()
-        BT_LuchHoursRegister = New Button()
+        BT_RegisterInfo = New Button()
         DTP_DateLunchHours = New DateTimePicker()
         LB_SetDate = New Label()
         DGV_ActiveEmployeesInfo = New DataGridView()
@@ -33,25 +33,25 @@ Partial Class OP_INS_MANUALLUNCHHOURS
         ' 
         ' GB_EmployeesList
         ' 
-        GB_EmployeesList.Controls.Add(BT_LuchHoursRegister)
+        GB_EmployeesList.Controls.Add(BT_RegisterInfo)
         GB_EmployeesList.Controls.Add(DTP_DateLunchHours)
         GB_EmployeesList.Controls.Add(LB_SetDate)
         GB_EmployeesList.Controls.Add(DGV_ActiveEmployeesInfo)
         GB_EmployeesList.Location = New Point(12, 46)
         GB_EmployeesList.Name = "GB_EmployeesList"
-        GB_EmployeesList.Size = New Size(779, 572)
+        GB_EmployeesList.Size = New Size(1124, 572)
         GB_EmployeesList.TabIndex = 0
         GB_EmployeesList.TabStop = False
         GB_EmployeesList.Text = "Lista de empleados activos"
         ' 
-        ' BT_LuchHoursRegister
+        ' BT_RegisterInfo
         ' 
-        BT_LuchHoursRegister.Location = New Point(648, 56)
-        BT_LuchHoursRegister.Name = "BT_LuchHoursRegister"
-        BT_LuchHoursRegister.Size = New Size(106, 23)
-        BT_LuchHoursRegister.TabIndex = 6
-        BT_LuchHoursRegister.Text = "Registrar horas"
-        BT_LuchHoursRegister.UseVisualStyleBackColor = True
+        BT_RegisterInfo.Location = New Point(962, 47)
+        BT_RegisterInfo.Name = "BT_RegisterInfo"
+        BT_RegisterInfo.Size = New Size(128, 32)
+        BT_RegisterInfo.TabIndex = 6
+        BT_RegisterInfo.Text = "Registrar valores"
+        BT_RegisterInfo.UseVisualStyleBackColor = True
         ' 
         ' DTP_DateLunchHours
         ' 
@@ -76,7 +76,7 @@ Partial Class OP_INS_MANUALLUNCHHOURS
         DGV_ActiveEmployeesInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DGV_ActiveEmployeesInfo.Location = New Point(21, 85)
         DGV_ActiveEmployeesInfo.Name = "DGV_ActiveEmployeesInfo"
-        DGV_ActiveEmployeesInfo.Size = New Size(733, 471)
+        DGV_ActiveEmployeesInfo.Size = New Size(1069, 471)
         DGV_ActiveEmployeesInfo.TabIndex = 2
         ' 
         ' OP_INS_MANUALLUNCHHOURS
@@ -99,5 +99,5 @@ Partial Class OP_INS_MANUALLUNCHHOURS
     Friend WithEvents DGV_ActiveEmployeesInfo As DataGridView
     Friend WithEvents DTP_DateLunchHours As DateTimePicker
     Friend WithEvents LB_SetDate As Label
-    Friend WithEvents BT_LuchHoursRegister As Button
+    Friend WithEvents BT_RegisterInfo As Button
 End Class

@@ -1342,11 +1342,11 @@ Public Class CL_Employee
 
     End Function
 
-    Public Function Get_AllActiveEmployeesListForLunchHours() As DataTable
+    Public Function Get_AllActiveEmployeesListForLunchHoursAndBanns() As DataTable
 
         Try
             DB_Command = New SqlCommand With {
-                .CommandText = "SEL_ALLACTIVEEMPLOYEESLISTFORLUNCHHOURS",
+                .CommandText = "SEL_ALLACTIVEEMPLOYEESLISTFORLUNCHHOURSANDBANNS",
                 .CommandType = CommandType.StoredProcedure
             }
             DB_Connection.Open()
@@ -1362,7 +1362,7 @@ Public Class CL_Employee
 
         Catch ex As Exception
             DB_Connection.Close()
-            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_Employees.Get_AllActiveEmployeesID()")
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_Employees.Get_AllActiveEmployeesListForLunchHours()")
 
             Return Nothing
         End Try
