@@ -6,12 +6,15 @@ Public Class CL_RecordsByEmployeeMoneySaved
     Public DB_Command As SqlCommand
     Public DB_Reader As SqlDataReader
 
+    Private _EMPL_ID As Object
     Private _DREMPL_ID As Object
     Private _REMPL_ID As Object
     Private _DREMPL_DATE As Object
     Private _DREMPL_AMM As Object
     Private _DREMPL_TYPE As Object
     Private _DREMPL_STAT As Object
+    Private _REMPL_CREBY As Object
+    Private _REMPL_RDATE As Object
 
     Public Property DREMPL_ID As Object
         Get
@@ -67,6 +70,32 @@ Public Class CL_RecordsByEmployeeMoneySaved
         End Set
     End Property
 
+    Public Property EMPL_ID As Object
+        Get
+            Return _EMPL_ID
+        End Get
+        Set(value As Object)
+            _EMPL_ID = value
+        End Set
+    End Property
+
+    Public Property REMPL_CREBY As Object
+        Get
+            Return _REMPL_CREBY
+        End Get
+        Set(value As Object)
+            _REMPL_CREBY = value
+        End Set
+    End Property
+
+    Public Property REMPL_RDATE As Object
+        Get
+            Return _REMPL_RDATE
+        End Get
+        Set(value As Object)
+            _REMPL_RDATE = value
+        End Set
+    End Property
 
     Sub New()
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
@@ -104,9 +133,11 @@ Public Class CL_RecordsByEmployeeMoneySaved
             ' LIMPIAR PARAMETROS 🔥
             DB_Command.Parameters.Clear()
 
-            DB_Command.Parameters.AddWithValue("@REMPL_ID", _REMPL_ID)
-            DB_Command.Parameters.AddWithValue("@DREMPL_AMM", _DREMPL_AMM)
-            DB_Command.Parameters.AddWithValue("@DREMPL_TYPE", _DREMPL_TYPE)
+            DB_Command.Parameters.AddWithValue("EMPL_ID", _EMPL_ID)
+            DB_Command.Parameters.AddWithValue("DREMPL_AMM", _DREMPL_AMM)
+            DB_Command.Parameters.AddWithValue("DREMPL_TYPE", _DREMPL_TYPE)
+            DB_Command.Parameters.AddWithValue("REMPL_CREBY", _REMPL_CREBY)
+            DB_Command.Parameters.AddWithValue("REMPL_RDATE", _REMPL_RDATE)
 
             DB_Command.ExecuteNonQuery()
 
@@ -131,7 +162,7 @@ Public Class CL_RecordsByEmployeeMoneySaved
             ' LIMPIAR PARAMETROS (CLAVE 🔥)
             DB_Command.Parameters.Clear()
 
-            DB_Command.Parameters.AddWithValue("@REMPL_ID", _REMPL_ID)
+            DB_Command.Parameters.AddWithValue("EMPL_ID", _EMPL_ID)
 
             DB_Reader = DB_Command.ExecuteReader()
             dt.Load(DB_Reader)

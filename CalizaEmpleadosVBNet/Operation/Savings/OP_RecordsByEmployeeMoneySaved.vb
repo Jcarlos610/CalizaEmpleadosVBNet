@@ -13,14 +13,18 @@
 
         DGV_EmployeeInfo.DataSource = obj.GetEmployeeRecords()
 
-        DGV_EmployeeInfo.Columns("ID").HeaderText = "ID Registro"
+        'DGV_EmployeeInfo.Columns("ID").HeaderText = "ID Registro"
         DGV_EmployeeInfo.Columns("EMPL_ID").HeaderText = "ID Empleado"
         DGV_EmployeeInfo.Columns("NombreEmpleado").HeaderText = "Nombre de empleado "
         DGV_EmployeeInfo.Columns("TotalAhorro").HeaderText = "Total Ahorro"
 
+
+        DGV_EmployeeInfo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+        DGV_EmployeeInfo.AutoResizeColumns()
+        DGV_EmployeeInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         DGV_EmployeeInfo.Columns("TotalAhorro").DefaultCellStyle.Format = "C2"
 
-        DGV_EmployeeInfo.Columns("ID").Visible = False
+        'DGV_EmployeeInfo.Columns("ID").Visible = False
 
     End Sub
 
@@ -29,8 +33,11 @@
     Sub LoadSavings()
 
         Dim obj As New CL_RecordsByEmployeeMoneySaved
-        obj.REMPL_ID = GetREMPL_ID()
+        obj.EMPL_ID = Get_EMPL_ID()
 
+        DGV_DetailSaving.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+        DGV_DetailSaving.AutoResizeColumns()
+        DGV_DetailSaving.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         DGV_DetailSaving.DataSource = obj.GetSavings()
 
 
@@ -62,9 +69,11 @@
 
         Dim obj As New CL_RecordsByEmployeeMoneySaved
 
-        obj.REMPL_ID = GetREMPL_ID()
+        obj.EMPL_ID = Get_EMPL_ID()
         obj.DREMPL_AMM = Convert.ToDecimal(TB_ManualSaving.Text)
         obj.DREMPL_TYPE = 1
+        obj.REMPL_CREBY = AppUser
+        obj.REMPL_RDATE = Date.Today
 
         obj.InsertSaving()
 
@@ -85,13 +94,13 @@
 
     End Sub
 
-    Function GetREMPL_ID() As Integer
+    Function Get_EMPL_ID() As Integer
 
         If DGV_EmployeeInfo.CurrentRow Is Nothing Then
             Return 0
         End If
 
-        Return Convert.ToInt32(DGV_EmployeeInfo.CurrentRow.Cells("ID").Value)
+        Return Convert.ToInt32(DGV_EmployeeInfo.CurrentRow.Cells("EMPL_ID").Value)
 
     End Function
 

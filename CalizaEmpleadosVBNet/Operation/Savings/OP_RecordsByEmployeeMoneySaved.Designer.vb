@@ -33,60 +33,70 @@ Partial Class OP_RecordsByEmployeeMoneySaved
         ' 
         ' DGV_EmployeeInfo
         ' 
+        DGV_EmployeeInfo.AllowUserToAddRows = False
+        DGV_EmployeeInfo.AllowUserToDeleteRows = False
         DGV_EmployeeInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_EmployeeInfo.Location = New Point(17, 77)
+        DGV_EmployeeInfo.Location = New Point(12, 46)
+        DGV_EmployeeInfo.Margin = New Padding(2)
         DGV_EmployeeInfo.Name = "DGV_EmployeeInfo"
+        DGV_EmployeeInfo.ReadOnly = True
         DGV_EmployeeInfo.RowHeadersWidth = 62
-        DGV_EmployeeInfo.Size = New Size(563, 225)
+        DGV_EmployeeInfo.Size = New Size(906, 243)
         DGV_EmployeeInfo.TabIndex = 0
         ' 
         ' DGV_DetailSaving
         ' 
+        DGV_DetailSaving.AllowUserToAddRows = False
+        DGV_DetailSaving.AllowUserToDeleteRows = False
         DGV_DetailSaving.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_DetailSaving.Location = New Point(17, 315)
+        DGV_DetailSaving.Location = New Point(12, 315)
+        DGV_DetailSaving.Margin = New Padding(2)
         DGV_DetailSaving.Name = "DGV_DetailSaving"
+        DGV_DetailSaving.ReadOnly = True
         DGV_DetailSaving.RowHeadersWidth = 62
-        DGV_DetailSaving.Size = New Size(563, 225)
+        DGV_DetailSaving.Size = New Size(906, 135)
         DGV_DetailSaving.TabIndex = 1
         ' 
         ' LB_ManualSaving
         ' 
         LB_ManualSaving.AutoSize = True
-        LB_ManualSaving.Location = New Point(17, 559)
+        LB_ManualSaving.Location = New Point(12, 461)
+        LB_ManualSaving.Margin = New Padding(2, 0, 2, 0)
         LB_ManualSaving.Name = "LB_ManualSaving"
-        LB_ManualSaving.Size = New Size(135, 25)
+        LB_ManualSaving.Size = New Size(90, 15)
         LB_ManualSaving.TabIndex = 2
         LB_ManualSaving.Text = "Ahorro manual:"
         ' 
         ' TB_ManualSaving
         ' 
-        TB_ManualSaving.BackColor = Color.PapayaWhip
-        TB_ManualSaving.Location = New Point(17, 588)
-        TB_ManualSaving.Margin = New Padding(4, 5, 4, 5)
+        TB_ManualSaving.BackColor = SystemColors.Info
+        TB_ManualSaving.Location = New Point(12, 479)
         TB_ManualSaving.Name = "TB_ManualSaving"
-        TB_ManualSaving.Size = New Size(141, 31)
+        TB_ManualSaving.Size = New Size(100, 23)
         TB_ManualSaving.TabIndex = 3
         ' 
         ' BT_Register
         ' 
-        BT_Register.Location = New Point(186, 588)
+        BT_Register.Location = New Point(130, 479)
+        BT_Register.Margin = New Padding(2)
         BT_Register.Name = "BT_Register"
-        BT_Register.Size = New Size(112, 34)
+        BT_Register.Size = New Size(81, 23)
         BT_Register.TabIndex = 4
         BT_Register.Text = "Aplicar"
         BT_Register.UseVisualStyleBackColor = True
         ' 
         ' OP_RecordsByEmployeeMoneySaved
         ' 
-        AutoScaleDimensions = New SizeF(10F, 25F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(2093, 1122)
+        ClientSize = New Size(1465, 637)
         Controls.Add(BT_Register)
         Controls.Add(TB_ManualSaving)
         Controls.Add(LB_ManualSaving)
         Controls.Add(DGV_DetailSaving)
         Controls.Add(DGV_EmployeeInfo)
+        Margin = New Padding(2)
         Name = "OP_RecordsByEmployeeMoneySaved"
         Tag = "OP_RecordsByEmployeeMoneySaved"
         Text = "Ahorros"
