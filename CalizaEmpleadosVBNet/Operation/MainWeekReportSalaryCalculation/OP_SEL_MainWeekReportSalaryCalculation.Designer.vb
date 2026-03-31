@@ -50,6 +50,8 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         Label7 = New Label()
         Panel2 = New Panel()
         Label8 = New Label()
+        CB_Confirmation = New CheckBox()
+        BT_FinalConfirmation = New Button()
         GB_NumberOfWeek.SuspendLayout()
         Panel1.SuspendLayout()
         PN_2.SuspendLayout()
@@ -324,12 +326,34 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         Label8.TabIndex = 8
         Label8.Text = "R"
         ' 
+        ' CB_Confirmation
+        ' 
+        CB_Confirmation.AutoSize = True
+        CB_Confirmation.Location = New Point(1776, 117)
+        CB_Confirmation.Name = "CB_Confirmation"
+        CB_Confirmation.Size = New Size(126, 19)
+        CB_Confirmation.TabIndex = 28
+        CB_Confirmation.Text = "Confirmar Nómina"
+        CB_Confirmation.UseVisualStyleBackColor = True
+        ' 
+        ' BT_FinalConfirmation
+        ' 
+        BT_FinalConfirmation.BackColor = SystemColors.Info
+        BT_FinalConfirmation.Location = New Point(1803, 449)
+        BT_FinalConfirmation.Name = "BT_FinalConfirmation"
+        BT_FinalConfirmation.Size = New Size(99, 23)
+        BT_FinalConfirmation.TabIndex = 29
+        BT_FinalConfirmation.Text = "Liberar Nómina"
+        BT_FinalConfirmation.UseVisualStyleBackColor = False
+        ' 
         ' OP_SEL_MainWeekReportSalaryCalculation
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1930, 708)
+        Controls.Add(BT_FinalConfirmation)
+        Controls.Add(CB_Confirmation)
         Controls.Add(Label7)
         Controls.Add(Panel2)
         Controls.Add(LB_EmployeeDetailInfo)
@@ -397,4 +421,6 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
     Friend WithEvents Label7 As Label
     Friend WithEvents Panel2 As Panel
     Friend WithEvents Label8 As Label
+    Friend WithEvents CB_Confirmation As CheckBox
+    Friend WithEvents BT_FinalConfirmation As Button
 End Class

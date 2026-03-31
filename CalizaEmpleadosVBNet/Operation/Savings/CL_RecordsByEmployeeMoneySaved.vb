@@ -149,6 +149,33 @@ Public Class CL_RecordsByEmployeeMoneySaved
 
     End Sub
 
+    Public Sub InsertAutomaticSaving()
+
+        Try
+            DB_Connection.Open()
+
+            DB_Command = New SqlCommand("INS_AUTOMATICSAVINGDETAIL", DB_Connection)
+            DB_Command.CommandType = CommandType.StoredProcedure
+
+            ' LIMPIAR PARAMETROS 🔥
+            DB_Command.Parameters.Clear()
+
+            DB_Command.Parameters.AddWithValue("EMPL_ID", _EMPL_ID)
+            DB_Command.Parameters.AddWithValue("DREMPL_AMM", _DREMPL_AMM)
+            DB_Command.Parameters.AddWithValue("DREMPL_TYPE", _DREMPL_TYPE)
+            DB_Command.Parameters.AddWithValue("REMPL_CREBY", _REMPL_CREBY)
+            DB_Command.Parameters.AddWithValue("REMPL_RDATE", _REMPL_RDATE)
+
+            DB_Command.ExecuteNonQuery()
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+            DB_Connection.Close()
+        End Try
+
+    End Sub
+
     Public Function GetSavings() As DataTable
 
         Dim dt As New DataTable

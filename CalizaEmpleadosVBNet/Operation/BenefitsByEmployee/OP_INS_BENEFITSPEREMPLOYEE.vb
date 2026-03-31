@@ -19,10 +19,21 @@ Public Class OP_INS_BENEFITSPEREMPLOYEE
 
     Private Sub Display_BenefitsRecords()
         Dim report As New CL_Benefits()
-        DGV_Benefits.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
-        DGV_Benefits.AutoResizeColumns()
+        'DGV_Benefits.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+        'DGV_Benefits.AutoResizeColumns()
         DGV_Benefits.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         DGV_Benefits.DataSource = report.Get_AllActiveBenefits()
+
+        DGV_Benefits.Columns("No. Beneficio").Width = 50
+        DGV_Benefits.Columns("No. Beneficio").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_Benefits.Columns("No. Beneficio").ToolTipText = "Número de beneficio"
+        DGV_Benefits.Columns("Nombre de beneficio").Width = 250
+        DGV_Benefits.Columns("Nombre de beneficio").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DGV_Benefits.Columns("Nombre de beneficio").ToolTipText = "Nombre de beneficio"
+        DGV_Benefits.Columns("Descripción").Width = 450
+        DGV_Benefits.Columns("Descripción").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DGV_Benefits.Columns("Descripción").ToolTipText = "Descripción"
+
     End Sub
 
     Private Function GetSelectedEmployee() As Integer?
@@ -171,8 +182,8 @@ Public Class OP_INS_BENEFITSPEREMPLOYEE
                 BenefitByEmployee.Upd_BenefitsByEmployeeID(EmployeeId, BenefitId, False)
             End If
 
-            Get_AvailableBenefitByEmployee()
-            Get_UpdatedSalaryByEmployee()
+            Get_AvailableBenefitByEmployee(EmployeeId)
+            Get_UpdatedSalaryByEmployee(EmployeeId)
 
         End If
     End Sub
@@ -206,7 +217,7 @@ Public Class OP_INS_BENEFITSPEREMPLOYEE
 
         Dim row As DataGridViewRow = DGV_Benefits.Rows(rowIndex)
 
-        Dim Benefit_Id As Integer = Convert.ToInt32(row.Cells("ID").Value)
+        Dim Benefit_Id As Integer = Convert.ToInt32(row.Cells(1).Value)
 
         'Validate to avoid duplicate assignment
         If BenefitAlreadyAssigned(noEmpleado, Benefit_Id) Then
@@ -233,8 +244,8 @@ Public Class OP_INS_BENEFITSPEREMPLOYEE
 
         Dim BenefitByEmployee = New CL_BenefitsEmployee(Employee_Id, Benefit_Id, Ammount, Date.Today, AppUser, 1)
         If BenefitByEmployee.InsertBenefitsByEmployee() Then
-            Get_AvailableBenefitByEmployee()
-            Get_UpdatedSalaryByEmployee()
+            Get_AvailableBenefitByEmployee(Employee_Id)
+            Get_UpdatedSalaryByEmployee(Employee_Id)
         End If
 
     End Sub
@@ -291,16 +302,21 @@ Public Class OP_INS_BENEFITSPEREMPLOYEE
     'End Sub
 
     Private Sub DGV_Employees_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_Employees.MouseClick
-        Get_AvailableBenefitByEmployee()
-        Get_UpdatedSalaryByEmployee()
+        Dim hit As DataGridView.HitTestInfo = DGV_Employees.HitTest(e.X, e.Y)
+
+        If hit.RowIndex >= 0 Then
+            Dim row As DataGridViewRow = DGV_Employees.Rows(hit.RowIndex)
+            Dim Employee_Id As Integer = CInt(row.Cells(0).Value)
+
+            Get_AvailableBenefitByEmployee(Employee_Id)
+            Get_UpdatedSalaryByEmployee(Employee_Id)
+        End If
     End Sub
 
-    Private Sub Get_AvailableBenefitByEmployee()
+    Private Sub Get_AvailableBenefitByEmployee(ByVal Employee_Id As Integer)
         DGV_BenefitsByEmployee.Rows.Clear()
 
-        If DGV_Employees.SelectedRows.Count > 0 Then
-            Dim Employee_Id As Integer = DGV_Employees.SelectedRows(0).Cells(0).Value
-            Dim BenefitsByEmployee = New CL_BenefitsEmployee
+        Dim BenefitsByEmployee = New CL_BenefitsEmployee
             Dim Result As DataTable = BenefitsByEmployee.Get_BenefitsByEmployeeID(Employee_Id)
 
             For Each Item As DataRow In Result.Rows
@@ -328,15 +344,17 @@ Public Class OP_INS_BENEFITSPEREMPLOYEE
 
             Next
 
-        End If
     End Sub
 
-    Private Sub Get_UpdatedSalaryByEmployee()
+    Private Sub Get_UpdatedSalaryByEmployee(ByVal Employee_Id As Integer)
         Dim report As New CL_BenefitsEmployee()
-        Dim Employee_Id As Integer = DGV_Employees.SelectedRows(0).Cells(0).Value
         DGV_UpdateSalary.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
         DGV_UpdateSalary.AutoResizeColumns()
         DGV_UpdateSalary.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         DGV_UpdateSalary.DataSource = report.Get_UpdateSalaryByEmployeeID(Employee_Id)
     End Sub
+
+
+
+
 End Class

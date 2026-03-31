@@ -16,6 +16,8 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         DTP_StartDate.Visible = False
         LB_EndDate.Visible = False
         DTP_EndDate.Visible = False
+        BT_FinalConfirmation.Enabled = False
+        CB_Confirmation.Enabled = False
 
     End Sub
 
@@ -130,16 +132,17 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
             EmployeesInfo.Rows.Add(newRow)
 
         Next
-
+        '----- 1.- Add Column to DGV
         EmployeesInfo.Columns.Add("S. Diario", GetType(String))
         EmployeesInfo.Columns.Add("Ext. S", GetType(String))
         EmployeesInfo.Columns.Add("Ext. D", GetType(String))
         EmployeesInfo.Columns.Add("Ext. T", GetType(String))
-        EmployeesInfo.Columns.Add("H. Comida", GetType(Decimal))
-        EmployeesInfo.Columns.Add("Bono Prod.", GetType(String))
-        EmployeesInfo.Columns.Add("Bono BP", GetType(String))
-        EmployeesInfo.Columns.Add("Amonest..", GetType(Decimal))
-        EmployeesInfo.Columns.Add("Calculado", GetType(String))
+        EmployeesInfo.Columns.Add("H. Comida", GetType(Decimal)) ' 17
+        EmployeesInfo.Columns.Add("Bono Prod.", GetType(String)) ' 18
+        EmployeesInfo.Columns.Add("Bono BP", GetType(String))    ' 19
+        EmployeesInfo.Columns.Add("Amonest..", GetType(Decimal)) ' 20
+        EmployeesInfo.Columns.Add("Ahorro", GetType(String))    ' 21
+        EmployeesInfo.Columns.Add("Calculado", GetType(String))  ' 22
 
         'DGV_CompleteWeekInfo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
         'DGV_CompleteWeekInfo.AutoResizeColumns()
@@ -161,6 +164,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
             DGV_CompleteWeekInfo.Columns(i).Width = 70
         Next
 
+        '----- 2.- Adit Width 
         DGV_CompleteWeekInfo.Columns("S. Diario").Width = 65
         DGV_CompleteWeekInfo.Columns("S. Diario").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         DGV_CompleteWeekInfo.Columns("Ext. S").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
@@ -181,13 +185,18 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         DGV_CompleteWeekInfo.Columns("Amonest..").Width = 70
         DGV_CompleteWeekInfo.Columns("Amonest..").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Amonest..").ToolTipText = "Número de amonestaciones"
+        DGV_CompleteWeekInfo.Columns("Ahorro").Width = 50
+        DGV_CompleteWeekInfo.Columns("Ahorro").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Ahorro").ToolTipText = "Cantidad a Ahorrar"
         DGV_CompleteWeekInfo.Columns("Calculado").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         DGV_CompleteWeekInfo.Columns("Calculado").Width = 65
 
-
-
         PaintCells()
         MainSalaryCalculation()
+
+        If DGV_CompleteWeekInfo.Rows.Count > 0 Then
+            CB_Confirmation.Enabled = True
+        End If
 
     End Sub
 
@@ -302,6 +311,8 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
             SundaySalary = (BaseSalary / 7)
             DailySalary = (BaseSalary / 7)
 
+            '----- 3.- asign value 
+
             DGV_CompleteWeekInfo.Rows(CounterLine).Cells(13).Value = DailySalary.ToString("C2")
             ExtraS = DailySalary / 48
             DGV_CompleteWeekInfo.Rows(CounterLine).Cells(14).Value = ExtraS.ToString("C2")
@@ -347,12 +358,14 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                         BenefDetail.EMPL_ID = EmployeeID
                         Dim TBenefitDetails As DataTable = BenefDetail.Get_BenefitIDDetailsByEmployee()
 
+                        'Bono Productividad
                         If TBenefitDetails.Rows.Count > 0 Then
                             DGV_CompleteWeekInfo.Rows(CounterLine).Cells(18).Value = BenefitAmmount.ToString("C2")
                         Else
                             BenefitAmmount = 0.0
                             DGV_CompleteWeekInfo.Rows(CounterLine).Cells(18).Value = BenefitAmmount.ToString("C2")
                         End If
+
                     Case 90, 100, 110, 120, 130, 140, 150, 160, 170 ' Bono de buenas practicas o actitud
 
                         'Lets verify if employee has the benefitID
@@ -362,22 +375,42 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                         Dim TBenefitDetails As DataTable = BenefDetail.Get_BenefitIDDetailsByEmployee()
 
                         If TBenefitDetails.Rows.Count > 0 Then
+
+                            'Bono Buenas Prácticas
                             DGV_CompleteWeekInfo.Rows(CounterLine).Cells(19).Value = BenefitAmmount.ToString("C2")
-                            NewSalary = CalculationAttitudeBenefit(CounterA, CounterF, CounterFJ, CounterR, BaseSalary, BenefitAmmount, SundaySalary, DailySalary)
-                            If CounterA = 6 And BannsQuantity = 0 Then
-                                DGV_CompleteWeekInfo.Rows(CounterLine).Cells(9).Value = "A"
-                                DGV_CompleteWeekInfo.Rows(CounterLine).Cells(9).Style.BackColor = System.Drawing.Color.FromArgb(CByte(192), CByte(255), CByte(192))
-                                Comment = "Empleado tuvo asistencia completa, se le otorga bono de actitud y buenas prácticas + día domingo completo."
-                            End If
-                            DGV_CompleteWeekInfo.Rows(CounterLine).Cells(21).Value = NewSalary.ToString("C2")
+                        End If
+
+                    Case 180, 190 ' Cantidad fila de ahorro
+                        'Lets verify if employee has the benefitID
+                        Dim BenefDetail As New CL_Benefits
+                        BenefDetail.BENEF_ID = BenefitID
+                        BenefDetail.EMPL_ID = EmployeeID
+                        Dim TBenefitDetails As DataTable = BenefDetail.Get_BenefitIDDetailsByEmployee()
+
+                        If TBenefitDetails.Rows.Count > 0 Then
+
+                            'Ahorro fijo
+                            DGV_CompleteWeekInfo.Rows(CounterLine).Cells(21).Value = BenefitAmmount.ToString("C2")
+
                         End If
                     Case Else
                         DGV_CompleteWeekInfo.Rows(CounterLine).Cells(19).Value = BenefitAmmount.ToString("C2")
+                        DGV_CompleteWeekInfo.Rows(CounterLine).Cells(21).Value = BenefitAmmount.ToString("C2")
                 End Select
                 BenefitAmmount = 0.0
             Next
             CounterLine += 1
         Next
+
+        'NewSalary = CalculationAttitudeBenefit(CounterA, CounterF, CounterFJ, CounterR, BaseSalary, BenefitAmmount, SundaySalary, DailySalary)
+        'If CounterA = 6 And BannsQuantity = 0 Then
+        '    DGV_CompleteWeekInfo.Rows(CounterLine).Cells(9).Value = "A"
+        '    DGV_CompleteWeekInfo.Rows(CounterLine).Cells(9).Style.BackColor = System.Drawing.Color.FromArgb(CByte(192), CByte(255), CByte(192))
+        '    Comment = "Empleado tuvo asistencia completa, se le otorga bono de actitud y buenas prácticas + día domingo completo."
+        'End If
+
+        ''Calculado
+        'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(22).Value = NewSalary.ToString("C2")
 
     End Sub
 
@@ -525,5 +558,35 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
             DGV_BenefitsDetailsByEmployee.DataSource = EmployeeInfo
         End If
 
+    End Sub
+
+    Private Sub CB_Confirmation_MouseClick(sender As Object, e As MouseEventArgs) Handles CB_Confirmation.MouseClick
+        If DGV_CompleteWeekInfo.Rows.Count > 0 Then
+            If CB_Confirmation.Checked = True Then
+                If MessageBox.Show("¿Confirma la liberación de nómina para esta semana?", "Aviso de confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                    BT_FinalConfirmation.Enabled = True
+                Else
+                    CB_Confirmation.Checked = False
+                    BT_FinalConfirmation.Enabled = False
+                End If
+            Else
+                BT_FinalConfirmation.Enabled = False
+            End If
+        End If
+
+    End Sub
+
+    Private Sub BT_FinalConfirmation_Click(sender As Object, e As EventArgs) Handles BT_FinalConfirmation.Click
+        For Each Item As DataGridViewRow In DGV_CompleteWeekInfo.Rows
+            If Item.Cells(21).Value > 0 Then
+                Dim EmployeeSaving As New CL_RecordsByEmployeeMoneySaved
+                EmployeeSaving.EMPL_ID = CInt(Item.Cells(1).Value)
+                EmployeeSaving.DREMPL_AMM = CDec(Item.Cells(21).Value)
+                EmployeeSaving.DREMPL_TYPE = 2
+                EmployeeSaving.REMPL_RDATE = Today
+                EmployeeSaving.REMPL_CREBY = AppUser
+                EmployeeSaving.InsertAutomaticSaving()
+            End If
+        Next
     End Sub
 End Class

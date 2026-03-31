@@ -3,7 +3,6 @@
     Private Sub OP_RecordByEmployeeMoneySaved_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         LoadEmployeeInfo()
-        LoadSavings()
 
     End Sub
 
@@ -13,7 +12,6 @@
 
         DGV_EmployeeInfo.DataSource = obj.GetEmployeeRecords()
 
-        'DGV_EmployeeInfo.Columns("ID").HeaderText = "ID Registro"
         DGV_EmployeeInfo.Columns("EMPL_ID").HeaderText = "ID Empleado"
         DGV_EmployeeInfo.Columns("NombreEmpleado").HeaderText = "Nombre de empleado "
         DGV_EmployeeInfo.Columns("TotalAhorro").HeaderText = "Total Ahorro"
@@ -23,8 +21,6 @@
         DGV_EmployeeInfo.AutoResizeColumns()
         DGV_EmployeeInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         DGV_EmployeeInfo.Columns("TotalAhorro").DefaultCellStyle.Format = "C2"
-
-        'DGV_EmployeeInfo.Columns("ID").Visible = False
 
     End Sub
 
@@ -40,30 +36,19 @@
         DGV_DetailSaving.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         DGV_DetailSaving.DataSource = obj.GetSavings()
 
-
-        DGV_DetailSaving.Columns("DREMPL_DATE").HeaderText = "Fecha"
-        DGV_DetailSaving.Columns("DREMPL_AMM").HeaderText = "Monto"
-
-
-        DGV_DetailSaving.Columns("DREMPL_AMM").DefaultCellStyle.Format = "C2"
-
-
-        DGV_DetailSaving.Columns("DREMPL_ID").Visible = False
-        DGV_DetailSaving.Columns("REMPL_ID").Visible = False
-        DGV_DetailSaving.Columns("DREMPL_TYPE").Visible = False
-        DGV_DetailSaving.Columns("DREMPL_STAT").Visible = False
-
     End Sub
 
     Private Sub BT_Register_Click(sender As Object, e As EventArgs) Handles BT_Register.Click
 
         If TB_ManualSaving.Text = "" Then
-            MsgBox("Ingresa un monto")
+            MessageBox.Show("Ingresa un monto", "Aviso",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
         If Not IsNumeric(TB_ManualSaving.Text) Then
-            MsgBox("Solo números")
+            MessageBox.Show("Solo números", "Aviso",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
@@ -77,7 +62,8 @@
 
         obj.InsertSaving()
 
-        MsgBox("Ahorro registrado")
+        MessageBox.Show("Ahorro registrado", "Confirmación",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information)
 
         TB_ManualSaving.Text = ""
 
