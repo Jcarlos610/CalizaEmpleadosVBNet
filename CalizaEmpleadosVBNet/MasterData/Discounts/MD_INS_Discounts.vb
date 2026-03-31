@@ -38,8 +38,10 @@
             MessageBox.Show("Favor de ingresar un nombre del descuento.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         ElseIf TB_Description.Text = "" Then
             MessageBox.Show("Favor de ingresar una descripción.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        ElseIf CB_Type.SelectedItem Is Nothing Then
-            MessageBox.Show("Favor de indicar el tipo de descuento.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+
+        ElseIf CType(CB_Type.SelectedItem, ComboItem).Id = 10 Then
+            MessageBox.Show("Debes seleccionar un tipo de descuento válido.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
         ElseIf TB_AuthorizeBy.Text = "" Then
             MessageBox.Show("Favor de indicar quién autoriza el descuento.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         ElseIf TB_Ammount.Text = "" Then

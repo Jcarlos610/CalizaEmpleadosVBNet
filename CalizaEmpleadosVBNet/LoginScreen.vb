@@ -59,7 +59,7 @@ Public Class LoginScreen
         ElseIf cadenaConexion.Contains("SQLEXPRESS") Then
             Envirotment = "DESARROLLO"
         Else
-            ' Si no se detecta un entorno válido, se puede establecer un valor predeterminado
+
             Envirotment = "DESCONOCIDO"
         End If
     End Sub
@@ -68,5 +68,10 @@ Public Class LoginScreen
         If e.KeyCode = Keys.Enter Then
             BT_Access.PerformClick()
         End If
+    End Sub
+
+    Private Sub LBL_ResetPassword_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LBL_ResetPassword.LinkClicked
+        Dim frm As New FRM_ResetPassword()
+        frm.ShowDialog()
     End Sub
 End Class

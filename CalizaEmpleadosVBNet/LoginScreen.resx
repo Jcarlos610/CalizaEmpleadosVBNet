@@ -148,7 +148,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LB_User.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="TB_UserName.Location" type="System.Drawing.Point, System.Drawing">
     <value>894, 435</value>
@@ -175,7 +175,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;TB_UserName.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="LB_Password.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -205,7 +205,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LB_Password.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="TB_Password.Location" type="System.Drawing.Point, System.Drawing">
     <value>894, 477</value>
@@ -235,7 +235,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;TB_Password.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="BT_Access.Location" type="System.Drawing.Point, System.Drawing">
     <value>930, 525</value>
@@ -262,7 +262,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BT_Access.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="PictureBox1.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1872,7 +1872,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;PictureBox1.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="LB_Title.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1905,6 +1905,33 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LB_Title.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="LBL_ResetPassword.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LBL_ResetPassword.Location" type="System.Drawing.Point, System.Drawing">
+    <value>704, 538</value>
+  </data>
+  <data name="LBL_ResetPassword.Size" type="System.Drawing.Size, System.Drawing">
+    <value>214, 25</value>
+  </data>
+  <data name="LBL_ResetPassword.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="LBL_ResetPassword.Text" xml:space="preserve">
+    <value>¿Olvidaste tu contraseña?</value>
+  </data>
+  <data name="&gt;&gt;LBL_ResetPassword.Name" xml:space="preserve">
+    <value>LBL_ResetPassword</value>
+  </data>
+  <data name="&gt;&gt;LBL_ResetPassword.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LBL_ResetPassword.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;LBL_ResetPassword.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

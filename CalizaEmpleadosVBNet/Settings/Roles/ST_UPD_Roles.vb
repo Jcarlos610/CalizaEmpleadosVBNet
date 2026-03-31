@@ -263,9 +263,7 @@ Public Class ST_UPD_Roles
     End Sub
 
 
-    '========================
-    ' ELIMINAR PERMISO
-    '========================
+
     Private Sub DGV_Permissions_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Permissions.CellClick
 
         If e.RowIndex < 0 Then Exit Sub

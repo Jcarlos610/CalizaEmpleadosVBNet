@@ -30,6 +30,7 @@ Partial Class LoginScreen
         BT_Access = New Button()
         PictureBox1 = New PictureBox()
         LB_Title = New Label()
+        LBL_ResetPassword = New LinkLabel()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
@@ -72,12 +73,21 @@ Partial Class LoginScreen
         resources.ApplyResources(LB_Title, "LB_Title")
         LB_Title.Name = "LB_Title"
         ' 
+        ' LBL_ResetPassword
+        ' 
+        resources.ApplyResources(LBL_ResetPassword, "LBL_ResetPassword")
+        LBL_ResetPassword.LinkColor = Color.MediumBlue
+        LBL_ResetPassword.Name = "LBL_ResetPassword"
+        LBL_ResetPassword.TabStop = True
+        LBL_ResetPassword.VisitedLinkColor = SystemColors.ControlDarkDark
+        ' 
         ' LoginScreen
         ' 
         resources.ApplyResources(Me, "$this")
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ControlBox = False
+        Controls.Add(LBL_ResetPassword)
         Controls.Add(LB_Title)
         Controls.Add(BT_Access)
         Controls.Add(LB_User)
@@ -99,4 +109,5 @@ Partial Class LoginScreen
     Friend WithEvents BT_Access As Button
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents LB_Title As Label
+    Friend WithEvents LBL_ResetPassword As LinkLabel
 End Class

@@ -560,4 +560,31 @@ Public Class CL_Users
 
     End Function
 
+    Public Function ResetPassword(userName As String, password As String) As Boolean
+
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "UPD_RESET_PASSWORD",
+                .CommandType = CommandType.StoredProcedure
+            }
+
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+
+            DB_Command.Parameters.AddWithValue("@USER_NAME", userName)
+            DB_Command.Parameters.AddWithValue("@PASSWORD", HashPassword(password))
+
+            DB_Command.ExecuteNonQuery()
+
+            DB_Connection.Close()
+            Return True
+
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox(ex.Message)
+            Return False
+        End Try
+
+    End Function
+
 End Class
