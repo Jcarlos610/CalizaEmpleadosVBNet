@@ -18,13 +18,13 @@
 
 
     Private Sub AltaDeUsuariosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AltaDeUsuariosToolStripMenuItem.Click
-        'Dim NewScreen = New ST_INS_Users
-        'If TheFormIsAlreadyLoaded(NewScreen.Name) Then
-        '    NewScreen.MdiParent = Me
-        '    NewScreen.Show()
-        'End If
+        ''Dim NewScreen = New ST_INS_Users
+        ''If TheFormIsAlreadyLoaded(NewScreen.Name) Then
+        ''    NewScreen.MdiParent = Me
+        ''    NewScreen.Show()
+        ''End If
 
-        Menu_Click(sender, e)
+        'Menu_Click(sender, e)
 
     End Sub
 
@@ -33,31 +33,31 @@
         'If TheFormIsAlreadyLoaded(NewScreen.Name) Then
         '    NewScreen.MdiParent = Me
         '    NewScreen.Show()
-        'End If
+        ''End If
 
-        Menu_Click(sender, e)
+        'Menu_Click(sender, e)
     End Sub
 
     Private Sub CrearEmpresaToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CrearEmpresaToolStripMenuItem.Click
-        'Dim NewScreen = New ST_INS_Companies
-        'If TheFormIsAlreadyLoaded(NewScreen.Name) Then
-        '    NewScreen.MdiParent = Me
-        '    NewScreen.Show()
-        'End If
+        ''Dim NewScreen = New ST_INS_Companies
+        ''If TheFormIsAlreadyLoaded(NewScreen.Name) Then
+        ''    NewScreen.MdiParent = Me
+        ''    NewScreen.Show()
+        ''End If
 
-        Menu_Click(sender, e)
+        'Menu_Click(sender, e)
 
     End Sub
 
 
     Private Sub EditarEmpresaToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles EditarEmpresaToolStripMenuItem1.Click
-        'Dim NewScreen = New ST_UPD_Companies
-        'If TheFormIsAlreadyLoaded(NewScreen.Name) Then
-        '    NewScreen.MdiParent = Me
-        '    NewScreen.Show()
-        'End If
+        ''Dim NewScreen = New ST_UPD_Companies
+        ''If TheFormIsAlreadyLoaded(NewScreen.Name) Then
+        ''    NewScreen.MdiParent = Me
+        ''    NewScreen.Show()
+        ''End If
 
-        Menu_Click(sender, e)
+        'Menu_Click(sender, e)
 
     End Sub
 
@@ -200,13 +200,13 @@
 
 
     Private Sub CrearNuevoToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles CrearNuevoToolStripMenuItem1.Click
-        'Dim NewScreen = New MD_INS_Benefits
-        'If TheFormIsAlreadyLoaded(NewScreen.Name) Then
-        '    NewScreen.MdiParent = Me
-        '    NewScreen.Show()
-        'End If
+        ''Dim NewScreen = New MD_INS_Benefits
+        ''If TheFormIsAlreadyLoaded(NewScreen.Name) Then
+        ''    NewScreen.MdiParent = Me
+        ''    NewScreen.Show()
+        ''End If
 
-        Menu_Click(sender, e)
+        'Menu_Click(sender, e)
 
     End Sub
 
@@ -217,7 +217,7 @@
         '    NewScreen.Show()
         'End If
 
-        Menu_Click(sender, e)
+        'Menu_Click(sender, e)
 
     End Sub
 
@@ -228,7 +228,7 @@
         '    NewScreen.Show()
         'End If
 
-        Menu_Click(sender, e)
+        'Menu_Click(sender, e)
 
     End Sub
 
@@ -239,7 +239,7 @@
         '    NewScreen.Show()
         'End If
 
-        Menu_Click(sender, e)
+        'Menu_Click(sender, e)
 
     End Sub
 
@@ -248,8 +248,8 @@
         'If TheFormIsAlreadyLoaded(NewScreen.Name) Then
         '    NewScreen.MdiParent = Me
         '    NewScreen.Show()
-        'End If
-        Menu_Click(sender, e)
+        ''End If
+        'Menu_Click(sender, e)
     End Sub
 
     Private Sub ActualizarPuestoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ActualizarPuestoToolStripMenuItem.Click
@@ -258,7 +258,7 @@
         '    NewScreen.MdiParent = Me
         '    NewScreen.Show()
         'End If
-        Menu_Click(sender, e)
+        'Menu_Click(sender, e)
     End Sub
 
     Private Sub RegistrarNToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RegistrarNToolStripMenuItem.Click
@@ -266,8 +266,8 @@
         'If TheFormIsAlreadyLoaded(NewScreen.Name) Then
         '    NewScreen.MdiParent = Me
         '    NewScreen.Show()
-        'End If
-        Menu_Click(sender, e)
+        ''End If
+        'Menu_Click(sender, e)
     End Sub
 
     Private Sub AsignarBeneficiosToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles AsignarBeneficiosToolStripMenuItem1.Click
@@ -276,7 +276,7 @@
         '    NewScreen.MdiParent = Me
         '    NewScreen.Show()
         'End If
-        Menu_Click(sender, e)
+        'Menu_Click(sender, e)
     End Sub
 
     Private Sub PorArchivoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PorArchivoToolStripMenuItem.Click
@@ -286,7 +286,7 @@
         '    NewScreen.Show()
         'End If
 
-        Menu_Click(sender, e)
+        'Menu_Click(sender, e)
     End Sub
 
     Private Sub CrearDescuentoToolStripMenuItem_Click_1(sender As Object, e As EventArgs) Handles CrearDescuentoToolStripMenuItem.Click
@@ -303,7 +303,7 @@
         '    NewScreen.MdiParent = Me
         '    NewScreen.Show()
         'End If
-        Menu_Click(sender, e)
+        'Menu_Click(sender, e)
     End Sub
 
     Private Sub EditarEmpleadoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EditarEmpleadoToolStripMenuItem.Click
@@ -312,7 +312,7 @@
         '    NewScreen.MdiParent = Me
         '    NewScreen.Show()
         'End If
-        Menu_Click(sender, e)
+        'Menu_Click(sender, e)
     End Sub
 
     Private Sub ReportesToolStripMenuItem7_Click(sender As Object, e As EventArgs) Handles ReportesToolStripMenuItem7.Click
@@ -320,8 +320,8 @@
         'If TheFormIsAlreadyLoaded(NewScreen.Name) Then
         '    NewScreen.MdiParent = Me
         '    NewScreen.Show()
-        'End If
-        Menu_Click(sender, e)
+        ''End If
+        'Menu_Click(sender, e)
     End Sub
 
     Private Sub CrearDepartamentoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CrearDepartamentoToolStripMenuItem.Click
@@ -329,8 +329,8 @@
         'If TheFormIsAlreadyLoaded(NewScreen.Name) Then
         '    NewScreen.MdiParent = Me
         '    NewScreen.Show()
-        'End If
-        Menu_Click(sender, e)
+        ''End If
+        'Menu_Click(sender, e)
     End Sub
 
     Private Sub EditarExistenteToolStripMenuItem4_Click(sender As Object, e As EventArgs) Handles EditarExistenteToolStripMenuItem4.Click
@@ -338,8 +338,8 @@
         'If TheFormIsAlreadyLoaded(NewScreen.Name) Then
         '    NewScreen.MdiParent = Me
         '    NewScreen.Show()
-        'End If
-        Menu_Click(sender, e)
+        ''End If
+        'Menu_Click(sender, e)
     End Sub
 
     Private Sub RegistroManualToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RegistroManualToolStripMenuItem.Click
@@ -347,8 +347,8 @@
         'If TheFormIsAlreadyLoaded(NewScreen.Name) Then
         '    NewScreen.MdiParent = Me
         '    NewScreen.Show()
-        'End If
-        Menu_Click(sender, e)
+        ''End If
+        'Menu_Click(sender, e)
     End Sub
 
     Private Sub RegistroManualToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles RegistroManualToolStripMenuItem1.Click
@@ -357,7 +357,7 @@
         '    NewScreen.MdiParent = Me
         '    NewScreen.Show()
         'End If
-        Menu_Click(sender, e)
+        'Menu_Click(sender, e)
     End Sub
 
     'Private Sub CrearNuevoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CrearNuevoToolStripMenuItem.Click
@@ -369,11 +369,11 @@
     'End Sub
 
     Private Sub EditarExistenteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EditarExistenteToolStripMenuItem.Click
-        Dim NewScreen = New ST_UPD_Roles
-        If TheFormIsAlreadyLoaded(NewScreen.Name) Then
-            NewScreen.MdiParent = Me
-            NewScreen.Show()
-        End If
+        'Dim NewScreen = New ST_UPD_Roles
+        'If TheFormIsAlreadyLoaded(NewScreen.Name) Then
+        '    NewScreen.MdiParent = Me
+        '    NewScreen.Show()
+        'End If
     End Sub
 
     Private Sub CrearNuevoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CrearNuevoToolStripMenuItem.Click
@@ -381,15 +381,15 @@
         'If TheFormIsAlreadyLoaded(NewScreen.Name) Then
         '    NewScreen.MdiParent = Me
         '    NewScreen.Show()
-        'End If
-        Menu_Click(sender, e)
+        ''End If
+        'Menu_Click(sender, e)
     End Sub
     Private Sub AnalisisSemanalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AnalisisSemanalToolStripMenuItem.Click
-        Dim NewScreen = New OP_SEL_MainWeekReportAsistance
-        If TheFormIsAlreadyLoaded(NewScreen.Name) Then
-            NewScreen.MdiParent = Me
-            NewScreen.Show()
-        End If
+        'Dim NewScreen = New OP_SEL_MainWeekReportAsistance
+        'If TheFormIsAlreadyLoaded(NewScreen.Name) Then
+        '    NewScreen.MdiParent = Me
+        '    NewScreen.Show()
+        'End If
     End Sub
 
     'Private Sub EditarExistenteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EditarExistenteToolStripMenuItem.Click
@@ -435,11 +435,11 @@
     End Sub
 
     Private Sub AnalisisDeSalarioToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AnalisisDeSalarioToolStripMenuItem.Click
-        Dim NewScreen = New OP_SEL_MainWeekReportSalaryCalculation
-        If TheFormIsAlreadyLoaded(NewScreen.Name) Then
-            NewScreen.MdiParent = Me
-            NewScreen.Show()
-        End If
+        'Dim NewScreen = New OP_SEL_MainWeekReportSalaryCalculation
+        'If TheFormIsAlreadyLoaded(NewScreen.Name) Then
+        '    NewScreen.MdiParent = Me
+        '    NewScreen.Show()
+        'End If
     End Sub
 
     Private Sub RegistroDePrestamoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RegistroDePrestamoToolStripMenuItem.Click
@@ -448,6 +448,6 @@
         '    NewScreen.MdiParent = Me
         '    NewScreen.Show()
         'End If
-        Menu_Click(sender, e)
+        'Menu_Click(sender, e)
     End Sub
 End Class
