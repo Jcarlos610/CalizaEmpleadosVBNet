@@ -281,6 +281,8 @@ Partial Class MD_INS_Benefits
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         GroupBox1 = New GroupBox()
+        TB_Percent = New TextBox()
+        LB_Percent = New Label()
         CB_Type = New ComboBox()
         LB_Type = New Label()
         TB_Ammount = New TextBox()
@@ -289,10 +291,6 @@ Partial Class MD_INS_Benefits
         LB_ValidTo = New Label()
         DT_ValidFrom = New DateTimePicker()
         LB_ValidFrom = New Label()
-        CB_NumberOfDays = New ComboBox()
-        LB_AplicationDay = New Label()
-        CB_Period = New ComboBox()
-        LB_Period = New Label()
         BT_Register = New Button()
         LB_AuthorizeBy = New Label()
         LB_Description = New Label()
@@ -307,6 +305,8 @@ Partial Class MD_INS_Benefits
         ' 
         ' GroupBox1
         ' 
+        GroupBox1.Controls.Add(TB_Percent)
+        GroupBox1.Controls.Add(LB_Percent)
         GroupBox1.Controls.Add(CB_Type)
         GroupBox1.Controls.Add(LB_Type)
         GroupBox1.Controls.Add(TB_Ammount)
@@ -315,10 +315,6 @@ Partial Class MD_INS_Benefits
         GroupBox1.Controls.Add(LB_ValidTo)
         GroupBox1.Controls.Add(DT_ValidFrom)
         GroupBox1.Controls.Add(LB_ValidFrom)
-        GroupBox1.Controls.Add(CB_NumberOfDays)
-        GroupBox1.Controls.Add(LB_AplicationDay)
-        GroupBox1.Controls.Add(CB_Period)
-        GroupBox1.Controls.Add(LB_Period)
         GroupBox1.Controls.Add(BT_Register)
         GroupBox1.Controls.Add(LB_AuthorizeBy)
         GroupBox1.Controls.Add(LB_Description)
@@ -334,6 +330,25 @@ Partial Class MD_INS_Benefits
         GroupBox1.TabIndex = 9
         GroupBox1.TabStop = False
         GroupBox1.Text = "Información sobre beneficios"
+        ' 
+        ' TB_Percent
+        ' 
+        TB_Percent.BackColor = SystemColors.Info
+        TB_Percent.Location = New Point(216, 318)
+        TB_Percent.Margin = New Padding(4, 5, 4, 5)
+        TB_Percent.Name = "TB_Percent"
+        TB_Percent.Size = New Size(170, 31)
+        TB_Percent.TabIndex = 21
+        ' 
+        ' LB_Percent
+        ' 
+        LB_Percent.AutoSize = True
+        LB_Percent.Location = New Point(216, 288)
+        LB_Percent.Margin = New Padding(4, 0, 4, 0)
+        LB_Percent.Name = "LB_Percent"
+        LB_Percent.Size = New Size(164, 25)
+        LB_Percent.TabIndex = 20
+        LB_Percent.Text = "Porcentaje definido"
         ' 
         ' CB_Type
         ' 
@@ -375,7 +390,7 @@ Partial Class MD_INS_Benefits
         ' 
         ' DT_ValidTo
         ' 
-        DT_ValidTo.Location = New Point(811, 237)
+        DT_ValidTo.Location = New Point(396, 237)
         DT_ValidTo.Margin = New Padding(4, 5, 4, 5)
         DT_ValidTo.Name = "DT_ValidTo"
         DT_ValidTo.Size = New Size(324, 31)
@@ -384,7 +399,7 @@ Partial Class MD_INS_Benefits
         ' LB_ValidTo
         ' 
         LB_ValidTo.AutoSize = True
-        LB_ValidTo.Location = New Point(811, 207)
+        LB_ValidTo.Location = New Point(396, 207)
         LB_ValidTo.Margin = New Padding(4, 0, 4, 0)
         LB_ValidTo.Name = "LB_ValidTo"
         LB_ValidTo.Size = New Size(108, 25)
@@ -393,7 +408,7 @@ Partial Class MD_INS_Benefits
         ' 
         ' DT_ValidFrom
         ' 
-        DT_ValidFrom.Location = New Point(456, 237)
+        DT_ValidFrom.Location = New Point(23, 237)
         DT_ValidFrom.Margin = New Padding(4, 5, 4, 5)
         DT_ValidFrom.Name = "DT_ValidFrom"
         DT_ValidFrom.Size = New Size(330, 31)
@@ -402,50 +417,12 @@ Partial Class MD_INS_Benefits
         ' LB_ValidFrom
         ' 
         LB_ValidFrom.AutoSize = True
-        LB_ValidFrom.Location = New Point(456, 207)
+        LB_ValidFrom.Location = New Point(23, 207)
         LB_ValidFrom.Margin = New Padding(4, 0, 4, 0)
         LB_ValidFrom.Name = "LB_ValidFrom"
         LB_ValidFrom.Size = New Size(114, 25)
         LB_ValidFrom.TabIndex = 13
         LB_ValidFrom.Text = "Valido desde"
-        ' 
-        ' CB_NumberOfDays
-        ' 
-        CB_NumberOfDays.FormattingEnabled = True
-        CB_NumberOfDays.Location = New Point(227, 237)
-        CB_NumberOfDays.Margin = New Padding(4, 5, 4, 5)
-        CB_NumberOfDays.Name = "CB_NumberOfDays"
-        CB_NumberOfDays.Size = New Size(184, 33)
-        CB_NumberOfDays.TabIndex = 5
-        ' 
-        ' LB_AplicationDay
-        ' 
-        LB_AplicationDay.AutoSize = True
-        LB_AplicationDay.Location = New Point(227, 207)
-        LB_AplicationDay.Margin = New Padding(4, 0, 4, 0)
-        LB_AplicationDay.Name = "LB_AplicationDay"
-        LB_AplicationDay.Size = New Size(146, 25)
-        LB_AplicationDay.TabIndex = 11
-        LB_AplicationDay.Text = "Día de aplicación"
-        ' 
-        ' CB_Period
-        ' 
-        CB_Period.FormattingEnabled = True
-        CB_Period.Location = New Point(24, 237)
-        CB_Period.Margin = New Padding(4, 5, 4, 5)
-        CB_Period.Name = "CB_Period"
-        CB_Period.Size = New Size(171, 33)
-        CB_Period.TabIndex = 4
-        ' 
-        ' LB_Period
-        ' 
-        LB_Period.AutoSize = True
-        LB_Period.Location = New Point(23, 207)
-        LB_Period.Margin = New Padding(4, 0, 4, 0)
-        LB_Period.Name = "LB_Period"
-        LB_Period.Size = New Size(181, 25)
-        LB_Period.TabIndex = 9
-        LB_Period.Text = "Periodo de aplicación"
         ' 
         ' BT_Register
         ' 
@@ -527,8 +504,9 @@ Partial Class MD_INS_Benefits
         ' 
         ' MD_INS_Benefits
         ' 
-        AutoScaleDimensions = New SizeF(10.0F, 25.0F)
+        AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
+        AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1774, 1050)
         Controls.Add(DGV_BenefitsList)
@@ -551,10 +529,6 @@ Partial Class MD_INS_Benefits
     Friend WithEvents LB_BenefitName As Label
     Friend WithEvents TB_Description As TextBox
     Friend WithEvents TB_AuthorizeBy As TextBox
-    Friend WithEvents CB_NumberOfDays As ComboBox
-    Friend WithEvents LB_AplicationDay As Label
-    Friend WithEvents CB_Period As ComboBox
-    Friend WithEvents LB_Period As Label
     Friend WithEvents DT_ValidTo As DateTimePicker
     Friend WithEvents LB_ValidTo As Label
     Friend WithEvents DT_ValidFrom As DateTimePicker
@@ -564,4 +538,6 @@ Partial Class MD_INS_Benefits
     Friend WithEvents LB_Ammount As Label
     Friend WithEvents CB_Type As ComboBox
     Friend WithEvents LB_Type As Label
+    Friend WithEvents TB_Percent As TextBox
+    Friend WithEvents LB_Percent As Label
 End Class

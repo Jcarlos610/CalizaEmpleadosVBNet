@@ -104,7 +104,7 @@ Public Class CL_RecordsByEmployeeMoneySaved
     Sub New(DREMPL_ID, REMPL_ID, DREMPL_AMM, DREMPL_TYPE, DREMPL_DATE, DREMPL_STAT)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
-        _DREMPL_ID = _DREMPL_ID
+        _DREMPL_ID = DREMPL_ID
         _REMPL_ID = REMPL_ID
         _DREMPL_AMM = DREMPL_AMM
         _DREMPL_TYPE = DREMPL_TYPE
@@ -130,7 +130,7 @@ Public Class CL_RecordsByEmployeeMoneySaved
             DB_Command = New SqlCommand("INS_SAVINGDETAIL", DB_Connection)
             DB_Command.CommandType = CommandType.StoredProcedure
 
-            ' LIMPIAR PARAMETROS 🔥
+
             DB_Command.Parameters.Clear()
 
             DB_Command.Parameters.AddWithValue("EMPL_ID", _EMPL_ID)
@@ -157,7 +157,7 @@ Public Class CL_RecordsByEmployeeMoneySaved
             DB_Command = New SqlCommand("INS_AUTOMATICSAVINGDETAIL", DB_Connection)
             DB_Command.CommandType = CommandType.StoredProcedure
 
-            ' LIMPIAR PARAMETROS 🔥
+
             DB_Command.Parameters.Clear()
 
             DB_Command.Parameters.AddWithValue("EMPL_ID", _EMPL_ID)
@@ -186,7 +186,6 @@ Public Class CL_RecordsByEmployeeMoneySaved
             DB_Command = New SqlCommand("SEL_GETSAVINGSBYRECORD", DB_Connection)
             DB_Command.CommandType = CommandType.StoredProcedure
 
-            ' LIMPIAR PARAMETROS (CLAVE 🔥)
             DB_Command.Parameters.Clear()
 
             DB_Command.Parameters.AddWithValue("EMPL_ID", _EMPL_ID)
@@ -213,6 +212,58 @@ Public Class CL_RecordsByEmployeeMoneySaved
 
             DB_Command = New SqlCommand("SEL_GETEMPLOYEERECORDS", DB_Connection)
             DB_Command.CommandType = CommandType.StoredProcedure
+
+            DB_Reader = DB_Command.ExecuteReader()
+            dt.Load(DB_Reader)
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+            DB_Connection.Close()
+        End Try
+
+        Return dt
+
+    End Function
+
+    Public Sub InsertWithdrawal()
+
+        Try
+            DB_Connection.Open()
+
+            DB_Command = New SqlCommand("INS_WITHDRAWALDETAIL", DB_Connection)
+            DB_Command.CommandType = CommandType.StoredProcedure
+
+            DB_Command.Parameters.Clear()
+
+            DB_Command.Parameters.AddWithValue("EMPL_ID", _EMPL_ID)
+            DB_Command.Parameters.AddWithValue("DREMPL_AMM", _DREMPL_AMM)
+            DB_Command.Parameters.AddWithValue("DREMPL_TYPE", 2)
+            DB_Command.Parameters.AddWithValue("REMPL_CREBY", _REMPL_CREBY)
+            DB_Command.Parameters.AddWithValue("REMPL_RDATE", _REMPL_RDATE)
+
+            DB_Command.ExecuteNonQuery()
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+            DB_Connection.Close()
+        End Try
+
+    End Sub
+
+    Public Function GetWithdrawals() As DataTable
+
+        Dim dt As New DataTable
+
+        Try
+            DB_Connection.Open()
+
+            DB_Command = New SqlCommand("SEL_GETWITHDRAWALSBYEMPLOYEE", DB_Connection)
+            DB_Command.CommandType = CommandType.StoredProcedure
+
+            DB_Command.Parameters.Clear()
+            DB_Command.Parameters.AddWithValue("EMPL_ID", _EMPL_ID)
 
             DB_Reader = DB_Command.ExecuteReader()
             dt.Load(DB_Reader)
