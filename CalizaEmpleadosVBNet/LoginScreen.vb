@@ -33,10 +33,18 @@ Public Class LoginScreen
             AppUser = TB_UserName.Text
 
             Dim main As MainScreen = CType(Me.MdiParent, MainScreen)
+            Dim Obj_UserData As New CL_Users
+
+            Obj_UserData.USER_ID = GlobalUserID
+            Dim UserData As DataTable = Obj_UserData.GetUserData()
+
+            For Each Obj_Line As DataRow In UserData.Rows
+                FirstName = Obj_Line(2)
+            Next
 
             main.aplicarpermisos()
 
-            main.Text = main.Text & " - " & FirstName & " " & LastName & " - [" & Envirotment & "]"
+            main.Text = main.Text & " - " & FirstName & " - [" & Envirotment & "]"
 
             Me.Close()
 
@@ -44,7 +52,7 @@ Public Class LoginScreen
 
 
 
-            MessageBox.Show("Usuario o contraseña incorrectos")
+            MessageBox.Show("Usuario o contraseña incorrectos", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
 
     End Sub
@@ -59,7 +67,6 @@ Public Class LoginScreen
         ElseIf cadenaConexion.Contains("SQLEXPRESS") Then
             Envirotment = "DESARROLLO"
         Else
-
             Envirotment = "DESCONOCIDO"
         End If
     End Sub
