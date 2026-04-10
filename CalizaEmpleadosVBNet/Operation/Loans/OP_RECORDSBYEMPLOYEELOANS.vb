@@ -1,4 +1,5 @@
 ﻿Public Class OP_RECORDSBYEMPLOYEELOANS
+    Public GV_Balance As Decimal = 0.0
 
     Private Sub OP_RECORDSBYEMPLOYEELOANS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadEmployeeInfo()
@@ -15,8 +16,8 @@
 
         DGV_EmployeeInfo.Columns("EMPL_ID").HeaderText = "ID Empleado"
         DGV_EmployeeInfo.Columns("NombreEmpleado").HeaderText = "Nombre"
-        DGV_EmployeeInfo.Columns("TotalSaldo").HeaderText = "Saldo a pagar"
 
+        DGV_EmployeeInfo.Columns("TotalSaldo").HeaderText = "Saldo a pagar"
         DGV_EmployeeInfo.Columns("TotalSaldo").DefaultCellStyle.Format = "C2"
 
         DGV_EmployeeInfo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
@@ -123,6 +124,7 @@
 
     Function Get_LOAN_ID() As Integer
         If DGV_Loans.CurrentRow Is Nothing Then Return 0
+
         Return Convert.ToInt32(DGV_Loans.CurrentRow.Cells("LOAN_ID").Value)
     End Function
 
@@ -138,6 +140,7 @@
     End Sub
 
     Private Sub BT_Register_Click(sender As Object, e As EventArgs) Handles BT_Register.Click
+
 
         If Get_LOAN_ID() = 0 Then
             MessageBox.Show("Selecciona un préstamo primero")
@@ -168,17 +171,21 @@
         obj.REMPL_CREBY = AppUser
         obj.REMPL_RDATE = Date.Today
 
-        obj.InsertPayment()
+        If CDec(TB_ManualInstalment.Text) > GV_Balance Then
+            MessageBox.Show("El monto ingresado es mayor al saldo a pagar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            TB_ManualInstalment.SelectAll()
+            TB_ManualInstalment.Focus()
+        Else
+            obj.InsertPayment()
+            MessageBox.Show("Pago registrado", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-        MessageBox.Show("Pago registrado")
+            TB_ManualInstalment.Text = ""
 
-        TB_ManualInstalment.Text = ""
-
-        LoadEmployeeInfo()
-        LoadLoans()
-        LoadDetail()
-        CalcularTotales()
-
+            LoadEmployeeInfo()
+            LoadLoans()
+            LoadDetail()
+            CalcularTotales()
+        End If
 
     End Sub
 
@@ -250,5 +257,13 @@
 
     End Sub
 
+    Private Sub DGV_EmployeeInfo_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_EmployeeInfo.MouseClick
+        Dim hit As DataGridView.HitTestInfo = DGV_EmployeeInfo.HitTest(e.X, e.Y)
 
+        If hit.RowIndex >= 0 Then
+            Dim row As DataGridViewRow = DGV_EmployeeInfo.Rows(hit.RowIndex)
+
+            GV_Balance = CInt(row.Cells(3).Value) ' Balance
+        End If
+    End Sub
 End Class

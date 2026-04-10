@@ -9,6 +9,9 @@
 
     Sub LoadEmployees()
         Dim obj As New CL_EmployeeLoans
+        DGV_EmployeeInfo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+        DGV_EmployeeInfo.AutoResizeColumns()
+        DGV_EmployeeInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         DGV_EmployeeInfo.DataSource = obj.GetAllEmployeesInfo()
 
         DGV_EmployeeInfo.Columns("No. Empleado").HeaderText = "No. Empleado"
@@ -18,6 +21,9 @@
 
 
     Sub LoadLoans()
+        DGV_Loans.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+        DGV_Loans.AutoResizeColumns()
+        DGV_Loans.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         Dim obj As New CL_EmployeeLoans
         DGV_Loans.DataSource = obj.GetAllLoans()
 
@@ -37,6 +43,7 @@
     End Sub
 
     Sub LoadDiscounts()
+
         Dim obj As New CL_EmployeeLoans
         CB_Discounts.DataSource = obj.GetDiscounts()
         CB_Discounts.DisplayMember = "Nombre de descuento"

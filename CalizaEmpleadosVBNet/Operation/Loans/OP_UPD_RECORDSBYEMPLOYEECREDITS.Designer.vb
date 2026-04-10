@@ -53,18 +53,21 @@ Partial Class OP_UPD_RECORDSBYEMPLOYEECREDITS
         GroupBox1.Controls.Add(CB_Credits)
         GroupBox1.Controls.Add(LB_Type)
         GroupBox1.Controls.Add(DGV_Loans)
-        GroupBox1.Location = New Point(17, 77)
+        GroupBox1.Location = New Point(12, 46)
+        GroupBox1.Margin = New Padding(2)
         GroupBox1.Name = "GroupBox1"
-        GroupBox1.Size = New Size(1009, 616)
+        GroupBox1.Padding = New Padding(2)
+        GroupBox1.Size = New Size(1193, 440)
         GroupBox1.TabIndex = 1
         GroupBox1.TabStop = False
         GroupBox1.Text = "Créditos"
         ' 
         ' BT_Upd
         ' 
-        BT_Upd.Location = New Point(881, 559)
+        BT_Upd.Location = New Point(607, 397)
+        BT_Upd.Margin = New Padding(2)
         BT_Upd.Name = "BT_Upd"
-        BT_Upd.Size = New Size(105, 38)
+        BT_Upd.Size = New Size(74, 23)
         BT_Upd.TabIndex = 25
         BT_Upd.Text = "Actualizar"
         BT_Upd.UseVisualStyleBackColor = True
@@ -72,98 +75,88 @@ Partial Class OP_UPD_RECORDSBYEMPLOYEECREDITS
         ' TB_Ammount
         ' 
         TB_Ammount.BackColor = SystemColors.Info
-        TB_Ammount.Location = New Point(405, 517)
-        TB_Ammount.Margin = New Padding(4, 5, 4, 5)
+        TB_Ammount.Location = New Point(284, 397)
         TB_Ammount.Name = "TB_Ammount"
-        TB_Ammount.Size = New Size(170, 31)
+        TB_Ammount.Size = New Size(120, 23)
         TB_Ammount.TabIndex = 24
         ' 
         ' LB_Ammount
         ' 
         LB_Ammount.AutoSize = True
         LB_Ammount.ForeColor = SystemColors.ActiveCaptionText
-        LB_Ammount.Location = New Point(405, 485)
-        LB_Ammount.Margin = New Padding(4, 0, 4, 0)
+        LB_Ammount.Location = New Point(284, 378)
         LB_Ammount.Name = "LB_Ammount"
-        LB_Ammount.Size = New Size(155, 25)
+        LB_Ammount.Size = New Size(102, 15)
         LB_Ammount.TabIndex = 23
         LB_Ammount.Text = "Monto de crédito:"
         ' 
         ' CB_Discounts
         ' 
         CB_Discounts.FormattingEnabled = True
-        CB_Discounts.Location = New Point(25, 515)
-        CB_Discounts.Margin = New Padding(4, 5, 4, 5)
+        CB_Discounts.Location = New Point(18, 396)
         CB_Discounts.Name = "CB_Discounts"
-        CB_Discounts.Size = New Size(315, 33)
+        CB_Discounts.Size = New Size(222, 23)
         CB_Discounts.TabIndex = 22
         ' 
         ' LB_Discount
         ' 
         LB_Discount.AutoSize = True
         LB_Discount.ForeColor = SystemColors.ActiveCaptionText
-        LB_Discount.Location = New Point(25, 485)
-        LB_Discount.Margin = New Padding(4, 0, 4, 0)
+        LB_Discount.Location = New Point(18, 378)
         LB_Discount.Name = "LB_Discount"
-        LB_Discount.Size = New Size(100, 25)
+        LB_Discount.Size = New Size(66, 15)
         LB_Discount.TabIndex = 21
         LB_Discount.Text = "Descuento:"
         ' 
         ' TB_AuthorizeBy
         ' 
-        TB_AuthorizeBy.Location = New Point(25, 429)
-        TB_AuthorizeBy.Margin = New Padding(4, 5, 4, 5)
+        TB_AuthorizeBy.Location = New Point(18, 344)
         TB_AuthorizeBy.Name = "TB_AuthorizeBy"
-        TB_AuthorizeBy.Size = New Size(315, 31)
+        TB_AuthorizeBy.Size = New Size(222, 23)
         TB_AuthorizeBy.TabIndex = 20
         ' 
         ' LB_AuthorizeBy
         ' 
         LB_AuthorizeBy.AutoSize = True
-        LB_AuthorizeBy.Location = New Point(25, 388)
-        LB_AuthorizeBy.Margin = New Padding(4, 0, 4, 0)
+        LB_AuthorizeBy.Location = New Point(18, 320)
         LB_AuthorizeBy.Name = "LB_AuthorizeBy"
-        LB_AuthorizeBy.Size = New Size(137, 25)
+        LB_AuthorizeBy.Size = New Size(89, 15)
         LB_AuthorizeBy.TabIndex = 19
         LB_AuthorizeBy.Text = "Autorizado por:"
         ' 
         ' TB_Comment
         ' 
-        TB_Comment.Location = New Point(396, 346)
-        TB_Comment.Margin = New Padding(4, 5, 4, 5)
+        TB_Comment.Location = New Point(277, 295)
         TB_Comment.Multiline = True
         TB_Comment.Name = "TB_Comment"
-        TB_Comment.Size = New Size(575, 114)
+        TB_Comment.Size = New Size(404, 70)
         TB_Comment.TabIndex = 18
         ' 
         ' LB_Comment
         ' 
         LB_Comment.AutoSize = True
         LB_Comment.ForeColor = SystemColors.ActiveCaptionText
-        LB_Comment.Location = New Point(396, 307)
-        LB_Comment.Margin = New Padding(4, 0, 4, 0)
+        LB_Comment.Location = New Point(277, 271)
         LB_Comment.Name = "LB_Comment"
-        LB_Comment.Size = New Size(109, 25)
+        LB_Comment.Size = New Size(73, 15)
         LB_Comment.TabIndex = 17
         LB_Comment.Text = "Comentario:"
         ' 
         ' CB_Credits
         ' 
         CB_Credits.FormattingEnabled = True
-        CB_Credits.Location = New Point(25, 337)
-        CB_Credits.Margin = New Padding(4, 5, 4, 5)
+        CB_Credits.Location = New Point(18, 289)
         CB_Credits.Name = "CB_Credits"
-        CB_Credits.Size = New Size(315, 33)
+        CB_Credits.Size = New Size(222, 23)
         CB_Credits.TabIndex = 16
         ' 
         ' LB_Type
         ' 
         LB_Type.AutoSize = True
         LB_Type.ForeColor = SystemColors.ActiveCaptionText
-        LB_Type.Location = New Point(25, 307)
-        LB_Type.Margin = New Padding(4, 0, 4, 0)
+        LB_Type.Location = New Point(18, 271)
         LB_Type.Name = "LB_Type"
-        LB_Type.Size = New Size(136, 25)
+        LB_Type.Size = New Size(90, 15)
         LB_Type.TabIndex = 15
         LB_Type.Text = "Tipo de crédito:"
         ' 
@@ -172,20 +165,22 @@ Partial Class OP_UPD_RECORDSBYEMPLOYEECREDITS
         DGV_Loans.AllowUserToAddRows = False
         DGV_Loans.AllowUserToDeleteRows = False
         DGV_Loans.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_Loans.Location = New Point(25, 40)
+        DGV_Loans.Location = New Point(18, 24)
+        DGV_Loans.Margin = New Padding(2)
         DGV_Loans.Name = "DGV_Loans"
         DGV_Loans.ReadOnly = True
         DGV_Loans.RowHeadersWidth = 62
-        DGV_Loans.Size = New Size(946, 240)
+        DGV_Loans.Size = New Size(1153, 233)
         DGV_Loans.TabIndex = 1
         ' 
         ' OP_UPD_RECORDSBYEMPLOYEECREDITS
         ' 
-        AutoScaleDimensions = New SizeF(10F, 25F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(1924, 1050)
+        ClientSize = New Size(1609, 630)
         Controls.Add(GroupBox1)
+        Margin = New Padding(2)
         Name = "OP_UPD_RECORDSBYEMPLOYEECREDITS"
         Text = "Actualizar crédito"
         WindowState = FormWindowState.Maximized

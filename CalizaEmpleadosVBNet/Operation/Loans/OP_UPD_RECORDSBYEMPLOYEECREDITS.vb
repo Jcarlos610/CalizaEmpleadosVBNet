@@ -26,6 +26,10 @@
 
     Sub LoadLoans()
         Dim obj As New CL_EmployeeLoans
+
+        DGV_Loans.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+        DGV_Loans.AutoResizeColumns()
+        DGV_Loans.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         DGV_Loans.DataSource = obj.GetAllLoans()
 
         DGV_Loans.Columns("EMPL_ID").HeaderText = "ID"

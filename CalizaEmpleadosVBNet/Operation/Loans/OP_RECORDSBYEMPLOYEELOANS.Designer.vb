@@ -45,19 +45,19 @@ Partial Class OP_RECORDSBYEMPLOYEELOANS
         ' LB_ManualInstalment
         ' 
         LB_ManualInstalment.AutoSize = True
-        LB_ManualInstalment.Location = New Point(24, 633)
+        LB_ManualInstalment.Location = New Point(17, 368)
+        LB_ManualInstalment.Margin = New Padding(2, 0, 2, 0)
         LB_ManualInstalment.Name = "LB_ManualInstalment"
-        LB_ManualInstalment.Size = New Size(134, 25)
+        LB_ManualInstalment.Size = New Size(89, 15)
         LB_ManualInstalment.TabIndex = 2
         LB_ManualInstalment.Text = "Abono manual:"
         ' 
         ' TB_ManualInstalment
         ' 
         TB_ManualInstalment.BackColor = SystemColors.Info
-        TB_ManualInstalment.Location = New Point(165, 627)
-        TB_ManualInstalment.Margin = New Padding(4, 5, 4, 5)
+        TB_ManualInstalment.Location = New Point(116, 364)
         TB_ManualInstalment.Name = "TB_ManualInstalment"
-        TB_ManualInstalment.Size = New Size(141, 31)
+        TB_ManualInstalment.Size = New Size(100, 23)
         TB_ManualInstalment.TabIndex = 3
         ' 
         ' DGV_DetailInstalment
@@ -66,18 +66,20 @@ Partial Class OP_RECORDSBYEMPLOYEELOANS
         DGV_DetailInstalment.AllowUserToDeleteRows = False
         DGV_DetailInstalment.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         DGV_DetailInstalment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_DetailInstalment.Location = New Point(25, 730)
+        DGV_DetailInstalment.Location = New Point(18, 407)
+        DGV_DetailInstalment.Margin = New Padding(2)
         DGV_DetailInstalment.Name = "DGV_DetailInstalment"
         DGV_DetailInstalment.ReadOnly = True
         DGV_DetailInstalment.RowHeadersWidth = 62
-        DGV_DetailInstalment.Size = New Size(826, 200)
+        DGV_DetailInstalment.Size = New Size(680, 120)
         DGV_DetailInstalment.TabIndex = 1
         ' 
         ' BT_Register
         ' 
-        BT_Register.Location = New Point(332, 623)
+        BT_Register.Location = New Point(232, 362)
+        BT_Register.Margin = New Padding(2)
         BT_Register.Name = "BT_Register"
-        BT_Register.Size = New Size(159, 38)
+        BT_Register.Size = New Size(111, 23)
         BT_Register.TabIndex = 4
         BT_Register.Text = "Registrar Monto"
         BT_Register.UseVisualStyleBackColor = True
@@ -88,11 +90,12 @@ Partial Class OP_RECORDSBYEMPLOYEELOANS
         DGV_EmployeeInfo.AllowUserToDeleteRows = False
         DGV_EmployeeInfo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         DGV_EmployeeInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_EmployeeInfo.Location = New Point(25, 91)
+        DGV_EmployeeInfo.Location = New Point(18, 49)
+        DGV_EmployeeInfo.Margin = New Padding(2)
         DGV_EmployeeInfo.Name = "DGV_EmployeeInfo"
         DGV_EmployeeInfo.ReadOnly = True
         DGV_EmployeeInfo.RowHeadersWidth = 62
-        DGV_EmployeeInfo.Size = New Size(826, 251)
+        DGV_EmployeeInfo.Size = New Size(1068, 151)
         DGV_EmployeeInfo.TabIndex = 0
         ' 
         ' DGV_Loans
@@ -100,46 +103,47 @@ Partial Class OP_RECORDSBYEMPLOYEELOANS
         DGV_Loans.AllowUserToAddRows = False
         DGV_Loans.AllowUserToDeleteRows = False
         DGV_Loans.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_Loans.Location = New Point(25, 406)
+        DGV_Loans.Location = New Point(18, 227)
+        DGV_Loans.Margin = New Padding(2)
         DGV_Loans.Name = "DGV_Loans"
         DGV_Loans.ReadOnly = True
         DGV_Loans.RowHeadersWidth = 62
-        DGV_Loans.Size = New Size(826, 200)
+        DGV_Loans.Size = New Size(951, 120)
         DGV_Loans.TabIndex = 8
         ' 
         ' TB_TotalLoans
         ' 
-        TB_TotalLoans.BackColor = SystemColors.Window
-        TB_TotalLoans.Location = New Point(194, 938)
-        TB_TotalLoans.Margin = New Padding(4, 5, 4, 5)
+        TB_TotalLoans.BackColor = SystemColors.Info
+        TB_TotalLoans.Location = New Point(137, 539)
         TB_TotalLoans.Name = "TB_TotalLoans"
-        TB_TotalLoans.Size = New Size(141, 31)
+        TB_TotalLoans.Size = New Size(100, 23)
         TB_TotalLoans.TabIndex = 9
         ' 
         ' TB_balance
         ' 
-        TB_balance.BackColor = SystemColors.Window
-        TB_balance.Location = New Point(447, 941)
-        TB_balance.Margin = New Padding(4, 5, 4, 5)
+        TB_balance.BackColor = SystemColors.Info
+        TB_balance.Location = New Point(310, 539)
         TB_balance.Name = "TB_balance"
-        TB_balance.Size = New Size(141, 31)
+        TB_balance.Size = New Size(100, 23)
         TB_balance.TabIndex = 10
         ' 
         ' LB_TotalLoans
         ' 
         LB_TotalLoans.AutoSize = True
-        LB_TotalLoans.Location = New Point(24, 944)
+        LB_TotalLoans.Location = New Point(18, 542)
+        LB_TotalLoans.Margin = New Padding(2, 0, 2, 0)
         LB_TotalLoans.Name = "LB_TotalLoans"
-        LB_TotalLoans.Size = New Size(163, 25)
+        LB_TotalLoans.Size = New Size(109, 15)
         LB_TotalLoans.TabIndex = 12
         LB_TotalLoans.Text = "Monto acumulado:"
         ' 
         ' LB_balance
         ' 
         LB_balance.AutoSize = True
-        LB_balance.Location = New Point(379, 944)
+        LB_balance.Location = New Point(266, 542)
+        LB_balance.Margin = New Padding(2, 0, 2, 0)
         LB_balance.Name = "LB_balance"
-        LB_balance.Size = New Size(61, 25)
+        LB_balance.Size = New Size(39, 15)
         LB_balance.TabIndex = 13
         LB_balance.Text = "Saldo:"
         ' 
@@ -158,11 +162,9 @@ Partial Class OP_RECORDSBYEMPLOYEELOANS
         GB_SavingInformation.Controls.Add(DGV_DetailInstalment)
         GB_SavingInformation.Controls.Add(TB_ManualInstalment)
         GB_SavingInformation.Controls.Add(LB_ManualInstalment)
-        GB_SavingInformation.Location = New Point(17, 77)
-        GB_SavingInformation.Margin = New Padding(4, 5, 4, 5)
+        GB_SavingInformation.Location = New Point(12, 46)
         GB_SavingInformation.Name = "GB_SavingInformation"
-        GB_SavingInformation.Padding = New Padding(4, 5, 4, 5)
-        GB_SavingInformation.Size = New Size(1580, 974)
+        GB_SavingInformation.Size = New Size(1106, 573)
         GB_SavingInformation.TabIndex = 6
         GB_SavingInformation.TabStop = False
         GB_SavingInformation.Text = "Información sobre créditos"
@@ -171,10 +173,9 @@ Partial Class OP_RECORDSBYEMPLOYEELOANS
         ' 
         Label2.AutoSize = True
         Label2.ForeColor = SystemColors.ActiveCaptionText
-        Label2.Location = New Point(25, 685)
-        Label2.Margin = New Padding(4, 0, 4, 0)
+        Label2.Location = New Point(18, 390)
         Label2.Name = "Label2"
-        Label2.Size = New Size(281, 25)
+        Label2.Size = New Size(183, 15)
         Label2.TabIndex = 16
         Label2.Text = "Detalle de pagos por cada crédito"
         ' 
@@ -182,10 +183,9 @@ Partial Class OP_RECORDSBYEMPLOYEELOANS
         ' 
         Label1.AutoSize = True
         Label1.ForeColor = SystemColors.ActiveCaptionText
-        Label1.Location = New Point(25, 364)
-        Label1.Margin = New Padding(4, 0, 4, 0)
+        Label1.Location = New Point(18, 208)
         Label1.Name = "Label1"
-        Label1.Size = New Size(425, 25)
+        Label1.Size = New Size(281, 15)
         Label1.TabIndex = 15
         Label1.Text = "Detalle de créditos por empleado (Activos/Pagados)"
         ' 
@@ -193,21 +193,21 @@ Partial Class OP_RECORDSBYEMPLOYEELOANS
         ' 
         LB_SelectEmployee.AutoSize = True
         LB_SelectEmployee.ForeColor = SystemColors.ActiveCaptionText
-        LB_SelectEmployee.Location = New Point(25, 51)
-        LB_SelectEmployee.Margin = New Padding(4, 0, 4, 0)
+        LB_SelectEmployee.Location = New Point(18, 31)
         LB_SelectEmployee.Name = "LB_SelectEmployee"
-        LB_SelectEmployee.Size = New Size(275, 25)
+        LB_SelectEmployee.Size = New Size(179, 15)
         LB_SelectEmployee.TabIndex = 14
         LB_SelectEmployee.Text = "Saldos pendientes por empleado"
         ' 
         ' OP_RECORDSBYEMPLOYEELOANS
         ' 
-        AutoScaleDimensions = New SizeF(10F, 25F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(1924, 1050)
+        ClientSize = New Size(1347, 658)
         Controls.Add(GB_SavingInformation)
+        Margin = New Padding(2)
         Name = "OP_RECORDSBYEMPLOYEELOANS"
         Text = "Registro de abonos a créditos"
         WindowState = FormWindowState.Maximized
