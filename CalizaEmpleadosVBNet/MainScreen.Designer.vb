@@ -439,7 +439,8 @@ Partial Class MainScreen
         ' RegistrarPermisoToolStripMenuItem
         ' 
         RegistrarPermisoToolStripMenuItem.Name = "RegistrarPermisoToolStripMenuItem"
-        RegistrarPermisoToolStripMenuItem.Size = New Size(166, 22)
+        RegistrarPermisoToolStripMenuItem.Size = New Size(270, 34)
+        RegistrarPermisoToolStripMenuItem.Tag = "OP_ADMNISTRATIONOFINCIDENTS"
         RegistrarPermisoToolStripMenuItem.Text = "Registrar Permiso"
         ' 
         ' ReportesToolStripMenuItem3
@@ -509,6 +510,19 @@ Partial Class MainScreen
         ReportesToolStripMenuItem1.Size = New Size(173, 22)
         ReportesToolStripMenuItem1.Text = "Reportes"
         ' 
+        ' PagoAnticipadoToolStripMenuItem
+        ' 
+        PagoAnticipadoToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {RegistrarNuevoToolStripMenuItem})
+        PagoAnticipadoToolStripMenuItem.Name = "PagoAnticipadoToolStripMenuItem"
+        PagoAnticipadoToolStripMenuItem.Size = New Size(270, 34)
+        PagoAnticipadoToolStripMenuItem.Text = "Pago anticipado"
+        ' 
+        ' RegistrarNuevoToolStripMenuItem
+        ' 
+        RegistrarNuevoToolStripMenuItem.Name = "RegistrarNuevoToolStripMenuItem"
+        RegistrarNuevoToolStripMenuItem.Size = New Size(270, 34)
+        RegistrarNuevoToolStripMenuItem.Text = "Registrar nuevo"
+        ' 
         ' ReportesToolStripMenuItem2
         ' 
         ReportesToolStripMenuItem2.DropDownItems.AddRange(New ToolStripItem() {AnalisisSemanalToolStripMenuItem, AnalisisDeSalarioToolStripMenuItem})
@@ -532,7 +546,7 @@ Partial Class MainScreen
         ' 
         ' MainScreen
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
         BackgroundImageLayout = ImageLayout.Stretch
         ClientSize = New Size(1226, 529)
