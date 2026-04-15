@@ -94,9 +94,9 @@ Public Class MD_UPD_Benefits
             CB_Type.SelectedIndex = 2
         End If
         TB_AuthorizeBy.Text = Item(6).ToString()
-        DT_ValidFrom.Value = CDate(Item(9))
-        DT_ValidTo.Value = CDate(Item(10))
-        CB_Status.Checked = Item(8)
+        DT_ValidFrom.Value = CDate(Item(10))
+        DT_ValidTo.Value = CDate(Item(11))
+        CB_Status.Checked = Item(9)
         TB_Ammount.Text = If(IsDBNull(Item("BENEF_AMMOU")), "", Item("BENEF_AMMOU").ToString())
         TB_Percent.Text = If(IsDBNull(Item("BENEF_PERCENT")), "", Item("BENEF_PERCENT").ToString())
 

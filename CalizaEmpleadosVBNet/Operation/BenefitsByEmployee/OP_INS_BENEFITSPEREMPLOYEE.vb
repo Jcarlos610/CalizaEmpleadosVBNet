@@ -55,7 +55,7 @@ Public Class OP_INS_BENEFITSPEREMPLOYEE
             .Columns.Add("Monto", "Monto")
             .Columns.Add("ValidoDesde", "Válido desde")
             .Columns.Add("ValidoHasta", "Válido hasta")
-            .Columns("Monto").DefaultCellStyle.Format = "C2"
+            '.Columns("Monto").DefaultCellStyle.Format = "C2"
 
             Dim colCheck As New DataGridViewCheckBoxColumn()
             colCheck.Name = "Status"
@@ -232,7 +232,7 @@ Public Class OP_INS_BENEFITSPEREMPLOYEE
 
         'Add Benefit to DGV
         Dim Benefit_Name = row.Cells("Nombre de beneficio").Value
-        Dim Ammount = row.Cells("Monto").Value
+        Dim Ammount = row.Cells("valor").Value.ToString.Replace("%", "")
         Dim ValidFrom = row.Cells("Válido desde").Value
         Dim ValidTO = row.Cells("Válido hasta").Value
 
