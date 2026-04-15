@@ -21,6 +21,23 @@
 
             TB_AuthorizeBy.Text = DGV_Loans.CurrentRow.Cells("AutorizadoPor").Value.ToString()
         End If
+
+        If DGV_Loans.Columns.Contains("DISC_ID") Then
+
+            Dim valor = DGV_Loans.CurrentRow.Cells("DISC_ID").Value
+
+            If valor IsNot Nothing AndAlso Not IsDBNull(valor) Then
+                Try
+                    CB_Discounts.SelectedValue = Convert.ToInt32(valor)
+                Catch
+                    CB_Discounts.SelectedIndex = -1
+                End Try
+            Else
+                CB_Discounts.SelectedIndex = -1
+            End If
+
+        End If
+
     End Sub
 
 
