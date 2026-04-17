@@ -29,6 +29,8 @@ Public Class OP_INS_MANUALLUNCHHOURS
         Try
             Dim Employees As New CL_Employee
             Dim dt As DataTable = Employees.Get_AllActiveEmployeesListForLunchHoursAndBanns()
+            DGV_ActiveEmployeesInfo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+            DGV_ActiveEmployeesInfo.AutoResizeColumns()
             DGV_ActiveEmployeesInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
             DGV_ActiveEmployeesInfo.DataSource = dt
 

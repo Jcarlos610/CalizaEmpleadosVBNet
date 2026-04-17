@@ -243,4 +243,106 @@ Public Class CL_Incidents
         Return dt
     End Function
 
+    Public Function GetEmployeeSummary(ByVal EMPL_ID As Integer) As DataTable
+
+        Dim dt As New DataTable
+
+        Try
+            DB_Connection.Open()
+
+            DB_Command = New SqlCommand("SEL_EMPLOYEE_INCIDENTS_SUMMARY", DB_Connection)
+            DB_Command.CommandType = CommandType.StoredProcedure
+
+            DB_Command.Parameters.Clear()
+            DB_Command.Parameters.AddWithValue("@EMPL_ID", EMPL_ID)
+
+            DB_Reader = DB_Command.ExecuteReader()
+            dt.Load(DB_Reader)
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        Finally
+            DB_Connection.Close()
+        End Try
+
+        Return dt
+
+    End Function
+
+    Public Function CancelIncident(ByVal REMPL_ID As Integer) As Boolean
+
+        Dim result As Boolean = False
+
+        Try
+            DB_Connection.Open()
+
+            DB_Command = New SqlCommand("UPD_CANCEL_INCIDENT", DB_Connection)
+            DB_Command.CommandType = CommandType.StoredProcedure
+
+            DB_Command.Parameters.Clear()
+            DB_Command.Parameters.AddWithValue("@REMPL_ID", REMPL_ID)
+
+            DB_Command.ExecuteNonQuery()
+
+            result = True
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        Finally
+            DB_Connection.Close()
+        End Try
+
+        Return result
+
+    End Function
+    Public Function GetLastIncidentByEmployee(ByVal EMPL_ID As Integer) As DataTable
+
+        Dim dt As New DataTable
+
+        Try
+            DB_Connection.Open()
+
+            DB_Command = New SqlCommand("SEL_GETLASTINCIDENT_BYEMPLOYEE", DB_Connection)
+            DB_Command.CommandType = CommandType.StoredProcedure
+
+            DB_Command.Parameters.AddWithValue("@EMPL_ID", EMPL_ID)
+
+            DB_Reader = DB_Command.ExecuteReader()
+            dt.Load(DB_Reader)
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        Finally
+            DB_Connection.Close()
+        End Try
+
+        Return dt
+
+    End Function
+
+    Public Function GetIncidentsByEmployee(ByVal EMPL_ID As Integer) As DataTable
+
+        Dim dt As New DataTable
+
+        Try
+            DB_Connection.Open()
+
+            DB_Command = New SqlCommand("SEL_GETINCIDENTS_BYEMPLOYEE", DB_Connection)
+            DB_Command.CommandType = CommandType.StoredProcedure
+
+            DB_Command.Parameters.AddWithValue("@EMPL_ID", EMPL_ID)
+
+            DB_Reader = DB_Command.ExecuteReader()
+            dt.Load(DB_Reader)
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        Finally
+            DB_Connection.Close()
+        End Try
+
+        Return dt
+
+    End Function
+
 End Class
