@@ -37,11 +37,9 @@ Partial Class OP_UPD_MANUALLUNCHHOURS
         GB_EmployeesList.Controls.Add(BT_Update)
         GB_EmployeesList.Controls.Add(LB_SetDate)
         GB_EmployeesList.Controls.Add(DGV_ActiveEmployeesInfo)
-        GB_EmployeesList.Location = New Point(17, 77)
-        GB_EmployeesList.Margin = New Padding(4, 5, 4, 5)
+        GB_EmployeesList.Location = New Point(12, 46)
         GB_EmployeesList.Name = "GB_EmployeesList"
-        GB_EmployeesList.Padding = New Padding(4, 5, 4, 5)
-        GB_EmployeesList.Size = New Size(1606, 953)
+        GB_EmployeesList.Size = New Size(1124, 572)
         GB_EmployeesList.TabIndex = 1
         GB_EmployeesList.TabStop = False
         GB_EmployeesList.Text = "Lista de empleados activos"
@@ -49,17 +47,17 @@ Partial Class OP_UPD_MANUALLUNCHHOURS
         ' CB_Dates
         ' 
         CB_Dates.FormattingEnabled = True
-        CB_Dates.Location = New Point(30, 78)
+        CB_Dates.Location = New Point(21, 47)
+        CB_Dates.Margin = New Padding(2, 2, 2, 2)
         CB_Dates.Name = "CB_Dates"
-        CB_Dates.Size = New Size(276, 33)
+        CB_Dates.Size = New Size(194, 23)
         CB_Dates.TabIndex = 7
         ' 
         ' BT_Update
         ' 
-        BT_Update.Location = New Point(1374, 78)
-        BT_Update.Margin = New Padding(4, 5, 4, 5)
+        BT_Update.Location = New Point(1005, 47)
         BT_Update.Name = "BT_Update"
-        BT_Update.Size = New Size(183, 53)
+        BT_Update.Size = New Size(85, 32)
         BT_Update.TabIndex = 6
         BT_Update.Text = "Actualizar"
         BT_Update.UseVisualStyleBackColor = True
@@ -67,10 +65,9 @@ Partial Class OP_UPD_MANUALLUNCHHOURS
         ' LB_SetDate
         ' 
         LB_SetDate.AutoSize = True
-        LB_SetDate.Location = New Point(31, 50)
-        LB_SetDate.Margin = New Padding(4, 0, 4, 0)
+        LB_SetDate.Location = New Point(22, 30)
         LB_SetDate.Name = "LB_SetDate"
-        LB_SetDate.Size = New Size(246, 25)
+        LB_SetDate.Size = New Size(165, 15)
         LB_SetDate.TabIndex = 3
         LB_SetDate.Text = "Seleccione la fecha de edición"
         ' 
@@ -79,20 +76,20 @@ Partial Class OP_UPD_MANUALLUNCHHOURS
         DGV_ActiveEmployeesInfo.AllowUserToAddRows = False
         DGV_ActiveEmployeesInfo.AllowUserToDeleteRows = False
         DGV_ActiveEmployeesInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_ActiveEmployeesInfo.Location = New Point(30, 142)
-        DGV_ActiveEmployeesInfo.Margin = New Padding(4, 5, 4, 5)
+        DGV_ActiveEmployeesInfo.Location = New Point(21, 85)
         DGV_ActiveEmployeesInfo.Name = "DGV_ActiveEmployeesInfo"
         DGV_ActiveEmployeesInfo.RowHeadersWidth = 62
-        DGV_ActiveEmployeesInfo.Size = New Size(1527, 785)
+        DGV_ActiveEmployeesInfo.Size = New Size(1069, 471)
         DGV_ActiveEmployeesInfo.TabIndex = 2
         ' 
         ' OP_UPD_MANUALLUNCHHOURS
         ' 
-        AutoScaleDimensions = New SizeF(10F, 25F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(1774, 1050)
+        ClientSize = New Size(1242, 630)
         Controls.Add(GB_EmployeesList)
+        Margin = New Padding(2, 2, 2, 2)
         Name = "OP_UPD_MANUALLUNCHHOURS"
         Text = "Edición de horas de comida"
         WindowState = FormWindowState.Maximized

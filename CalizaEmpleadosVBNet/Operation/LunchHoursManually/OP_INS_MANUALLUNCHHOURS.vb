@@ -52,6 +52,24 @@ Public Class OP_INS_MANUALLUNCHHOURS
 
             DGV_ActiveEmployeesInfo.Columns.Add(ColBannQuant)
 
+            'Agregar columna editable de horas
+            Dim ColTransportationBenefit As New DataGridViewTextBoxColumn
+
+            ColTransportationBenefit.Name = "DREMPL_TBENEF"
+            ColTransportationBenefit.HeaderText = "Bono de transporte"
+            ColTransportationBenefit.ValueType = GetType(String)
+
+            DGV_ActiveEmployeesInfo.Columns.Add(ColTransportationBenefit)
+
+            'Agregar columna editable de horas
+            Dim ColTransportation As New DataGridViewTextBoxColumn
+
+            ColTransportation.Name = "DREMPL_THOURS"
+            ColTransportation.HeaderText = "No. días de transporte"
+            ColTransportation.ValueType = GetType(Decimal)
+
+            DGV_ActiveEmployeesInfo.Columns.Add(ColTransportation)
+
             'Configuración visual
             DGV_ActiveEmployeesInfo.Columns(0).ReadOnly = True
             DGV_ActiveEmployeesInfo.Columns(1).ReadOnly = True

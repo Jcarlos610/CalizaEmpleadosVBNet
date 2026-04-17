@@ -39,14 +39,14 @@ Partial Class OP_INS_MANUALLUNCHHOURS
         GB_EmployeesList.Controls.Add(DGV_ActiveEmployeesInfo)
         GB_EmployeesList.Location = New Point(12, 46)
         GB_EmployeesList.Name = "GB_EmployeesList"
-        GB_EmployeesList.Size = New Size(1124, 572)
+        GB_EmployeesList.Size = New Size(1574, 572)
         GB_EmployeesList.TabIndex = 0
         GB_EmployeesList.TabStop = False
         GB_EmployeesList.Text = "Lista de empleados activos"
         ' 
         ' BT_RegisterInfo
         ' 
-        BT_RegisterInfo.Location = New Point(962, 47)
+        BT_RegisterInfo.Location = New Point(1428, 47)
         BT_RegisterInfo.Name = "BT_RegisterInfo"
         BT_RegisterInfo.Size = New Size(128, 32)
         BT_RegisterInfo.TabIndex = 6
@@ -76,7 +76,7 @@ Partial Class OP_INS_MANUALLUNCHHOURS
         DGV_ActiveEmployeesInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DGV_ActiveEmployeesInfo.Location = New Point(21, 85)
         DGV_ActiveEmployeesInfo.Name = "DGV_ActiveEmployeesInfo"
-        DGV_ActiveEmployeesInfo.Size = New Size(1069, 471)
+        DGV_ActiveEmployeesInfo.Size = New Size(1535, 471)
         DGV_ActiveEmployeesInfo.TabIndex = 2
         ' 
         ' OP_INS_MANUALLUNCHHOURS
@@ -84,7 +84,7 @@ Partial Class OP_INS_MANUALLUNCHHOURS
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(1242, 630)
+        ClientSize = New Size(1616, 630)
         Controls.Add(GB_EmployeesList)
         Name = "OP_INS_MANUALLUNCHHOURS"
         Text = "Registro de horas de comida"
