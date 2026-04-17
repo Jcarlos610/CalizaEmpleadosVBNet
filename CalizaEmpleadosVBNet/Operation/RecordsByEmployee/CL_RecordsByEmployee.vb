@@ -750,4 +750,109 @@ Public Class CL_RecordsByEmployee
         End Try
     End Function
 
+    Public Function GetLunchDates() As DataTable
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "SEL_LUNCHDATES_WITH_RECORDS",
+                .CommandType = CommandType.StoredProcedure
+            }
+
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+            DB_Reader = DB_Command.ExecuteReader()
+
+            Dim dt As New DataTable
+            dt.Load(DB_Reader)
+
+            DB_Reader.Close()
+            DB_Connection.Close()
+
+            Return dt
+
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox(ex.Message)
+            Return Nothing
+        End Try
+    End Function
+
+    Public Function GetLunchByDate(fecha As Date) As DataTable
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "SEL_LUNCHBYDATE",
+                .CommandType = CommandType.StoredProcedure
+            }
+
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+            DB_Command.Parameters.AddWithValue("@DATE", fecha)
+
+            DB_Reader = DB_Command.ExecuteReader()
+
+            Dim dt As New DataTable
+            dt.Load(DB_Reader)
+
+            DB_Reader.Close()
+            DB_Connection.Close()
+
+            Return dt
+
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox(ex.Message)
+            Return Nothing
+        End Try
+    End Function
+
+    Public Function UpdateLunchHours(id As Integer, hours As Decimal) As Boolean
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "UPD_LUNCHHOURS",
+                .CommandType = CommandType.StoredProcedure
+            }
+
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+
+            DB_Command.Parameters.AddWithValue("@DREMPL_ID", id)
+            DB_Command.Parameters.AddWithValue("@DREMPL_LHOUR", hours)
+
+            DB_Command.ExecuteNonQuery()
+            DB_Connection.Close()
+
+            Return True
+
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox(ex.Message)
+            Return False
+        End Try
+    End Function
+
+    Public Function UpdateBann(ByVal DREMPL_ID As Integer, ByVal Banns As Decimal) As Boolean
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "UPD_RECORDSBYEMPLOYEEBANNS",
+                .CommandType = CommandType.StoredProcedure
+            }
+
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+
+            DB_Command.Parameters.AddWithValue("@DREMPL_ID", DREMPL_ID)
+            DB_Command.Parameters.AddWithValue("@DREMPL_BQUANT", Banns)
+
+            DB_Command.ExecuteNonQuery()
+
+            DB_Connection.Close()
+
+            Return True
+
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Error: " & ex.Message & " CL_RecordsByEmployee.UpdateEmployeeBannQuantity()")
+            Return False
+        End Try
+    End Function
+
 End Class

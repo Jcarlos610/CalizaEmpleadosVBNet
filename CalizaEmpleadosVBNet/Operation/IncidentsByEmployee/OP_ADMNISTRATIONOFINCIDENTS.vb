@@ -37,6 +37,10 @@ Public Class OP_ADMNISTRATIONOFINCIDENTS
         TB_InDays.ReadOnly = True
         TB_VacDays.ReadOnly = True
 
+        TB_EmployeeName.ReadOnly = True
+        TB_TotalPermissions.ReadOnly = True
+        TB_TotalVacations.ReadOnly = True
+
         LoadEmployees()
 
     End Sub
@@ -47,13 +51,6 @@ Public Class OP_ADMNISTRATIONOFINCIDENTS
         DGV_Employees.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         Dim obj As New CL_Incidents
         DGV_Employees.DataSource = obj.GetAllEmployeesInfo()
-    End Sub
-
-    Private Sub DGV_Employees_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Employees.CellClick
-        If e.RowIndex < 0 Then Exit Sub
-
-        Dim row = DGV_Employees.Rows(e.RowIndex)
-        SelectedEmployeeID = CInt(row.Cells(0).Value)
     End Sub
 
     'REGISTRAR CON GOCE
@@ -78,7 +75,8 @@ Public Class OP_ADMNISTRATIONOFINCIDENTS
         )
 
         If Result Then
-            MessageBox.Show("Permiso con goce registrado")
+            MessageBox.Show("Permiso con goce registrado para el empleado: " & TB_EmployeeName.Text,
+                "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information)
             LoadIncidents()
             InitializationOfFields()
         End If
@@ -107,7 +105,8 @@ Public Class OP_ADMNISTRATIONOFINCIDENTS
         )
 
         If Result Then
-            MessageBox.Show("Permiso sin goce registrado")
+            MessageBox.Show("Permiso sin goce registrado para el empleado: " & TB_EmployeeName.Text,
+                "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information)
             LoadIncidents()
             InitializationOfFields()
         End If
@@ -135,7 +134,8 @@ Public Class OP_ADMNISTRATIONOFINCIDENTS
         )
 
         If Result Then
-            MessageBox.Show("Vacaciones registradas")
+            MessageBox.Show("Vacaciones registradas para el empleado: " & TB_EmployeeName.Text,
+                "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information)
             LoadIncidents()
             InitializationOfFields()
         End If
@@ -245,37 +245,65 @@ Public Class OP_ADMNISTRATIONOFINCIDENTS
         CalcularDias(DTP_VacDateFrom.Value, DTP_VacDateTo.Value, TB_VacDays)
     End Sub
 
+
     Sub LoadIncidents()
+
+        If SelectedEmployeeID = 0 Then
+            DGV_Incidents.DataSource = Nothing
+            Exit Sub
+        End If
+
+        Dim obj As New CL_Incidents
+
+
+        DGV_Incidents.DataSource = Nothing
+        DGV_Incidents.Columns.Clear()
+
+
+        If CHK_LastOnly.Checked Then
+            DGV_Incidents.DataSource = obj.GetLastIncidentByEmployee(SelectedEmployeeID)
+        Else
+            DGV_Incidents.DataSource = obj.GetIncidentsByEmployee(SelectedEmployeeID)
+        End If
+
+
         DGV_Incidents.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
         DGV_Incidents.AutoResizeColumns()
         DGV_Incidents.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-        Dim obj As New CL_Incidents
-        DGV_Incidents.DataSource = Nothing
-        DGV_Incidents.DataSource = obj.GetIncidents()
+
+
         If DGV_Incidents.Columns.Contains("EMPL_ID") Then
             DGV_Incidents.Columns("EMPL_ID").HeaderText = "ID Empleado"
         End If
-        If DGV_Incidents.Columns.Contains("NombreEmpleado") Then
-            DGV_Incidents.Columns("NombreEmpleado").HeaderText = "Empleado"
+
+        If DGV_Incidents.Columns.Contains("Empleado") Then
+            DGV_Incidents.Columns("Empleado").HeaderText = "Empleado"
         End If
-        If DGV_Incidents.Columns.Contains("INC_DATEFR") Then
-            DGV_Incidents.Columns("INC_DATEFR").HeaderText = "Fecha Inicio"
+
+        If DGV_Incidents.Columns.Contains("FechaInicio") Then
+            DGV_Incidents.Columns("FechaInicio").HeaderText = "Fecha Inicio"
         End If
-        If DGV_Incidents.Columns.Contains("INC_DATETO") Then
-            DGV_Incidents.Columns("INC_DATETO").HeaderText = "Fecha Fin"
+
+        If DGV_Incidents.Columns.Contains("FechaFin") Then
+            DGV_Incidents.Columns("FechaFin").HeaderText = "Fecha Fin"
         End If
-        If DGV_Incidents.Columns.Contains("INC_DAYS") Then
-            DGV_Incidents.Columns("INC_DAYS").HeaderText = "Días"
+
+        If DGV_Incidents.Columns.Contains("Dias") Then
+            DGV_Incidents.Columns("Dias").HeaderText = "Días"
         End If
-        If DGV_Incidents.Columns.Contains("INC_DESCR") Then
-            DGV_Incidents.Columns("INC_DESCR").HeaderText = "Comentario"
+
+        If DGV_Incidents.Columns.Contains("Comentario") Then
+            DGV_Incidents.Columns("Comentario").HeaderText = "Comentario"
         End If
-        If DGV_Incidents.Columns.Contains("INC_AUTH") Then
-            DGV_Incidents.Columns("INC_AUTH").HeaderText = "Autorizado por"
+
+        If DGV_Incidents.Columns.Contains("AutorizadoPor") Then
+            DGV_Incidents.Columns("AutorizadoPor").HeaderText = "Autorizado por"
         End If
-        If DGV_Incidents.Columns.Contains("INC_STAT") Then
-            DGV_Incidents.Columns("INC_STAT").HeaderText = "Estado"
+
+        If DGV_Incidents.Columns.Contains("Estado") Then
+            DGV_Incidents.Columns("Estado").HeaderText = "Estado"
         End If
+
 
         If DGV_Incidents.Columns.Contains("REMPL_ID") Then
             DGV_Incidents.Columns("REMPL_ID").Visible = False
@@ -284,6 +312,18 @@ Public Class OP_ADMNISTRATIONOFINCIDENTS
         If DGV_Incidents.Columns.Contains("DREMPL_ID") Then
             DGV_Incidents.Columns("DREMPL_ID").Visible = False
         End If
+
+
+        If Not DGV_Incidents.Columns.Contains("Cancelar") Then
+            Dim btn As New DataGridViewButtonColumn()
+            btn.Name = "Cancelar"
+            btn.HeaderText = "Acción"
+            btn.Text = "Cancelar"
+            btn.UseColumnTextForButtonValue = True
+
+            DGV_Incidents.Columns.Add(btn)
+        End If
+
     End Sub
 
     Private Sub BT_Search_Click(sender As Object, e As EventArgs) Handles BT_Search.Click
@@ -300,28 +340,76 @@ Public Class OP_ADMNISTRATIONOFINCIDENTS
         DGV_Employees.DataSource = report.Get_AllEmployees()
     End Sub
 
-    Private Sub DGV_Incidents_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles DGV_Incidents.CellFormatting
+    Private Sub DGV_Employees_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Employees.CellClick
+        If e.RowIndex < 0 Then Exit Sub
 
-        If DGV_Incidents.Rows(e.RowIndex).Cells("Tipo").Value Is Nothing Then Exit Sub
+        Dim row = DGV_Employees.Rows(e.RowIndex)
 
-        Dim tipo As String = DGV_Incidents.Rows(e.RowIndex).Cells("Tipo").Value.ToString()
+        SelectedEmployeeID = CInt(row.Cells(0).Value)
 
-        Select Case tipo
 
-            Case "Vacaciones"
-                DGV_Incidents.Rows(e.RowIndex).DefaultCellStyle.BackColor = Color.FromArgb(198, 239, 206)
-                DGV_Incidents.Rows(e.RowIndex).DefaultCellStyle.ForeColor = Color.FromArgb(0, 97, 0)
+        TB_EmployeeId.Text = SelectedEmployeeID.ToString()
 
-            Case "Permiso con goce"
-                DGV_Incidents.Rows(e.RowIndex).DefaultCellStyle.BackColor = Color.FromArgb(221, 235, 247)
-                DGV_Incidents.Rows(e.RowIndex).DefaultCellStyle.ForeColor = Color.FromArgb(0, 51, 102)
+        TB_EmployeeName.Text = row.Cells("Nombre Completo").Value.ToString()
 
-            Case "Permiso sin goce"
-                DGV_Incidents.Rows(e.RowIndex).DefaultCellStyle.BackColor = Color.FromArgb(232, 221, 246)
-                DGV_Incidents.Rows(e.RowIndex).DefaultCellStyle.ForeColor = Color.FromArgb(91, 0, 150)
+        LoadIncidents()
+        LoadEmployeeSummary()
+    End Sub
 
-        End Select
+    Sub LoadEmployeeSummary()
+
+        Dim obj As New CL_Incidents
+        Dim dt As DataTable = obj.GetEmployeeSummary(SelectedEmployeeID)
+
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+
+            Dim vac As Integer = If(IsDBNull(dt.Rows(0)("TotalVacaciones")), 0, dt.Rows(0)("TotalVacaciones"))
+            Dim per As Integer = If(IsDBNull(dt.Rows(0)("TotalPermisos")), 0, dt.Rows(0)("TotalPermisos"))
+
+            TB_TotalVacations.Text = "Vacaciones: " & vac & " días"
+            TB_TotalPermissions.Text = "Permisos: " & per & " días"
+
+        Else
+            TB_TotalVacations.Text = "0"
+            TB_TotalPermissions.Text = "0"
+        End If
 
     End Sub
 
+    Private Sub DGV_Incidents_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Incidents.CellClick
+
+        If e.RowIndex < 0 Then Exit Sub
+
+        If DGV_Incidents.Columns(e.ColumnIndex).Name = "Cancelar" Then
+
+            Dim estado As String = DGV_Incidents.Rows(e.RowIndex).Cells("Estado").Value.ToString()
+
+            If estado = "Cancelado" Then
+                MessageBox.Show("Este registro ya está cancelado", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+
+            Dim id As Integer = CInt(DGV_Incidents.Rows(e.RowIndex).Cells("REMPL_ID").Value)
+
+            Dim confirm = MessageBox.Show("¿Deseas cancelar este registro?", "Confirmar",
+                                         MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+            If confirm = DialogResult.Yes Then
+
+                Dim obj As New CL_Incidents
+
+                If obj.CancelIncident(id) Then
+                    MessageBox.Show("Registro cancelado correctamente")
+                    LoadIncidents()
+                End If
+
+            End If
+
+        End If
+
+    End Sub
+
+    Private Sub CHK_LastOnly_CheckedChanged(sender As Object, e As EventArgs) Handles CHK_LastOnly.CheckedChanged
+        LoadIncidents()
+    End Sub
 End Class
