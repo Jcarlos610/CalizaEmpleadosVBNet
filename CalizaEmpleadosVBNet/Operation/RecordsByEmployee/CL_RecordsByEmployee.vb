@@ -568,7 +568,7 @@ Public Class CL_RecordsByEmployee
             }
             DB_Connection.Open()
             DB_Command.Connection = DB_Connection
-            DB_Command.Parameters.AddWithValue("DREMPL_DATE", DREMPL_DATE)
+            DB_Command.Parameters.AddWithValue("DATETOCHECK", DREMPL_DATE)
             DB_Command.Parameters.AddWithValue("EMPL_ID", EMPL_ID)
             DB_Command.Parameters.AddWithValue("MOVE_ID", MOVE_ID)
             DB_Reader = DB_Command.ExecuteReader()
