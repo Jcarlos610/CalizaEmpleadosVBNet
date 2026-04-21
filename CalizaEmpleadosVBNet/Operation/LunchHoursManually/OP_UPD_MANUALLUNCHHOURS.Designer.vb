@@ -49,14 +49,14 @@ Partial Class OP_UPD_MANUALLUNCHHOURS
         ' 
         CB_Dates.FormattingEnabled = True
         CB_Dates.Location = New Point(21, 47)
-        CB_Dates.Margin = New Padding(2, 2, 2, 2)
+        CB_Dates.Margin = New Padding(2)
         CB_Dates.Name = "CB_Dates"
         CB_Dates.Size = New Size(194, 23)
         CB_Dates.TabIndex = 7
         ' 
         ' BT_Update
         ' 
-        BT_Update.Location = New Point(1482, 78)
+        BT_Update.Location = New Point(1571, 47)
         BT_Update.Margin = New Padding(4, 5, 4, 5)
         BT_Update.Name = "BT_Update"
         BT_Update.Size = New Size(85, 32)
@@ -86,13 +86,13 @@ Partial Class OP_UPD_MANUALLUNCHHOURS
         ' 
         ' OP_UPD_MANUALLUNCHHOURS
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1242, 630)
         Controls.Add(GB_EmployeesList)
-        Margin = New Padding(2, 2, 2, 2)
+        Margin = New Padding(2)
         Name = "OP_UPD_MANUALLUNCHHOURS"
         Text = "Edición de horas de comida"
         WindowState = FormWindowState.Maximized

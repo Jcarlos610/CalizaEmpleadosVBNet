@@ -123,23 +123,23 @@ Public Class OP_INS_MANUALLUNCHHOURS
                 DGV_ActiveEmployeesInfo.Columns(i).ReadOnly = True
             Next
 
-            'Agregar columna editable de horas
-            Dim ColTransportationBenefit As New DataGridViewTextBoxColumn
+            ''Agregar columna editable de horas
+            'Dim ColTransportationBenefit As New DataGridViewTextBoxColumn
 
-            ColTransportationBenefit.Name = "DREMPL_TBENEF"
-            ColTransportationBenefit.HeaderText = "Bono de transporte"
-            ColTransportationBenefit.ValueType = GetType(String)
+            'ColTransportationBenefit.Name = "DREMPL_TBENEF"
+            'ColTransportationBenefit.HeaderText = "Bono de transporte"
+            'ColTransportationBenefit.ValueType = GetType(String)
 
-            DGV_ActiveEmployeesInfo.Columns.Add(ColTransportationBenefit)
+            'DGV_ActiveEmployeesInfo.Columns.Add(ColTransportationBenefit)
 
-            'Agregar columna editable de horas
-            Dim ColTransportation As New DataGridViewTextBoxColumn
+            ''Agregar columna editable de horas
+            'Dim ColTransportation As New DataGridViewTextBoxColumn
 
-            ColTransportation.Name = "DREMPL_THOURS"
-            ColTransportation.HeaderText = "No. días de transporte"
-            ColTransportation.ValueType = GetType(Decimal)
+            'ColTransportation.Name = "DREMPL_THOURS"
+            'ColTransportation.HeaderText = "No. días de transporte"
+            'ColTransportation.ValueType = GetType(Decimal)
 
-            DGV_ActiveEmployeesInfo.Columns.Add(ColTransportation)
+            'DGV_ActiveEmployeesInfo.Columns.Add(ColTransportation)
 
             'Configuración visual
             DGV_ActiveEmployeesInfo.Columns(0).ReadOnly = True
@@ -147,7 +147,7 @@ Public Class OP_INS_MANUALLUNCHHOURS
             DGV_ActiveEmployeesInfo.Columns(2).ReadOnly = True
             DGV_ActiveEmployeesInfo.Columns(3).ReadOnly = True
             DGV_ActiveEmployeesInfo.Columns(4).ReadOnly = True
-            DGV_ActiveEmployeesInfo.Columns(5).DefaultCellStyle.BackColor = System.Drawing.Color.LightGoldenrodYellow
+            'DGV_ActiveEmployeesInfo.Columns(5).DefaultCellStyle.BackColor = System.Drawing.Color.LightGoldenrodYellow
             DGV_ActiveEmployeesInfo.Columns(6).DefaultCellStyle.BackColor = System.Drawing.Color.LightCyan
 
             DGV_ActiveEmployeesInfo.Columns("DREMPL_LHOUR").DefaultCellStyle.BackColor = System.Drawing.Color.LightGoldenrodYellow
