@@ -23,6 +23,8 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         GB_NumberOfWeek = New GroupBox()
+        TB_ProdPlant = New TextBox()
+        LB_ProdPlant = New Label()
         DTP_EndDate = New DateTimePicker()
         LB_EndDate = New Label()
         DTP_StartDate = New DateTimePicker()
@@ -72,6 +74,8 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         ' 
         ' GB_NumberOfWeek
         ' 
+        GB_NumberOfWeek.Controls.Add(TB_ProdPlant)
+        GB_NumberOfWeek.Controls.Add(LB_ProdPlant)
         GB_NumberOfWeek.Controls.Add(DTP_EndDate)
         GB_NumberOfWeek.Controls.Add(LB_EndDate)
         GB_NumberOfWeek.Controls.Add(DTP_StartDate)
@@ -85,12 +89,29 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         GB_NumberOfWeek.TabStop = False
         GB_NumberOfWeek.Text = "Información de la semana"
         ' 
+        ' TB_ProdPlant
+        ' 
+        TB_ProdPlant.BackColor = SystemColors.Info
+        TB_ProdPlant.Location = New Point(150, 20)
+        TB_ProdPlant.Name = "TB_ProdPlant"
+        TB_ProdPlant.Size = New Size(72, 23)
+        TB_ProdPlant.TabIndex = 1
+        ' 
+        ' LB_ProdPlant
+        ' 
+        LB_ProdPlant.AutoSize = True
+        LB_ProdPlant.Location = New Point(8, 24)
+        LB_ProdPlant.Name = "LB_ProdPlant"
+        LB_ProdPlant.Size = New Size(136, 15)
+        LB_ProdPlant.TabIndex = 0
+        LB_ProdPlant.Text = "Productividad de planta:"
+        ' 
         ' DTP_EndDate
         ' 
         DTP_EndDate.Location = New Point(396, 54)
         DTP_EndDate.Name = "DTP_EndDate"
         DTP_EndDate.Size = New Size(213, 23)
-        DTP_EndDate.TabIndex = 5
+        DTP_EndDate.TabIndex = 7
         ' 
         ' LB_EndDate
         ' 
@@ -98,7 +119,7 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         LB_EndDate.Location = New Point(320, 58)
         LB_EndDate.Name = "LB_EndDate"
         LB_EndDate.Size = New Size(74, 15)
-        LB_EndDate.TabIndex = 4
+        LB_EndDate.TabIndex = 6
         LB_EndDate.Text = "Fecha de fin:"
         ' 
         ' DTP_StartDate
@@ -106,7 +127,7 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         DTP_StartDate.Location = New Point(99, 54)
         DTP_StartDate.Name = "DTP_StartDate"
         DTP_StartDate.Size = New Size(215, 23)
-        DTP_StartDate.TabIndex = 3
+        DTP_StartDate.TabIndex = 5
         ' 
         ' LB_StartDate
         ' 
@@ -114,25 +135,25 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         LB_StartDate.Location = New Point(8, 58)
         LB_StartDate.Name = "LB_StartDate"
         LB_StartDate.Size = New Size(89, 15)
-        LB_StartDate.TabIndex = 2
+        LB_StartDate.TabIndex = 4
         LB_StartDate.Text = "Fecha de inicio:"
         ' 
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Location = New Point(12, 31)
+        Label1.Location = New Point(263, 24)
         Label1.Name = "Label1"
         Label1.Size = New Size(171, 15)
-        Label1.TabIndex = 1
+        Label1.TabIndex = 2
         Label1.Text = "Selecciona un día de la semana"
         ' 
         ' DTP_WeekSelector
         ' 
         DTP_WeekSelector.Format = DateTimePickerFormat.Short
-        DTP_WeekSelector.Location = New Point(189, 25)
+        DTP_WeekSelector.Location = New Point(440, 20)
         DTP_WeekSelector.Name = "DTP_WeekSelector"
         DTP_WeekSelector.Size = New Size(112, 23)
-        DTP_WeekSelector.TabIndex = 0
+        DTP_WeekSelector.TabIndex = 3
         ' 
         ' PB_Progress
         ' 
@@ -500,4 +521,6 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
     Friend WithEvents Label9 As Label
     Friend WithEvents Label10 As Label
     Friend WithEvents PB_Progress As ProgressBar
+    Friend WithEvents LB_ProdPlant As Label
+    Friend WithEvents TB_ProdPlant As TextBox
 End Class
