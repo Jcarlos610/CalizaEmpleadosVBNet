@@ -41,7 +41,7 @@ Partial Class OP_UPD_MANUALLUNCHHOURS
         GB_EmployeesList.Margin = New Padding(4, 5, 4, 5)
         GB_EmployeesList.Name = "GB_EmployeesList"
         GB_EmployeesList.Padding = New Padding(4, 5, 4, 5)
-        GB_EmployeesList.Size = New Size(1606, 953)
+        GB_EmployeesList.Size = New Size(1694, 953)
         GB_EmployeesList.TabIndex = 1
         GB_EmployeesList.TabStop = False
         GB_EmployeesList.Text = "Lista de empleados activos"
@@ -56,7 +56,7 @@ Partial Class OP_UPD_MANUALLUNCHHOURS
         ' 
         ' BT_Update
         ' 
-        BT_Update.Location = New Point(1374, 78)
+        BT_Update.Location = New Point(1482, 78)
         BT_Update.Margin = New Padding(4, 5, 4, 5)
         BT_Update.Name = "BT_Update"
         BT_Update.Size = New Size(183, 53)
@@ -83,13 +83,14 @@ Partial Class OP_UPD_MANUALLUNCHHOURS
         DGV_ActiveEmployeesInfo.Margin = New Padding(4, 5, 4, 5)
         DGV_ActiveEmployeesInfo.Name = "DGV_ActiveEmployeesInfo"
         DGV_ActiveEmployeesInfo.RowHeadersWidth = 62
-        DGV_ActiveEmployeesInfo.Size = New Size(1527, 785)
+        DGV_ActiveEmployeesInfo.Size = New Size(1635, 785)
         DGV_ActiveEmployeesInfo.TabIndex = 2
         ' 
         ' OP_UPD_MANUALLUNCHHOURS
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
+        AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1774, 1050)
         Controls.Add(GB_EmployeesList)

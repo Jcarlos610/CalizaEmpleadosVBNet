@@ -14,7 +14,7 @@ Public Class OP_INS_MANUALLUNCHHOURS
 
     Private LUNCH_MOVE As Integer = 250 ' Lunch Hours
     Private BANN_MOVE As Integer = 270 ' Lunch Hours
-
+    Private TRANSPORT_MOVE As Integer = 280
     Private Sub OP_INS_MANUALLUNCHHOURS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         LoadActiveEmployees()
@@ -25,6 +25,64 @@ Public Class OP_INS_MANUALLUNCHHOURS
     End Sub
 
     'Cargar empleados activos
+    'Private Sub LoadActiveEmployees()
+    '    Try
+    '        Dim Employees As New CL_Employee
+    '        Dim dt As DataTable = Employees.Get_AllActiveEmployeesListForLunchHoursAndBanns()
+    '        DGV_ActiveEmployeesInfo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+    '        DGV_ActiveEmployeesInfo.AutoResizeColumns()
+    '        DGV_ActiveEmployeesInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+    '        DGV_ActiveEmployeesInfo.DataSource = dt
+
+    '        'Agregar columna editable de horas
+    '        Dim ColLunchHours As New DataGridViewTextBoxColumn
+
+    '        ColLunchHours.Name = "DREMPL_LHOUR"
+    '        ColLunchHours.HeaderText = "Horas de Comida"
+    '        ColLunchHours.ValueType = GetType(Decimal)
+
+    '        DGV_ActiveEmployeesInfo.Columns.Add(ColLunchHours)
+
+    '        'Agregar columna editable de horas
+    '        Dim ColBannQuant As New DataGridViewTextBoxColumn
+
+    '        ColBannQuant.Name = "DREMPL_BQUANT"
+    '        ColBannQuant.HeaderText = "No. de Amonestaciones"
+    '        ColBannQuant.ValueType = GetType(Decimal)
+
+    '        DGV_ActiveEmployeesInfo.Columns.Add(ColBannQuant)
+
+    '        'Configuración visual
+    '        DGV_ActiveEmployeesInfo.Columns(0).ReadOnly = True
+    '        DGV_ActiveEmployeesInfo.Columns(1).ReadOnly = True
+    '        DGV_ActiveEmployeesInfo.Columns(2).ReadOnly = True
+    '        DGV_ActiveEmployeesInfo.Columns(3).ReadOnly = True
+    '        DGV_ActiveEmployeesInfo.Columns(4).ReadOnly = True
+    '        DGV_ActiveEmployeesInfo.Columns(5).DefaultCellStyle.BackColor = System.Drawing.Color.LightGoldenrodYellow
+    '        DGV_ActiveEmployeesInfo.Columns(6).DefaultCellStyle.BackColor = System.Drawing.Color.LightCyan
+
+    '        DGV_ActiveEmployeesInfo.Columns(0).Width = 40
+    '        DGV_ActiveEmployeesInfo.Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+    '        DGV_ActiveEmployeesInfo.Columns(1).Width = 220
+    '        DGV_ActiveEmployeesInfo.Columns(1).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+    '        DGV_ActiveEmployeesInfo.Columns(2).Width = 40
+    '        DGV_ActiveEmployeesInfo.Columns(2).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+    '        DGV_ActiveEmployeesInfo.Columns(3).Width = 280
+    '        DGV_ActiveEmployeesInfo.Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+    '        DGV_ActiveEmployeesInfo.Columns(4).Width = 100
+    '        DGV_ActiveEmployeesInfo.Columns(4).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+    '        DGV_ActiveEmployeesInfo.Columns(5).Width = 150
+    '        DGV_ActiveEmployeesInfo.Columns(5).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+    '        DGV_ActiveEmployeesInfo.Columns(6).Width = 150
+    '        DGV_ActiveEmployeesInfo.Columns(6).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+
+
+    '    Catch ex As Exception
+    '        MessageBox.Show(ex.Message)
+    '    End Try
+
+    'End Sub
+
     Private Sub LoadActiveEmployees()
         Try
             Dim Employees As New CL_Employee
@@ -32,61 +90,58 @@ Public Class OP_INS_MANUALLUNCHHOURS
             DGV_ActiveEmployeesInfo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
             DGV_ActiveEmployeesInfo.AutoResizeColumns()
             DGV_ActiveEmployeesInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+            DGV_ActiveEmployeesInfo.Columns.Clear()
             DGV_ActiveEmployeesInfo.DataSource = dt
 
-            'Agregar columna editable de horas
-            Dim ColLunchHours As New DataGridViewTextBoxColumn
 
+
+            'Horas de comida
+            Dim ColLunchHours As New DataGridViewTextBoxColumn
             ColLunchHours.Name = "DREMPL_LHOUR"
             ColLunchHours.HeaderText = "Horas de Comida"
             ColLunchHours.ValueType = GetType(Decimal)
-
             DGV_ActiveEmployeesInfo.Columns.Add(ColLunchHours)
 
-            'Agregar columna editable de horas
+            'Amonestaciones
             Dim ColBannQuant As New DataGridViewTextBoxColumn
-
             ColBannQuant.Name = "DREMPL_BQUANT"
             ColBannQuant.HeaderText = "No. de Amonestaciones"
             ColBannQuant.ValueType = GetType(Decimal)
-
             DGV_ActiveEmployeesInfo.Columns.Add(ColBannQuant)
 
-            'Configuración visual
-            DGV_ActiveEmployeesInfo.Columns(0).ReadOnly = True
-            DGV_ActiveEmployeesInfo.Columns(1).ReadOnly = True
-            DGV_ActiveEmployeesInfo.Columns(2).ReadOnly = True
-            DGV_ActiveEmployeesInfo.Columns(3).ReadOnly = True
-            DGV_ActiveEmployeesInfo.Columns(4).ReadOnly = True
-            DGV_ActiveEmployeesInfo.Columns(5).DefaultCellStyle.BackColor = System.Drawing.Color.LightGoldenrodYellow
-            DGV_ActiveEmployeesInfo.Columns(6).DefaultCellStyle.BackColor = System.Drawing.Color.LightCyan
+            'Dias de transporte
+            Dim ColTransportDays As New DataGridViewTextBoxColumn
+            ColTransportDays.Name = "DREMPL_TDAYS"
+            ColTransportDays.HeaderText = "Días Transporte"
+            ColTransportDays.ValueType = GetType(Decimal)
+            DGV_ActiveEmployeesInfo.Columns.Add(ColTransportDays)
 
-            DGV_ActiveEmployeesInfo.Columns(0).Width = 40
-            DGV_ActiveEmployeesInfo.Columns(0).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-            DGV_ActiveEmployeesInfo.Columns(1).Width = 220
-            DGV_ActiveEmployeesInfo.Columns(1).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
-            DGV_ActiveEmployeesInfo.Columns(2).Width = 40
-            DGV_ActiveEmployeesInfo.Columns(2).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-            DGV_ActiveEmployeesInfo.Columns(3).Width = 280
-            DGV_ActiveEmployeesInfo.Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
-            DGV_ActiveEmployeesInfo.Columns(4).Width = 100
-            DGV_ActiveEmployeesInfo.Columns(4).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
-            DGV_ActiveEmployeesInfo.Columns(5).Width = 150
-            DGV_ActiveEmployeesInfo.Columns(5).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
-            DGV_ActiveEmployeesInfo.Columns(6).Width = 150
-            DGV_ActiveEmployeesInfo.Columns(6).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+            DGV_ActiveEmployeesInfo.Columns("Beneficio transporte").ReadOnly = True
 
+
+            For i As Integer = 0 To 4
+                DGV_ActiveEmployeesInfo.Columns(i).ReadOnly = True
+            Next
+
+
+            DGV_ActiveEmployeesInfo.Columns("DREMPL_LHOUR").DefaultCellStyle.BackColor = System.Drawing.Color.LightGoldenrodYellow
+            DGV_ActiveEmployeesInfo.Columns("DREMPL_BQUANT").DefaultCellStyle.BackColor = System.Drawing.Color.LightCyan
+            DGV_ActiveEmployeesInfo.Columns("DREMPL_TDAYS").DefaultCellStyle.BackColor = System.Drawing.Color.Honeydew
+
+            DGV_ActiveEmployeesInfo.Columns("Beneficio transporte").DisplayIndex = 7
+            DGV_ActiveEmployeesInfo.Columns("DREMPL_TDAYS").DisplayIndex = 8
 
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
-
     End Sub
 
-    'Validar que solo se capturen números
+    'solo numeros
     Private Sub DGV_ActiveEmployeesInfo_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles DGV_ActiveEmployeesInfo.EditingControlShowing
 
-        If DGV_ActiveEmployeesInfo.CurrentCell.ColumnIndex = 5 Or DGV_ActiveEmployeesInfo.CurrentCell.ColumnIndex = 6 Then
+        Dim colName = DGV_ActiveEmployeesInfo.CurrentCell.OwningColumn.Name
+
+        If colName = "DREMPL_LHOUR" Or colName = "DREMPL_BQUANT" Or colName = "DREMPL_TDAYS" Then
 
             Dim txt As TextBox = CType(e.Control, TextBox)
 
@@ -144,7 +199,13 @@ Public Class OP_INS_MANUALLUNCHHOURS
                     If row.IsNewRow Then Continue For
 
                     'Both are nothing
-                    If row.Cells("DREMPL_LHOUR").Value Is Nothing And row.Cells("DREMPL_BQUANT").Value Is Nothing Then Continue For
+                    'If row.Cells("DREMPL_LHOUR").Value Is Nothing And row.Cells("DREMPL_BQUANT").Value Is Nothing Then Continue For
+                    If row.Cells("DREMPL_LHOUR").Value Is Nothing And row.Cells("DREMPL_BQUANT").Value Is Nothing And
+                                 (row.Cells("DREMPL_TDAYS").Value Is Nothing OrElse
+                                  String.IsNullOrWhiteSpace(row.Cells("DREMPL_TDAYS").Value?.ToString())) Then
+
+                        Continue For
+                    End If
 
                     'We have only Lunch Hours
                     If row.Cells("DREMPL_LHOUR").Value IsNot Nothing And row.Cells("DREMPL_BQUANT").Value Is Nothing Then
@@ -157,7 +218,7 @@ Public Class OP_INS_MANUALLUNCHHOURS
                                 MessageBox.Show("Favor de verificar que solo haya números validos", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                             ElseIf (hoursValue > 0 And hoursValue <= 5) Then
 
-                                Dim EMPL_ID As Integer = Convert.ToInt32(row.Cells(4).Value)
+                                Dim EMPL_ID As Integer = Convert.ToInt32(row.Cells("No.").Value)
                                 Dim NewRecordByEmployee As New CL_RecordsByEmployee()
 
                                 NewRecordByEmployee.EMPL_ID = EMPL_ID
@@ -182,7 +243,7 @@ Public Class OP_INS_MANUALLUNCHHOURS
                                 MessageBox.Show("Favor de verificar que solo haya números validos", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                             ElseIf (BannsValue > 0 And BannsValue <= 6) Then
 
-                                Dim EMPL_ID As Integer = Convert.ToInt32(row.Cells(4).Value)
+                                Dim EMPL_ID As Integer = Convert.ToInt32(row.Cells("No.").Value)
                                 Dim NewRecordByEmployee As New CL_RecordsByEmployee()
 
                                 NewRecordByEmployee.EMPL_ID = EMPL_ID
@@ -210,7 +271,7 @@ Public Class OP_INS_MANUALLUNCHHOURS
                                 MessageBox.Show("Favor de verificar que solo haya números validos", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                             ElseIf ((hoursValue > 0 And hoursValue <= 5) And (BannsValue > 0 And BannsValue <= 6)) Then 'Both have value
 
-                                Dim EMPL_ID As Integer = Convert.ToInt32(row.Cells(4).Value)
+                                Dim EMPL_ID As Integer = Convert.ToInt32(row.Cells("No.").Value)
                                 Dim NewRecordByEmployee As New CL_RecordsByEmployee()
 
                                 NewRecordByEmployee.EMPL_ID = EMPL_ID
@@ -226,6 +287,34 @@ Public Class OP_INS_MANUALLUNCHHOURS
 
                             End If
                         End If
+                    End If
+
+                    If row.Cells("DREMPL_TDAYS").Value IsNot Nothing AndAlso
+                            Not String.IsNullOrWhiteSpace(row.Cells("DREMPL_TDAYS").Value.ToString()) Then
+
+                        Dim tdays As Decimal
+
+                        If Decimal.TryParse(row.Cells("DREMPL_TDAYS").Value.ToString(), tdays) Then
+
+                            If tdays > 0 AndAlso tdays <= 7 Then
+
+                                Dim EMPL_ID As Integer = Convert.ToInt32(row.Cells("No.").Value)
+
+                                Dim NewRecordByEmployee As New CL_RecordsByEmployee()
+
+                                NewRecordByEmployee.EMPL_ID = EMPL_ID
+                                NewRecordByEmployee.MOVE_ID = 280
+                                NewRecordByEmployee.REMPL_CREBY = AppUser
+                                NewRecordByEmployee.REMPL_RDATE = DateTime.Now
+                                NewRecordByEmployee.DREMPL_DATE = DTP_DateLunchHours.Value.Date
+                                NewRecordByEmployee.DREMPL_TDAYS = tdays
+
+                                NewRecordByEmployee.InsertTransportDaysRecordByEmployee()
+
+                            End If
+
+                        End If
+
                     End If
 
                 Next
@@ -268,3 +357,5 @@ Public Class OP_INS_MANUALLUNCHHOURS
         BT_RegisterInfo.Enabled = True
     End Sub
 End Class
+
+

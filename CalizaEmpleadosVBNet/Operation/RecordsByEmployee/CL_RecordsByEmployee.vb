@@ -16,7 +16,7 @@ Public Class CL_RecordsByEmployee
     Private _DREMPL_COME As Object
     Private _DREMPL_LHOUR As Object
     Private _DREMPL_BQUANT As Object
-
+    Private _DREMPL_TDAYS As Object
     Public Property EMPL_ID As Object
         Get
             Return _EMPL_ID
@@ -113,6 +113,15 @@ Public Class CL_RecordsByEmployee
         End Get
         Set(value As Object)
             _DREMPL_BQUANT = value
+        End Set
+    End Property
+
+    Public Property DREMPL_TDAYS As Object
+        Get
+            Return _DREMPL_TDAYS
+        End Get
+        Set(value As Object)
+            _DREMPL_TDAYS = value
         End Set
     End Property
 
@@ -854,5 +863,50 @@ Public Class CL_RecordsByEmployee
             Return False
         End Try
     End Function
+
+    Public Function InsertTransportDaysRecordByEmployee()
+
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "INS_TRANSPORTDAYSRECORDBYEMPLOYEE",
+                .CommandType = CommandType.StoredProcedure
+            }
+
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+
+            DB_Command.Parameters.AddWithValue("EMPL_ID", _EMPL_ID)
+            DB_Command.Parameters.AddWithValue("MOVE_ID", _MOVE_ID)
+            DB_Command.Parameters.AddWithValue("REMPL_CREBY", _REMPL_CREBY)
+            DB_Command.Parameters.AddWithValue("REMPL_RDATE", _REMPL_RDATE)
+            DB_Command.Parameters.AddWithValue("DREMPL_DATE", _DREMPL_DATE)
+            DB_Command.Parameters.AddWithValue("DREMPL_TDAYS", _DREMPL_TDAYS)
+
+            DB_Command.ExecuteNonQuery()
+
+            DB_Connection.Close()
+            Return True
+
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Error: " & ex.Message & " CL_RecordsByEmployee.InsertTransportDaysRecordByEmployee()")
+            Return False
+        End Try
+
+    End Function
+
+    Public Sub UpdateTransportDays(ByVal id As Integer, ByVal tdays As Decimal)
+
+        DB_Command = New SqlCommand("UPD_TRANSPORTDAYS", DB_Connection)
+        DB_Command.CommandType = CommandType.StoredProcedure
+
+        DB_Command.Parameters.AddWithValue("@DREMPL_ID", id)
+        DB_Command.Parameters.AddWithValue("@DREMPL_TDAYS", tdays)
+
+        DB_Connection.Open()
+        DB_Command.ExecuteNonQuery()
+        DB_Connection.Close()
+
+    End Sub
 
 End Class
