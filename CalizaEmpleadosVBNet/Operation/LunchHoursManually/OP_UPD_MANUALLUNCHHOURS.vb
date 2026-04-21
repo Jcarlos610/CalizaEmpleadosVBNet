@@ -13,9 +13,19 @@
         Dim obj As New CL_RecordsByEmployee
         Dim dt As DataTable = obj.GetLunchDates()
 
+        dt.Columns.Add("DisplayDate", GetType(String))
+
+        For Each row As DataRow In dt.Rows
+            row("DisplayDate") = Convert.ToDateTime(row("DREMPL_DATE")).ToString("dd/MM/yyyy")
+        Next
+
         CB_Dates.DataSource = dt
-        CB_Dates.DisplayMember = "DREMPL_DATE"
+        CB_Dates.DisplayMember = "DisplayDate"
         CB_Dates.ValueMember = "DREMPL_DATE"
+
+
+        CB_Dates.SelectedIndex = -1
+        CB_Dates.Text = "Seleccione una fecha"
 
         loading = False
 
@@ -59,6 +69,16 @@
             DGV_ActiveEmployeesInfo.Columns("BANN_ID").Visible = False
         End If
 
+        If DGV_ActiveEmployeesInfo.Columns.Contains("DREMPL_TDAYS") Then
+            DGV_ActiveEmployeesInfo.Columns("DREMPL_TDAYS").HeaderText = "Días de transporte"
+        End If
+
+        If DGV_ActiveEmployeesInfo.Columns.Contains("TDAYS_ID") Then
+            DGV_ActiveEmployeesInfo.Columns("TDAYS_ID").Visible = False
+        End If
+
+
+
         FormatGrid()
     End Sub
 
@@ -69,7 +89,8 @@
 
             If row.IsNewRow Then Continue For
 
-            Dim emplId As Integer = Convert.ToInt32(row.Cells("EMPL_ID").Value)
+            'Dim emplId As Integer = Convert.ToInt32(row.Cells("EMPL_ID").Value)
+            Dim emplId As Integer = Convert.ToInt32(row.Cells("No.").Value)
 
             If row.Cells("DREMPL_LHOUR").Value IsNot Nothing AndAlso Not IsDBNull(row.Cells("DREMPL_LHOUR").Value) Then
 
@@ -123,6 +144,32 @@
                 End If
             End If
 
+            If row.Cells("DREMPL_TDAYS").Value IsNot Nothing AndAlso Not IsDBNull(row.Cells("DREMPL_TDAYS").Value) Then
+
+                Dim tdays As Decimal
+
+                If Decimal.TryParse(row.Cells("DREMPL_TDAYS").Value.ToString(), tdays) Then
+                    If tdays > 0 AndAlso tdays <= 31 Then
+
+                        If Not IsDBNull(row.Cells("TDAYS_ID").Value) Then
+                            Dim id As Integer = Convert.ToInt32(row.Cells("TDAYS_ID").Value)
+                            obj.UpdateTransportDays(id, tdays)
+
+                        Else
+                            obj.EMPL_ID = emplId
+                            obj.MOVE_ID = 280
+                            obj.REMPL_CREBY = AppUser
+                            obj.REMPL_RDATE = DateTime.Now
+                            obj.DREMPL_DATE = Convert.ToDateTime(CB_Dates.SelectedValue)
+                            obj.DREMPL_TDAYS = tdays
+
+                            obj.InsertTransportDaysRecordByEmployee()
+                        End If
+
+                    End If
+                End If
+            End If
+
         Next
 
         MessageBox.Show("Datos actualizados correctamente", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -132,11 +179,18 @@
         DGV_ActiveEmployeesInfo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
         DGV_ActiveEmployeesInfo.AutoResizeColumns()
         DGV_ActiveEmployeesInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-        DGV_ActiveEmployeesInfo.Columns("EMPL_ID").ReadOnly = True
+        'DGV_ActiveEmployeesInfo.Columns("EMPL_ID").ReadOnly = True
+       
+        DGV_ActiveEmployeesInfo.Columns("No.").ReadOnly = True
+        DGV_ActiveEmployeesInfo.Columns("Nombre Completo").ReadOnly = True
+        DGV_ActiveEmployeesInfo.Columns("Nombre de empresa").ReadOnly = True
+        DGV_ActiveEmployeesInfo.Columns("Beneficio de comida").ReadOnly = True
+        DGV_ActiveEmployeesInfo.Columns("Beneficio de transporte").ReadOnly = True
         DGV_ActiveEmployeesInfo.Columns("Nombre Completo").ReadOnly = True
 
         DGV_ActiveEmployeesInfo.Columns("DREMPL_LHOUR").DefaultCellStyle.BackColor = Color.LightGoldenrodYellow
         DGV_ActiveEmployeesInfo.Columns("DREMPL_BQUANT").DefaultCellStyle.BackColor = Color.LightCyan
+        DGV_ActiveEmployeesInfo.Columns("DREMPL_TDAYS").DefaultCellStyle.BackColor = Color.Honeydew
 
     End Sub
 
@@ -144,7 +198,7 @@
 
         Dim colName = DGV_ActiveEmployeesInfo.CurrentCell.OwningColumn.Name
 
-        If colName = "DREMPL_LHOUR" OrElse colName = "DREMPL_BQUANT" Then
+        If colName = "DREMPL_LHOUR" OrElse colName = "DREMPL_BQUANT" OrElse colName = "DREMPL_TDAYS" Then
 
             Dim txt As TextBox = CType(e.Control, TextBox)
 
@@ -152,6 +206,8 @@
             AddHandler txt.KeyPress, AddressOf OnlyDecimalNumbers
 
         End If
+
+
 
     End Sub
 

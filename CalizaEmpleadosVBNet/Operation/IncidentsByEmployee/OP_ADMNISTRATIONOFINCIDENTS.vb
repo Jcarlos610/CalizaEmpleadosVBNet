@@ -273,7 +273,7 @@ Public Class OP_ADMNISTRATIONOFINCIDENTS
 
 
         If DGV_Incidents.Columns.Contains("EMPL_ID") Then
-            DGV_Incidents.Columns("EMPL_ID").HeaderText = "ID Empleado"
+            DGV_Incidents.Columns("EMPL_ID").HeaderText = "No. Empleado"
         End If
 
         If DGV_Incidents.Columns.Contains("Empleado") Then

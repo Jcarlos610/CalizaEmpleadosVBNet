@@ -37,35 +37,40 @@ Partial Class OP_INS_MANUALLUNCHHOURS
         GB_EmployeesList.Controls.Add(DTP_DateLunchHours)
         GB_EmployeesList.Controls.Add(LB_SetDate)
         GB_EmployeesList.Controls.Add(DGV_ActiveEmployeesInfo)
-        GB_EmployeesList.Location = New Point(12, 46)
+        GB_EmployeesList.Location = New Point(17, 77)
+        GB_EmployeesList.Margin = New Padding(4, 5, 4, 5)
         GB_EmployeesList.Name = "GB_EmployeesList"
-        GB_EmployeesList.Size = New Size(1574, 572)
+        GB_EmployeesList.Padding = New Padding(4, 5, 4, 5)
+        GB_EmployeesList.Size = New Size(1694, 953)
         GB_EmployeesList.TabIndex = 0
         GB_EmployeesList.TabStop = False
         GB_EmployeesList.Text = "Lista de empleados activos"
         ' 
         ' BT_RegisterInfo
         ' 
-        BT_RegisterInfo.Location = New Point(1428, 47)
+        BT_RegisterInfo.Location = New Point(1482, 69)
+        BT_RegisterInfo.Margin = New Padding(4, 5, 4, 5)
         BT_RegisterInfo.Name = "BT_RegisterInfo"
-        BT_RegisterInfo.Size = New Size(128, 32)
+        BT_RegisterInfo.Size = New Size(183, 53)
         BT_RegisterInfo.TabIndex = 6
         BT_RegisterInfo.Text = "Registrar valores"
         BT_RegisterInfo.UseVisualStyleBackColor = True
         ' 
         ' DTP_DateLunchHours
         ' 
-        DTP_DateLunchHours.Location = New Point(21, 47)
+        DTP_DateLunchHours.Location = New Point(30, 78)
+        DTP_DateLunchHours.Margin = New Padding(4, 5, 4, 5)
         DTP_DateLunchHours.Name = "DTP_DateLunchHours"
-        DTP_DateLunchHours.Size = New Size(234, 23)
+        DTP_DateLunchHours.Size = New Size(333, 31)
         DTP_DateLunchHours.TabIndex = 4
         ' 
         ' LB_SetDate
         ' 
         LB_SetDate.AutoSize = True
-        LB_SetDate.Location = New Point(21, 29)
+        LB_SetDate.Location = New Point(30, 48)
+        LB_SetDate.Margin = New Padding(4, 0, 4, 0)
         LB_SetDate.Name = "LB_SetDate"
-        LB_SetDate.Size = New Size(166, 15)
+        LB_SetDate.Size = New Size(250, 25)
         LB_SetDate.TabIndex = 3
         LB_SetDate.Text = "Seleccione la fecha de registro"
         ' 
@@ -74,18 +79,22 @@ Partial Class OP_INS_MANUALLUNCHHOURS
         DGV_ActiveEmployeesInfo.AllowUserToAddRows = False
         DGV_ActiveEmployeesInfo.AllowUserToDeleteRows = False
         DGV_ActiveEmployeesInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_ActiveEmployeesInfo.Location = New Point(21, 85)
+        DGV_ActiveEmployeesInfo.Location = New Point(30, 142)
+        DGV_ActiveEmployeesInfo.Margin = New Padding(4, 5, 4, 5)
         DGV_ActiveEmployeesInfo.Name = "DGV_ActiveEmployeesInfo"
-        DGV_ActiveEmployeesInfo.Size = New Size(1535, 471)
+        DGV_ActiveEmployeesInfo.RowHeadersWidth = 62
+        DGV_ActiveEmployeesInfo.Size = New Size(1635, 785)
         DGV_ActiveEmployeesInfo.TabIndex = 2
         ' 
         ' OP_INS_MANUALLUNCHHOURS
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
+        AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(1616, 630)
+        ClientSize = New Size(1774, 1050)
         Controls.Add(GB_EmployeesList)
+        Margin = New Padding(4, 5, 4, 5)
         Name = "OP_INS_MANUALLUNCHHOURS"
         Text = "Registro de horas de comida"
         WindowState = FormWindowState.Maximized

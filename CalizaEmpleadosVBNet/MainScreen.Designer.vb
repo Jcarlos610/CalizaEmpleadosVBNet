@@ -706,6 +706,7 @@ Partial Class MainScreen
         ReportesToolStripMenuItem4 = New ToolStripMenuItem()
         RegistroDeHorasDeComidaToolStripMenuItem = New ToolStripMenuItem()
         RegistroManualToolStripMenuItem1 = New ToolStripMenuItem()
+        EditarRegistrToolStripMenuItem = New ToolStripMenuItem()
         ReporteToolStripMenuItem = New ToolStripMenuItem()
         PermisosToolStripMenuItem = New ToolStripMenuItem()
         RegistrarPermisoToolStripMenuItem = New ToolStripMenuItem()
@@ -722,7 +723,7 @@ Partial Class MainScreen
         ReportesToolStripMenuItem2 = New ToolStripMenuItem()
         AnalisisSemanalToolStripMenuItem = New ToolStripMenuItem()
         AnalisisDeSalarioToolStripMenuItem = New ToolStripMenuItem()
-        EditarRegistrToolStripMenuItem = New ToolStripMenuItem()
+        AprobarVacacionesToolStripMenuItem = New ToolStripMenuItem()
         MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -1056,19 +1057,26 @@ Partial Class MainScreen
         ' RegistroManualToolStripMenuItem1
         ' 
         RegistroManualToolStripMenuItem1.Name = "RegistroManualToolStripMenuItem1"
-        RegistroManualToolStripMenuItem1.Size = New Size(270, 34)
+        RegistroManualToolStripMenuItem1.Size = New Size(295, 34)
         RegistroManualToolStripMenuItem1.Tag = "OP_INS_MANUALLUNCHHOURS"
         RegistroManualToolStripMenuItem1.Text = "Registro Semanal"
+        ' 
+        ' EditarRegistrToolStripMenuItem
+        ' 
+        EditarRegistrToolStripMenuItem.Name = "EditarRegistrToolStripMenuItem"
+        EditarRegistrToolStripMenuItem.Size = New Size(295, 34)
+        EditarRegistrToolStripMenuItem.Tag = "OP_UPD_MANUALLUNCHHOURS"
+        EditarRegistrToolStripMenuItem.Text = "Editar registro semanal"
         ' 
         ' ReporteToolStripMenuItem
         ' 
         ReporteToolStripMenuItem.Name = "ReporteToolStripMenuItem"
-        ReporteToolStripMenuItem.Size = New Size(270, 34)
+        ReporteToolStripMenuItem.Size = New Size(295, 34)
         ReporteToolStripMenuItem.Text = "Reportes"
         ' 
         ' PermisosToolStripMenuItem
         ' 
-        PermisosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {RegistrarPermisoToolStripMenuItem, ReportesToolStripMenuItem3})
+        PermisosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {RegistrarPermisoToolStripMenuItem, AprobarVacacionesToolStripMenuItem, ReportesToolStripMenuItem3})
         PermisosToolStripMenuItem.Name = "PermisosToolStripMenuItem"
         PermisosToolStripMenuItem.Size = New Size(492, 34)
         PermisosToolStripMenuItem.Text = "Permisos"
@@ -1076,14 +1084,14 @@ Partial Class MainScreen
         ' RegistrarPermisoToolStripMenuItem
         ' 
         RegistrarPermisoToolStripMenuItem.Name = "RegistrarPermisoToolStripMenuItem"
-        RegistrarPermisoToolStripMenuItem.Size = New Size(251, 34)
+        RegistrarPermisoToolStripMenuItem.Size = New Size(270, 34)
         RegistrarPermisoToolStripMenuItem.Tag = "OP_ADMNISTRATIONOFINCIDENTS"
         RegistrarPermisoToolStripMenuItem.Text = "Registrar Permiso"
         ' 
         ' ReportesToolStripMenuItem3
         ' 
         ReportesToolStripMenuItem3.Name = "ReportesToolStripMenuItem3"
-        ReportesToolStripMenuItem3.Size = New Size(251, 34)
+        ReportesToolStripMenuItem3.Size = New Size(270, 34)
         ReportesToolStripMenuItem3.Text = "Reportes"
         ' 
         ' BeneficiosToolStripMenuItem1
@@ -1168,12 +1176,12 @@ Partial Class MainScreen
         AnalisisDeSalarioToolStripMenuItem.Tag = "OP_SEL_MainWeekReportSalaryCalculation"
         AnalisisDeSalarioToolStripMenuItem.Text = "Analisis de salario"
         ' 
-        ' EditarRegistrToolStripMenuItem
+        ' AprobarVacacionesToolStripMenuItem
         ' 
-        EditarRegistrToolStripMenuItem.Name = "EditarRegistrToolStripMenuItem"
-        EditarRegistrToolStripMenuItem.Size = New Size(295, 34)
-        EditarRegistrToolStripMenuItem.Tag = "OP_UPD_MANUALLUNCHHOURS"
-        EditarRegistrToolStripMenuItem.Text = "Editar registro semanal"
+        AprobarVacacionesToolStripMenuItem.Name = "AprobarVacacionesToolStripMenuItem"
+        AprobarVacacionesToolStripMenuItem.Size = New Size(270, 34)
+        AprobarVacacionesToolStripMenuItem.Tag = "OP_APPROVE_VACATIONS"
+        AprobarVacacionesToolStripMenuItem.Text = "Aprobar vacaciones"
         ' 
         ' MainScreen
         ' 
@@ -1262,4 +1270,5 @@ Partial Class MainScreen
     Friend WithEvents AnalisisDeSalarioToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents EditarExistenteToolStripMenuItem5 As ToolStripMenuItem
     Friend WithEvents EditarRegistrToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents AprobarVacacionesToolStripMenuItem As ToolStripMenuItem
 End Class

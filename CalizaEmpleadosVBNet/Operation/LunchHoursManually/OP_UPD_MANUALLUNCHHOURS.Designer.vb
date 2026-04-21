@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class OP_UPD_MANUALLUNCHHOURS
     Inherits System.Windows.Forms.Form
 
     'Form reemplaza a Dispose para limpiar la lista de componentes.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class OP_UPD_MANUALLUNCHHOURS
     'NOTA: el Diseñador de Windows Forms necesita el siguiente procedimiento
     'Se puede modificar usando el Diseñador de Windows Forms.  
     'No lo modifique con el editor de código.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         GB_EmployeesList = New GroupBox()
         CB_Dates = New ComboBox()
@@ -39,7 +39,8 @@ Partial Class OP_UPD_MANUALLUNCHHOURS
         GB_EmployeesList.Controls.Add(DGV_ActiveEmployeesInfo)
         GB_EmployeesList.Location = New Point(12, 46)
         GB_EmployeesList.Name = "GB_EmployeesList"
-        GB_EmployeesList.Size = New Size(1124, 572)
+        GB_EmployeesList.Padding = New Padding(4, 5, 4, 5)
+        GB_EmployeesList.Size = New Size(1694, 953)
         GB_EmployeesList.TabIndex = 1
         GB_EmployeesList.TabStop = False
         GB_EmployeesList.Text = "Lista de empleados activos"
@@ -55,7 +56,8 @@ Partial Class OP_UPD_MANUALLUNCHHOURS
         ' 
         ' BT_Update
         ' 
-        BT_Update.Location = New Point(1005, 47)
+        BT_Update.Location = New Point(1482, 78)
+        BT_Update.Margin = New Padding(4, 5, 4, 5)
         BT_Update.Name = "BT_Update"
         BT_Update.Size = New Size(85, 32)
         BT_Update.TabIndex = 6
@@ -79,13 +81,14 @@ Partial Class OP_UPD_MANUALLUNCHHOURS
         DGV_ActiveEmployeesInfo.Location = New Point(21, 85)
         DGV_ActiveEmployeesInfo.Name = "DGV_ActiveEmployeesInfo"
         DGV_ActiveEmployeesInfo.RowHeadersWidth = 62
-        DGV_ActiveEmployeesInfo.Size = New Size(1069, 471)
+        DGV_ActiveEmployeesInfo.Size = New Size(1635, 785)
         DGV_ActiveEmployeesInfo.TabIndex = 2
         ' 
         ' OP_UPD_MANUALLUNCHHOURS
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
+        AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1242, 630)
         Controls.Add(GB_EmployeesList)

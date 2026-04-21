@@ -345,4 +345,56 @@ Public Class CL_Incidents
 
     End Function
 
+    Public Function ApproveVacation(ByVal DREMPL_ID As Integer) As Boolean
+
+        Dim result As Boolean = False
+
+        Try
+            DB_Connection.Open()
+
+            DB_Command = New SqlCommand("UPD_APPROVE_VACATION", DB_Connection)
+            DB_Command.CommandType = CommandType.StoredProcedure
+
+            DB_Command.Parameters.Clear()
+            DB_Command.Parameters.AddWithValue("@DREMPL_ID", DREMPL_ID)
+
+            DB_Command.ExecuteNonQuery()
+
+            result = True
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        Finally
+            DB_Connection.Close()
+        End Try
+
+        Return result
+
+    End Function
+
+    Public Function GetPendingVacations() As DataTable
+
+        Dim dt As New DataTable
+
+        Try
+            DB_Connection.Open()
+
+            DB_Command = New SqlCommand("SEL_GETPENDINGVACATIONS", DB_Connection)
+            DB_Command.CommandType = CommandType.StoredProcedure
+
+            DB_Command.Parameters.Clear()
+
+            DB_Reader = DB_Command.ExecuteReader()
+            dt.Load(DB_Reader)
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        Finally
+            DB_Connection.Close()
+        End Try
+
+        Return dt
+
+    End Function
+
 End Class
