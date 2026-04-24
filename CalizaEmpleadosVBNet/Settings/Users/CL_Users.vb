@@ -349,28 +349,60 @@ Public Class CL_Users
 
     Public Function TienePermiso(USER_ID As Integer, FORM_NAME As String) As Boolean
 
+        If Not FormExiste(FORM_NAME) Then
+            Return False
+        End If
+
         If EsAdmin() Then
             Return True
         End If
 
         Dim dt As DataTable = GetUserPermissions(USER_ID)
 
+        If dt Is Nothing OrElse dt.Rows.Count = 0 Then
+            Return False
+        End If
 
-        If dt Is Nothing Then Return False
-
+        Dim formAPP As String = FORM_NAME.Trim().ToUpper()
 
         For Each row As DataRow In dt.Rows
 
+            Dim formDB As String = row("FORM_NAME").ToString().Trim().ToUpper()
 
-
-            If row("FORM_NAME").ToString().Trim().ToUpper() =
-               FORM_NAME.Trim().ToUpper() Then
+            If formDB = formAPP Then
                 Return True
             End If
 
         Next
 
         Return False
+
+    End Function
+
+    Public Function FormExiste(FORM_NAME As String) As Boolean
+
+        Try
+            DB_Command = New SqlCommand With {
+            .CommandText = "SEL_FORM_EXISTS",
+            .CommandType = CommandType.StoredProcedure
+        }
+
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+
+            DB_Command.Parameters.AddWithValue("@FORM_NAME", FORM_NAME)
+
+            Dim count As Integer = CInt(DB_Command.ExecuteScalar())
+
+            DB_Connection.Close()
+
+            Return count > 0
+
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Error FormExiste: " & ex.Message)
+            Return False
+        End Try
 
     End Function
 

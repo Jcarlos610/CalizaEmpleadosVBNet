@@ -397,4 +397,59 @@ Public Class CL_Incidents
 
     End Function
 
+    Public Function UpdateIncident() As Boolean
+
+        Dim result As Boolean = False
+
+        Try
+            DB_Connection.Open()
+
+            DB_Command = New SqlCommand("UPD_EMPLOYEE_INCIDENT", DB_Connection)
+            DB_Command.CommandType = CommandType.StoredProcedure
+
+            DB_Command.Parameters.Clear()
+
+            DB_Command.Parameters.AddWithValue("@DREMPL_ID", _DREMPL_ID)
+            DB_Command.Parameters.AddWithValue("@DATE_FROM", _INC_DATEFR)
+            DB_Command.Parameters.AddWithValue("@DATE_TO", _INC_DATETO)
+            DB_Command.Parameters.AddWithValue("@DAYS", _INC_DAYS)
+            DB_Command.Parameters.AddWithValue("@DESCR", _INC_DESCR)
+            DB_Command.Parameters.AddWithValue("@AUTH", _INC_AUTH)
+
+            DB_Command.ExecuteNonQuery()
+
+            result = True
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        Finally
+            DB_Connection.Close()
+        End Try
+
+        Return result
+
+    End Function
+
+    Public Function GetEmployeesWithIncidents() As DataTable
+
+        Dim dt As New DataTable
+
+        Try
+            DB_Connection.Open()
+
+            DB_Command = New SqlCommand("SEL_EMPLOYEES_WITH_INCIDENTS", DB_Connection)
+            DB_Command.CommandType = CommandType.StoredProcedure
+
+            DB_Reader = DB_Command.ExecuteReader()
+            dt.Load(DB_Reader)
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        Finally
+            DB_Connection.Close()
+        End Try
+
+        Return dt
+
+    End Function
 End Class

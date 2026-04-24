@@ -313,6 +313,9 @@ Public Class OP_ADMNISTRATIONOFINCIDENTS
             DGV_Incidents.Columns("DREMPL_ID").Visible = False
         End If
 
+        If DGV_Incidents.Columns.Contains("MOVE_ID") Then
+            DGV_Incidents.Columns("MOVE_ID").Visible = False
+        End If
 
         If Not DGV_Incidents.Columns.Contains("Cancelar") Then
             Dim btn As New DataGridViewButtonColumn()

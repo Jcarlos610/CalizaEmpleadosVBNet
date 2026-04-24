@@ -84,12 +84,12 @@
 
     Private Sub BT_Update_Click(sender As Object, e As EventArgs) Handles BT_Update.Click
         Dim obj As New CL_RecordsByEmployee
+        Dim fecha As Date = Convert.ToDateTime(CB_Dates.SelectedValue)
 
         For Each row As DataGridViewRow In DGV_ActiveEmployeesInfo.Rows
 
             If row.IsNewRow Then Continue For
 
-            'Dim emplId As Integer = Convert.ToInt32(row.Cells("EMPL_ID").Value)
             Dim emplId As Integer = Convert.ToInt32(row.Cells("No.").Value)
 
             If row.Cells("DREMPL_LHOUR").Value IsNot Nothing AndAlso Not IsDBNull(row.Cells("DREMPL_LHOUR").Value) Then
@@ -99,16 +99,17 @@
                 If Decimal.TryParse(row.Cells("DREMPL_LHOUR").Value.ToString(), hours) Then
                     If hours > 0 AndAlso hours <= 5 Then
 
+                        Dim remplId As Integer = obj.GetOrCreateRemplID(emplId, fecha, True, False, False)
+
                         If Not IsDBNull(row.Cells("LUNCH_ID").Value) Then
                             Dim id As Integer = Convert.ToInt32(row.Cells("LUNCH_ID").Value)
                             obj.UpdateLunchHours(id, hours)
-
                         Else
                             obj.EMPL_ID = emplId
                             obj.MOVE_ID = 250
                             obj.REMPL_CREBY = AppUser
                             obj.REMPL_RDATE = DateTime.Now
-                            obj.DREMPL_DATE = Convert.ToDateTime(CB_Dates.SelectedValue)
+                            obj.DREMPL_DATE = fecha
                             obj.DREMPL_LHOUR = hours
 
                             obj.InsertLunchHoursRecordByEmployee()
@@ -125,16 +126,17 @@
                 If Decimal.TryParse(row.Cells("DREMPL_BQUANT").Value.ToString(), bann) Then
                     If bann > 0 AndAlso bann <= 6 Then
 
+                        Dim remplId As Integer = obj.GetOrCreateRemplID(emplId, fecha, False, True, False)
+
                         If Not IsDBNull(row.Cells("BANN_ID").Value) Then
                             Dim id As Integer = Convert.ToInt32(row.Cells("BANN_ID").Value)
                             obj.UpdateBann(id, bann)
-
                         Else
                             obj.EMPL_ID = emplId
                             obj.MOVE_ID = 270
                             obj.REMPL_CREBY = AppUser
                             obj.REMPL_RDATE = DateTime.Now
-                            obj.DREMPL_DATE = Convert.ToDateTime(CB_Dates.SelectedValue)
+                            obj.DREMPL_DATE = fecha
                             obj.DREMPL_BQUANT = bann
 
                             obj.InsertBannsQuantityRecordByEmployee()
@@ -151,16 +153,17 @@
                 If Decimal.TryParse(row.Cells("DREMPL_TDAYS").Value.ToString(), tdays) Then
                     If tdays > 0 AndAlso tdays <= 31 Then
 
+                        Dim remplId As Integer = obj.GetOrCreateRemplID(emplId, fecha, False, False, True)
+
                         If Not IsDBNull(row.Cells("TDAYS_ID").Value) Then
                             Dim id As Integer = Convert.ToInt32(row.Cells("TDAYS_ID").Value)
                             obj.UpdateTransportDays(id, tdays)
-
                         Else
                             obj.EMPL_ID = emplId
                             obj.MOVE_ID = 280
                             obj.REMPL_CREBY = AppUser
                             obj.REMPL_RDATE = DateTime.Now
-                            obj.DREMPL_DATE = Convert.ToDateTime(CB_Dates.SelectedValue)
+                            obj.DREMPL_DATE = fecha
                             obj.DREMPL_TDAYS = tdays
 
                             obj.InsertTransportDaysRecordByEmployee()

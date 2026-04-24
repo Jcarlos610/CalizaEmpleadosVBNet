@@ -963,4 +963,45 @@ Public Class CL_RecordsByEmployee
 
     End Sub
 
+    Public Function GetOrCreateRemplID(emplId As Integer, fecha As Date,
+                                  isLunch As Boolean,
+                                  isBann As Boolean,
+                                  isTransport As Boolean) As Integer
+        Try
+            DB_Command = New SqlCommand With {
+            .CommandText = "GET_OR_CREATE_REMPL_ID",
+            .CommandType = CommandType.StoredProcedure
+        }
+
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+
+            DB_Command.Parameters.AddWithValue("@EMPL_ID", emplId)
+            DB_Command.Parameters.AddWithValue("@DATE", fecha)
+            DB_Command.Parameters.AddWithValue("@IS_LUNCH", isLunch)
+            DB_Command.Parameters.AddWithValue("@IS_BANN", isBann)
+            DB_Command.Parameters.AddWithValue("@IS_TRANSPORT", isTransport)
+
+            Dim outputParam As New SqlParameter("@REMPL_ID", SqlDbType.Int)
+            outputParam.Direction = ParameterDirection.Output
+            DB_Command.Parameters.Add(outputParam)
+
+            DB_Command.ExecuteNonQuery()
+
+            DB_Connection.Close()
+
+
+            If IsDBNull(outputParam.Value) Then
+                Return 0
+            Else
+                Return Convert.ToInt32(outputParam.Value)
+            End If
+
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Error en GetOrCreateRemplID: " & ex.Message)
+            Return 0
+        End Try
+    End Function
+
 End Class
