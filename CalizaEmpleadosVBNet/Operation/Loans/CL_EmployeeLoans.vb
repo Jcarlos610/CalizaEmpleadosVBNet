@@ -380,4 +380,27 @@ Public Class CL_EmployeeLoans
         Return dt
     End Function
 
+    Public Function Get_LoandsByEmployeeDetails() As DataTable
+        Dim dt As New DataTable
+
+        Try
+            DB_Connection.Open()
+
+            DB_Command = New SqlCommand("SEL_GETLOANSDETAILBYEMPLOYEE", DB_Connection)
+            DB_Command.CommandType = CommandType.StoredProcedure
+
+            DB_Command.Parameters.Clear()
+            DB_Command.Parameters.AddWithValue("EMPL_ID", _EMPL_ID)
+            DB_Reader = DB_Command.ExecuteReader()
+            dt.Load(DB_Reader)
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "Error al obtener el detalle de créditos por empleado", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            DB_Connection.Close()
+        End Try
+
+        Return dt
+    End Function
+
 End Class

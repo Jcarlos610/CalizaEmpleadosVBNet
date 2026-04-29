@@ -155,6 +155,10 @@ Public Class OP_INS_TIMERECORDS
             Dim EmplID As Integer = CInt(empInfo(0))
             Dim empName As String = empInfo(1).ToString
 
+            If EmplIDExists(EmplID) Then
+                Continue For
+            End If
+
             ' Nuevo: fecha y hora vienen juntas
             Dim dateTimeText As String = values(3).Trim()
             Dim fullDateTime As DateTime = DateTime.Parse(dateTimeText)
@@ -257,6 +261,17 @@ Public Class OP_INS_TIMERECORDS
 
 
     End Sub
+
+    Private Function EmplIDExists(emplID As Integer) As Boolean
+        For Each row As DataGridViewRow In DGV_FileContent.Rows
+            If Not row.IsNewRow Then
+                If Convert.ToInt32(row.Cells("EmpID").Value) = emplID Then
+                    Return True
+                End If
+            End If
+        Next
+        Return False
+    End Function
 
     Private Function ParseSpanishTime(timeText As String) As DateTime
 

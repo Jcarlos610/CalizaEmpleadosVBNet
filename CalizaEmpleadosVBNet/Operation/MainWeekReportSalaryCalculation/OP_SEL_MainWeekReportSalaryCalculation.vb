@@ -72,6 +72,10 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
     Private Sub BuildWeeklyGrid(sourceTable As DataTable, startDate As Date)
 
+        If DTP_WeekSelector.Value = Date.Today Then
+            Exit Sub
+        End If
+
         Dim EmployeesInfo As New DataTable
 
         'Columnas fijas
@@ -153,13 +157,13 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
                                     'Let's see if there is a permission or vacations
                                     Dim EmployeeRecords520 As DataTable = EmployeeRecord.Get_CheckAbsenceJustified(CInt(emp("ID Empleado")), currentDate.ToString("yyyy-MM-dd"), AbsenceForVacation)
-                                    If EmployeeRecords520.Rows.Count > 0 Then
-                                        newRow(i + 6) = 520 ' Permiso con goce
-                                    Else
-                                        newRow(i + 6) = found(0)("MOVE_ID")
+                                        If EmployeeRecords520.Rows.Count > 0 Then
+                                            newRow(i + 6) = 520 ' vacaciones
+                                        Else
+                                            newRow(i + 6) = found(0)("MOVE_ID")
+                                        End If
                                     End If
                                 End If
-                            End If
                         End If
 
                         'Dim EmployeeRecords130 As DataTable = EmployeeRecord.Get_CheckAbsenceJustified(CInt(emp("ID Empleado")), currentDate.ToString("yyyy-MM-dd"), DelayJustified)
@@ -1037,7 +1041,12 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
     Private Sub BT_FinalConfirmation_Click(sender As Object, e As EventArgs) Handles BT_FinalConfirmation.Click
         For Each Item As DataGridViewRow In DGV_CompleteWeekInfo.Rows
-            If Item.Cells(21).Value > 0 Then
+
+            'verify If there Is saving
+            If Item.Cells(23).Value IsNot Nothing AndAlso
+            Not IsDBNull(Item.Cells(23).Value) AndAlso
+            IsNumeric(Item.Cells(23).Value) AndAlso
+            CDec(Item.Cells(23).Value) > 0 Then
 
                 'Register automatic saving
                 Dim EmployeeSaving As New CL_RecordsByEmployeeMoneySaved
@@ -1047,6 +1056,30 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 EmployeeSaving.REMPL_RDATE = Today
                 EmployeeSaving.REMPL_CREBY = AppUser
                 EmployeeSaving.InsertAutomaticSaving()
+            End If
+
+            'verify if there is discounts for paymets
+            If Item.Cells(30).Value IsNot Nothing AndAlso
+               Not IsDBNull(Item.Cells(30).Value) AndAlso
+               IsNumeric(Item.Cells(30).Value) AndAlso
+               CDec(Item.Cells(30).Value) > 0 Then
+
+                'Register automatic saving
+                Dim EmployeeLoans As New CL_EmployeeLoans
+                EmployeeLoans.EMPL_ID = CInt(Item.Cells(1).Value)
+
+                Dim LoansDetailsByEmployee As DataTable = EmployeeLoans.Get_LoandsByEmployeeDetails()
+
+                If LoansDetailsByEmployee.Rows.Count > 0 Then
+                    For Each Line As DataRow In LoansDetailsByEmployee.Rows
+                        EmployeeLoans.LOAN_ID = Line(0)
+                        EmployeeLoans.LOAN_PAYM = Line(5)
+                        EmployeeLoans.LOAN_PTYPE = 2
+                        EmployeeLoans.InsertPayment()
+                    Next
+                End If
+
+
             End If
         Next
     End Sub
