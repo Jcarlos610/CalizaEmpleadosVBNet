@@ -217,6 +217,8 @@ Public Class CL_RecordsByEmployee
         End Try
     End Function
 
+
+
     Public Function IdealFullTimeRecordByEmployee() As Boolean
 
         Try

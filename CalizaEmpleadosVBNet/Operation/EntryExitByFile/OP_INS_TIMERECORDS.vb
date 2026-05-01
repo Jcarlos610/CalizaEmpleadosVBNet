@@ -151,101 +151,108 @@ Public Class OP_INS_TIMERECORDS
             'Dim empName As String = values(1).Trim()
 
             Dim values() As String = line.Replace("'", "").Split(",")
-            Dim empInfo() As String = values(1).Trim().Split("-")
-            Dim EmplID As Integer = CInt(empInfo(0))
-            Dim empName As String = empInfo(1).ToString
+            If values(1).ToString.Contains("-"c) Then
+                Dim empInfo() As String = values(1).Trim().Split("-")
+                Dim EmplID As Integer = CInt(empInfo(0))
+                Dim empName As String = empInfo(1).ToString
 
-            If EmplIDExists(EmplID) Then
-                Continue For
-            End If
-
-            ' Nuevo: fecha y hora vienen juntas
-            Dim dateTimeText As String = values(3).Trim()
-            Dim fullDateTime As DateTime = DateTime.Parse(dateTimeText)
-
-            Dim fileDate As Date = fullDateTime.Date
-            Dim timeValue As DateTime = fullDateTime
-
-            ' Ajuste para salidas (igual que antes)
-            If FileTye = 30 AndAlso timeValue.Hour < 12 Then
-                timeValue = timeValue.AddHours(12)
-                fullDateTime = fullDateTime.AddHours(12)
-            End If
-
-            If FileTye = 20 Then
-                'Logic for Entry File
-                Dim toleranceTime As DateTime = DateTime.Parse("07:10:00")
-                Dim limitTime As DateTime = DateTime.Parse("07:00:00")
-
-                Dim Comment As String = "Puntual"
-
-                If timeValue.TimeOfDay > limitTime.TimeOfDay AndAlso timeValue.TimeOfDay <= toleranceTime.TimeOfDay Then
-                    Comment = "Tolerancia"
-                ElseIf timeValue.TimeOfDay > toleranceTime.TimeOfDay Then
-                    Comment = "Retardo"
+                'Verify if the EmployeeID already exist in DGV
+                If EmplIDExists(EmplID) Then
+                    Continue For
                 End If
 
-                Dim rowIndex As Integer = DGV_FileContent.Rows.Add(
+                ' Nuevo: fecha y hora vienen juntas
+                Dim dateTimeText As String = values(3).Trim()
+                Dim fullDateTime As DateTime = DateTime.Parse(dateTimeText)
+
+                Dim fileDate As Date = fullDateTime.Date
+                Dim timeValue As DateTime = fullDateTime
+
+                ' Ajuste para salidas (igual que antes)
+                If FileTye = 30 AndAlso timeValue.Hour < 12 Then
+                    timeValue = timeValue.AddHours(12)
+                    fullDateTime = fullDateTime.AddHours(12)
+                End If
+
+                If FileTye = 20 Then
+                    'Logic for Entry File
+                    Dim toleranceTime As DateTime = DateTime.Parse("07:10:00")
+                    Dim limitTime As DateTime = DateTime.Parse("07:00:00")
+
+                    Dim Comment As String = "Puntual"
+
+                    If timeValue.TimeOfDay > limitTime.TimeOfDay AndAlso timeValue.TimeOfDay <= toleranceTime.TimeOfDay Then
+                        Comment = "Tolerancia"
+                    ElseIf timeValue.TimeOfDay > toleranceTime.TimeOfDay Then
+                        Comment = "Retardo"
+                    End If
+
+                    Dim rowIndex As Integer = DGV_FileContent.Rows.Add(
                     EmplID,
                     empName,
-                    FileDate.ToString("dd/MM/yyyy"),
+                    fileDate.ToString("dd/MM/yyyy"),
                     timeValue.ToString("HH:mm:ss"),
                     fullDateTime,
                     Comment
                 )
 
-                If Comment = "Tolerancia" Then
-                    DGV_FileContent.Rows(rowIndex).DefaultCellStyle.BackColor = Color.LightGoldenrodYellow
-                ElseIf Comment = "Retardo" Then
-                    DGV_FileContent.Rows(rowIndex).DefaultCellStyle.BackColor = Color.MistyRose
+                    If Comment = "Tolerancia" Then
+                        DGV_FileContent.Rows(rowIndex).DefaultCellStyle.BackColor = Color.LightGoldenrodYellow
+                    ElseIf Comment = "Retardo" Then
+                        DGV_FileContent.Rows(rowIndex).DefaultCellStyle.BackColor = Color.MistyRose
+                    End If
+                Else
+                    'Logic for Exit file
+                    Dim ToleranceEnd As DateTime = DateTime.Parse("18:00:00")
+                    Dim EndTime As DateTime = DateTime.Parse("17:30:00")
+                    Dim EndSaturdayTime As DateTime = DateTime.Parse("13:30:00")
+                    Dim ToleranceSaturdayEnd As DateTime = DateTime.Parse("14:00:00")
+
+                    Dim Comment As String = "Salida Puntual"
+
+                    'Moday to Friday
+                    If (fileDate.DayOfWeek >= 1 And fileDate.DayOfWeek <= 5) And
+                    timeValue.TimeOfDay > EndTime.TimeOfDay AndAlso timeValue.TimeOfDay <= ToleranceEnd.TimeOfDay Then
+                        Comment = "Salida Puntual"
+                        'Saturday or Sunday
+                    ElseIf (fileDate.DayOfWeek = DayOfWeek.Saturday Or fileDate.DayOfWeek = DayOfWeek.Sunday) _
+                    And timeValue.TimeOfDay > EndSaturdayTime.TimeOfDay AndAlso timeValue.TimeOfDay <= ToleranceSaturdayEnd.TimeOfDay Then
+                        Comment = "Salida Puntual"
+                        'Monday to Friday
+                    ElseIf (fileDate.DayOfWeek >= 1 And fileDate.DayOfWeek <= 5) And
+                    timeValue.TimeOfDay < EndTime.TimeOfDay Then
+                        Comment = "Salida anticipada"
+                        'Saturday or Sunday
+                    ElseIf (fileDate.DayOfWeek = DayOfWeek.Saturday Or fileDate.DayOfWeek = DayOfWeek.Sunday) And
+                    timeValue.TimeOfDay < EndSaturdayTime.TimeOfDay Then
+                        Comment = "Salida anticipada"
+                    ElseIf (fileDate.DayOfWeek >= 1 And fileDate.DayOfWeek <= 5) And
+                    timeValue.TimeOfDay > ToleranceEnd.TimeOfDay Then
+                        Comment = "Salida con tiempo adicional"
+                    ElseIf (fileDate.DayOfWeek = DayOfWeek.Saturday Or fileDate.DayOfWeek = DayOfWeek.Sunday) And
+                    timeValue.TimeOfDay > ToleranceSaturdayEnd.TimeOfDay Then
+                        Comment = "Salida con tiempo adicional"
+                    End If
+
+                    Dim rowIndex As Integer = DGV_FileContent.Rows.Add(
+                    EmplID,
+                    empName,
+                    fileDate.ToString("dd/MM/yyyy"),
+                    timeValue.ToString("HH:mm:ss"),
+                    fullDateTime,
+                    Comment
+                )
+
+                    If Comment = "Salida anticipada" Then
+                        DGV_FileContent.Rows(rowIndex).DefaultCellStyle.BackColor = Color.MistyRose
+                    ElseIf Comment = "Salida con tiempo adicional" Then
+                        DGV_FileContent.Rows(rowIndex).DefaultCellStyle.BackColor = Color.LightGoldenrodYellow
+                    End If
                 End If
             Else
-                'Logic for Exit file
-                Dim ToleranceEnd As DateTime = DateTime.Parse("18:00:00")
-                Dim EndTime As DateTime = DateTime.Parse("17:30:00")
-                Dim EndSaturdayTime As DateTime = DateTime.Parse("13:30:00")
-                Dim ToleranceSaturdayEnd As DateTime = DateTime.Parse("14:00:00")
-
-                Dim Comment As String = "Salida Puntual"
-
-                'Moday to Friday
-                If (FileDate.DayOfWeek >= 1 And FileDate.DayOfWeek <= 5) And
-                    timeValue.TimeOfDay > EndTime.TimeOfDay AndAlso timeValue.TimeOfDay <= ToleranceEnd.TimeOfDay Then
-                    Comment = "Salida Puntual"
-                    'Saturday or Sunday
-                ElseIf (FileDate.DayOfWeek = DayOfWeek.Saturday Or FileDate.DayOfWeek = DayOfWeek.Sunday) _
-                    And timeValue.TimeOfDay > EndSaturdayTime.TimeOfDay AndAlso timeValue.TimeOfDay <= ToleranceSaturdayEnd.TimeOfDay Then
-                    Comment = "Salida Puntual"
-                    'Monday to Friday
-                ElseIf (FileDate.DayOfWeek >= 1 And FileDate.DayOfWeek <= 5) And
-                    timeValue.TimeOfDay < EndTime.TimeOfDay Then
-                    Comment = "Salida anticipada"
-                    'Saturday or Sunday
-                ElseIf (FileDate.DayOfWeek = DayOfWeek.Saturday Or FileDate.DayOfWeek = DayOfWeek.Sunday) And
-                    timeValue.TimeOfDay < EndSaturdayTime.TimeOfDay Then
-                    Comment = "Salida anticipada"
-                ElseIf (FileDate.DayOfWeek >= 1 And FileDate.DayOfWeek <= 5) And
-                    timeValue.TimeOfDay > ToleranceEnd.TimeOfDay Then
-                    Comment = "Salida con tiempo adicional"
-                ElseIf (FileDate.DayOfWeek = DayOfWeek.Saturday Or FileDate.DayOfWeek = DayOfWeek.Sunday) And
-                    timeValue.TimeOfDay > ToleranceSaturdayEnd.TimeOfDay Then
-                    Comment = "Salida con tiempo adicional"
-                End If
-
-                Dim rowIndex As Integer = DGV_FileContent.Rows.Add(
-                    EmplID,
-                    empName,
-                    FileDate.ToString("dd/MM/yyyy"),
-                    timeValue.ToString("HH:mm:ss"),
-                    fullDateTime,
-                    Comment
-                )
-
-                If Comment = "Salida anticipada" Then
-                    DGV_FileContent.Rows(rowIndex).DefaultCellStyle.BackColor = Color.MistyRose
-                ElseIf Comment = "Salida con tiempo adicional" Then
-                    DGV_FileContent.Rows(rowIndex).DefaultCellStyle.BackColor = Color.LightGoldenrodYellow
-                End If
+                MessageBox.Show("La linea: " & LineIndex + 2 & " del archivo no contiene un ID de empleado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                DGV_FileContent.Columns.Clear()
+                Exit Sub
             End If
         Next
 
@@ -659,6 +666,31 @@ Public Class OP_INS_TIMERECORDS
 
                             IncompleteTimeRecordByEmployee2050(CInt(EmployeeRow(0)), CInt(Asistance(0)), AppUser, Date.Now, DateRecord, EntryRecord, ExitRecord)
                         End If
+                    Case 122 'Jornada Desfasada - Entrada con Retardo y Salida con tiempo adicional 30/55
+                        Dim IncompleteRecordByEmployee3055 As New CL_EntryExitFile
+                        Dim IdealEntryRecords As DataTable
+                        IncompleteRecordByEmployee3055.EMPL_ID = CInt(EmployeeRow(2))
+                        IncompleteRecordByEmployee3055.HFILE_NAME = HFILE_NAME
+                        IncompleteRecordByEmployee3055.ENTTYPE_ID = 30  ' Entrada con Retardo 
+                        IncompleteRecordByEmployee3055.EXTTYPE_ID = 55  ' Salida con tiempo adicional
+                        IdealEntryRecords = IncompleteRecordByEmployee3055.Get_EntryExitRecordsByEmployeeIDEnTypes()
+
+                        Dim Count As Integer = 0
+                        Dim DateRecord As Date
+                        Dim EntryRecord As DateTime
+                        Dim ExitRecord As DateTime
+                        If IdealEntryRecords.Rows.Count = 2 Then
+                            For Each IdealRow As DataRow In IdealEntryRecords.Rows
+                                If IdealRow(9) = 30 Then
+                                    DateRecord = IdealRow(10)
+                                    EntryRecord = IdealRow(12)
+                                ElseIf IdealRow(9) = 55 Then
+                                    ExitRecord = IdealRow(12)
+                                End If
+                            Next
+
+                            IncompleteTimeRecordByEmployee3055(CInt(EmployeeRow(2)), CInt(Asistance(0)), AppUser, Date.Now, DateRecord, EntryRecord, ExitRecord)
+                        End If
                 End Select
             Next
         Next
@@ -793,6 +825,22 @@ Public Class OP_INS_TIMERECORDS
     End Function
 
     Private Function IncompleteTimeRecordByEmployee2055(ByVal EMPL_ID As Integer, ByVal MOVE_ID As Integer, ByVal REMPL_CREBY As String, ByVal REMPL_RDATE As DateTime, ByVal DREMPL_DATE As Date, ByVal DREMPL_ENDATI As DateTime, ByVal DREMPL_EXDATI As DateTime) As Boolean
+        Dim Result As Boolean = False
+
+        Dim NewRecordByEmployee = New CL_RecordsByEmployee()
+        NewRecordByEmployee.EMPL_ID = EMPL_ID
+        NewRecordByEmployee.MOVE_ID = MOVE_ID
+        NewRecordByEmployee.REMPL_CREBY = REMPL_CREBY
+        NewRecordByEmployee.REMPL_RDATE = REMPL_RDATE
+        NewRecordByEmployee.DREMPL_DATE = DREMPL_DATE
+        NewRecordByEmployee.DREMPL_ENDATI = DREMPL_ENDATI
+        NewRecordByEmployee.DREMPL_EXDATI = DREMPL_EXDATI
+        Result = NewRecordByEmployee.ImcompletelFullTimeRecordByEmployee()
+
+        Return Result
+    End Function
+
+    Private Function IncompleteTimeRecordByEmployee3055(ByVal EMPL_ID As Integer, ByVal MOVE_ID As Integer, ByVal REMPL_CREBY As String, ByVal REMPL_RDATE As DateTime, ByVal DREMPL_DATE As Date, ByVal DREMPL_ENDATI As DateTime, ByVal DREMPL_EXDATI As DateTime) As Boolean
         Dim Result As Boolean = False
 
         Dim NewRecordByEmployee = New CL_RecordsByEmployee()

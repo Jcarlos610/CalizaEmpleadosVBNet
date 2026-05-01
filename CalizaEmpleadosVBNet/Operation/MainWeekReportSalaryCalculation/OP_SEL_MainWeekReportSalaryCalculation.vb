@@ -354,6 +354,10 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                         row.Cells(i).Value = "A" 'JI-ET-SA Jornada Incompleta - Entrada con tolerancia salida anticipada
                         row.Cells(i).Style.BackColor = System.Drawing.Color.FromArgb(CByte(192), CByte(255), CByte(192))
                         row.Cells(i).ToolTipText = "Asistencia"
+                    Case 122
+                        row.Cells(i).Value = "A" 'JI-ET-SA Jornada Incompleta - Entrada con tolerancia salida anticipada
+                        row.Cells(i).Style.BackColor = System.Drawing.Color.FromArgb(CByte(192), CByte(255), CByte(192))
+                        row.Cells(i).ToolTipText = "Asistencia"
                     Case 130
                         row.Cells(i).Value = "FJ" 'JC-FJ Jornada Completa - Falta Justificada
                         row.Cells(i).Style.BackColor = System.Drawing.Color.FromArgb(CByte(255), CByte(128), CByte(128))
