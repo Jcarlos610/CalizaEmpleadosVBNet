@@ -452,4 +452,34 @@ Public Class CL_Incidents
         Return dt
 
     End Function
+
+    Public Function ExistePermisoMismoDia(ByVal EMPL_ID As Integer, ByVal FechaInicio As Date, ByVal FechaFin As Date) As Boolean
+
+        Dim dt As New DataTable
+
+        Try
+            DB_Connection.Open()
+
+            DB_Command = New SqlCommand("SEL_VALIDATE_PERMISSION_SAME_DAY", DB_Connection)
+            DB_Command.CommandType = CommandType.StoredProcedure
+
+            DB_Command.Parameters.Clear()
+            DB_Command.Parameters.AddWithValue("@EMPL_ID", EMPL_ID)
+            DB_Command.Parameters.AddWithValue("@FECHA_INI", FechaInicio)
+            DB_Command.Parameters.AddWithValue("@FECHA_FIN", FechaFin)
+
+            DB_Reader = DB_Command.ExecuteReader()
+            dt.Load(DB_Reader)
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        Finally
+            DB_Connection.Close()
+        End Try
+
+        Return dt.Rows.Count > 0
+
+    End Function
+
+
 End Class

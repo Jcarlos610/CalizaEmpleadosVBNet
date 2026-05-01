@@ -1,13 +1,14 @@
 ﻿Imports System.Diagnostics.Metrics
+Imports System.Drawing
 Imports System.Windows.Forms.ComponentModel.Com2Interop
+Imports System.Windows.Forms.VisualStyles
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports ClosedXML.Excel
 Imports DocumentFormat.OpenXml.Bibliography
 Imports DocumentFormat.OpenXml.Drawing
 Imports DocumentFormat.OpenXml.Math
 Imports DocumentFormat.OpenXml.Wordprocessing
 Imports Microsoft.Identity.Client
-Imports System.Drawing
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles
 
 Public Class OP_SEL_MainWeekReportSalaryCalculation
     Dim SelectedEmployeeID As Integer = 0
@@ -157,13 +158,13 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
                                     'Let's see if there is a permission or vacations
                                     Dim EmployeeRecords520 As DataTable = EmployeeRecord.Get_CheckAbsenceJustified(CInt(emp("ID Empleado")), currentDate.ToString("yyyy-MM-dd"), AbsenceForVacation)
-                                        If EmployeeRecords520.Rows.Count > 0 Then
-                                            newRow(i + 6) = 520 ' vacaciones
-                                        Else
-                                            newRow(i + 6) = found(0)("MOVE_ID")
-                                        End If
+                                    If EmployeeRecords520.Rows.Count > 0 Then
+                                        newRow(i + 6) = 520 ' vacaciones
+                                    Else
+                                        newRow(i + 6) = found(0)("MOVE_ID")
                                     End If
                                 End If
+                            End If
                         End If
 
                         'Dim EmployeeRecords130 As DataTable = EmployeeRecord.Get_CheckAbsenceJustified(CInt(emp("ID Empleado")), currentDate.ToString("yyyy-MM-dd"), DelayJustified)
@@ -1040,48 +1041,128 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
     End Sub
 
     Private Sub BT_FinalConfirmation_Click(sender As Object, e As EventArgs) Handles BT_FinalConfirmation.Click
-        For Each Item As DataGridViewRow In DGV_CompleteWeekInfo.Rows
+        'For Each Item As DataGridViewRow In DGV_CompleteWeekInfo.Rows
 
-            'verify If there Is saving
-            If Item.Cells(23).Value IsNot Nothing AndAlso
-            Not IsDBNull(Item.Cells(23).Value) AndAlso
-            IsNumeric(Item.Cells(23).Value) AndAlso
-            CDec(Item.Cells(23).Value) > 0 Then
+        '    'verify If there Is saving
+        '    If Item.Cells(23).Value IsNot Nothing AndAlso
+        '    Not IsDBNull(Item.Cells(23).Value) AndAlso
+        '    IsNumeric(Item.Cells(23).Value) AndAlso
+        '    CDec(Item.Cells(23).Value) > 0 Then
 
-                'Register automatic saving
-                Dim EmployeeSaving As New CL_RecordsByEmployeeMoneySaved
-                EmployeeSaving.EMPL_ID = CInt(Item.Cells(1).Value)
-                EmployeeSaving.DREMPL_AMM = CDec(Item.Cells(21).Value)
-                EmployeeSaving.DREMPL_TYPE = 2
-                EmployeeSaving.REMPL_RDATE = Today
-                EmployeeSaving.REMPL_CREBY = AppUser
-                EmployeeSaving.InsertAutomaticSaving()
-            End If
+        '        'Register automatic saving
+        '        Dim EmployeeSaving As New CL_RecordsByEmployeeMoneySaved
+        '        EmployeeSaving.EMPL_ID = CInt(Item.Cells(1).Value)
+        '        EmployeeSaving.DREMPL_AMM = CDec(Item.Cells(21).Value)
+        '        EmployeeSaving.DREMPL_TYPE = 2
+        '        EmployeeSaving.REMPL_RDATE = Today
+        '        EmployeeSaving.REMPL_CREBY = AppUser
+        '        EmployeeSaving.InsertAutomaticSaving()
+        '    End If
 
-            'verify if there is discounts for paymets
-            If Item.Cells(30).Value IsNot Nothing AndAlso
-               Not IsDBNull(Item.Cells(30).Value) AndAlso
-               IsNumeric(Item.Cells(30).Value) AndAlso
-               CDec(Item.Cells(30).Value) > 0 Then
+        '    'verify if there is discounts for paymets
+        '    If Item.Cells(30).Value IsNot Nothing AndAlso
+        '       Not IsDBNull(Item.Cells(30).Value) AndAlso
+        '       IsNumeric(Item.Cells(30).Value) AndAlso
+        '       CDec(Item.Cells(30).Value) > 0 Then
 
-                'Register automatic saving
-                Dim EmployeeLoans As New CL_EmployeeLoans
-                EmployeeLoans.EMPL_ID = CInt(Item.Cells(1).Value)
+        '        'Register automatic saving
+        '        Dim EmployeeLoans As New CL_EmployeeLoans
+        '        EmployeeLoans.EMPL_ID = CInt(Item.Cells(1).Value)
 
-                Dim LoansDetailsByEmployee As DataTable = EmployeeLoans.Get_LoandsByEmployeeDetails()
+        '        Dim LoansDetailsByEmployee As DataTable = EmployeeLoans.Get_LoandsByEmployeeDetails()
 
-                If LoansDetailsByEmployee.Rows.Count > 0 Then
-                    For Each Line As DataRow In LoansDetailsByEmployee.Rows
-                        EmployeeLoans.LOAN_ID = Line(0)
-                        EmployeeLoans.LOAN_PAYM = Line(5)
-                        EmployeeLoans.LOAN_PTYPE = 2
-                        EmployeeLoans.InsertPayment()
+        '        If LoansDetailsByEmployee.Rows.Count > 0 Then
+        '            For Each Line As DataRow In LoansDetailsByEmployee.Rows
+        '                EmployeeLoans.LOAN_ID = Line(0)
+        '                EmployeeLoans.LOAN_PAYM = Line(5)
+        '                EmployeeLoans.LOAN_PTYPE = 2
+        '                EmployeeLoans.InsertPayment()
+        '            Next
+        '        End If
+        '    End If
+
+        'Next
+
+        If DGV_CompleteWeekInfo.Rows.Count = 0 Then
+            MessageBox.Show("No hay datos para procesar en la tabla actual.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Return
+        End If
+
+        Dim confirmacion As DialogResult = MessageBox.Show("¿Está seguro de que desea guardar la nómina de la semana actual?",
+        "Confirmar Registro", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+        If confirmacion = DialogResult.No Then Return
+
+        Dim objP As New CL_Payroll()
+        Dim savedCount As Integer = 0
+
+        Try
+
+            Dim ToDec = Function(valor As Object) As Decimal
+                            If valor Is Nothing OrElse IsDBNull(valor) OrElse valor.ToString.Trim = "" Then Return 0
+                            Dim s As String = valor.ToString.Replace("$", "").Trim
+                            Dim d As Decimal = 0
+                            Decimal.TryParse(s, d)
+                            Return d
+                        End Function
+
+            For Each row As DataGridViewRow In DGV_CompleteWeekInfo.Rows
+
+                If row.Cells("No.").Value Is Nothing OrElse row.IsNewRow Then Continue For
+
+                objP.EmployeeID = row.Cells("No.").Value
+                objP.FullName = row.Cells("Nombre Completo").Value.ToString()
+                objP.Company = row.Cells("Empresa").Value.ToString()
+                objP.Position = row.Cells("Posición").Value.ToString()
+
+                objP.StartDate = DTP_StartDate.Value
+                objP.EndDate = DTP_EndDate.Value
+
+                objP.BaseSalary = ToDec(row.Cells("S. Base").Value)
+                objP.DailySalary = ToDec(row.Cells("S. Diario").Value)
+                objP.AbsencesMonth = CInt(ToDec(row.Cells("Faltas en el Mes").Value))
+
+                objP.ExtraS = ToDec(row.Cells("Ext. S").Value)
+                objP.ExtraD = ToDec(row.Cells("Ext. D").Value)
+                objP.ExtraT = ToDec(row.Cells("Ext. T").Value)
+                objP.LunchHours = ToDec(row.Cells("H. Comida").Value)
+                objP.LunchBonus = ToDec(row.Cells("B. Comida").Value)
+                objP.ProductivityBonus = ToDec(row.Cells("Bono Prod.").Value)
+                objP.AttitudeBonus = ToDec(row.Cells("Bono BP").Value)
+                objP.Savings = ToDec(row.Cells("Ahorro").Value)
+                objP.TransportDays = ToDec(row.Cells("D. Transporte").Value)
+                objP.TransportBonus = ToDec(row.Cells("Transporte").Value)
+                objP.LoanDiscount = ToDec(row.Cells("Desc. Prest.").Value)
+
+                objP.TotalNeto = ToDec(row.Cells("Calculado").Value)
+                objP.CreatedBy = AppUser
+
+                Dim currentID = objP.InsertPayrollWeek()
+
+                If currentID IsNot Nothing AndAlso IsNumeric(currentID) Then
+
+                    objP.PayrollID = currentID
+
+                    For i As Integer = 0 To 6
+                        Dim fechaColumna As String = DTP_StartDate.Value.AddDays(i).ToString("dd/MM/yyyy")
+
+                        objP.WorkDate = DTP_StartDate.Value.AddDays(i)
+                        objP.Status = row.Cells(fechaColumna).Value.ToString()
+
+                        objP.InsertPayrollAttendance()
                     Next
+
+                    savedCount += 1
                 End If
+            Next
 
+            MessageBox.Show("Se han guardado " & savedCount & " registros exitosamente.",
+                        "Sistema de Nómina", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-            End If
-        Next
+        Catch ex As Exception
+            MessageBox.Show("Error crítico al procesar la información: " & ex.Message,
+                        "Error de Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Public Sub SEL_MainWeekReportSalaryCalculation_PG_Progress(progress As System.Windows.Forms.ProgressBar, totalItems As Integer, currentItem As Integer)
@@ -1107,5 +1188,58 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         Else
             DTP_WeekSelector.Enabled = True
         End If
+    End Sub
+
+    Private Sub BT_ExportExcel_Click(sender As Object, e As EventArgs) Handles BT_ExportExcel.Click
+        Try
+            Using workbook As New XLWorkbook()
+                Dim wsResumen = workbook.Worksheets.Add("Resumen Nómina")
+
+                For col As Integer = 0 To DGV_CompleteWeekInfo.Columns.Count - 1
+                    Dim cell = wsResumen.Cell(1, col + 1)
+                    cell.Value = DGV_CompleteWeekInfo.Columns(col).HeaderText
+                    cell.Style.Font.Bold = True
+                    cell.Style.Fill.BackgroundColor = XLColor.AirForceBlue
+                    cell.Style.Font.FontColor = XLColor.White
+                Next
+
+                For row As Integer = 0 To DGV_CompleteWeekInfo.Rows.Count - 1
+                    If Not DGV_CompleteWeekInfo.Rows(row).IsNewRow Then
+                        For col As Integer = 0 To DGV_CompleteWeekInfo.Columns.Count - 1
+                            wsResumen.Cell(row + 2, col + 1).Value = DGV_CompleteWeekInfo.Rows(row).Cells(col).Value?.ToString()
+                        Next
+                    End If
+                Next
+                wsResumen.Columns().AdjustToContents()
+
+                Dim wsDetalle = workbook.Worksheets.Add("Detalle de Asistencia")
+                Dim objP As New CL_Payroll()
+
+                Dim dtAsistencia As DataTable = objP.GetWeeklyAttendance(DTP_StartDate.Value, DTP_EndDate.Value)
+
+                If dtAsistencia.Rows.Count > 0 Then
+                    wsDetalle.Cell(1, 1).InsertData(dtAsistencia)
+                    Dim cantidadColumnas = dtAsistencia.Columns.Count
+                    Dim rangoEncabezado = wsDetalle.Range(1, 1, 1, cantidadColumnas)
+                    rangoEncabezado.Style.Font.Bold = True
+                    rangoEncabezado.Style.Border.BottomBorder = XLBorderStyleValues.Thin
+                    wsDetalle.Columns().AdjustToContents()
+                Else
+                    wsDetalle.Cell(1, 1).Value = "No hay registros disponibles"
+                End If
+
+                Dim sfd As New SaveFileDialog()
+                sfd.Filter = "Excel Files|*.xlsx"
+                sfd.FileName = "Nomina_Semana_" & DateTime.Now.ToString("ddMMyyyy")
+
+                If sfd.ShowDialog() = DialogResult.OK Then
+                    workbook.SaveAs(sfd.FileName)
+                    MessageBox.Show("Archivo Excel generado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("Error al generar Excel: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 End Class

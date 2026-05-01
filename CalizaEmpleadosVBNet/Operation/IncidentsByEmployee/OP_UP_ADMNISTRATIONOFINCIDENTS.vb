@@ -19,8 +19,16 @@
 
         DGV_Employees.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
 
+    End Sub
+
+    Private Sub DGV_Employees_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DGV_Employees.DataBindingComplete
+
         If DGV_Employees.Columns.Contains("INC_STAT") Then
             DGV_Employees.Columns("INC_STAT").Visible = False
+        End If
+
+        If DGV_Employees.Columns.Contains("Estado") Then
+            DGV_Employees.Columns("Estado").Visible = False
         End If
 
     End Sub

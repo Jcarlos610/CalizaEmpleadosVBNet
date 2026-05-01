@@ -164,6 +164,19 @@ Public Class OP_ADMNISTRATIONOFINCIDENTS
                 dias = Convert.ToDecimal(TB_VacDays.Text)
         End Select
 
+        'VALIDAR PERMISOS DUPLICADOS
+        If MOVE_ID = 500 Or MOVE_ID = 510 Or MOVE_ID = 520 Then
+
+            Dim valida As New CL_Incidents
+
+            If valida.ExistePermisoMismoDia(EMPL_ID, FechaInicio, FechaFin) Then
+                MessageBox.Show("Ya existe un permiso en ese rango de fechas para este empleado",
+                        "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Return False
+            End If
+
+        End If
+
         Dim obj As New CL_Incidents
 
         obj.EMPL_ID = EMPL_ID
@@ -381,7 +394,7 @@ Public Class OP_ADMNISTRATIONOFINCIDENTS
 
     Private Sub DGV_Incidents_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Incidents.CellClick
 
-        If e.RowIndex < 0 Then Exit Sub
+        If e.RowIndex < 0 Or e.ColumnIndex < 0 Then Exit Sub
 
         If DGV_Incidents.Columns(e.ColumnIndex).Name = "Cancelar" Then
 
