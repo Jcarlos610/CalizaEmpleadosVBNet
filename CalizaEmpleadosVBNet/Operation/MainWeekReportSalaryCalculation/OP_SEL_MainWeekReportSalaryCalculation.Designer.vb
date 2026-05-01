@@ -60,6 +60,7 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         Panel4 = New Panel()
         Label9 = New Label()
         Label10 = New Label()
+        BT_ExportExcel = New Button()
         GB_NumberOfWeek.SuspendLayout()
         Panel1.SuspendLayout()
         PN_2.SuspendLayout()
@@ -376,7 +377,7 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         ' BT_FinalConfirmation
         ' 
         BT_FinalConfirmation.BackColor = SystemColors.Info
-        BT_FinalConfirmation.Location = New Point(1803, 712)
+        BT_FinalConfirmation.Location = New Point(1671, 710)
         BT_FinalConfirmation.Name = "BT_FinalConfirmation"
         BT_FinalConfirmation.Size = New Size(99, 23)
         BT_FinalConfirmation.TabIndex = 29
@@ -430,6 +431,15 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         Label10.Text = "Label10"
         Label10.Visible = False
         ' 
+        ' BT_ExportExcel
+        ' 
+        BT_ExportExcel.Location = New Point(1776, 710)
+        BT_ExportExcel.Name = "BT_ExportExcel"
+        BT_ExportExcel.Size = New Size(110, 23)
+        BT_ExportExcel.TabIndex = 34
+        BT_ExportExcel.Text = "Exportar Nómina"
+        BT_ExportExcel.UseVisualStyleBackColor = True
+        ' 
         ' OP_SEL_MainWeekReportSalaryCalculation
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -437,6 +447,7 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1684, 878)
+        Controls.Add(BT_ExportExcel)
         Controls.Add(PB_Progress)
         Controls.Add(Label10)
         Controls.Add(Label9)
@@ -523,4 +534,5 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
     Friend WithEvents PB_Progress As ProgressBar
     Friend WithEvents LB_ProdPlant As Label
     Friend WithEvents TB_ProdPlant As TextBox
+    Friend WithEvents BT_ExportExcel As Button
 End Class
