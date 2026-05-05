@@ -329,20 +329,79 @@ Public Class CL_Payroll
     End Function
 
     Public Function GetWeeklyAttendance(startDate As Date, endDate As Date) As DataTable
+
         Dim dt As New DataTable
+
         Try
+
             DB_Command = New SqlCommand("SEL_GETWEEKATTENDANCE", DB_Connection)
+
             DB_Command.CommandType = CommandType.StoredProcedure
 
             DB_Command.Parameters.AddWithValue("@StartDate", startDate)
             DB_Command.Parameters.AddWithValue("@EndDate", endDate)
 
+            DB_Connection.Open()
+
             Dim adapter As New SqlDataAdapter(DB_Command)
+
             adapter.Fill(dt)
+
+            DB_Connection.Close()
+
         Catch ex As Exception
+
+            DB_Connection.Close()
+
             Throw New Exception("Error en CL_Payroll.GetWeeklyAttendance: " & ex.Message)
+
         End Try
+
         Return dt
+
+    End Function
+
+    Public Function ValidatePayrollWeek(startDate As Date,
+                                    endDate As Date) As Boolean
+
+        Dim dt As New DataTable
+
+        Try
+
+            DB_Command = New SqlCommand With {
+                .CommandText = "SEL_VALIDATE_PAYROLL_WEEK",
+                .CommandType = CommandType.StoredProcedure
+            }
+
+            DB_Connection.Open()
+
+            DB_Command.Connection = DB_Connection
+
+            DB_Command.Parameters.AddWithValue("@StartDate", startDate)
+            DB_Command.Parameters.AddWithValue("@EndDate", endDate)
+
+            Dim adapter As New SqlDataAdapter(DB_Command)
+
+            adapter.Fill(dt)
+
+            DB_Connection.Close()
+
+            If dt.Rows.Count > 0 Then
+                Return True
+            Else
+                Return False
+            End If
+
+        Catch ex As Exception
+
+            DB_Connection.Close()
+
+            MsgBox(ex.Message)
+
+            Return False
+
+        End Try
+
     End Function
 
 End Class

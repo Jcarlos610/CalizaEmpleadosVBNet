@@ -1098,6 +1098,18 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         If confirmacion = DialogResult.No Then Return
 
         Dim objP As New CL_Payroll()
+
+        If objP.ValidatePayrollWeek(DTP_StartDate.Value.Date,
+                            DTP_EndDate.Value.Date) Then
+
+            MessageBox.Show("Esta nómina ya fue confirmada anteriormente.",
+                    "Nómina duplicada",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning)
+
+            Exit Sub
+        End If
+
         Dim savedCount As Integer = 0
 
         Try
@@ -1217,19 +1229,47 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 wsResumen.Columns().AdjustToContents()
 
                 Dim wsDetalle = workbook.Worksheets.Add("Detalle de Asistencia")
-                Dim objP As New CL_Payroll()
 
-                Dim dtAsistencia As DataTable = objP.GetWeeklyAttendance(DTP_StartDate.Value, DTP_EndDate.Value)
+                Dim CL As New CL_Payroll
+                Dim dtDetalle As DataTable
 
-                If dtAsistencia.Rows.Count > 0 Then
-                    wsDetalle.Cell(1, 1).InsertData(dtAsistencia)
-                    Dim cantidadColumnas = dtAsistencia.Columns.Count
-                    Dim rangoEncabezado = wsDetalle.Range(1, 1, 1, cantidadColumnas)
-                    rangoEncabezado.Style.Font.Bold = True
-                    rangoEncabezado.Style.Border.BottomBorder = XLBorderStyleValues.Thin
+                Dim fechaIni As String = DTP_StartDate.Value.ToString("yyyy-MM-dd")
+                Dim fechaFin As String = DTP_EndDate.Value.ToString("yyyy-MM-dd")
+
+                dtDetalle = CL.GetWeeklyAttendance(Convert.ToDateTime(fechaIni), Convert.ToDateTime(fechaFin))
+
+
+
+                If dtDetalle.Rows.Count > 0 Then
+
+                    For col As Integer = 0 To dtDetalle.Columns.Count - 1
+
+                        Dim cell = wsDetalle.Cell(1, col + 1)
+
+                        cell.Value = dtDetalle.Columns(col).ColumnName
+                        cell.Style.Font.Bold = True
+                        cell.Style.Fill.BackgroundColor = XLColor.AirForceBlue
+                        cell.Style.Font.FontColor = XLColor.White
+
+                    Next
+
+                    For row As Integer = 0 To dtDetalle.Rows.Count - 1
+
+                        For col As Integer = 0 To dtDetalle.Columns.Count - 1
+
+                            wsDetalle.Cell(row + 2, col + 1).Value =
+                dtDetalle.Rows(row)(col).ToString()
+
+                        Next
+
+                    Next
+
                     wsDetalle.Columns().AdjustToContents()
+
                 Else
-                    wsDetalle.Cell(1, 1).Value = "No hay registros disponibles"
+
+                    wsDetalle.Cell(1, 1).Value = "No hay datos en el detalle."
+
                 End If
 
                 Dim sfd As New SaveFileDialog()
@@ -1246,4 +1286,6 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
             MessageBox.Show("Error al generar Excel: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+
 End Class
