@@ -444,11 +444,23 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
     End Sub
 
     Private Sub DTP_WeekSelector_ValueChanged_1(sender As Object, e As EventArgs) Handles DTP_WeekSelector.ValueChanged
-        LoadWeek()
-        DTP_StartDate.Visible = True
-        DTP_EndDate.Visible = True
-        LB_StartDate.Visible = True
-        LB_EndDate.Visible = True
+        If TB_ProdPlant.Text <> "" Then
+
+            Dim weekRange = GetWeekRange(DTP_WeekSelector.Value)
+
+            Dim startDate As Date = weekRange.Item1
+            Dim endDate As Date = weekRange.Item2
+
+            DTP_StartDate.Value = startDate
+            DTP_StartDate.Enabled = False
+            DTP_EndDate.Value = endDate
+            DTP_EndDate.Enabled = False
+
+            DTP_StartDate.Visible = True
+            DTP_EndDate.Visible = True
+            LB_StartDate.Visible = True
+            LB_EndDate.Visible = True
+        End If
 
     End Sub
 
@@ -689,6 +701,10 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 DGV_CompleteWeekInfo.Rows(CounterLine).Cells(24).Value = PropPlantAmmount_1.ToString() & "%"
             ElseIf TB_ProdPlant.Text = "90" Then
                 DGV_CompleteWeekInfo.Rows(CounterLine).Cells(24).Value = PropPlantAmmount_2.ToString() & "%"
+            End If
+
+            If EmployeeID = 600 Then
+                MsgBox("empleado" & EmployeeID)
             End If
 
             'Check salary by employee
@@ -971,7 +987,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
                 'Si tienen 6 asistencias y 3 retardo	
                 'Pago de sueldo base normal, amonestaciones de 1 semana del bono de buenas practicas
-                If counterA = 6 And counterR = 3 Then
+                If counterA = 3 And counterR = 3 Then
                     NewSalary = DailySalary * 6                             ' salario base de 5 dias
                     NewSalary = NewSalary - ((AttitudeGoodPract / 7) * 7)   ' se le descuenta una semana de buenas practicas 
                     NewSalary = NewSalary - SavingAmmount                   ' Menos la cantidad a ahorrar
@@ -980,7 +996,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
                 'Si tienen 6 asistencias y 4 retardo	
                 'Pago de sueldo base normal, amonestaciones de 1 semana del bono de buenas practicas
-                If counterA = 6 And counterR = 4 Then
+                If counterA = 2 And counterR = 4 Then
                     NewSalary = DailySalary * 6                             ' salario base de 5 dias
                     NewSalary = NewSalary - ((AttitudeGoodPract / 7) * 7)   ' se le descuenta una semana de buenas practicas
                     NewSalary = NewSalary - SavingAmmount                   ' Menos la cantidad a ahorrar
@@ -989,7 +1005,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
                 'Si tienen 6 asistencias y 5 retardo	
                 'Pago de sueldo base normal, amonestaciones de 1 semana del bono de buenas practicas
-                If counterA = 6 And counterR = 5 Then
+                If counterA = 1 And counterR = 5 Then
                     NewSalary = DailySalary * 6                             ' salario base de 5 dias
                     NewSalary = NewSalary - ((AttitudeGoodPract / 7) * 7)   ' se le descuenta una semana de buenas practicas 
                     NewSalary = NewSalary - SavingAmmount                   ' Menos la cantidad a ahorrar
@@ -998,7 +1014,18 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
                 'Si tienen 6 asistencias y 6 retardo	
                 'Pago de sueldo base normal, amonestaciones de 1 semana del bono de buenas practicas
-                If counterA = 6 And counterR = 6 Then
+                If counterR = 6 Then
+                    NewSalary = DailySalary * 6                             ' salario base de 5 dias
+                    NewSalary = NewSalary - ((AttitudeGoodPract / 7) * 7)   ' se le descuenta una semana de buenas practicas 
+                    NewSalary = NewSalary - SavingAmmount                   ' Menos la cantidad a ahorrar
+                    NewSalary = NewSalary - PaymentAmmount                  ' Menos el pago por créditos
+                End If
+
+
+                '------------- Escenarios con retardos
+                'Si tienen 3 asistencias con retardo y 3 faltas	
+                '????
+                If counterA = 0 And counterR = 3 And counterF = 3 Then
                     NewSalary = DailySalary * 6                             ' salario base de 5 dias
                     NewSalary = NewSalary - ((AttitudeGoodPract / 7) * 7)   ' se le descuenta una semana de buenas practicas 
                     NewSalary = NewSalary - SavingAmmount                   ' Menos la cantidad a ahorrar
@@ -1287,5 +1314,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         End Try
     End Sub
 
-
+    Private Sub BT_LoadInfo_Click(sender As Object, e As EventArgs) Handles BT_LoadInfo.Click
+        LoadWeek()
+    End Sub
 End Class

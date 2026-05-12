@@ -307,6 +307,32 @@ Public Class CL_EntryExitFile
         End Try
     End Function
 
+    Public Function Get_CheckEntriesInFiles() As DataTable
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "SEL_RECORDSBYEMPLOYEEINFILESENTYPE",
+                .CommandType = CommandType.StoredProcedure
+            }
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+            DB_Command.Parameters.AddWithValue("@HFILE_NAME", _HFILE_NAME)
+            DB_Command.Parameters.AddWithValue("@EMPL_ID", _EMPL_ID)
+            DB_Reader = DB_Command.ExecuteReader()
+            DB_Command.Connection = DB_Connection
+            Dim LocalTable As New DataTable
+
+            LocalTable.Load(DB_Reader)
+            DB_Reader.Close()
+            DB_Connection.Close()
+            Return LocalTable
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_AsistanceFiles.Get_CheckEntriesInFiles()")
+
+            Return Nothing
+        End Try
+    End Function
+
     Public Function Get_EntryExitRecordsByEmployeeIDEnTypes() As DataTable
         Try
             DB_Command = New SqlCommand With {

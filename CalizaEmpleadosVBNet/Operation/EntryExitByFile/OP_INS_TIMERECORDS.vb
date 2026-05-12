@@ -65,10 +65,10 @@ Public Class OP_INS_TIMERECORDS
         OpenFileDialog.Filter = "Archivos de texto|*.csv"
 
         If OpenFileDialog.ShowDialog() = DialogResult.OK Then
-            'If Not ValidarNombreArchivo(OpenFileDialog.FileName) Then
-            '    MessageBox.Show("El archivo debe tener formato ddmmaaaa.csv (ejemplo: 11032026.csv)", "Formato incorrecto")
-            '    Exit Sub
-            'End If
+            If Not ValidarNombreArchivo(OpenFileDialog.FileName) Then
+                MessageBox.Show("El archivo debe tener formato ddmmaaaa.csv (ejemplo: 11032026.csv)", "Formato incorrecto")
+                Exit Sub
+            End If
 
             'Si pasa la validación
             TB_SourcePath.Text = OpenFileDialog.FileName
@@ -442,11 +442,6 @@ Public Class OP_INS_TIMERECORDS
 
             'Check all asistance types by employee
             For Each Asistance As DataRow In AsistanceTypes.Rows
-                '8 - Empl_ID
-                '9 - Entry Type
-                '10 - date
-                '11 - time
-                '12 - datetime
                 Dim RecordByEmployeeType As New CL_EntryExitFile
                 Dim EntryExitFileRecords As DataTable
                 RecordByEmployeeType.EMPL_ID = CInt(EmployeeRow(0))
@@ -480,19 +475,20 @@ Public Class OP_INS_TIMERECORDS
                         For Each Record As DataRow In EntryExitFileRecords.Rows
                             InserExitRecordByEmployee(CInt(EmployeeRow(0)), CInt(Asistance(0)), AppUser, Date.Now, Record(10), Record(12))
                         Next
-                    Case 60 ' Falta
-                        If FileTye = 20 Then
-                            Dim AsistanceCheck As New CL_EntryExitFile
-                            Dim AbsenceRecors As DataTable
-                            AsistanceCheck.EMPL_ID = CInt(EmployeeRow(0))
-                            AsistanceCheck.HFILE_NAME = FileName
-                            AsistanceCheck.HFILE_TYPE = FileTye
-                            AbsenceRecors = AsistanceCheck.Get_AsistanceCheck()
+                    'Case 60 ' Falta
+                    '    If FileTye = 30 Then  ' Salida
+                    '        Dim AsistanceCheck As New CL_EntryExitFile
+                    '        Dim AbsenceRecors As DataTable
+                    '        AsistanceCheck.EMPL_ID = CInt(EmployeeRow(0))
+                    '        AsistanceCheck.HFILE_NAME = FileName
+                    '        AsistanceCheck.HFILE_TYPE = 20 ' Entrada
+                    '        AbsenceRecors = AsistanceCheck.Get_AsistanceCheck()
 
-                            If AbsenceRecors.Rows.Count = 0 Then
-                                AbsenceRecordByEmployee(CInt(EmployeeRow(0)), CInt(Asistance(0)), AppUser, Date.Now, FileDate)
-                            End If
-                        End If
+                    '        'If there is not entry then absence
+                    '        If AbsenceRecors.Rows.Count = 0 Then
+                    '            AbsenceRecordByEmployee(CInt(EmployeeRow(0)), CInt(Asistance(0)), AppUser, Date.Now, FileDate)
+                    '        End If
+                    '    End If
                     Case 70 ' Jornada Completa 10/40
                         Dim RecordsByEmployeeType1040 As New CL_EntryExitFile
                         Dim IdealEntryRecords As DataTable
@@ -669,7 +665,7 @@ Public Class OP_INS_TIMERECORDS
                     Case 122 'Jornada Desfasada - Entrada con Retardo y Salida con tiempo adicional 30/55
                         Dim IncompleteRecordByEmployee3055 As New CL_EntryExitFile
                         Dim IdealEntryRecords As DataTable
-                        IncompleteRecordByEmployee3055.EMPL_ID = CInt(EmployeeRow(2))
+                        IncompleteRecordByEmployee3055.EMPL_ID = CInt(EmployeeRow(0))
                         IncompleteRecordByEmployee3055.HFILE_NAME = HFILE_NAME
                         IncompleteRecordByEmployee3055.ENTTYPE_ID = 30  ' Entrada con Retardo 
                         IncompleteRecordByEmployee3055.EXTTYPE_ID = 55  ' Salida con tiempo adicional
@@ -689,10 +685,50 @@ Public Class OP_INS_TIMERECORDS
                                 End If
                             Next
 
-                            IncompleteTimeRecordByEmployee3055(CInt(EmployeeRow(2)), CInt(Asistance(0)), AppUser, Date.Now, DateRecord, EntryRecord, ExitRecord)
+                            IncompleteTimeRecordByEmployee3055(CInt(EmployeeRow(0)), CInt(Asistance(0)), AppUser, Date.Now, DateRecord, EntryRecord, ExitRecord)
+                        End If
+                    Case 123 'Jornada Completa - Entrada Puntual Salida con tiempo adicional 10/55
+                        Dim IncompleteRecordByEmployee1055 As New CL_EntryExitFile
+                        Dim IdealEntryRecords As DataTable
+                        IncompleteRecordByEmployee1055.EMPL_ID = CInt(EmployeeRow(0))
+                        IncompleteRecordByEmployee1055.HFILE_NAME = HFILE_NAME
+                        IncompleteRecordByEmployee1055.ENTTYPE_ID = 10  ' Entrada Puentual 
+                        IncompleteRecordByEmployee1055.EXTTYPE_ID = 55  ' Salida con tiempo adicional
+                        IdealEntryRecords = IncompleteRecordByEmployee1055.Get_EntryExitRecordsByEmployeeIDEnTypes()
+
+                        Dim Count As Integer = 0
+                        Dim DateRecord As Date
+                        Dim EntryRecord As DateTime
+                        Dim ExitRecord As DateTime
+                        If IdealEntryRecords.Rows.Count = 2 Then
+                            For Each IdealRow As DataRow In IdealEntryRecords.Rows
+                                If IdealRow(9) = 10 Then
+                                    DateRecord = IdealRow(10)
+                                    EntryRecord = IdealRow(12)
+                                ElseIf IdealRow(9) = 55 Then
+                                    ExitRecord = IdealRow(12)
+                                End If
+                            Next
+
+                            IncompleteTimeRecordByEmployee1055(CInt(EmployeeRow(0)), CInt(Asistance(0)), AppUser, Date.Now, DateRecord, EntryRecord, ExitRecord)
                         End If
                 End Select
             Next
+        Next
+
+        ' Verify all employees without any entry or just with one entry
+        For Each EmployeeRow As DataRow In ActiveEmployees.Rows
+
+            If FileTye = 30 Then  ' Salida
+                Dim Records As New CL_EntryExitFile
+                Records.HFILE_NAME = HFILE_NAME
+                Records.EMPL_ID = CInt(EmployeeRow(0))
+                Dim RecordsInFiles As DataTable = Records.Get_CheckEntriesInFiles()
+
+                If RecordsInFiles.Rows.Count = 0 Or RecordsInFiles.Rows.Count = 1 Then
+                    AbsenceRecordByEmployee(CInt(EmployeeRow(0)), 60, AppUser, Date.Now, FileDate)
+                End If
+            End If
         Next
 
         Return Result
@@ -841,6 +877,22 @@ Public Class OP_INS_TIMERECORDS
     End Function
 
     Private Function IncompleteTimeRecordByEmployee3055(ByVal EMPL_ID As Integer, ByVal MOVE_ID As Integer, ByVal REMPL_CREBY As String, ByVal REMPL_RDATE As DateTime, ByVal DREMPL_DATE As Date, ByVal DREMPL_ENDATI As DateTime, ByVal DREMPL_EXDATI As DateTime) As Boolean
+        Dim Result As Boolean = False
+
+        Dim NewRecordByEmployee = New CL_RecordsByEmployee()
+        NewRecordByEmployee.EMPL_ID = EMPL_ID
+        NewRecordByEmployee.MOVE_ID = MOVE_ID
+        NewRecordByEmployee.REMPL_CREBY = REMPL_CREBY
+        NewRecordByEmployee.REMPL_RDATE = REMPL_RDATE
+        NewRecordByEmployee.DREMPL_DATE = DREMPL_DATE
+        NewRecordByEmployee.DREMPL_ENDATI = DREMPL_ENDATI
+        NewRecordByEmployee.DREMPL_EXDATI = DREMPL_EXDATI
+        Result = NewRecordByEmployee.ImcompletelFullTimeRecordByEmployee()
+
+        Return Result
+    End Function
+
+    Private Function IncompleteTimeRecordByEmployee1055(ByVal EMPL_ID As Integer, ByVal MOVE_ID As Integer, ByVal REMPL_CREBY As String, ByVal REMPL_RDATE As DateTime, ByVal DREMPL_DATE As Date, ByVal DREMPL_ENDATI As DateTime, ByVal DREMPL_EXDATI As DateTime) As Boolean
         Dim Result As Boolean = False
 
         Dim NewRecordByEmployee = New CL_RecordsByEmployee()

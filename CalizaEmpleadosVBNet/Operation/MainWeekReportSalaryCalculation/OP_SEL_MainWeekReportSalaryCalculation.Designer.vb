@@ -23,6 +23,7 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         GB_NumberOfWeek = New GroupBox()
+        BT_LoadInfo = New Button()
         TB_ProdPlant = New TextBox()
         LB_ProdPlant = New Label()
         DTP_EndDate = New DateTimePicker()
@@ -75,6 +76,7 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         ' 
         ' GB_NumberOfWeek
         ' 
+        GB_NumberOfWeek.Controls.Add(BT_LoadInfo)
         GB_NumberOfWeek.Controls.Add(TB_ProdPlant)
         GB_NumberOfWeek.Controls.Add(LB_ProdPlant)
         GB_NumberOfWeek.Controls.Add(DTP_EndDate)
@@ -85,10 +87,19 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         GB_NumberOfWeek.Controls.Add(DTP_WeekSelector)
         GB_NumberOfWeek.Location = New Point(12, 46)
         GB_NumberOfWeek.Name = "GB_NumberOfWeek"
-        GB_NumberOfWeek.Size = New Size(616, 90)
+        GB_NumberOfWeek.Size = New Size(626, 90)
         GB_NumberOfWeek.TabIndex = 0
         GB_NumberOfWeek.TabStop = False
         GB_NumberOfWeek.Text = "Información de la semana"
+        ' 
+        ' BT_LoadInfo
+        ' 
+        BT_LoadInfo.Location = New Point(533, 21)
+        BT_LoadInfo.Name = "BT_LoadInfo"
+        BT_LoadInfo.Size = New Size(75, 23)
+        BT_LoadInfo.TabIndex = 8
+        BT_LoadInfo.Text = "Cargar Info"
+        BT_LoadInfo.UseVisualStyleBackColor = True
         ' 
         ' TB_ProdPlant
         ' 
@@ -142,7 +153,7 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Location = New Point(263, 24)
+        Label1.Location = New Point(234, 24)
         Label1.Name = "Label1"
         Label1.Size = New Size(171, 15)
         Label1.TabIndex = 2
@@ -151,7 +162,7 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         ' DTP_WeekSelector
         ' 
         DTP_WeekSelector.Format = DateTimePickerFormat.Short
-        DTP_WeekSelector.Location = New Point(440, 20)
+        DTP_WeekSelector.Location = New Point(411, 20)
         DTP_WeekSelector.Name = "DTP_WeekSelector"
         DTP_WeekSelector.Size = New Size(112, 23)
         DTP_WeekSelector.TabIndex = 3
@@ -535,4 +546,5 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
     Friend WithEvents LB_ProdPlant As Label
     Friend WithEvents TB_ProdPlant As TextBox
     Friend WithEvents BT_ExportExcel As Button
+    Friend WithEvents BT_LoadInfo As Button
 End Class
