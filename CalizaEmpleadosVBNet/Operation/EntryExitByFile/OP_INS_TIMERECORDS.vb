@@ -65,10 +65,10 @@ Public Class OP_INS_TIMERECORDS
         OpenFileDialog.Filter = "Archivos de texto|*.csv"
 
         If OpenFileDialog.ShowDialog() = DialogResult.OK Then
-            If Not ValidarNombreArchivo(OpenFileDialog.FileName) Then
-                MessageBox.Show("El archivo debe tener formato ddmmaaaa.csv (ejemplo: 11032026.csv)", "Formato incorrecto")
-                Exit Sub
-            End If
+            'If Not ValidarNombreArchivo(OpenFileDialog.FileName) Then
+            '    MessageBox.Show("El archivo debe tener formato ddmmaaaa.csv (ejemplo: 11032026.csv)", "Formato incorrecto")
+            '    Exit Sub
+            'End If
 
             'Si pasa la validación
             TB_SourcePath.Text = OpenFileDialog.FileName
@@ -313,9 +313,64 @@ Public Class OP_INS_TIMERECORDS
 
     End Sub
 
+    Public Function ObtenerNombreArchivo(ByVal csvPath As String) As String
+
+        Try
+
+            'Validar existencia del archivo
+            If Not File.Exists(csvPath) Then
+                Return ""
+            End If
+
+            'Leer todas las líneas
+            Dim lineas() As String = File.ReadAllLines(csvPath)
+
+            'Validar que exista línea 2
+            If lineas.Length < 2 Then
+                Return ""
+            End If
+
+            'Tomar línea 2 (índice 1)
+            Dim linea2 As String = lineas(1)
+
+            'Separar por comas
+            Dim campos() As String = linea2.Split(","c)
+
+            'Validar que exista el campo 4
+            If campos.Length < 4 Then
+                Return ""
+            End If
+
+            'Campo Time
+            Dim fechaTexto As String = campos(3).Trim()
+
+            'Convertir a fecha
+            Dim fecha As DateTime
+
+            If DateTime.TryParse(fechaTexto, fecha) Then
+
+                'Generar nombre archivo
+                Return fecha.ToString("ddMMyyyy") & ".csv"
+
+            Else
+
+                Return ""
+
+            End If
+
+        Catch ex As Exception
+
+            Return ""
+
+        End Try
+
+    End Function
+
     Private Sub RegisterFileContent()
         Dim conn As New SqlConnection(My.Settings.ConnectionString)
         Dim trans As SqlTransaction = Nothing
+
+        FileName = ObtenerNombreArchivo(TB_SourcePath.Text)
 
         conn.Open()
         Try
