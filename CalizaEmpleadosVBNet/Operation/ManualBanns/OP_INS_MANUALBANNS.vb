@@ -2,19 +2,6 @@
 
 Public Class OP_INS_MANUALBANNS
     Dim SelectedEmplID As Integer = 0
-
-    'Private Sub OP_INS_MANUALBANNS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-    '    Dim CL As New CL_EmployeeBanns
-    '    Dim dtBanns As DataTable = CL.GetBannTypes()
-
-    '    If dtBanns.Rows.Count > 0 Then
-    '        CB_Banns.DataSource = dtBanns
-    '        CB_Banns.DisplayMember = "BANN_NAME"
-    '        CB_Banns.ValueMember = "BANN_ID"
-    '    End If
-    'End Sub
-
     Private Sub OP_INS_MANUALBANNS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LBX_Suggesting.Visible = False
 
@@ -96,6 +83,7 @@ Public Class OP_INS_MANUALBANNS
         End If
     End Sub
 
+
     Private Sub Historial(ByVal idEmp As Integer)
         Dim CL As New CL_EmployeeBanns
         DGV_Banns.DataSource = CL.GetBannsHistory(idEmp)
@@ -108,8 +96,9 @@ Public Class OP_INS_MANUALBANNS
             DGV_Banns.ReadOnly = True
             DGV_Banns.RowHeadersVisible = False
 
-            DGV_Banns.Columns("Empleado").FillWeight = 150
-            DGV_Banns.Columns("Amonestación").FillWeight = 120
+            DGV_Banns.Columns("Empleado").FillWeight = 130
+            DGV_Banns.Columns("Departamento").FillWeight = 100
+            DGV_Banns.Columns("Amonestación").FillWeight = 110
         End If
     End Sub
 

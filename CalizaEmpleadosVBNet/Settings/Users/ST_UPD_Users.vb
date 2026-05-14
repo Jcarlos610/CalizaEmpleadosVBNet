@@ -53,10 +53,6 @@ Public Class ST_UPD_Users
 
     End Sub
 
-
-    '========================
-    ' CARGAR ROLES DEL USUARIO
-    '========================
     Private Sub LoadUserRoles(USER_ID As Integer)
 
         For Each row As DataGridViewRow In DGV_RolesSelection.Rows
@@ -78,9 +74,6 @@ Public Class ST_UPD_Users
 
     End Sub
 
-    '========================
-    ' ACTUALIZAR USUARIO
-    '========================
     Private Sub BT_UpdateUser_Click(sender As Object, e As EventArgs) Handles BT_UpdateUser.Click
 
         If SelectedUserID = 0 Then
@@ -97,7 +90,6 @@ Public Class ST_UPD_Users
 
         Dim password As String = TB_Password.Text.Trim
 
-        '🔥 si no cambia password, no lo tocamos
         If password = "" Then
             password = Nothing
         Else
@@ -113,7 +105,7 @@ Public Class ST_UPD_Users
 
         If updUser.UpdateUser() Then
 
-            '🔥 actualizar roles
+
             user.DeleteUserRoles(SelectedUserID)
 
             For Each row As DataGridViewRow In DGV_RolesSelection.Rows
@@ -147,7 +139,7 @@ Public Class ST_UPD_Users
 
         If dt.Rows.Count > 0 Then
             TB_UserName.Text = dt.Rows(0)("USER_NAME").ToString()
-            '🔥 password no se muestra por seguridad
+
         End If
 
         LoadUserRoles(SelectedUserID)
