@@ -205,4 +205,46 @@ Public Class CL_EmployeeBanns
         Return dt
     End Function
 
+    Public Function UpdateEmployeeBanns(ByVal recordId As Integer) As Boolean
+        Try
+            DB_Command = New SqlCommand("UPD_EMPLOYEEBANNS", DB_Connection)
+            DB_Command.CommandType = CommandType.StoredProcedure
+
+            DB_Command.Parameters.AddWithValue("@EBANN_ID", recordId)
+            DB_Command.Parameters.AddWithValue("@BANN_ID", BANN_ID)
+            DB_Command.Parameters.AddWithValue("@EBANN_DATE", EBANN_DATE)
+            DB_Command.Parameters.AddWithValue("@EBANN_CREBY", EBANN_CREBY)
+            DB_Command.Parameters.AddWithValue("@EBANN_DATEC", Now)
+
+            DB_Connection.Open()
+            DB_Command.ExecuteNonQuery()
+            DB_Connection.Close()
+            Return True
+        Catch ex As Exception
+            If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
+
+            MsgBox("Error al actualizar la amonestación: " & ex.Message, MsgBoxStyle.Critical)
+            Return False
+        End Try
+    End Function
+
+    Public Function GetAllBannsHistory(ByVal appUser As String) As DataTable
+        Dim dt As New DataTable
+        Try
+            DB_Command = New SqlCommand("SEL_ALLBANNSHISTORY", DB_Connection)
+            DB_Command.CommandType = CommandType.StoredProcedure
+            DB_Command.Parameters.AddWithValue("@AppUser", appUser)
+
+            DB_Connection.Open()
+            Dim adapter As New SqlDataAdapter(DB_Command)
+            adapter.Fill(dt)
+            DB_Connection.Close()
+
+        Catch ex As Exception
+            If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
+            MsgBox("Error al cargar historial general: " & ex.Message)
+        End Try
+        Return dt
+    End Function
+
 End Class

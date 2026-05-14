@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class OP_INS_MANUALBANNS
+Partial Class OP_INS_TEMPORALLUNCH
     Inherits System.Windows.Forms.Form
 
     'Form reemplaza a Dispose para limpiar la lista de componentes.
@@ -23,10 +23,10 @@ Partial Class OP_INS_MANUALBANNS
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         GroupBox1 = New GroupBox()
+        TB_Lunch = New TextBox()
         LBX_Suggesting = New ListBox()
         BT_Register = New Button()
-        LB_Banns = New Label()
-        CB_Banns = New ComboBox()
+        LB_Lunch = New Label()
         DTP_Valid = New DateTimePicker()
         Label1 = New Label()
         TB_EmployeeName = New TextBox()
@@ -35,18 +35,17 @@ Partial Class OP_INS_MANUALBANNS
         LB_EmplyeeId = New Label()
         TB_Employee = New TextBox()
         LB_Employee = New Label()
-        SqlCommand1 = New Microsoft.Data.SqlClient.SqlCommand()
-        DGV_Banns = New DataGridView()
+        DGV_Lunch = New DataGridView()
         GroupBox1.SuspendLayout()
-        CType(DGV_Banns, ComponentModel.ISupportInitialize).BeginInit()
+        CType(DGV_Lunch, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' GroupBox1
         ' 
+        GroupBox1.Controls.Add(TB_Lunch)
         GroupBox1.Controls.Add(LBX_Suggesting)
         GroupBox1.Controls.Add(BT_Register)
-        GroupBox1.Controls.Add(LB_Banns)
-        GroupBox1.Controls.Add(CB_Banns)
+        GroupBox1.Controls.Add(LB_Lunch)
         GroupBox1.Controls.Add(DTP_Valid)
         GroupBox1.Controls.Add(Label1)
         GroupBox1.Controls.Add(TB_EmployeeName)
@@ -57,10 +56,17 @@ Partial Class OP_INS_MANUALBANNS
         GroupBox1.Controls.Add(LB_Employee)
         GroupBox1.Location = New Point(12, 46)
         GroupBox1.Name = "GroupBox1"
-        GroupBox1.Size = New Size(1218, 239)
-        GroupBox1.TabIndex = 0
+        GroupBox1.Size = New Size(1218, 203)
+        GroupBox1.TabIndex = 1
         GroupBox1.TabStop = False
         GroupBox1.Text = "Información sobre amonestaciones"
+        ' 
+        ' TB_Lunch
+        ' 
+        TB_Lunch.Location = New Point(147, 151)
+        TB_Lunch.Name = "TB_Lunch"
+        TB_Lunch.Size = New Size(253, 23)
+        TB_Lunch.TabIndex = 12
         ' 
         ' LBX_Suggesting
         ' 
@@ -75,29 +81,21 @@ Partial Class OP_INS_MANUALBANNS
         ' 
         ' BT_Register
         ' 
-        BT_Register.Location = New Point(1124, 186)
+        BT_Register.Location = New Point(1120, 151)
         BT_Register.Name = "BT_Register"
         BT_Register.Size = New Size(75, 23)
         BT_Register.TabIndex = 10
         BT_Register.Text = "Registrar"
         BT_Register.UseVisualStyleBackColor = True
         ' 
-        ' LB_Banns
+        ' LB_Lunch
         ' 
-        LB_Banns.AutoSize = True
-        LB_Banns.Location = New Point(15, 159)
-        LB_Banns.Name = "LB_Banns"
-        LB_Banns.Size = New Size(98, 15)
-        LB_Banns.TabIndex = 9
-        LB_Banns.Text = "Amonestaciones:"
-        ' 
-        ' CB_Banns
-        ' 
-        CB_Banns.FormattingEnabled = True
-        CB_Banns.Location = New Point(15, 186)
-        CB_Banns.Name = "CB_Banns"
-        CB_Banns.Size = New Size(385, 23)
-        CB_Banns.TabIndex = 8
+        LB_Lunch.AutoSize = True
+        LB_Lunch.Location = New Point(15, 159)
+        LB_Lunch.Name = "LB_Lunch"
+        LB_Lunch.Size = New Size(100, 15)
+        LB_Lunch.TabIndex = 9
+        LB_Lunch.Text = "Horas de comida:"
         ' 
         ' DTP_Valid
         ' 
@@ -165,52 +163,46 @@ Partial Class OP_INS_MANUALBANNS
         LB_Employee.TabIndex = 0
         LB_Employee.Text = "Buscar empleado: "
         ' 
-        ' SqlCommand1
+        ' DGV_Lunch
         ' 
-        SqlCommand1.CommandTimeout = 30
-        SqlCommand1.EnableOptimizedParameterBinding = False
+        DGV_Lunch.AllowUserToAddRows = False
+        DGV_Lunch.AllowUserToDeleteRows = False
+        DGV_Lunch.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        DGV_Lunch.Location = New Point(12, 267)
+        DGV_Lunch.Name = "DGV_Lunch"
+        DGV_Lunch.ReadOnly = True
+        DGV_Lunch.Size = New Size(1218, 380)
+        DGV_Lunch.TabIndex = 2
         ' 
-        ' DGV_Banns
-        ' 
-        DGV_Banns.AllowUserToAddRows = False
-        DGV_Banns.AllowUserToDeleteRows = False
-        DGV_Banns.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_Banns.Location = New Point(12, 302)
-        DGV_Banns.Name = "DGV_Banns"
-        DGV_Banns.ReadOnly = True
-        DGV_Banns.Size = New Size(1218, 380)
-        DGV_Banns.TabIndex = 1
-        ' 
-        ' OP_INS_MANUALBANNS
+        ' OP_INS_TEMPORALLUNCH
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1242, 694)
-        Controls.Add(DGV_Banns)
+        Controls.Add(DGV_Lunch)
         Controls.Add(GroupBox1)
-        Name = "OP_INS_MANUALBANNS"
-        Text = "Registro manual de amonestaciones"
+        Name = "OP_INS_TEMPORALLUNCH"
+        Text = "Registro de horas de comida"
         WindowState = FormWindowState.Maximized
         GroupBox1.ResumeLayout(False)
         GroupBox1.PerformLayout()
-        CType(DGV_Banns, ComponentModel.ISupportInitialize).EndInit()
+        CType(DGV_Lunch, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
 
     Friend WithEvents GroupBox1 As GroupBox
-    Friend WithEvents LB_Employee As Label
-    Friend WithEvents TB_Employee As TextBox
-    Friend WithEvents TB_EmployeeId As TextBox
-    Friend WithEvents LB_EmplyeeId As Label
+    Friend WithEvents LBX_Suggesting As ListBox
+    Friend WithEvents BT_Register As Button
+    Friend WithEvents LB_Lunch As Label
+    Friend WithEvents DTP_Valid As DateTimePicker
     Friend WithEvents Label1 As Label
     Friend WithEvents TB_EmployeeName As TextBox
     Friend WithEvents LB_EmployeeName As Label
-    Friend WithEvents SqlCommand1 As Microsoft.Data.SqlClient.SqlCommand
-    Friend WithEvents DTP_Valid As DateTimePicker
-    Friend WithEvents LB_Banns As Label
-    Friend WithEvents CB_Banns As ComboBox
-    Friend WithEvents BT_Register As Button
-    Friend WithEvents DGV_Banns As DataGridView
-    Friend WithEvents LBX_Suggesting As ListBox
+    Friend WithEvents TB_EmployeeId As TextBox
+    Friend WithEvents LB_EmplyeeId As Label
+    Friend WithEvents TB_Employee As TextBox
+    Friend WithEvents LB_Employee As Label
+    Friend WithEvents TB_Lunch As TextBox
+    Friend WithEvents DGV_Lunch As DataGridView
 End Class
