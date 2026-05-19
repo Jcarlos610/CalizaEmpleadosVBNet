@@ -54,11 +54,9 @@ Partial Class ST_UPD_Roles
         GroupBox1.Controls.Add(LB_RoleName)
         GroupBox1.Controls.Add(TB_Description)
         GroupBox1.Controls.Add(TB_AuthorizeBy)
-        GroupBox1.Location = New Point(17, 77)
-        GroupBox1.Margin = New Padding(4, 5, 4, 5)
+        GroupBox1.Location = New Point(12, 46)
         GroupBox1.Name = "GroupBox1"
-        GroupBox1.Padding = New Padding(4, 5, 4, 5)
-        GroupBox1.Size = New Size(1217, 304)
+        GroupBox1.Size = New Size(1354, 182)
         GroupBox1.TabIndex = 13
         GroupBox1.TabStop = False
         GroupBox1.Text = "Información sobre rol"
@@ -66,10 +64,9 @@ Partial Class ST_UPD_Roles
         ' CB_Status
         ' 
         CB_Status.AutoSize = True
-        CB_Status.Location = New Point(1089, 43)
-        CB_Status.Margin = New Padding(4, 5, 4, 5)
+        CB_Status.Location = New Point(1279, 22)
         CB_Status.Name = "CB_Status"
-        CB_Status.Size = New Size(86, 29)
+        CB_Status.Size = New Size(58, 19)
         CB_Status.TabIndex = 17
         CB_Status.Text = "Status"
         CB_Status.UseVisualStyleBackColor = True
@@ -77,18 +74,16 @@ Partial Class ST_UPD_Roles
         ' CB_AllRoles
         ' 
         CB_AllRoles.FormattingEnabled = True
-        CB_AllRoles.Location = New Point(23, 37)
-        CB_AllRoles.Margin = New Padding(4, 5, 4, 5)
+        CB_AllRoles.Location = New Point(16, 22)
         CB_AllRoles.Name = "CB_AllRoles"
-        CB_AllRoles.Size = New Size(315, 33)
+        CB_AllRoles.Size = New Size(222, 23)
         CB_AllRoles.TabIndex = 0
         ' 
         ' BT_Update
         ' 
-        BT_Update.Location = New Point(1088, 252)
-        BT_Update.Margin = New Padding(4, 5, 4, 5)
+        BT_Update.Location = New Point(1262, 153)
         BT_Update.Name = "BT_Update"
-        BT_Update.Size = New Size(107, 38)
+        BT_Update.Size = New Size(75, 23)
         BT_Update.TabIndex = 8
         BT_Update.Text = "Actualizar"
         BT_Update.UseVisualStyleBackColor = True
@@ -96,56 +91,50 @@ Partial Class ST_UPD_Roles
         ' LB_AuthorizeBy
         ' 
         LB_AuthorizeBy.AutoSize = True
-        LB_AuthorizeBy.Location = New Point(25, 192)
-        LB_AuthorizeBy.Margin = New Padding(4, 0, 4, 0)
+        LB_AuthorizeBy.Location = New Point(18, 115)
         LB_AuthorizeBy.Name = "LB_AuthorizeBy"
-        LB_AuthorizeBy.Size = New Size(137, 25)
+        LB_AuthorizeBy.Size = New Size(89, 15)
         LB_AuthorizeBy.TabIndex = 7
         LB_AuthorizeBy.Text = "Autorizado por:"
         ' 
         ' LB_Description
         ' 
         LB_Description.AutoSize = True
-        LB_Description.Location = New Point(365, 109)
-        LB_Description.Margin = New Padding(4, 0, 4, 0)
+        LB_Description.Location = New Point(256, 65)
         LB_Description.Name = "LB_Description"
-        LB_Description.Size = New Size(104, 25)
+        LB_Description.Size = New Size(69, 15)
         LB_Description.TabIndex = 6
         LB_Description.Text = "Descripción"
         ' 
         ' TB_RoleName
         ' 
-        TB_RoleName.Location = New Point(23, 135)
-        TB_RoleName.Margin = New Padding(4, 5, 4, 5)
+        TB_RoleName.Location = New Point(16, 81)
         TB_RoleName.Name = "TB_RoleName"
-        TB_RoleName.Size = New Size(315, 31)
+        TB_RoleName.Size = New Size(222, 23)
         TB_RoleName.TabIndex = 1
         ' 
         ' LB_RoleName
         ' 
         LB_RoleName.AutoSize = True
-        LB_RoleName.Location = New Point(25, 111)
-        LB_RoleName.Margin = New Padding(4, 0, 4, 0)
+        LB_RoleName.Location = New Point(18, 67)
         LB_RoleName.Name = "LB_RoleName"
-        LB_RoleName.Size = New Size(133, 25)
+        LB_RoleName.Size = New Size(87, 15)
         LB_RoleName.TabIndex = 5
         LB_RoleName.Text = "Nombre del rol"
         ' 
         ' TB_Description
         ' 
-        TB_Description.Location = New Point(363, 135)
-        TB_Description.Margin = New Padding(4, 5, 4, 5)
+        TB_Description.Location = New Point(254, 81)
         TB_Description.Multiline = True
         TB_Description.Name = "TB_Description"
-        TB_Description.Size = New Size(575, 114)
+        TB_Description.Size = New Size(404, 70)
         TB_Description.TabIndex = 2
         ' 
         ' TB_AuthorizeBy
         ' 
-        TB_AuthorizeBy.Location = New Point(23, 213)
-        TB_AuthorizeBy.Margin = New Padding(4, 5, 4, 5)
+        TB_AuthorizeBy.Location = New Point(16, 128)
         TB_AuthorizeBy.Name = "TB_AuthorizeBy"
-        TB_AuthorizeBy.Size = New Size(315, 31)
+        TB_AuthorizeBy.Size = New Size(222, 23)
         TB_AuthorizeBy.TabIndex = 3
         ' 
         ' GroupBox2
@@ -154,11 +143,9 @@ Partial Class ST_UPD_Roles
         GroupBox2.Controls.Add(BT_AddPermission)
         GroupBox2.Controls.Add(Label2)
         GroupBox2.Controls.Add(TB_FormDescription)
-        GroupBox2.Location = New Point(17, 396)
-        GroupBox2.Margin = New Padding(4, 5, 4, 5)
+        GroupBox2.Location = New Point(12, 238)
         GroupBox2.Name = "GroupBox2"
-        GroupBox2.Padding = New Padding(4, 5, 4, 5)
-        GroupBox2.Size = New Size(752, 318)
+        GroupBox2.Size = New Size(526, 191)
         GroupBox2.TabIndex = 15
         GroupBox2.TabStop = False
         GroupBox2.Text = "Asignar permisos"
@@ -166,18 +153,16 @@ Partial Class ST_UPD_Roles
         ' CB_Forms
         ' 
         CB_Forms.FormattingEnabled = True
-        CB_Forms.Location = New Point(23, 37)
-        CB_Forms.Margin = New Padding(4, 5, 4, 5)
+        CB_Forms.Location = New Point(16, 22)
         CB_Forms.Name = "CB_Forms"
-        CB_Forms.Size = New Size(577, 33)
+        CB_Forms.Size = New Size(405, 23)
         CB_Forms.TabIndex = 0
         ' 
         ' BT_AddPermission
         ' 
-        BT_AddPermission.Location = New Point(637, 269)
-        BT_AddPermission.Margin = New Padding(4, 5, 4, 5)
+        BT_AddPermission.Location = New Point(446, 161)
         BT_AddPermission.Name = "BT_AddPermission"
-        BT_AddPermission.Size = New Size(107, 38)
+        BT_AddPermission.Size = New Size(75, 23)
         BT_AddPermission.TabIndex = 8
         BT_AddPermission.Text = "Asignar"
         BT_AddPermission.UseVisualStyleBackColor = True
@@ -185,20 +170,18 @@ Partial Class ST_UPD_Roles
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Location = New Point(26, 84)
-        Label2.Margin = New Padding(4, 0, 4, 0)
+        Label2.Location = New Point(18, 50)
         Label2.Name = "Label2"
-        Label2.Size = New Size(104, 25)
+        Label2.Size = New Size(69, 15)
         Label2.TabIndex = 6
         Label2.Text = "Descripción"
         ' 
         ' TB_FormDescription
         ' 
-        TB_FormDescription.Location = New Point(25, 117)
-        TB_FormDescription.Margin = New Padding(4, 5, 4, 5)
+        TB_FormDescription.Location = New Point(18, 70)
         TB_FormDescription.Multiline = True
         TB_FormDescription.Name = "TB_FormDescription"
-        TB_FormDescription.Size = New Size(575, 114)
+        TB_FormDescription.Size = New Size(404, 70)
         TB_FormDescription.TabIndex = 2
         ' 
         ' DGV_Permissions
@@ -206,24 +189,24 @@ Partial Class ST_UPD_Roles
         DGV_Permissions.AllowUserToAddRows = False
         DGV_Permissions.AllowUserToDeleteRows = False
         DGV_Permissions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_Permissions.Location = New Point(798, 396)
-        DGV_Permissions.Margin = New Padding(4, 5, 4, 5)
+        DGV_Permissions.Location = New Point(559, 238)
         DGV_Permissions.Name = "DGV_Permissions"
         DGV_Permissions.ReadOnly = True
         DGV_Permissions.RowHeadersWidth = 62
-        DGV_Permissions.Size = New Size(436, 318)
+        DGV_Permissions.Size = New Size(807, 191)
         DGV_Permissions.TabIndex = 16
         ' 
         ' ST_UPD_Roles
         ' 
-        AutoScaleDimensions = New SizeF(10F, 25F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(1774, 1050)
+        ClientSize = New Size(1454, 630)
         Controls.Add(DGV_Permissions)
         Controls.Add(GroupBox2)
         Controls.Add(GroupBox1)
+        Margin = New Padding(2, 2, 2, 2)
         Name = "ST_UPD_Roles"
         Text = "Actualizar Rol"
         WindowState = FormWindowState.Maximized

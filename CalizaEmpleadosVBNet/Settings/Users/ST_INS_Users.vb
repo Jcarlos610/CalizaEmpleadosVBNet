@@ -35,7 +35,7 @@ Public Class ST_INS_Users
     Private Sub LoadEmployees()
 
         Dim emp As New CL_Employee()
-        DGV_Employees.DataSource = emp.Get_AllEmployees()
+        DGV_Employees.DataSource = emp.Get_AllEmployeesAllDepartments()
 
         DGV_Employees.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
 

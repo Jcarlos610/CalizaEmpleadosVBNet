@@ -353,7 +353,7 @@ Public Class OP_ADMNISTRATIONOFINCIDENTS
     Private Sub BT_Refresh_Click(sender As Object, e As EventArgs) Handles BT_Refresh.Click
         Dim report As New CL_Employee()
 
-        DGV_Employees.DataSource = report.Get_AllEmployees()
+        DGV_Employees.DataSource = report.Get_AllEmployeesAllDepartments()
     End Sub
 
     Private Sub DGV_Employees_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Employees.CellClick

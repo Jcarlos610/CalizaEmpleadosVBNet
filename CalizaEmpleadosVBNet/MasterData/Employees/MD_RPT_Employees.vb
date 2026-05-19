@@ -20,7 +20,7 @@ Public Class MD_RPT_Employees
         CB_EmployeeName.ValueMember = "EMPL_ID"
 
         'Mostrar todos los empleados de la empresa en el DataGridView
-        Dim table As DataTable = emp.Get_AllEmployees()
+        Dim table As DataTable = emp.Get_AllEmployeesAllDepartments()
         Dim view As New DataView(table)
 
         view.RowFilter = "[Empresa a la que pertenece] = '" & CB_Company.Text & "'"
@@ -35,7 +35,7 @@ Public Class MD_RPT_Employees
 
         Dim emp As New CL_Employee
 
-        Dim table As DataTable = emp.Get_AllEmployees()
+        Dim table As DataTable = emp.Get_AllEmployeesAllDepartments()
 
         Dim view As New DataView(table)
 

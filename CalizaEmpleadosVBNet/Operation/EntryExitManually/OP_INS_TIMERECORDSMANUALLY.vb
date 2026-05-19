@@ -27,7 +27,7 @@ Public Class OP_INS_TIMERECORDSMANUALLY
     Private Sub Display_Record()
 
         Dim report As New CL_Employee()
-        Dim table As DataTable = report.Get_AllEmployees()
+        Dim table As DataTable = report.Get_AllEmployeesAllDepartments()
 
         If table IsNot Nothing Then
             DGV_AllEmployees.DataSource = table

@@ -70,6 +70,20 @@ Public Class OP_INS_TIMERECORDS
             '    Exit Sub
             'End If
 
+            FileName = ObtenerNombreArchivo(OpenFileDialog.FileName)
+
+            Dim AssistanceFileHeader As New CL_EntryExitFile()
+            AssistanceFileHeader.HFILE_NAME = FileName
+
+            'If we are trying to insert exit file we must confirm that there is entry file
+            Dim ResultValidation As DataTable = AssistanceFileHeader.VerifyEntryFile(20)
+
+            If FileTye = 30 And ResultValidation.Rows.Count = 0 Then
+                MessageBox.Show("Favor de ingresar el archivo con las entradas del día " & FileName.ToString.Replace(".csv", ""), "Archivo duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                InitializationOfFields()
+                Exit Sub
+            End If
+
             'Si pasa la validación
             TB_SourcePath.Text = OpenFileDialog.FileName
         End If
@@ -176,7 +190,7 @@ Public Class OP_INS_TIMERECORDS
 
                 If FileTye = 20 Then
                     'Logic for Entry File
-                    Dim toleranceTime As DateTime = DateTime.Parse("07:10:00")
+                    Dim toleranceTime As DateTime = DateTime.Parse("07:11:00")
                     Dim limitTime As DateTime = DateTime.Parse("07:00:00")
 
                     Dim Comment As String = "Puntual"

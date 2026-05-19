@@ -217,7 +217,8 @@ Public Class MD_INS_Employees
             TB_Costc.Text,         'NUEVO
             AppUser,
             PhotoPath,
-            1)
+            1,
+            CB_Confidential.Checked)
             If Employee.InsertEmployee() Then
                 MessageBox.Show("El empleado " + TB_EmployeeName.Text + " fue creado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 InitializationOfFields()
@@ -268,6 +269,18 @@ Public Class MD_INS_Employees
         DGV_AllEmployees.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
         DGV_AllEmployees.AutoResizeColumns()
         DGV_AllEmployees.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-        DGV_AllEmployees.DataSource = report.Get_AllEmployees
+
+        Dim Employeeinfo As DataTable = report.Get_EmployeeInfoByUserName(AppUser)
+        Dim ID_Depto As Integer
+        For Each Line As DataRow In Employeeinfo.Rows
+            ID_Depto = CInt(Line(27))
+        Next
+
+        If ID_Depto = 30 Or ID_Depto = 0 Then
+            DGV_AllEmployees.DataSource = report.Get_AllEmployeesAllDepartments
+        Else
+            DGV_AllEmployees.DataSource = report.Get_AllEmployeesOnlyFewDepartments
+        End If
+
     End Sub
 End Class

@@ -80,9 +80,9 @@ Public Class MD_UPD_Employees
 
         For Each Item As DataRow In ListOfDepartments.Rows
             CB_Department.Items.Add(New ComboItem With {
-        .Id = CInt(Item(0)),
-        .Descripcion = Item(1).ToString
-    })
+                                                        .Id = CInt(Item(0)),
+                                                        .Descripcion = Item(1).ToString
+                                                        })
         Next
 
         CB_Department.DisplayMember = "Descripcion"
@@ -129,10 +129,22 @@ Public Class MD_UPD_Employees
     Private Sub Display_Record()
 
         Dim report As New CL_Employee()
-        Dim table As DataTable = report.Get_AllEmployees()
+        'Dim table As DataTable = report.Get_AllEmployees()
 
-        If table IsNot Nothing Then
-            DGV_AllEmployees.DataSource = table
+        'If table IsNot Nothing Then
+        '    DGV_AllEmployees.DataSource = table
+        'End If
+
+        Dim Employeeinfo As DataTable = report.Get_EmployeeInfoByUserName(AppUser)
+        Dim ID_Depto As Integer
+        For Each Line As DataRow In Employeeinfo.Rows
+            ID_Depto = CInt(Line(27))
+        Next
+
+        If ID_Depto = 30 Or ID_Depto = 0 Then
+            DGV_AllEmployees.DataSource = report.Get_AllEmployeesAllDepartments
+        Else
+            DGV_AllEmployees.DataSource = report.Get_AllEmployeesOnlyFewDepartments
         End If
 
         DGV_AllEmployees.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
@@ -224,23 +236,38 @@ Public Class MD_UPD_Employees
             TB_Costc.Text,
             AppUser,
             PhotoPath,
-            CB_Status.Checked
+            CB_Status.Checked,
+            CB_Confidential.Checked
         )
 
         Employee.EMPL_STAT = CB_Status.Checked
+        If CB_Confidential.Checked Then
+            If Employee.UpdateEmployeeWithoutSalary() Then
 
-        If Employee.UpdateEmployee() Then
+                MessageBox.Show("Empleado actualizado correctamente")
 
-            MessageBox.Show("Empleado actualizado correctamente")
+                InitializationOfFields()
+                Display_Record()
 
-            InitializationOfFields()
-            Display_Record()
+            End If
+        Else
+            If Employee.UpdateEmployee() Then
 
+                MessageBox.Show("Empleado actualizado correctamente")
+
+                InitializationOfFields()
+                Display_Record()
+
+            End If
         End If
+
 
     End Sub
 
     Private Sub DGV_AllEmployees_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_AllEmployees.CellClick
+
+
+        TB_BaseSalary.Text = ""
 
         If e.RowIndex < 0 Then Exit Sub
 
@@ -285,7 +312,14 @@ Public Class MD_UPD_Employees
             SelectComboById(CB_Supervisor, CInt(Item(23)))
 
             TB_VacationsDays.Text = Item(25).ToString
-            TB_BaseSalary.Text = Item(26).ToString
+            If IsDBNull(Item(36)) Then
+                TB_BaseSalary.Text = Item(26).ToString
+                CB_Confidential.Checked = False
+            Else
+                TB_BaseSalary.Text = "******"
+                CB_Confidential.Checked = True
+            End If
+
             SelectComboById(CB_Department, CInt(Item(27)))
             TB_EmergencyContact.Text = Item(28).ToString
             TB_Relationship.Text = Item(29).ToString
@@ -372,4 +406,6 @@ Public Class MD_UPD_Employees
             End If
         End Using
     End Sub
+
+
 End Class

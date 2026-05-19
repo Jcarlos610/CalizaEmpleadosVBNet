@@ -589,6 +589,7 @@ Public Class CL_Employee
     Private _EMPL_CREBY As Object
     Private _EMPL_PHOTO As Object
     Private _EMPL_STAT As Object
+    Private _EMPL_CONF As Object
 
     Public Property EMPL_ID As Object
         Get
@@ -887,11 +888,20 @@ Public Class CL_Employee
         End Set
     End Property
 
+    Property EMPL_CONF As Object
+        Get
+            Return _EMPL_CONF
+        End Get
+        Set
+            _EMPL_CONF = Value
+        End Set
+    End Property
+
     Sub New()
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
     End Sub
 
-    Sub New(EMPL_ID, EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, DEPT_ID, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_COSTC, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT)
+    Sub New(EMPL_ID, EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, DEPT_ID, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_COSTC, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT, EMPL_CONF)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
         _EMPL_ID = EMPL_ID
@@ -927,10 +937,10 @@ Public Class CL_Employee
         _EMPL_CREBY = EMPL_CREBY
         _EMPL_PHOTO = EMPL_PHOTO
         _EMPL_STAT = EMPL_STAT
-
+        _EMPL_CONF = EMPL_CONF
 
     End Sub
-    Sub New(EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, DEPT_ID, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_COSTC, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT)
+    Sub New(EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, DEPT_ID, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_COSTC, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT, EMPL_CONF)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
         _EMPL_NAME = EMPL_NAME
@@ -965,6 +975,7 @@ Public Class CL_Employee
         _EMPL_CREBY = EMPL_CREBY
         _EMPL_PHOTO = EMPL_PHOTO
         _EMPL_STAT = EMPL_STAT
+        _EMPL_CONF = EMPL_CONF
 
     End Sub
 
@@ -1013,6 +1024,7 @@ Public Class CL_Employee
                 DB_Command.Parameters.AddWithValue("EMPL_PHOTO", _EMPL_PHOTO)
             End If
             DB_Command.Parameters.AddWithValue("EMPL_STAT", _EMPL_STAT)
+            DB_Command.Parameters.AddWithValue("EMPL_CONF", _EMPL_CONF)
 
             DB_Command.ExecuteNonQuery()
 
@@ -1054,7 +1066,7 @@ Public Class CL_Employee
         End Try
     End Function
 
-    Public Function Get_AllEmployees() As DataTable
+    Public Function Get_AllEmployeesAllDepartments() As DataTable
         Try
             DB_Command = New SqlCommand With {
                 .CommandText = "SEL_GETALLEMPLOYEES",
@@ -1073,6 +1085,30 @@ Public Class CL_Employee
         Catch ex As Exception
             DB_Connection.Close()
             MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_Employees.Get_AllEmployees()")
+
+            Return Nothing
+        End Try
+    End Function
+
+    Public Function Get_AllEmployeesOnlyFewDepartments() As DataTable
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "SEL_GETALLEMPLOYEESONLYFEWDEPARTMENTS",
+                .CommandType = CommandType.StoredProcedure
+            }
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+            DB_Reader = DB_Command.ExecuteReader()
+            DB_Command.Connection = DB_Connection
+            Dim LocalTable As New DataTable
+
+            LocalTable.Load(DB_Reader)
+            DB_Reader.Close()
+            DB_Connection.Close()
+            Return LocalTable
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_Employees.Get_AllEmployeesOnlyFewDepartments()")
 
             Return Nothing
         End Try
@@ -1170,7 +1206,72 @@ Public Class CL_Employee
             DB_Command.Parameters.AddWithValue("EMPL_COSTC", _EMPL_COSTC)
             DB_Command.Parameters.AddWithValue("EMPL_PHOTO", _EMPL_PHOTO)
             DB_Command.Parameters.AddWithValue("EMPL_STAT", _EMPL_STAT)
+            For Each p As SqlParameter In DB_Command.Parameters
+                Debug.WriteLine(p.ParameterName & " = " & p.Value.ToString())
+            Next
+            DB_Command.ExecuteNonQuery()
 
+            DB_Connection.Close()
+
+            Return True
+
+        Catch ex As Exception
+
+            DB_Connection.Close()
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_Employee.UpdateEmployee()")
+
+            Return Nothing
+
+        End Try
+
+    End Function
+
+    Public Function UpdateEmployeeWithoutSalary()
+
+        Try
+            DB_Command = New SqlCommand With {
+            .CommandText = "UPD_EMPLOYEEWITHOUTSALARY",
+            .CommandType = CommandType.StoredProcedure
+        }
+
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+
+            DB_Command.Parameters.AddWithValue("EMPL_ID", _EMPL_ID)
+            DB_Command.Parameters.AddWithValue("EMPL_NAME", _EMPL_NAME)
+            DB_Command.Parameters.AddWithValue("EMPL_LNAM1", _EMPL_LNAM1)
+            DB_Command.Parameters.AddWithValue("EMPL_LNAM2", _EMPL_LNAM2)
+            DB_Command.Parameters.AddWithValue("EMPL_BDATE", _EMPL_BDATE)
+            DB_Command.Parameters.AddWithValue("EMPL_BCITY", _EMPL_BCITY)
+            DB_Command.Parameters.AddWithValue("EMPL_PADDR", _EMPL_PADDR)
+            DB_Command.Parameters.AddWithValue("EMPL_PHONE", _EMPL_PHONE)
+            DB_Command.Parameters.AddWithValue("EMPL_EMAIL", _EMPL_EMAIL)
+            DB_Command.Parameters.AddWithValue("EMPL_CSTAT", _EMPL_CSTAT)
+            DB_Command.Parameters.AddWithValue("EMPL_CURP", _EMPL_CURP)
+            DB_Command.Parameters.AddWithValue("EMPL_NSS", _EMPL_NSS)
+            DB_Command.Parameters.AddWithValue("EMPL_RFC", _EMPL_RFC)
+            DB_Command.Parameters.AddWithValue("EMPL_FADD", _EMPL_FADD)
+            DB_Command.Parameters.AddWithValue("EMPL_NBANK", _EMPL_NBANK)
+            DB_Command.Parameters.AddWithValue("EMPL_BACCO", _EMPL_BACCO)
+            DB_Command.Parameters.AddWithValue("COMP_ID", _COMP_ID)
+            DB_Command.Parameters.AddWithValue("EMPL_ETYPE", _EMPL_ETYPE)
+            DB_Command.Parameters.AddWithValue("EMPL_EDATE", _EMPL_EDATE)
+            DB_Command.Parameters.AddWithValue("EMPL_RDATE", _EMPL_RDATE)
+            DB_Command.Parameters.AddWithValue("POSIT_ID", _POSIT_ID)
+            DB_Command.Parameters.AddWithValue("EMPL_SUPER", _EMPL_SUPER)
+            DB_Command.Parameters.AddWithValue("EMPL_DVAC", _EMPL_DVAC)
+            'DB_Command.Parameters.AddWithValue("EMPL_SALAR", _EMPL_SALAR)
+            DB_Command.Parameters.AddWithValue("DEPT_ID", _DEPT_ID)
+            DB_Command.Parameters.AddWithValue("EMPL_ECONT", _EMPL_ECONT)
+            DB_Command.Parameters.AddWithValue("EMPL_EPARE", _EMPL_EPARE)
+            DB_Command.Parameters.AddWithValue("EMPL_ETELE", _EMPL_ETELE)
+            DB_Command.Parameters.AddWithValue("EMPL_EBENE", _EMPL_EBENE)
+            DB_Command.Parameters.AddWithValue("EMPL_COSTC", _EMPL_COSTC)
+            DB_Command.Parameters.AddWithValue("EMPL_PHOTO", _EMPL_PHOTO)
+            DB_Command.Parameters.AddWithValue("EMPL_STAT", _EMPL_STAT)
+            For Each p As SqlParameter In DB_Command.Parameters
+                Debug.WriteLine(p.ParameterName & " = " & p.Value.ToString())
+            Next
             DB_Command.ExecuteNonQuery()
 
             DB_Connection.Close()
@@ -1208,6 +1309,32 @@ Public Class CL_Employee
         Catch ex As Exception
             DB_Connection.Close()
             MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_Employees.Get_SelectedEmployeesIDInfo()")
+
+            Return Nothing
+        End Try
+    End Function
+
+
+    Public Function Get_EmployeeInfoByUserName(ByVal AppUser As String) As DataTable
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "SEL_GETDEPARTMENTBYUSERNAME",
+                .CommandType = CommandType.StoredProcedure
+            }
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+            DB_Command.Parameters.AddWithValue("AppUser", AppUser)
+            DB_Reader = DB_Command.ExecuteReader()
+            DB_Command.Connection = DB_Connection
+            Dim LocalTable As New DataTable
+
+            LocalTable.Load(DB_Reader)
+            DB_Reader.Close()
+            DB_Connection.Close()
+            Return LocalTable
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_Employees.Get_EmployeeInfoByUserName()")
 
             Return Nothing
         End Try

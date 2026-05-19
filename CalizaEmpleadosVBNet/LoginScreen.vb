@@ -66,6 +66,8 @@ Public Class LoginScreen
             Envirotment = "PRODUCCIÓN"
         ElseIf cadenaConexion.Contains("SQLEXPRESS") Then
             Envirotment = "DESARROLLO"
+            TB_UserName.Text = "ADMINCALIZA"
+            TB_Password.Text = "12345"
         Else
             Envirotment = "DESCONOCIDO"
         End If
@@ -84,5 +86,9 @@ Public Class LoginScreen
 
     Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
 
+    End Sub
+
+    Private Sub LoginScreen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        DeterminarEntorno()
     End Sub
 End Class
