@@ -29,6 +29,10 @@
 
             TB_EmployeeId.ReadOnly = True
             TB_EmployeeName.ReadOnly = True
+
+
+            DTP_Valid.Value = CDate(row.Cells("Fecha Registro").Value)
+            DTP_Valid.Enabled = False
         End If
     End Sub
 

@@ -23,10 +23,14 @@ Partial Class OP_INS_MANUALBANNS
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         GroupBox1 = New GroupBox()
+        TB_BannDays = New TextBox()
+        LB_BannDays = New Label()
+        LB_Description = New Label()
+        TB_Description = New TextBox()
+        TB_BannName = New TextBox()
         LBX_Suggesting = New ListBox()
         BT_Register = New Button()
-        LB_Banns = New Label()
-        CB_Banns = New ComboBox()
+        LB_BannNmae = New Label()
         DTP_Valid = New DateTimePicker()
         Label1 = New Label()
         TB_EmployeeName = New TextBox()
@@ -43,10 +47,14 @@ Partial Class OP_INS_MANUALBANNS
         ' 
         ' GroupBox1
         ' 
+        GroupBox1.Controls.Add(TB_BannDays)
+        GroupBox1.Controls.Add(LB_BannDays)
+        GroupBox1.Controls.Add(LB_Description)
+        GroupBox1.Controls.Add(TB_Description)
+        GroupBox1.Controls.Add(TB_BannName)
         GroupBox1.Controls.Add(LBX_Suggesting)
         GroupBox1.Controls.Add(BT_Register)
-        GroupBox1.Controls.Add(LB_Banns)
-        GroupBox1.Controls.Add(CB_Banns)
+        GroupBox1.Controls.Add(LB_BannNmae)
         GroupBox1.Controls.Add(DTP_Valid)
         GroupBox1.Controls.Add(Label1)
         GroupBox1.Controls.Add(TB_EmployeeName)
@@ -57,10 +65,51 @@ Partial Class OP_INS_MANUALBANNS
         GroupBox1.Controls.Add(LB_Employee)
         GroupBox1.Location = New Point(12, 46)
         GroupBox1.Name = "GroupBox1"
-        GroupBox1.Size = New Size(1218, 239)
+        GroupBox1.Size = New Size(1218, 324)
         GroupBox1.TabIndex = 0
         GroupBox1.TabStop = False
         GroupBox1.Text = "Información sobre amonestaciones"
+        ' 
+        ' TB_BannDays
+        ' 
+        TB_BannDays.BackColor = SystemColors.Info
+        TB_BannDays.Location = New Point(441, 277)
+        TB_BannDays.Name = "TB_BannDays"
+        TB_BannDays.Size = New Size(120, 23)
+        TB_BannDays.TabIndex = 19
+        ' 
+        ' LB_BannDays
+        ' 
+        LB_BannDays.AutoSize = True
+        LB_BannDays.Location = New Point(441, 254)
+        LB_BannDays.Name = "LB_BannDays"
+        LB_BannDays.Size = New Size(29, 15)
+        LB_BannDays.TabIndex = 18
+        LB_BannDays.Text = "Días"
+        ' 
+        ' LB_Description
+        ' 
+        LB_Description.AutoSize = True
+        LB_Description.Location = New Point(15, 212)
+        LB_Description.Name = "LB_Description"
+        LB_Description.Size = New Size(72, 15)
+        LB_Description.TabIndex = 14
+        LB_Description.Text = "Descripción:"
+        ' 
+        ' TB_Description
+        ' 
+        TB_Description.Location = New Point(15, 230)
+        TB_Description.Multiline = True
+        TB_Description.Name = "TB_Description"
+        TB_Description.Size = New Size(404, 70)
+        TB_Description.TabIndex = 13
+        ' 
+        ' TB_BannName
+        ' 
+        TB_BannName.Location = New Point(15, 177)
+        TB_BannName.Name = "TB_BannName"
+        TB_BannName.Size = New Size(222, 23)
+        TB_BannName.TabIndex = 12
         ' 
         ' LBX_Suggesting
         ' 
@@ -75,33 +124,25 @@ Partial Class OP_INS_MANUALBANNS
         ' 
         ' BT_Register
         ' 
-        BT_Register.Location = New Point(1124, 186)
+        BT_Register.Location = New Point(1118, 279)
         BT_Register.Name = "BT_Register"
         BT_Register.Size = New Size(75, 23)
         BT_Register.TabIndex = 10
         BT_Register.Text = "Registrar"
         BT_Register.UseVisualStyleBackColor = True
         ' 
-        ' LB_Banns
+        ' LB_BannNmae
         ' 
-        LB_Banns.AutoSize = True
-        LB_Banns.Location = New Point(15, 159)
-        LB_Banns.Name = "LB_Banns"
-        LB_Banns.Size = New Size(98, 15)
-        LB_Banns.TabIndex = 9
-        LB_Banns.Text = "Amonestaciones:"
-        ' 
-        ' CB_Banns
-        ' 
-        CB_Banns.FormattingEnabled = True
-        CB_Banns.Location = New Point(15, 186)
-        CB_Banns.Name = "CB_Banns"
-        CB_Banns.Size = New Size(385, 23)
-        CB_Banns.TabIndex = 8
+        LB_BannNmae.AutoSize = True
+        LB_BannNmae.Location = New Point(15, 159)
+        LB_BannNmae.Name = "LB_BannNmae"
+        LB_BannNmae.Size = New Size(90, 15)
+        LB_BannNmae.TabIndex = 9
+        LB_BannNmae.Text = "Amonestación: "
         ' 
         ' DTP_Valid
         ' 
-        DTP_Valid.Location = New Point(441, 118)
+        DTP_Valid.Location = New Point(582, 277)
         DTP_Valid.Name = "DTP_Valid"
         DTP_Valid.Size = New Size(232, 23)
         DTP_Valid.TabIndex = 7
@@ -109,7 +150,7 @@ Partial Class OP_INS_MANUALBANNS
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Location = New Point(441, 86)
+        Label1.Location = New Point(582, 254)
         Label1.Name = "Label1"
         Label1.Size = New Size(114, 15)
         Label1.TabIndex = 6
@@ -175,10 +216,10 @@ Partial Class OP_INS_MANUALBANNS
         DGV_Banns.AllowUserToAddRows = False
         DGV_Banns.AllowUserToDeleteRows = False
         DGV_Banns.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_Banns.Location = New Point(12, 302)
+        DGV_Banns.Location = New Point(12, 391)
         DGV_Banns.Name = "DGV_Banns"
         DGV_Banns.ReadOnly = True
-        DGV_Banns.Size = New Size(1218, 380)
+        DGV_Banns.Size = New Size(1218, 291)
         DGV_Banns.TabIndex = 1
         ' 
         ' OP_INS_MANUALBANNS
@@ -208,9 +249,13 @@ Partial Class OP_INS_MANUALBANNS
     Friend WithEvents LB_EmployeeName As Label
     Friend WithEvents SqlCommand1 As Microsoft.Data.SqlClient.SqlCommand
     Friend WithEvents DTP_Valid As DateTimePicker
-    Friend WithEvents LB_Banns As Label
-    Friend WithEvents CB_Banns As ComboBox
+    Friend WithEvents LB_BannNmae As Label
     Friend WithEvents BT_Register As Button
     Friend WithEvents DGV_Banns As DataGridView
     Friend WithEvents LBX_Suggesting As ListBox
+    Friend WithEvents TB_BannName As TextBox
+    Friend WithEvents LB_Description As Label
+    Friend WithEvents TB_Description As TextBox
+    Friend WithEvents TB_BannDays As TextBox
+    Friend WithEvents LB_BannDays As Label
 End Class

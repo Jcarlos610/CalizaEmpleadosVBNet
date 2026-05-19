@@ -185,7 +185,7 @@ Public Class ST_INS_Users
         End If
 
         Dim u As New CL_Users()
-        MessageBox.Show(u.HashPassword("12345"))
+
 
         Dim EMPL_ID As Integer = CInt(DGV_Employees.CurrentRow.Cells(0).Value)
 
