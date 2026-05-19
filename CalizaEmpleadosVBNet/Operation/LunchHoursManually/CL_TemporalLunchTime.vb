@@ -160,6 +160,7 @@ Public Class CL_TemporalLunchTime
 
             DB_Command.Parameters.AddWithValue("@AppUser", appUser)
             DB_Command.Parameters.AddWithValue("@SearchText", searchText)
+            DB_Command.Parameters.AddWithValue("@IgnoreDept", False)
 
             DB_Connection.Open()
             Dim adapter As New SqlDataAdapter(DB_Command)

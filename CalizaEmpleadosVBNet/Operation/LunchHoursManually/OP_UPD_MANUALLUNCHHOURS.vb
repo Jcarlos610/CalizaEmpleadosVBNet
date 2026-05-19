@@ -183,7 +183,7 @@
         DGV_ActiveEmployeesInfo.AutoResizeColumns()
         DGV_ActiveEmployeesInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         'DGV_ActiveEmployeesInfo.Columns("EMPL_ID").ReadOnly = True
-       
+
         DGV_ActiveEmployeesInfo.Columns("No.").ReadOnly = True
         DGV_ActiveEmployeesInfo.Columns("Nombre Completo").ReadOnly = True
         DGV_ActiveEmployeesInfo.Columns("Nombre de empresa").ReadOnly = True

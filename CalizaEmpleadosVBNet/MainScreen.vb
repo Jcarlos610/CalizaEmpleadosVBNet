@@ -107,44 +107,93 @@
     End Sub
 
 
+    'Private Sub AplicarPermisosMenu(item As ToolStripMenuItem, user As CL_Users)
+
+
+    '    If item.DropDownItems.Count > 0 Then
+
+
+    '        item.Visible = True
+
+    '        For Each subItem As ToolStripItem In item.DropDownItems
+
+    '            If TypeOf subItem Is ToolStripMenuItem Then
+
+    '                Dim menuHijo As ToolStripMenuItem = CType(subItem, ToolStripMenuItem)
+
+    '                If menuHijo.Tag IsNot Nothing Then
+
+    '                    If user.TienePermiso(GlobalUserID, menuHijo.Tag.ToString()) Then
+    '                        menuHijo.Visible = True
+    '                    Else
+    '                        menuHijo.Visible = False
+    '                    End If
+
+    '                End If
+
+    '            End If
+
+    '        Next
+
+    '    Else
+
+    '        If item.Tag IsNot Nothing Then
+
+    '            If user.TienePermiso(GlobalUserID, item.Tag.ToString()) Then
+    '                item.Visible = True
+    '            Else
+    '                item.Visible = False
+    '            End If
+
+    '        End If
+    '    End If
+
+    'End Sub
+
     Private Sub AplicarPermisosMenu(item As ToolStripMenuItem, user As CL_Users)
 
-
         If item.DropDownItems.Count > 0 Then
-
-
             item.Visible = True
 
             For Each subItem As ToolStripItem In item.DropDownItems
-
                 If TypeOf subItem Is ToolStripMenuItem Then
-
                     Dim menuHijo As ToolStripMenuItem = CType(subItem, ToolStripMenuItem)
 
-                    If menuHijo.Tag IsNot Nothing Then
+                    If menuHijo.DropDownItems.Count > 0 Then
+                        menuHijo.Visible = True
 
+                        For Each subSubItem As ToolStripItem In menuHijo.DropDownItems
+                            If TypeOf subSubItem Is ToolStripMenuItem Then
+                                Dim menuNivel3 As ToolStripMenuItem = CType(subSubItem, ToolStripMenuItem)
+
+                                If menuNivel3.Tag IsNot Nothing Then
+                                    If user.TienePermiso(GlobalUserID, menuNivel3.Tag.ToString()) Then
+                                        menuNivel3.Visible = True
+                                    Else
+                                        menuNivel3.Visible = False
+                                    End If
+                                End If
+                            End If
+                        Next
+
+                    ElseIf menuHijo.Tag IsNot Nothing Then
                         If user.TienePermiso(GlobalUserID, menuHijo.Tag.ToString()) Then
                             menuHijo.Visible = True
                         Else
                             menuHijo.Visible = False
                         End If
-
                     End If
 
                 End If
-
             Next
 
         Else
-
             If item.Tag IsNot Nothing Then
-
                 If user.TienePermiso(GlobalUserID, item.Tag.ToString()) Then
                     item.Visible = True
                 Else
                     item.Visible = False
                 End If
-
             End If
         End If
 

@@ -707,7 +707,9 @@ Partial Class MainScreen
         RegistroDeHorasDeComidaToolStripMenuItem = New ToolStripMenuItem()
         RegistroManualToolStripMenuItem1 = New ToolStripMenuItem()
         EditarRegistrToolStripMenuItem = New ToolStripMenuItem()
+        RegistroGeneralToolStripMenuItem = New ToolStripMenuItem()
         RegistroManualDeAmonestacionesToolStripMenuItem = New ToolStripMenuItem()
+        EditarAmonestacionesToolStripMenuItem = New ToolStripMenuItem()
         RegistroManualDeHorasDeComidaToolStripMenuItem = New ToolStripMenuItem()
         EdiciToolStripMenuItem = New ToolStripMenuItem()
         ReporteToolStripMenuItem = New ToolStripMenuItem()
@@ -728,7 +730,6 @@ Partial Class MainScreen
         ReportesToolStripMenuItem2 = New ToolStripMenuItem()
         AnalisisSemanalToolStripMenuItem = New ToolStripMenuItem()
         AnalisisDeSalarioToolStripMenuItem = New ToolStripMenuItem()
-        EditarAmonestacionesToolStripMenuItem = New ToolStripMenuItem()
         MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -1055,9 +1056,10 @@ Partial Class MainScreen
         ' 
         ' RegistroDeHorasDeComidaToolStripMenuItem
         ' 
-        RegistroDeHorasDeComidaToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {RegistroManualToolStripMenuItem1, EditarRegistrToolStripMenuItem, RegistroManualDeAmonestacionesToolStripMenuItem, EditarAmonestacionesToolStripMenuItem, RegistroManualDeHorasDeComidaToolStripMenuItem, EdiciToolStripMenuItem, ReporteToolStripMenuItem})
+        RegistroDeHorasDeComidaToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {RegistroManualToolStripMenuItem1, EditarRegistrToolStripMenuItem, RegistroGeneralToolStripMenuItem, RegistroManualDeAmonestacionesToolStripMenuItem, EditarAmonestacionesToolStripMenuItem, RegistroManualDeHorasDeComidaToolStripMenuItem, EdiciToolStripMenuItem, ReporteToolStripMenuItem})
         RegistroDeHorasDeComidaToolStripMenuItem.Name = "RegistroDeHorasDeComidaToolStripMenuItem"
         RegistroDeHorasDeComidaToolStripMenuItem.Size = New Size(324, 22)
+        RegistroDeHorasDeComidaToolStripMenuItem.Tag = ""
         RegistroDeHorasDeComidaToolStripMenuItem.Text = "Registro de horas de comida y Amonestaciones"
         ' 
         ' RegistroManualToolStripMenuItem1
@@ -1074,12 +1076,26 @@ Partial Class MainScreen
         EditarRegistrToolStripMenuItem.Tag = "OP_UPD_MANUALLUNCHHOURS"
         EditarRegistrToolStripMenuItem.Text = "Editar registro semanal"
         ' 
+        ' RegistroGeneralToolStripMenuItem
+        ' 
+        RegistroGeneralToolStripMenuItem.Name = "RegistroGeneralToolStripMenuItem"
+        RegistroGeneralToolStripMenuItem.Size = New Size(267, 22)
+        RegistroGeneralToolStripMenuItem.Tag = "OP_UPD_GENERALMOVEMENTS"
+        RegistroGeneralToolStripMenuItem.Text = "Registro General"
+        ' 
         ' RegistroManualDeAmonestacionesToolStripMenuItem
         ' 
         RegistroManualDeAmonestacionesToolStripMenuItem.Name = "RegistroManualDeAmonestacionesToolStripMenuItem"
         RegistroManualDeAmonestacionesToolStripMenuItem.Size = New Size(267, 22)
         RegistroManualDeAmonestacionesToolStripMenuItem.Tag = "OP_INS_MANUALBANNS"
         RegistroManualDeAmonestacionesToolStripMenuItem.Text = "Registro manual de amonestaciones"
+        ' 
+        ' EditarAmonestacionesToolStripMenuItem
+        ' 
+        EditarAmonestacionesToolStripMenuItem.Name = "EditarAmonestacionesToolStripMenuItem"
+        EditarAmonestacionesToolStripMenuItem.Size = New Size(267, 22)
+        EditarAmonestacionesToolStripMenuItem.Tag = "OP_UPD_MANUALBANNS"
+        EditarAmonestacionesToolStripMenuItem.Text = "Editar amonestaciones"
         ' 
         ' RegistroManualDeHorasDeComidaToolStripMenuItem
         ' 
@@ -1217,13 +1233,6 @@ Partial Class MainScreen
         AnalisisDeSalarioToolStripMenuItem.Tag = "OP_SEL_MainWeekReportSalaryCalculation"
         AnalisisDeSalarioToolStripMenuItem.Text = "Analisis de salario"
         ' 
-        ' EditarAmonestacionesToolStripMenuItem
-        ' 
-        EditarAmonestacionesToolStripMenuItem.Name = "EditarAmonestacionesToolStripMenuItem"
-        EditarAmonestacionesToolStripMenuItem.Size = New Size(267, 22)
-        EditarAmonestacionesToolStripMenuItem.Tag = "OP_UPD_MANUALBANNS"
-        EditarAmonestacionesToolStripMenuItem.Text = "Editar amonestaciones"
-        ' 
         ' MainScreen
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -1316,4 +1325,5 @@ Partial Class MainScreen
     Friend WithEvents RegistroManualDeHorasDeComidaToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents EdiciToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents EditarAmonestacionesToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RegistroGeneralToolStripMenuItem As ToolStripMenuItem
 End Class
