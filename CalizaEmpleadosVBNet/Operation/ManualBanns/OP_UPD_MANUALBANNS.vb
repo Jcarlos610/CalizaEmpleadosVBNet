@@ -136,6 +136,7 @@ Public Class OP_UPD_MANUALBANNS
     Dim JustificacionDesactivar As String = ""
 
     Private Sub OP_UPD_MANUALBANNS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        DTP_Valid.Enabled = False
         Historial()
     End Sub
 
@@ -221,7 +222,7 @@ Public Class OP_UPD_MANUALBANNS
 
         If DGV_Banns.Columns.Count > 0 Then
             DGV_Banns.Columns("ID").Visible = False
-            DGV_Banns.Columns("ID Empleado").Visible = False
+            DGV_Banns.Columns("ID Empleado").Visible = True
 
             DGV_Banns.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             DGV_Banns.ReadOnly = True

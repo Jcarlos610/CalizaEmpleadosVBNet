@@ -71,17 +71,27 @@ Namespace My
                 Return CType(Me("WorkTimeFiles"),String)
             End Get
         End Property
-        
-        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=JUANSANCHEZ\SQLEXPRESS;Initial Catalog=CalizaEmpleados;Integrated Sec"& _ 
-            "urity=True;TrustServerCertificate=True")>  _
+
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=JUANSANCHEZ\SQLEXPRESS;Initial Catalog=CalizaEmpleados;Integrated Sec" &
+            "urity=True;TrustServerCertificate=True")>
         Public ReadOnly Property ConnectionString() As String
             Get
-                Return CType(Me("ConnectionString"),String)
+                Return CType(Me("ConnectionString"), String)
             End Get
         End Property
-        
+
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=Diana\SQLEXPRESS;Initial Catalog=CalizaEmpleados2;Integrated Security=True;TrustServerCertificate=True" &
+            "urity=True;TrustServerCertificate=True")>
+        Public ReadOnly Property ConnectionString2() As String
+            Get
+                Return CType(Me("ConnectionString2"), String)
+            End Get
+        End Property
+
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("C:\Temp\CalizaEmpleados\RelojChecador\Entradas")>  _

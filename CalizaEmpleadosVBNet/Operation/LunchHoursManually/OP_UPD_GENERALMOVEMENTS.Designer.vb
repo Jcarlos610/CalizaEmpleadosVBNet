@@ -44,7 +44,7 @@ Partial Class OP_UPD_GENERALMOVEMENTS
         GB_EmployeesList.Location = New Point(12, 46)
         GB_EmployeesList.Name = "GB_EmployeesList"
         GB_EmployeesList.Padding = New Padding(4, 5, 4, 5)
-        GB_EmployeesList.Size = New Size(1694, 953)
+        GB_EmployeesList.Size = New Size(1851, 953)
         GB_EmployeesList.TabIndex = 2
         GB_EmployeesList.TabStop = False
         GB_EmployeesList.Text = "Lista de empleados activos"
@@ -83,12 +83,12 @@ Partial Class OP_UPD_GENERALMOVEMENTS
         ' 
         ' BT_Update
         ' 
-        BT_Update.Location = New Point(1571, 39)
+        BT_Update.Location = New Point(1729, 35)
         BT_Update.Margin = New Padding(4, 5, 4, 5)
         BT_Update.Name = "BT_Update"
         BT_Update.Size = New Size(85, 32)
         BT_Update.TabIndex = 6
-        BT_Update.Text = "Actualizar"
+        BT_Update.Text = "Validar"
         BT_Update.UseVisualStyleBackColor = True
         ' 
         ' DGV_ActiveEmployeesInfo
@@ -99,7 +99,7 @@ Partial Class OP_UPD_GENERALMOVEMENTS
         DGV_ActiveEmployeesInfo.Location = New Point(21, 85)
         DGV_ActiveEmployeesInfo.Name = "DGV_ActiveEmployeesInfo"
         DGV_ActiveEmployeesInfo.RowHeadersWidth = 62
-        DGV_ActiveEmployeesInfo.Size = New Size(1635, 785)
+        DGV_ActiveEmployeesInfo.Size = New Size(1793, 785)
         DGV_ActiveEmployeesInfo.TabIndex = 2
         ' 
         ' OP_UPD_GENERALMOVEMENTS
@@ -108,7 +108,7 @@ Partial Class OP_UPD_GENERALMOVEMENTS
         AutoScaleMode = AutoScaleMode.Font
         AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(1242, 630)
+        ClientSize = New Size(1361, 630)
         Controls.Add(GB_EmployeesList)
         Name = "OP_UPD_GENERALMOVEMENTS"
         Text = "Edición General"

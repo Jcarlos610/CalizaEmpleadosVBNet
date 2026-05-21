@@ -463,32 +463,7 @@ Public Class CL_RecordsByEmployee
     End Function
 
 
-    Public Function InsertLunchHoursRecordByEmployee()
 
-        Try
-            DB_Command = New SqlCommand With {
-                .CommandText = "INS_LUNCHHOURSRECORDBYEMPLOYEE",
-                .CommandType = CommandType.StoredProcedure
-            }
-            DB_Connection.Open()
-            DB_Command.Connection = DB_Connection
-            DB_Command.Parameters.AddWithValue("EMPL_ID", _EMPL_ID)
-            DB_Command.Parameters.AddWithValue("MOVE_ID", _MOVE_ID)
-            DB_Command.Parameters.AddWithValue("REMPL_CREBY", _REMPL_CREBY)
-            DB_Command.Parameters.AddWithValue("REMPL_RDATE", _REMPL_RDATE)
-            DB_Command.Parameters.AddWithValue("DREMPL_DATE", _DREMPL_DATE)
-            DB_Command.Parameters.AddWithValue("DREMPL_LHOUR", _DREMPL_LHOUR)
-            DB_Command.ExecuteNonQuery()
-
-            DB_Connection.Close()
-            Return True
-        Catch ex As Exception
-            DB_Connection.Close()
-            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_RecordByEmployee.InsertLunchHoursRecordByEmployee()")
-
-            Return Nothing
-        End Try
-    End Function
 
     Public Function InsertBannsQuantityRecordByEmployee()
 
@@ -1005,81 +980,66 @@ Public Class CL_RecordsByEmployee
     End Function
 
     Public Function GetGeneralMovementsByRange(startDate As Date, endDate As Date) As DataTable
+        Dim dt As New DataTable()
         Try
+
             DB_Command = New SqlCommand("SEL_GENERALMOVEMENTS_BY_RANGE", DB_Connection)
             DB_Command.CommandType = CommandType.StoredProcedure
+
             DB_Command.Parameters.AddWithValue("@START_DATE", startDate)
             DB_Command.Parameters.AddWithValue("@END_DATE", endDate)
+
+            Dim da As New SqlDataAdapter(DB_Command)
+
             DB_Connection.Open()
-            Dim dt As New DataTable
-            dt.Load(DB_Command.ExecuteReader())
+            da.Fill(dt)
             DB_Connection.Close()
+
             Return dt
         Catch ex As Exception
-            DB_Connection.Close()
-            Return Nothing
+            If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
+            Throw ex
         End Try
     End Function
 
-    'Public Sub ValidateLunchTemporal(startDate As Date, endDate As Date, appUser As String)
 
-    '    Try
 
-    '        DB_Command = New SqlCommand("DEL_VALIDATE_LUNCH_TEMPORAL", DB_Connection)
-
-    '        DB_Command.CommandType = CommandType.StoredProcedure
-    '        DB_Command.Parameters.AddWithValue("@START_DATE", startDate)
-    '        DB_Command.Parameters.AddWithValue("@END_DATE", endDate)
-    '        DB_Command.Parameters.AddWithValue("@APP_USER", appUser)
-
-    '        DB_Connection.Open()
-    '        DB_Command.ExecuteNonQuery()
-    '        DB_Connection.Close()
-
-    '    Catch ex As Exception
-
-    '        If DB_Connection.State = ConnectionState.Open Then
-    '            DB_Connection.Close()
-
-    '        End If
-
-    '        MsgBox(ex.Message)
-
-    '    End Try
-
-    'End Sub
-
-    Public Sub UpdateBannQuantity(remplId As Integer, quantity As Decimal)
+    Public Sub InsertGeneralComment(remplId As Integer, observaciones As String, commUser As String, commDate As Date)
         Try
-            DB_Command = New SqlCommand("UPD_EMPLOYEEBANNS", DB_Connection)
+            DB_Command = New SqlCommand("INS_GENERALMOVEMENT_COMMENT", DB_Connection)
             DB_Command.CommandType = CommandType.StoredProcedure
-            DB_Command.Parameters.AddWithValue("@REMPL_ID", remplId)
-            DB_Command.Parameters.AddWithValue("@BANN_QUANTITY", quantity)
 
-            If DB_Connection.State = ConnectionState.Closed Then DB_Connection.Open()
+            DB_Command.Parameters.AddWithValue("@REMPL_ID", remplId)
+            DB_Command.Parameters.AddWithValue("@OBSERVACIONES", observaciones)
+            DB_Command.Parameters.AddWithValue("@COMM_USER", commUser)
+            DB_Command.Parameters.AddWithValue("@COMM_DATE", commDate)
+
+            DB_Connection.Open()
             DB_Command.ExecuteNonQuery()
             DB_Connection.Close()
         Catch ex As Exception
-            DB_Connection.Close()
-            MsgBox("Error al actualizar cantidad de amonestación: " & ex.Message)
+            If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
+            Throw ex
         End Try
     End Sub
 
-    Public Sub InsertGeneralComment(remplId As Integer, obs As String, usuario As String, fecha As Date)
-        Using conn As New SqlConnection(My.Settings.ConnectionString)
-            Using cmd As New SqlCommand("INS_GENERALMOVEMENT_COMMENT", conn)
-                cmd.CommandType = CommandType.StoredProcedure
-                cmd.Parameters.AddWithValue("@REMPL_ID", remplId)
-                cmd.Parameters.AddWithValue("@OBSERVACIONES", obs)
-                cmd.Parameters.AddWithValue("@COMM_USER", usuario)
-                cmd.Parameters.AddWithValue("@COMM_DATE", fecha)
 
-                conn.Open()
-                cmd.ExecuteNonQuery()
-            End Using
-        End Using
+    Public Sub UpdateGeneralComment(commId As Integer, observaciones As String)
+        Try
+            DB_Command = New SqlCommand("UPD_GENERALMOVEMENT_COMMENT", DB_Connection)
+            DB_Command.CommandType = CommandType.StoredProcedure
+
+            DB_Command.Parameters.AddWithValue("@COMM_ID", commId)
+            DB_Command.Parameters.AddWithValue("@OBSERVACIONES", observaciones)
+
+            DB_Connection.Open()
+            DB_Command.ExecuteNonQuery()
+            DB_Connection.Close()
+        Catch ex As Exception
+            If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
+            Throw ex
+        End Try
     End Sub
-
     Public Function UpdateComment(commId As Integer, comentario As String) As Boolean
 
         Try
@@ -1110,87 +1070,96 @@ Public Class CL_RecordsByEmployee
 
     End Function
 
-    Public Function InsertTransportDirect(empl As Integer, move As Integer, user As String, fecha As Date, dias As Decimal) As Boolean
 
-        Me._EMPL_ID = empl
-        Me._MOVE_ID = move
-        Me._REMPL_CREBY = user
-        Me._REMPL_RDATE = DateTime.Now
-        Me._DREMPL_DATE = fecha
-        Me._DREMPL_TDAYS = dias
-
-        Return Me.InsertTransportDaysRecordByEmployee()
-    End Function
-
-    Public Function GetBannsCountByEmployee(emplId As Integer, startDate As Date, endDate As Date) As Integer
-
+    Public Sub ProcessTransportMovement(emplId As Integer, moveId As Integer, rdate As Date, tdays As Decimal, amount As Decimal, creby As String)
         Try
-
-            DB_Command = New SqlCommand("
-            SELECT COUNT(*)
-            FROM OP_EmployeeBanns
-            WHERE EMPL_ID = @EMPL_ID
-            AND EBANN_DATE BETWEEN @START AND @END
-            AND EBANN_STAT = 1
-        ", DB_Connection)
+            DB_Command = New SqlCommand("INS_UPD_TRANSPORT_MOVEMENT", DB_Connection)
+            DB_Command.CommandType = CommandType.StoredProcedure
 
             DB_Command.Parameters.AddWithValue("@EMPL_ID", emplId)
-            DB_Command.Parameters.AddWithValue("@START", startDate)
-            DB_Command.Parameters.AddWithValue("@END", endDate)
+            DB_Command.Parameters.AddWithValue("@MOVE_ID", moveId)
+            DB_Command.Parameters.AddWithValue("@RDATE", rdate)
+            DB_Command.Parameters.AddWithValue("@TDAYS", tdays)
+            DB_Command.Parameters.AddWithValue("@AMOUNT", amount)
+            DB_Command.Parameters.AddWithValue("@CREBY", creby)
 
             DB_Connection.Open()
+            DB_Command.ExecuteNonQuery()
+            DB_Connection.Close()
+        Catch ex As Exception
+            If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
+            Throw ex
+        End Try
+    End Sub
 
-            Dim total As Integer =
-                Convert.ToInt32(DB_Command.ExecuteScalar())
+    Public Function GetBannsCountByEmployee(emplId As Integer, startDate As Date, endDate As Date) As Integer
+        Try
+            DB_Command = New SqlCommand("SEL_BANNSCOUNTBYEMPLOYEE", DB_Connection)
+            DB_Command.CommandType = CommandType.StoredProcedure
 
+            DB_Command.Parameters.AddWithValue("@EMPL_ID", emplId)
+            DB_Command.Parameters.AddWithValue("@START_DATE", startDate)
+            DB_Command.Parameters.AddWithValue("@END_DATE", endDate)
+
+            DB_Connection.Open()
+            Dim total As Integer = Convert.ToInt32(DB_Command.ExecuteScalar())
             DB_Connection.Close()
 
             Return total
-
         Catch ex As Exception
-
-            If DB_Connection.State = ConnectionState.Open Then
-                DB_Connection.Close()
-            End If
-
+            If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
             Return 0
-
         End Try
-
     End Function
 
-    Public Sub DisableLastBanns(emplId As Integer, cantidad As Integer, startDate As Date, endDate As Date)
-
+    Public Function MigrateTemporalLunchToOfficial(ByVal startDate As Date, ByVal endDate As Date, ByVal user As String) As Boolean
         Try
-
-            DB_Command = New SqlCommand("
-            UPDATE TOP (@CANTIDAD)
-            OP_EmployeeBanns
-            SET EBANN_STAT = 0
-            WHERE EMPL_ID = @EMPL_ID
-            AND EBANN_DATE BETWEEN @START AND @END
-            AND EBANN_STAT = 1
-        ", DB_Connection)
-
-            DB_Command.Parameters.AddWithValue("@CANTIDAD", cantidad)
-            DB_Command.Parameters.AddWithValue("@EMPL_ID", emplId)
-            DB_Command.Parameters.AddWithValue("@START", startDate)
-            DB_Command.Parameters.AddWithValue("@END", endDate)
+            DB_Command = New SqlCommand With {
+                .CommandText = "MIGRATE_TEMPORALLUNCHTOOFFICIAL",
+                .CommandType = CommandType.StoredProcedure
+            }
 
             DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+
+            DB_Command.Parameters.AddWithValue("START_DATE", startDate)
+            DB_Command.Parameters.AddWithValue("END_DATE", endDate)
+            DB_Command.Parameters.AddWithValue("USER", user)
 
             DB_Command.ExecuteNonQuery()
-
             DB_Connection.Close()
 
+            Return True
         Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_RecordByEmployee.MigrateTemporalLunchToOfficial()")
 
-            If DB_Connection.State = ConnectionState.Open Then
-                DB_Connection.Close()
-            End If
-
+            Return False
         End Try
+    End Function
 
-    End Sub
+
+    Public Function InsertLunchHoursRecordByEmployeeDirect(emplId As Integer, startDate As Date, lunchDate As Date, hours As Decimal, user As String) As Boolean
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "INS_LUNCHHOURSRECORDBYEMPLOYEE",
+                .CommandType = CommandType.StoredProcedure
+            }
+            DB_Command.Parameters.AddWithValue("@EMPL_ID", emplId)
+            DB_Command.Parameters.AddWithValue("@START_DATE", startDate)
+            DB_Command.Parameters.AddWithValue("@LUNCH_DATE", lunchDate)
+            DB_Command.Parameters.AddWithValue("@LUNCH_HOURS", hours)
+            DB_Command.Parameters.AddWithValue("@USER", user)
+
+            If DB_Connection.State = ConnectionState.Closed Then DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+            DB_Command.ExecuteNonQuery()
+            DB_Connection.Close()
+            Return True
+        Catch ex As Exception
+            If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
+            Return False
+        End Try
+    End Function
 
 End Class
