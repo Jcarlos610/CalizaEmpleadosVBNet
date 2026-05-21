@@ -1215,6 +1215,31 @@ Public Class CL_Employee
 
             Return True
 
+            'Catch ex As Exception
+
+            '    DB_Connection.Close()
+            '    MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_Employee.UpdateEmployee()")
+
+            '    Return Nothing
+
+            'End Try
+        Catch ex As SqlException
+
+        DB_Connection.Close()
+
+        Dim ErrorCompleto As String = ""
+
+        For Each err As SqlError In ex.Errors
+            ErrorCompleto &= "Mensaje: " & err.Message & vbCrLf
+            ErrorCompleto &= "Linea: " & err.LineNumber & vbCrLf
+            ErrorCompleto &= "Procedure: " & err.Procedure & vbCrLf
+            ErrorCompleto &= "----------------------------------" & vbCrLf
+        Next
+
+        MsgBox(ErrorCompleto)
+
+        Return Nothing
+
         Catch ex As Exception
 
             DB_Connection.Close()
@@ -1223,7 +1248,6 @@ Public Class CL_Employee
             Return Nothing
 
         End Try
-
     End Function
 
     Public Function UpdateEmployeeWithoutSalary()
@@ -1277,6 +1301,23 @@ Public Class CL_Employee
             DB_Connection.Close()
 
             Return True
+
+        Catch ex As SqlException
+
+            DB_Connection.Close()
+
+            Dim ErrorCompleto As String = ""
+
+            For Each err As SqlError In ex.Errors
+                ErrorCompleto &= "Mensaje: " & err.Message & vbCrLf
+                ErrorCompleto &= "Linea: " & err.LineNumber & vbCrLf
+                ErrorCompleto &= "Procedure: " & err.Procedure & vbCrLf
+                ErrorCompleto &= "----------------------------------" & vbCrLf
+            Next
+
+            MsgBox(ErrorCompleto)
+
+            Return Nothing
 
         Catch ex As Exception
 

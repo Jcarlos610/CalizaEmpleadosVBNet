@@ -36,6 +36,17 @@ Public Class OP_INS_TIMERECORDS
 
         DGV_FileContent.Columns.Clear()
         DGV_Registerinformation.Columns.Clear()
+        DisplayLastFiles()
+
+    End Sub
+
+    Private Sub DisplayLastFiles()
+
+        Dim report As New CL_EntryExitFile()
+        DGV_LastFiles.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+        DGV_LastFiles.AutoResizeColumns()
+        DGV_LastFiles.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+        DGV_LastFiles.DataSource = report.Get_LastLoadedFiles
 
     End Sub
 

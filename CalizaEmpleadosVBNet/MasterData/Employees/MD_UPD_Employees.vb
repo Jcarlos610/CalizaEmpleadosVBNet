@@ -226,7 +226,7 @@ Public Class MD_UPD_Employees
             DT_RegistrationDate.Value,
             Id_Position,
             Id_Supervisor,
-            TB_VacationsDays.Text,
+            CDec(TB_VacationsDays.Text),
             TB_BaseSalary.Text,
             Id_Department,
             TB_EmergencyContact.Text,
