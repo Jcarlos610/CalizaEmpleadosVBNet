@@ -40,10 +40,9 @@ Partial Class MD_RPT_Employees
         ' 
         LB_Title.AutoSize = True
         LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        LB_Title.Location = New Point(17, 18)
-        LB_Title.Margin = New Padding(4, 0, 4, 0)
+        LB_Title.Location = New Point(12, 11)
         LB_Title.Name = "LB_Title"
-        LB_Title.Size = New Size(343, 45)
+        LB_Title.Size = New Size(221, 30)
         LB_Title.TabIndex = 104
         LB_Title.Text = "Reporte de empleados"
         ' 
@@ -53,61 +52,55 @@ Partial Class MD_RPT_Employees
         GB_EmployeeInformation.Controls.Add(LB_Employee)
         GB_EmployeeInformation.Controls.Add(LB_Company)
         GB_EmployeeInformation.Controls.Add(CB_Company)
-        GB_EmployeeInformation.Location = New Point(17, 65)
-        GB_EmployeeInformation.Margin = New Padding(4, 5, 4, 5)
+        GB_EmployeeInformation.Location = New Point(12, 39)
         GB_EmployeeInformation.Name = "GB_EmployeeInformation"
-        GB_EmployeeInformation.Padding = New Padding(4, 5, 4, 5)
-        GB_EmployeeInformation.Size = New Size(794, 117)
+        GB_EmployeeInformation.Size = New Size(556, 70)
         GB_EmployeeInformation.TabIndex = 301
         GB_EmployeeInformation.TabStop = False
         GB_EmployeeInformation.Text = "Información"
         ' 
         ' CB_EmployeeName
         ' 
+        CB_EmployeeName.DropDownStyle = ComboBoxStyle.DropDownList
         CB_EmployeeName.FormattingEnabled = True
-        CB_EmployeeName.Location = New Point(533, 63)
-        CB_EmployeeName.Margin = New Padding(4, 5, 4, 5)
+        CB_EmployeeName.Location = New Point(373, 38)
         CB_EmployeeName.Name = "CB_EmployeeName"
-        CB_EmployeeName.Size = New Size(228, 33)
+        CB_EmployeeName.Size = New Size(161, 23)
         CB_EmployeeName.TabIndex = 304
         ' 
         ' LB_Employee
         ' 
         LB_Employee.AutoSize = True
-        LB_Employee.Location = New Point(535, 37)
-        LB_Employee.Margin = New Padding(4, 0, 4, 0)
+        LB_Employee.Location = New Point(374, 22)
         LB_Employee.Name = "LB_Employee"
-        LB_Employee.Size = New Size(92, 25)
+        LB_Employee.Size = New Size(60, 15)
         LB_Employee.TabIndex = 303
         LB_Employee.Text = "Empleado"
         ' 
         ' LB_Company
         ' 
         LB_Company.AutoSize = True
-        LB_Company.Location = New Point(35, 37)
-        LB_Company.Margin = New Padding(4, 0, 4, 0)
+        LB_Company.Location = New Point(24, 22)
         LB_Company.Name = "LB_Company"
-        LB_Company.Size = New Size(80, 25)
+        LB_Company.Size = New Size(52, 15)
         LB_Company.TabIndex = 301
         LB_Company.Text = "Empresa"
         ' 
         ' CB_Company
         ' 
+        CB_Company.DropDownStyle = ComboBoxStyle.DropDownList
         CB_Company.FormattingEnabled = True
-        CB_Company.Location = New Point(33, 63)
-        CB_Company.Margin = New Padding(4, 5, 4, 5)
+        CB_Company.Location = New Point(23, 38)
         CB_Company.Name = "CB_Company"
-        CB_Company.Size = New Size(475, 33)
+        CB_Company.Size = New Size(334, 23)
         CB_Company.TabIndex = 302
         ' 
         ' GroupBox1
         ' 
         GroupBox1.Controls.Add(DGV_AllEmployees)
-        GroupBox1.Location = New Point(17, 199)
-        GroupBox1.Margin = New Padding(4, 5, 4, 5)
+        GroupBox1.Location = New Point(12, 119)
         GroupBox1.Name = "GroupBox1"
-        GroupBox1.Padding = New Padding(4, 5, 4, 5)
-        GroupBox1.Size = New Size(1783, 739)
+        GroupBox1.Size = New Size(1248, 443)
         GroupBox1.TabIndex = 302
         GroupBox1.TabStop = False
         GroupBox1.Text = "Empleados registrados"
@@ -118,36 +111,35 @@ Partial Class MD_RPT_Employees
         DGV_AllEmployees.AllowUserToDeleteRows = False
         DGV_AllEmployees.AllowUserToOrderColumns = True
         DGV_AllEmployees.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_AllEmployees.Location = New Point(33, 37)
-        DGV_AllEmployees.Margin = New Padding(4, 5, 4, 5)
+        DGV_AllEmployees.Location = New Point(23, 22)
         DGV_AllEmployees.Name = "DGV_AllEmployees"
         DGV_AllEmployees.ReadOnly = True
         DGV_AllEmployees.RowHeadersWidth = 62
-        DGV_AllEmployees.Size = New Size(1726, 672)
+        DGV_AllEmployees.Size = New Size(1208, 403)
         DGV_AllEmployees.TabIndex = 0
         ' 
         ' BT_EmployeeExport
         ' 
-        BT_EmployeeExport.Location = New Point(1698, 976)
-        BT_EmployeeExport.Margin = New Padding(4, 5, 4, 5)
+        BT_EmployeeExport.Location = New Point(1189, 586)
         BT_EmployeeExport.Name = "BT_EmployeeExport"
-        BT_EmployeeExport.Size = New Size(102, 42)
+        BT_EmployeeExport.Size = New Size(71, 25)
         BT_EmployeeExport.TabIndex = 408
         BT_EmployeeExport.Text = "Exportar"
         BT_EmployeeExport.UseVisualStyleBackColor = True
         ' 
         ' MD_RPT_Employees
         ' 
-        AutoScaleDimensions = New SizeF(10F, 25F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(1830, 1050)
+        ClientSize = New Size(1281, 630)
         Controls.Add(BT_EmployeeExport)
         Controls.Add(GroupBox1)
         Controls.Add(GB_EmployeeInformation)
         Controls.Add(LB_Title)
         Location = New Point(17, 77)
+        Margin = New Padding(2, 2, 2, 2)
         Name = "MD_RPT_Employees"
         Text = "Reportes"
         WindowState = FormWindowState.Maximized

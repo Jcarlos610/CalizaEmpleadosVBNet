@@ -316,6 +316,7 @@ Partial Class MD_UPD_Employees
         ' 
         ' CB_Department
         ' 
+        CB_Department.DropDownStyle = ComboBoxStyle.DropDownList
         CB_Department.FormattingEnabled = True
         CB_Department.Location = New Point(1051, 38)
         CB_Department.Name = "CB_Department"
@@ -333,6 +334,7 @@ Partial Class MD_UPD_Employees
         ' 
         ' CB_Position
         ' 
+        CB_Position.DropDownStyle = ComboBoxStyle.DropDownList
         CB_Position.FormattingEnabled = True
         CB_Position.Location = New Point(23, 86)
         CB_Position.Name = "CB_Position"
@@ -350,6 +352,7 @@ Partial Class MD_UPD_Employees
         ' 
         ' CB_Supervisor
         ' 
+        CB_Supervisor.DropDownStyle = ComboBoxStyle.DropDownList
         CB_Supervisor.FormattingEnabled = True
         CB_Supervisor.Location = New Point(373, 86)
         CB_Supervisor.Name = "CB_Supervisor"
@@ -414,6 +417,7 @@ Partial Class MD_UPD_Employees
         ' 
         ' CB_EmployeeType
         ' 
+        CB_EmployeeType.DropDownStyle = ComboBoxStyle.DropDownList
         CB_EmployeeType.FormattingEnabled = True
         CB_EmployeeType.Location = New Point(373, 38)
         CB_EmployeeType.Name = "CB_EmployeeType"
@@ -458,6 +462,7 @@ Partial Class MD_UPD_Employees
         ' 
         ' CB_Company
         ' 
+        CB_Company.DropDownStyle = ComboBoxStyle.DropDownList
         CB_Company.FormattingEnabled = True
         CB_Company.Location = New Point(23, 38)
         CB_Company.Name = "CB_Company"

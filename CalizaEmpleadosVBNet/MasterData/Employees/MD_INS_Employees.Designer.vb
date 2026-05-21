@@ -37,6 +37,7 @@ Partial Class MD_INS_Employees
         TB_EmergencyContact = New TextBox()
         LB_SocialSecurityNumber = New Label()
         GB_EmployeeInformation = New GroupBox()
+        CB_Confidential = New CheckBox()
         TB_Costc = New TextBox()
         Label2 = New Label()
         CB_Department = New ComboBox()
@@ -91,7 +92,6 @@ Partial Class MD_INS_Employees
         PB_Picture = New PictureBox()
         GroupBox1 = New GroupBox()
         DGV_AllEmployees = New DataGridView()
-        CB_Confidential = New CheckBox()
         GB_PersonalInformation.SuspendLayout()
         GB_EmergencyInfo.SuspendLayout()
         GB_EmployeeInformation.SuspendLayout()
@@ -275,6 +275,16 @@ Partial Class MD_INS_Employees
         GB_EmployeeInformation.TabStop = False
         GB_EmployeeInformation.Text = "Información de empleado"
         ' 
+        ' CB_Confidential
+        ' 
+        CB_Confidential.AutoSize = True
+        CB_Confidential.Location = New Point(948, 87)
+        CB_Confidential.Name = "CB_Confidential"
+        CB_Confidential.Size = New Size(93, 19)
+        CB_Confidential.TabIndex = 412
+        CB_Confidential.Text = "Confidencial"
+        CB_Confidential.UseVisualStyleBackColor = True
+        ' 
         ' TB_Costc
         ' 
         TB_Costc.Location = New Point(1051, 87)
@@ -293,6 +303,7 @@ Partial Class MD_INS_Employees
         ' 
         ' CB_Department
         ' 
+        CB_Department.DropDownStyle = ComboBoxStyle.DropDownList
         CB_Department.FormattingEnabled = True
         CB_Department.Location = New Point(1051, 38)
         CB_Department.Name = "CB_Department"
@@ -310,6 +321,7 @@ Partial Class MD_INS_Employees
         ' 
         ' CB_Position
         ' 
+        CB_Position.DropDownStyle = ComboBoxStyle.DropDownList
         CB_Position.FormattingEnabled = True
         CB_Position.Location = New Point(23, 86)
         CB_Position.Name = "CB_Position"
@@ -327,6 +339,7 @@ Partial Class MD_INS_Employees
         ' 
         ' CB_Supervisor
         ' 
+        CB_Supervisor.DropDownStyle = ComboBoxStyle.DropDownList
         CB_Supervisor.FormattingEnabled = True
         CB_Supervisor.Location = New Point(373, 86)
         CB_Supervisor.Name = "CB_Supervisor"
@@ -391,6 +404,7 @@ Partial Class MD_INS_Employees
         ' 
         ' CB_EmployeeType
         ' 
+        CB_EmployeeType.DropDownStyle = ComboBoxStyle.DropDownList
         CB_EmployeeType.FormattingEnabled = True
         CB_EmployeeType.Location = New Point(373, 38)
         CB_EmployeeType.Name = "CB_EmployeeType"
@@ -435,6 +449,7 @@ Partial Class MD_INS_Employees
         ' 
         ' CB_Company
         ' 
+        CB_Company.DropDownStyle = ComboBoxStyle.DropDownList
         CB_Company.FormattingEnabled = True
         CB_Company.Location = New Point(23, 38)
         CB_Company.Name = "CB_Company"
@@ -734,16 +749,6 @@ Partial Class MD_INS_Employees
         DGV_AllEmployees.RowHeadersWidth = 62
         DGV_AllEmployees.Size = New Size(1208, 150)
         DGV_AllEmployees.TabIndex = 0
-        ' 
-        ' CB_Confidential
-        ' 
-        CB_Confidential.AutoSize = True
-        CB_Confidential.Location = New Point(948, 87)
-        CB_Confidential.Name = "CB_Confidential"
-        CB_Confidential.Size = New Size(93, 19)
-        CB_Confidential.TabIndex = 412
-        CB_Confidential.Text = "Confidencial"
-        CB_Confidential.UseVisualStyleBackColor = True
         ' 
         ' MD_INS_Employees
         ' 
