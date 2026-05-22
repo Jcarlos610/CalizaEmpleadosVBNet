@@ -167,12 +167,12 @@ Public Class ST_INS_Users
     Private Sub BT_RegisterUser_Click(sender As Object, e As EventArgs) Handles BT_RegisterUser.Click
 
         If TB_UserName.Text.Trim = "" Or TB_Password.Text.Trim = "" Then
-            MessageBox.Show("Completa los datos")
+            MessageBox.Show("Por favor, completa todos los datos obligatorios.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
         If DGV_Employees.CurrentRow Is Nothing Then
-            MessageBox.Show("Selecciona empleado")
+            MessageBox.Show("Selecciona un empleado de la lista primero.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
@@ -180,7 +180,7 @@ Public Class ST_INS_Users
         Dim dtUser = userCheck.GetUserDataByUsername(TB_UserName.Text.Trim)
 
         If dtUser IsNot Nothing AndAlso dtUser.Rows.Count > 0 Then
-            MessageBox.Show("El usuario ya existe")
+            MessageBox.Show("El nombre de usuario ya se encuentra registrado.", "Usuario Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub
         End If
 
@@ -202,25 +202,33 @@ Public Class ST_INS_Users
         Dim USER_ID As Integer = user.InsertSystemUser()
 
         If USER_ID > 0 Then
-            MessageBox.Show("Usuario creado. Ahora selecciona y asigna roles.")
+            'LOG DE ÉXITO
+            InsertLog(userCheck.DB_Connection, GlobalSession.GlobalUserName, "Settings_Users", "INSERT_USER_SUCCESS", $"Se creó exitosamente el usuario '{TB_UserName.Text.Trim}' asignado al empleado ID: {EMPL_ID}.", USER_ID)
+
+            MessageBox.Show("Usuario creado con éxito. Ahora selecciona y asigna los roles correspondientes.", "Sistema", MessageBoxButtons.OK, MessageBoxIcon.Information)
             LoadUsers()
         Else
+            'LOG DE ADVERTENCIA
+            InsertLog(userCheck.DB_Connection, AppUser, "Settings_Users", "INSERT_USER_FAILED", $"La base de datos rechazó la inserción del usuario '{TB_UserName.Text.Trim}'.", 0, "WARNING")
             MessageBox.Show("Error al crear usuario")
         End If
 
+    
     End Sub
 
 
     Private Sub BT_SaveRoles_Click(sender As Object, e As EventArgs) Handles BT_SaveRoles.Click
 
         If SelectedUserID = 0 Then
-            MessageBox.Show("Selecciona un usuario")
+            MessageBox.Show("Por favor, selecciona un usuario para asignar sus roles.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
         Dim user As New CL_Users()
 
         user.DeleteUserRoles(SelectedUserID)
+
+        Dim listaRoles As String = ""
 
         For Each row As DataGridViewRow In DGV_RolesSelection.Rows
 
@@ -230,11 +238,17 @@ Public Class ST_INS_Users
 
                 user.AssignRoleToUser(SelectedUserID, ROLE_ID)
 
+                listaRoles &= ROLE_ID & " "
+
             End If
 
         Next
 
-        MessageBox.Show("Roles actualizados correctamente")
+        ' LOG DE ROLES
+        InsertLog(user.DB_Connection, GlobalSession.GlobalUserName, "Settings_Users", "UPDATE_ROLES_ONLY", $"Se modificaron exclusivamente los roles del usuario. IDs de roles asignados: [{listaRoles.Trim().Replace(" ", ", ")}].", SelectedUserID)
+
+
+        MessageBox.Show("Roles actualizados correctamente en el sistema.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
         LoadUsers()
 

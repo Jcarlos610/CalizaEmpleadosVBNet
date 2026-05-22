@@ -77,12 +77,12 @@ Public Class ST_UPD_Users
     Private Sub BT_UpdateUser_Click(sender As Object, e As EventArgs) Handles BT_UpdateUser.Click
 
         If SelectedUserID = 0 Then
-            MessageBox.Show("Selecciona un usuario")
+            MessageBox.Show("Por favor, selecciona un usuario de la lista para modificar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
         If TB_UserName.Text.Trim = "" Then
-            MessageBox.Show("Ingresa usuario")
+            MessageBox.Show("El nombre de usuario no puede quedar vacío.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
@@ -105,6 +105,8 @@ Public Class ST_UPD_Users
 
         If updUser.UpdateUser() Then
 
+            ' LOG DE ACTUALIZACIÓN
+            InsertLog(user.DB_Connection, GlobalSession.GlobalUserName, "Settings_Users", "UPDATE_USER_BASE", $"Se modificaron los datos del usuario '{TB_UserName.Text.Trim}'.", SelectedUserID)
 
             user.DeleteUserRoles(SelectedUserID)
 
@@ -119,7 +121,7 @@ Public Class ST_UPD_Users
 
             Next
 
-            MessageBox.Show("Usuario actualizado correctamente")
+            MessageBox.Show("Usuario actualizado correctamente en el sistema.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
             LoadUsers()
 
