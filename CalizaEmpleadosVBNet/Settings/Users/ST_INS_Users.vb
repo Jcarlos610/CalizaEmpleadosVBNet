@@ -225,6 +225,54 @@ Public Class ST_INS_Users
     End Sub
 
 
+    'Private Sub BT_SaveRoles_Click(sender As Object, e As EventArgs) Handles BT_SaveRoles.Click
+    '    Try
+    '        If SelectedUserID = 0 Then
+    '            MessageBox.Show("Por favor, selecciona un usuario para asignar sus roles.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    '            Exit Sub
+    '        End If
+
+    '        Dim user As New CL_Users()
+    '        user.DeleteUserRoles(SelectedUserID)
+
+    '        Dim listaRoles As String = ""
+
+    '        For Each row As DataGridViewRow In DGV_RolesSelection.Rows
+
+    '            If Not IsDBNull(row.Cells("Seleccionado").Value) AndAlso CBool(row.Cells("Seleccionado").Value) = True Then
+    '                Dim ROLE_ID As Integer = CInt(row.Cells("ROLE_ID").Value)
+    '                Dim nombreRol As String = row.Cells("Rol").Value.ToString()
+
+    '                user.AssignRoleToUser(SelectedUserID, ROLE_ID)
+    '                listaRoles &= nombreRol & " (ID: " & ROLE_ID & "), "
+
+    '            End If
+
+    '        Next
+
+    '        If listaRoles.EndsWith(", ") Then listaRoles = listaRoles.Substring(0, listaRoles.Length - 2)
+    '        If listaRoles = "" Then listaRoles = "NINGUNO (Se le quitaron todos los accesos)"
+
+    '        'LOG DE ROLES
+    '        Dim descRoles As String = $"REASIGNACIÓN DE PERMISOS: Se actualizaron los roles del USER_ID: {SelectedUserID}. Roles finales activos: [{listaRoles}]."
+    '        InsertLog(user.DB_Connection, GlobalSession.GlobalUserName, "Settings_Users", "UPDATE_ROLES_ONLY", descRoles, SelectedUserID, "INFO")
+
+    '        MessageBox.Show("Roles actualizados correctamente en el sistema.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    '        LoadUsers()
+
+    '    Catch ex As Exception
+    '        'LOG DE ERROR 
+    '        Dim connectionFallBack As New CL_Users()
+    '        Dim descError As String = $"ERROR CRÍTICO: Falló la reasignación de roles para el USER_ID: {SelectedUserID}. Motivo: {ex.Message}"
+
+    '        InsertLog(connectionFallBack.DB_Connection, GlobalSession.GlobalUserName, "Settings_Users", "ERROR_UPDATE_ROLES", descError, SelectedUserID, "ERROR", ex.StackTrace)
+
+    '        MessageBox.Show("Ocurrió un error al guardar los roles: " & ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error)
+    '    End Try
+
+    'End Sub
+
+
     Private Sub BT_SaveRoles_Click(sender As Object, e As EventArgs) Handles BT_SaveRoles.Click
         Try
             If SelectedUserID = 0 Then
@@ -239,21 +287,27 @@ Public Class ST_INS_Users
 
             For Each row As DataGridViewRow In DGV_RolesSelection.Rows
 
-                If Not IsDBNull(row.Cells("Seleccionado").Value) AndAlso CBool(row.Cells("Seleccionado").Value) = True Then
+                If row.IsNewRow Then Continue For
+                If row.Cells("Seleccionado").Value IsNot Nothing AndAlso Not IsDBNull(row.Cells("Seleccionado").Value) AndAlso CBool(row.Cells("Seleccionado").Value) = True Then
+
                     Dim ROLE_ID As Integer = CInt(row.Cells("ROLE_ID").Value)
-                    Dim nombreRol As String = row.Cells("Rol").Value.ToString()
+
+
+                    Dim nombreRol As String = ""
+                    If row.Cells(1).Value IsNot Nothing Then
+                        nombreRol = row.Cells(1).Value.ToString()
+                    Else
+                        nombreRol = "Rol sin nombre"
+                    End If
 
                     user.AssignRoleToUser(SelectedUserID, ROLE_ID)
                     listaRoles &= nombreRol & " (ID: " & ROLE_ID & "), "
-
                 End If
-
             Next
 
             If listaRoles.EndsWith(", ") Then listaRoles = listaRoles.Substring(0, listaRoles.Length - 2)
             If listaRoles = "" Then listaRoles = "NINGUNO (Se le quitaron todos los accesos)"
 
-            'LOG DE ROLES
             Dim descRoles As String = $"REASIGNACIÓN DE PERMISOS: Se actualizaron los roles del USER_ID: {SelectedUserID}. Roles finales activos: [{listaRoles}]."
             InsertLog(user.DB_Connection, GlobalSession.GlobalUserName, "Settings_Users", "UPDATE_ROLES_ONLY", descRoles, SelectedUserID, "INFO")
 
@@ -269,8 +323,6 @@ Public Class ST_INS_Users
 
             MessageBox.Show("Ocurrió un error al guardar los roles: " & ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-
     End Sub
-
 
 End Class
