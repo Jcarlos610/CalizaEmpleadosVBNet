@@ -15,12 +15,10 @@ Public Class ST_UPD_Roles
 
         Dim report As New CL_Roles()
 
-        ' Combo Roles
         CB_AllRoles.DataSource = report.Get_ListOfRoles()
         CB_AllRoles.DisplayMember = "Nombre"
         CB_AllRoles.ValueMember = "ID"
 
-        ' Limpiar campos
         TB_RoleName.Text = ""
         TB_Description.Text = ""
         TB_AuthorizeBy.Text = ""
@@ -33,9 +31,6 @@ Public Class ST_UPD_Roles
 
     End Sub
 
-    '========================
-    ' FORMULARIOS (UX)
-    '========================
     Private Sub LoadForms()
 
         Dim cn As New SqlConnection(My.Settings.ConnectionString)
@@ -46,7 +41,6 @@ Public Class ST_UPD_Roles
         dt.Load(cmd.ExecuteReader())
         cn.Close()
 
-        ' 🔥 OPCIÓN UX
         Dim row As DataRow = dt.NewRow()
         row("FORM_ID") = 0
         row("FORM_DESCRIPTION") = "Seleccione un formulario"
@@ -88,9 +82,6 @@ Public Class ST_UPD_Roles
 
     End Sub
 
-    '========================
-    ' ACTUALIZAR ROL
-    '========================
     Private Sub BT_Update_Click(sender As Object, e As EventArgs) Handles BT_Update.Click
 
         If TB_RoleName.Text = "" Then
@@ -125,9 +116,6 @@ Public Class ST_UPD_Roles
 
     End Sub
 
-    '========================
-    ' CARGAR PERMISOS
-    '========================
     Private Sub LoadPermissions(ROLE_ID As Integer)
 
         Dim cn As New SqlConnection(My.Settings.ConnectionString)
@@ -159,9 +147,7 @@ Public Class ST_UPD_Roles
 
     End Sub
 
-    '========================
-    ' MOSTRAR DESCRIPCIÓN FORM
-    '========================
+
     Private Sub CB_Forms_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_Forms.SelectedIndexChanged
 
         If CB_Forms.SelectedItem Is Nothing Then Exit Sub
@@ -171,9 +157,8 @@ Public Class ST_UPD_Roles
 
     End Sub
 
-    '========================
-    ' AGREGAR PERMISO
-    '========================
+
+
     'Private Sub BT_AddPermission_Click(sender As Object, e As EventArgs) Handles BT_AddPermission.Click
 
     '    If CB_AllRoles.SelectedValue Is Nothing Then Exit Sub
@@ -185,6 +170,15 @@ Public Class ST_UPD_Roles
 
     '    Dim ROLE_ID As Integer = CInt(CB_AllRoles.SelectedValue)
     '    Dim FORM_ID As Integer = CInt(CB_Forms.SelectedValue)
+
+    '    For Each row As DataGridViewRow In DGV_Permissions.Rows
+
+    '        If CInt(row.Cells("FORM_ID").Value) = FORM_ID Then
+    '            MessageBox.Show("Este formulario ya está asignado a este rol")
+    '            Exit Sub
+    '        End If
+
+    '    Next
 
     '    Dim cn As New SqlConnection(My.Settings.ConnectionString)
     '    Dim cmd As New SqlCommand("INS_ROLEDETAIL", cn)
@@ -214,52 +208,62 @@ Public Class ST_UPD_Roles
 
 
     Private Sub BT_AddPermission_Click(sender As Object, e As EventArgs) Handles BT_AddPermission.Click
+        Try
+            If CB_AllRoles.SelectedValue Is Nothing Then Exit Sub
 
-        If CB_AllRoles.SelectedValue Is Nothing Then Exit Sub
-
-        If CInt(CB_Forms.SelectedValue) = 0 Then
-            MessageBox.Show("Selecciona un formulario válido")
-            Exit Sub
-        End If
-
-        Dim ROLE_ID As Integer = CInt(CB_AllRoles.SelectedValue)
-        Dim FORM_ID As Integer = CInt(CB_Forms.SelectedValue)
-
-        ' 🔥 VALIDAR DUPLICADO EN GRID
-        For Each row As DataGridViewRow In DGV_Permissions.Rows
-
-            If CInt(row.Cells("FORM_ID").Value) = FORM_ID Then
-                MessageBox.Show("Este formulario ya está asignado a este rol")
+            Dim formIdSeleccionado As Integer = CInt(CB_Forms.SelectedValue)
+            If formIdSeleccionado = 0 Then
+                MessageBox.Show("Selecciona un formulario válido.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Exit Sub
             End If
 
-        Next
+            Dim ROLE_ID As Integer = CInt(CB_AllRoles.SelectedValue)
 
-        ' 🔥 INSERTAR SOLO SI NO EXISTE
-        Dim cn As New SqlConnection(My.Settings.ConnectionString)
-        Dim cmd As New SqlCommand("INS_ROLEDETAIL", cn)
+            For Each row As DataGridViewRow In DGV_Permissions.Rows
+                If CInt(row.Cells("FORM_ID").Value) = formIdSeleccionado Then
+                    MessageBox.Show("Este formulario ya se encuentra asignado a este rol.", "Permiso Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Exit Sub
+                End If
+            Next
 
-        cmd.CommandType = CommandType.StoredProcedure
-        cmd.Parameters.AddWithValue("@ROLE_ID", ROLE_ID)
-        cmd.Parameters.AddWithValue("@FORM_ID", FORM_ID)
-        cmd.Parameters.AddWithValue("@DESCR", TB_FormDescription.Text)
+            Dim cn As New SqlConnection(My.Settings.ConnectionString)
+            Dim cmd As New SqlCommand("INS_ROLEDETAIL", cn)
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.AddWithValue("@ROLE_ID", ROLE_ID)
+            cmd.Parameters.AddWithValue("@FORM_ID", formIdSeleccionado)
+            cmd.Parameters.AddWithValue("@DESCR", TB_FormDescription.Text.Trim)
 
-        Try
-            cn.Open()
-            cmd.ExecuteNonQuery()
-            cn.Close()
+            Try
+                cn.Open()
+                cmd.ExecuteNonQuery()
+                cn.Close()
 
-            MessageBox.Show("Permiso agregado")
+                'LOG DE MODIFICACIÓN 
+                Dim nombreRol As String = CB_AllRoles.Text
+                Dim nombreFormulario As String = CB_Forms.Text
+                Dim descModif As String = $"PERMISO AGREGADO DESDE EDICIÓN: Se vinculó la pantalla '{nombreFormulario}' (FORM_ID: {formIdSeleccionado}) al rol '{nombreRol}' (ROLE_ID: {ROLE_ID}). Detalle operativo: [{TB_FormDescription.Text.Trim}]."
+                InsertLog(cn, GlobalSession.GlobalUserName, "Settings_Roles", "UPDATE_ADD_PERMISSION", descModif, ROLE_ID, "INFO")
 
-            LoadPermissions(ROLE_ID)
+                MessageBox.Show("Permiso agregado correctamente al rol.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-            CB_Forms.SelectedIndex = 0
-            TB_FormDescription.Text = ""
+                LoadPermissions(ROLE_ID)
+
+                CB_Forms.SelectedIndex = 0
+                TB_FormDescription.Text = ""
+
+            Catch ex As Exception
+                'LOG DE ERROR 
+                Dim descError As String = $"ERROR CRÍTICO: Falló la inserción del permiso en edición para el ROLE_ID: {ROLE_ID}. Motivo: {ex.Message}"
+                InsertLog(cn, GlobalSession.GlobalUserName, "Settings_Roles", "ERROR_ADD_PERMISSION_UPD", descError, ROLE_ID, "ERROR", ex.StackTrace)
+
+                MessageBox.Show("Error al agregar permiso: " & ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
 
         Catch ex As Exception
-            MessageBox.Show("Error: " & ex.Message)
+            Dim cnFallback As New SqlConnection(My.Settings.ConnectionString)
+            InsertLog(cnFallback, GlobalSession.GlobalUserName, "Settings_Roles", "ERROR_GENERAL_UPD_ROLES", "Falla general en el flujo del botón: " & ex.Message, 0, "ERROR", ex.StackTrace)
+            MessageBox.Show("Ocurrió un error inesperado: " & ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-
     End Sub
 
 

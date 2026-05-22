@@ -75,57 +75,70 @@ Public Class ST_UPD_Users
     End Sub
 
     Private Sub BT_UpdateUser_Click(sender As Object, e As EventArgs) Handles BT_UpdateUser.Click
+        Try
+            If SelectedUserID = 0 Then
+                MessageBox.Show("Por favor, selecciona un usuario de la lista para modificar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
 
-        If SelectedUserID = 0 Then
-            MessageBox.Show("Por favor, selecciona un usuario de la lista para modificar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Exit Sub
-        End If
+            If TB_UserName.Text.Trim = "" Then
+                MessageBox.Show("El nombre de usuario no puede quedar vacío.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
 
-        If TB_UserName.Text.Trim = "" Then
-            MessageBox.Show("El nombre de usuario no puede quedar vacío.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Exit Sub
-        End If
+            Dim user As New CL_Users()
+            Dim password As String = TB_Password.Text.Trim
+            Dim tieneNuevaClave As String = ""
 
-        Dim user As New CL_Users()
+            If password = "" Then
+                password = Nothing
+                tieneNuevaClave = "NO SE MODIFICÓ LA CONTRASEÑA"
+            Else
+                password = user.HashPassword(password)
+                tieneNuevaClave = "SE ACTUALIZÓ LA CONTRASEÑA CON UN NUEVO HASH"
+            End If
 
-        Dim password As String = TB_Password.Text.Trim
+            Dim updUser As New CL_Users(
+                    SelectedUserID,
+                    DBNull.Value,
+                    TB_UserName.Text.Trim,
+                    If(password Is Nothing, DBNull.Value, password)
+                )
 
-        If password = "" Then
-            password = Nothing
-        Else
-            password = user.HashPassword(password)
-        End If
+            If updUser.UpdateUser() Then
 
-        Dim updUser As New CL_Users(
-            SelectedUserID,
-            DBNull.Value,
-            TB_UserName.Text.Trim,
-            If(password Is Nothing, DBNull.Value, password)
-        )
+                ' LOG DE ACTUALIZACIÓN 
+                Dim descUpdate As String = $"MODIFICACIÓN DE DATOS: Se guardaron cambios en la cuenta '{TB_UserName.Text.Trim}' (USER_ID: {SelectedUserID}). Estado de seguridad: [{tieneNuevaClave}]."
+                InsertLog(user.DB_Connection, GlobalSession.GlobalUserName, "Settings_Users", "UPDATE_USER_BASE", descUpdate, SelectedUserID, "INFO")
 
-        If updUser.UpdateUser() Then
+                user.DeleteUserRoles(SelectedUserID)
 
-            ' LOG DE ACTUALIZACIÓN
-            InsertLog(user.DB_Connection, GlobalSession.GlobalUserName, "Settings_Users", "UPDATE_USER_BASE", $"Se modificaron los datos del usuario '{TB_UserName.Text.Trim}'.", SelectedUserID)
+                For Each row As DataGridViewRow In DGV_RolesSelection.Rows
 
-            user.DeleteUserRoles(SelectedUserID)
+                    If Not IsDBNull(row.Cells("Seleccionado").Value) AndAlso CBool(row.Cells("Seleccionado").Value) = True Then
 
-            For Each row As DataGridViewRow In DGV_RolesSelection.Rows
+                        Dim ROLE_ID As Integer = CInt(row.Cells("ROLE_ID").Value)
+                        user.AssignRoleToUser(SelectedUserID, ROLE_ID)
 
-                If Not IsDBNull(row.Cells("Seleccionado").Value) AndAlso CBool(row.Cells("Seleccionado").Value) = True Then
+                    End If
 
-                    Dim ROLE_ID As Integer = CInt(row.Cells("ROLE_ID").Value)
-                    user.AssignRoleToUser(SelectedUserID, ROLE_ID)
+                Next
 
-                End If
+                MessageBox.Show("Usuario actualizado correctamente en el sistema.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-            Next
+                LoadUsers()
 
-            MessageBox.Show("Usuario actualizado correctamente en el sistema.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
 
-            LoadUsers()
+        Catch ex As Exception
+            ' LOG DE ERROR 
+            Dim connectionFallBack As New CL_Users()
+            Dim descError As String = $"ERROR CRÍTICO: Falló la actualización del usuario ID: {SelectedUserID}. Motivo: {ex.Message}"
 
-        End If
+            InsertLog(connectionFallBack.DB_Connection, GlobalSession.GlobalUserName, "Settings_Users", "ERROR_UPDATE_USER", descError, SelectedUserID, "ERROR", ex.StackTrace)
+
+            MessageBox.Show("Ocurrió un error al actualizar los datos: " & ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
 
     End Sub
 

@@ -165,92 +165,110 @@ Public Class ST_INS_Users
 
 
     Private Sub BT_RegisterUser_Click(sender As Object, e As EventArgs) Handles BT_RegisterUser.Click
+        Try
 
-        If TB_UserName.Text.Trim = "" Or TB_Password.Text.Trim = "" Then
-            MessageBox.Show("Por favor, completa todos los datos obligatorios.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Exit Sub
-        End If
+            If TB_UserName.Text.Trim = "" Or TB_Password.Text.Trim = "" Then
+                MessageBox.Show("Por favor, completa todos los datos obligatorios.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
 
-        If DGV_Employees.CurrentRow Is Nothing Then
-            MessageBox.Show("Selecciona un empleado de la lista primero.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Exit Sub
-        End If
+            If DGV_Employees.CurrentRow Is Nothing Then
+                MessageBox.Show("Selecciona un empleado de la lista primero.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
 
-        Dim userCheck As New CL_Users()
-        Dim dtUser = userCheck.GetUserDataByUsername(TB_UserName.Text.Trim)
+            Dim userCheck As New CL_Users()
+            Dim dtUser = userCheck.GetUserDataByUsername(TB_UserName.Text.Trim)
 
-        If dtUser IsNot Nothing AndAlso dtUser.Rows.Count > 0 Then
-            MessageBox.Show("El nombre de usuario ya se encuentra registrado.", "Usuario Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Exit Sub
-        End If
+            If dtUser IsNot Nothing AndAlso dtUser.Rows.Count > 0 Then
+                MessageBox.Show("El nombre de usuario ya se encuentra registrado.", "Usuario Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
 
-        Dim u As New CL_Users()
+            Dim u As New CL_Users()
+            Dim EMPL_ID As Integer = CInt(DGV_Employees.CurrentRow.Cells(0).Value)
+            Dim userCL As New CL_Users()
+            Dim hashedPassword As String = userCL.HashPassword(TB_Password.Text.Trim)
 
+            Dim user As New CL_Users(
+                EMPL_ID,
+                TB_UserName.Text.Trim,
+                hashedPassword
+                )
 
-        Dim EMPL_ID As Integer = CInt(DGV_Employees.CurrentRow.Cells(0).Value)
+            Dim USER_ID As Integer = user.InsertSystemUser()
 
-        Dim userCL As New CL_Users()
+            If USER_ID > 0 Then
+                'LOG DE ÉXITO 
+                Dim descExito As String = $"CREACIÓN EXITOSA: Se registró la nueva cuenta de acceso '{TB_UserName.Text.Trim}' (USER_ID: {USER_ID}) vinculada permanentemente al Empleado ID: {EMPL_ID}."
+                InsertLog(userCheck.DB_Connection, GlobalSession.GlobalUserName, "Settings_Users", "INSERT_USER_SUCCESS", descExito, USER_ID, "INFO")
 
-        Dim hashedPassword As String = userCL.HashPassword(TB_Password.Text.Trim)
+                MessageBox.Show("Usuario creado con éxito. Ahora selecciona y asigna los roles correspondientes.", "Sistema", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                LoadUsers()
+            Else
+                'LOG DE ADVERTENCIA 
+                Dim descWarn As String = $"RECHAZO EN BD: El procedimiento almacenado devolvió 0 al intentar registrar el usuario '{TB_UserName.Text.Trim}' para el Empleado ID: {EMPL_ID}."
+                InsertLog(userCheck.DB_Connection, GlobalSession.GlobalUserName, "Settings_Users", "INSERT_USER_FAILED", descWarn, 0, "WARNING")
 
-        Dim user As New CL_Users(
-            EMPL_ID,
-            TB_UserName.Text.Trim,
-            hashedPassword
-            )
+                MessageBox.Show("Error al crear usuario")
+            End If
 
-        Dim USER_ID As Integer = user.InsertSystemUser()
+        Catch ex As Exception
+            Dim connectionFallBack As New CL_Users()
+            Dim descError As String = $"ERROR CRÍTICO: Falló el proceso de registro para el usuario '{TB_UserName.Text.Trim}'. Motivo: {ex.Message}"
 
-        If USER_ID > 0 Then
-            'LOG DE ÉXITO
-            InsertLog(userCheck.DB_Connection, GlobalSession.GlobalUserName, "Settings_Users", "INSERT_USER_SUCCESS", $"Se creó exitosamente el usuario '{TB_UserName.Text.Trim}' asignado al empleado ID: {EMPL_ID}.", USER_ID)
+            InsertLog(connectionFallBack.DB_Connection, GlobalSession.GlobalUserName, "Settings_Users", "ERROR_REGISTER_USER", descError, 0, "ERROR", ex.StackTrace)
 
-            MessageBox.Show("Usuario creado con éxito. Ahora selecciona y asigna los roles correspondientes.", "Sistema", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            LoadUsers()
-        Else
-            'LOG DE ADVERTENCIA
-            InsertLog(userCheck.DB_Connection, AppUser, "Settings_Users", "INSERT_USER_FAILED", $"La base de datos rechazó la inserción del usuario '{TB_UserName.Text.Trim}'.", 0, "WARNING")
-            MessageBox.Show("Error al crear usuario")
-        End If
+            MessageBox.Show("Ocurrió un error inesperado al registrar: " & ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
 
-    
     End Sub
 
 
     Private Sub BT_SaveRoles_Click(sender As Object, e As EventArgs) Handles BT_SaveRoles.Click
-
-        If SelectedUserID = 0 Then
-            MessageBox.Show("Por favor, selecciona un usuario para asignar sus roles.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Exit Sub
-        End If
-
-        Dim user As New CL_Users()
-
-        user.DeleteUserRoles(SelectedUserID)
-
-        Dim listaRoles As String = ""
-
-        For Each row As DataGridViewRow In DGV_RolesSelection.Rows
-
-            If Not IsDBNull(row.Cells("Seleccionado").Value) AndAlso CBool(row.Cells("Seleccionado").Value) = True Then
-
-                Dim ROLE_ID As Integer = CInt(row.Cells("ROLE_ID").Value)
-
-                user.AssignRoleToUser(SelectedUserID, ROLE_ID)
-
-                listaRoles &= ROLE_ID & " "
-
+        Try
+            If SelectedUserID = 0 Then
+                MessageBox.Show("Por favor, selecciona un usuario para asignar sus roles.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
             End If
 
-        Next
+            Dim user As New CL_Users()
+            user.DeleteUserRoles(SelectedUserID)
 
-        ' LOG DE ROLES
-        InsertLog(user.DB_Connection, GlobalSession.GlobalUserName, "Settings_Users", "UPDATE_ROLES_ONLY", $"Se modificaron exclusivamente los roles del usuario. IDs de roles asignados: [{listaRoles.Trim().Replace(" ", ", ")}].", SelectedUserID)
+            Dim listaRoles As String = ""
 
+            For Each row As DataGridViewRow In DGV_RolesSelection.Rows
 
-        MessageBox.Show("Roles actualizados correctamente en el sistema.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                If Not IsDBNull(row.Cells("Seleccionado").Value) AndAlso CBool(row.Cells("Seleccionado").Value) = True Then
+                    Dim ROLE_ID As Integer = CInt(row.Cells("ROLE_ID").Value)
+                    Dim nombreRol As String = row.Cells("Rol").Value.ToString()
 
-        LoadUsers()
+                    user.AssignRoleToUser(SelectedUserID, ROLE_ID)
+                    listaRoles &= nombreRol & " (ID: " & ROLE_ID & "), "
+
+                End If
+
+            Next
+
+            If listaRoles.EndsWith(", ") Then listaRoles = listaRoles.Substring(0, listaRoles.Length - 2)
+            If listaRoles = "" Then listaRoles = "NINGUNO (Se le quitaron todos los accesos)"
+
+            'LOG DE ROLES
+            Dim descRoles As String = $"REASIGNACIÓN DE PERMISOS: Se actualizaron los roles del USER_ID: {SelectedUserID}. Roles finales activos: [{listaRoles}]."
+            InsertLog(user.DB_Connection, GlobalSession.GlobalUserName, "Settings_Users", "UPDATE_ROLES_ONLY", descRoles, SelectedUserID, "INFO")
+
+            MessageBox.Show("Roles actualizados correctamente en el sistema.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            LoadUsers()
+
+        Catch ex As Exception
+            'LOG DE ERROR 
+            Dim connectionFallBack As New CL_Users()
+            Dim descError As String = $"ERROR CRÍTICO: Falló la reasignación de roles para el USER_ID: {SelectedUserID}. Motivo: {ex.Message}"
+
+            InsertLog(connectionFallBack.DB_Connection, GlobalSession.GlobalUserName, "Settings_Users", "ERROR_UPDATE_ROLES", descError, SelectedUserID, "ERROR", ex.StackTrace)
+
+            MessageBox.Show("Ocurrió un error al guardar los roles: " & ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
 
     End Sub
 

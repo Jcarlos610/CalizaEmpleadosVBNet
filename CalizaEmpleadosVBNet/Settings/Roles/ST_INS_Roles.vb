@@ -71,38 +71,87 @@ Public Class ST_INS_Roles
 
     End Sub
 
+    'Private Sub BT_Register_Click(sender As Object, e As EventArgs) Handles BT_Register.Click
+
+    '    If TB_RoleName.Text = "" Then
+    '        MessageBox.Show("Ingrese nombre del rol")
+    '        Exit Sub
+    '    End If
+
+    '    If TB_Description.Text = "" Then
+    '        MessageBox.Show("Ingrese descripción")
+    '        Exit Sub
+    '    End If
+
+    '    If TB_AuthorizeBy.Text = "" Then
+    '        MessageBox.Show("Ingrese autorizado por")
+    '        Exit Sub
+    '    End If
+
+    '    Dim Role = New CL_Roles(
+    '        TB_RoleName.Text,
+    '        TB_Description.Text,
+    '        Date.Now,
+    '        AppUser,
+    '        TB_AuthorizeBy.Text,
+    '        1)
+
+
+
+    '    If Role.InsertRole() Then
+    '        MessageBox.Show("Rol creado correctamente")
+    '        Display_Record()
+    '    End If
+
+    'End Sub
+
+
     Private Sub BT_Register_Click(sender As Object, e As EventArgs) Handles BT_Register.Click
+        Try
+            If TB_RoleName.Text.Trim = "" Then
+                MessageBox.Show("Por favor, ingrese el nombre del rol.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
 
-        If TB_RoleName.Text = "" Then
-            MessageBox.Show("Ingrese nombre del rol")
-            Exit Sub
-        End If
+            If TB_Description.Text.Trim = "" Then
+                MessageBox.Show("Por favor, ingrese la descripción del rol.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
 
-        If TB_Description.Text = "" Then
-            MessageBox.Show("Ingrese descripción")
-            Exit Sub
-        End If
+            If TB_AuthorizeBy.Text.Trim = "" Then
+                MessageBox.Show("Por favor, especifique quién autoriza este rol.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
 
-        If TB_AuthorizeBy.Text = "" Then
-            MessageBox.Show("Ingrese autorizado por")
-            Exit Sub
-        End If
-
-        Dim Role = New CL_Roles(
-            TB_RoleName.Text,
-            TB_Description.Text,
+            Dim Role = New CL_Roles(
+            TB_RoleName.Text.Trim,
+            TB_Description.Text.Trim,
             Date.Now,
-            AppUser,
-            TB_AuthorizeBy.Text,
-            1)
+            GlobalSession.GlobalUserName,
+            TB_AuthorizeBy.Text.Trim,
+            1
+        )
 
+            If Role.InsertRole() Then
+                Dim connTmp As New SqlConnection(My.Settings.ConnectionString)
 
+                'LOG DE ÉXITO 
+                Dim descExito As String = $"CREACIÓN DE ROL: Se registró el nuevo rol '{TB_RoleName.Text.Trim}' en el sistema. Descripción: [{TB_Description.Text.Trim}]. Autorizado por: {TB_AuthorizeBy.Text.Trim}."
+                InsertLog(connTmp, GlobalSession.GlobalUserName, "Settings_Roles", "INSERT_ROLE_SUCCESS", descExito, 0, "INFO")
 
-        If Role.InsertRole() Then
-            MessageBox.Show("Rol creado correctamente")
-            Display_Record()
-        End If
+                MessageBox.Show("Rol creado correctamente en el sistema.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Display_Record()
+            End If
 
+        Catch ex As Exception
+            'LOG DE ERROR 
+            Dim connTmp As New SqlConnection(My.Settings.ConnectionString)
+            Dim descError As String = $"ERROR CRÍTICO: Falló la inserción del rol '{TB_RoleName.Text.Trim}'. Motivo: {ex.Message}"
+
+            InsertLog(connTmp, GlobalSession.GlobalUserName, "Settings_Roles", "ERROR_INSERT_ROLE", descError, 0, "ERROR", ex.StackTrace)
+
+            MessageBox.Show("Ocurrió un error inesperado al registrar el rol: " & ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
 
@@ -152,50 +201,98 @@ Public Class ST_INS_Roles
 
 
 
+    'Private Sub BT_Assing_Click(sender As Object, e As EventArgs) Handles BT_Assing.Click
+
+    '    If CurrentRoleID = 0 Then
+    '        MessageBox.Show("Selecciona un rol")
+    '        Exit Sub
+    '    End If
+
+    '    If CInt(CB_Forms.SelectedValue) = 0 Then
+    '        MessageBox.Show("Selecciona un formulario válido")
+    '        Exit Sub
+    '    End If
+
+
+    '    For Each row As DataGridViewRow In DGV_Permissions.Rows
+
+    '        If CInt(row.Cells("FORM_ID").Value) = CInt(CB_Forms.SelectedValue) Then
+    '            MessageBox.Show("Este formulario ya está asignado a este rol")
+    '            Exit Sub
+    '        End If
+
+    '    Next
+
+
+    '    Dim cn As New SqlConnection(My.Settings.ConnectionString)
+    '    Dim cmd As New SqlCommand("INS_ROLEDETAIL", cn)
+
+    '    cmd.CommandType = CommandType.StoredProcedure
+    '    cmd.Parameters.AddWithValue("@ROLE_ID", CurrentRoleID)
+    '    cmd.Parameters.AddWithValue("@FORM_ID", CInt(CB_Forms.SelectedValue))
+    '    cmd.Parameters.AddWithValue("@DESCR", TB_FormDescription.Text)
+
+    '    Try
+    '        cn.Open()
+    '        cmd.ExecuteNonQuery()
+    '        cn.Close()
+
+    '        MessageBox.Show("Permiso asignado")
+
+    '        LoadPermissions(CurrentRoleID)
+
+    '    Catch ex As Exception
+    '        MessageBox.Show("Error: " & ex.Message)
+    '    End Try
+
+    'End Sub
+
     Private Sub BT_Assing_Click(sender As Object, e As EventArgs) Handles BT_Assing.Click
-
         If CurrentRoleID = 0 Then
-            MessageBox.Show("Selecciona un rol")
+            MessageBox.Show("Por favor, selecciona un rol de la lista.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
-        If CInt(CB_Forms.SelectedValue) = 0 Then
-            MessageBox.Show("Selecciona un formulario válido")
+        Dim formIdSeleccionado As Integer = CInt(CB_Forms.SelectedValue)
+        If formIdSeleccionado = 0 Then
+            MessageBox.Show("Selecciona un formulario válido para asignar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
-
 
         For Each row As DataGridViewRow In DGV_Permissions.Rows
-
-            If CInt(row.Cells("FORM_ID").Value) = CInt(CB_Forms.SelectedValue) Then
-                MessageBox.Show("Este formulario ya está asignado a este rol")
+            If CInt(row.Cells("FORM_ID").Value) = formIdSeleccionado Then
+                MessageBox.Show("Este formulario ya se encuentra asignado a este rol.", "Permiso Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub
             End If
-
         Next
-
 
         Dim cn As New SqlConnection(My.Settings.ConnectionString)
         Dim cmd As New SqlCommand("INS_ROLEDETAIL", cn)
-
         cmd.CommandType = CommandType.StoredProcedure
         cmd.Parameters.AddWithValue("@ROLE_ID", CurrentRoleID)
-        cmd.Parameters.AddWithValue("@FORM_ID", CInt(CB_Forms.SelectedValue))
-        cmd.Parameters.AddWithValue("@DESCR", TB_FormDescription.Text)
+        cmd.Parameters.AddWithValue("@FORM_ID", formIdSeleccionado)
+        cmd.Parameters.AddWithValue("@DESCR", TB_FormDescription.Text.Trim)
 
         Try
             cn.Open()
             cmd.ExecuteNonQuery()
             cn.Close()
 
-            MessageBox.Show("Permiso asignado")
+            'LOG DE ÉXITO
+            Dim nombreFormulario As String = CB_Forms.Text
+            Dim descPermiso As String = $"ASIGNACIÓN DE PERMISO: Se otorgó acceso a la pantalla '{nombreFormulario}' (FORM_ID: {formIdSeleccionado}) para el ROLE_ID: {CurrentRoleID}. Alcance asignado: [{TB_FormDescription.Text.Trim}]."
+            InsertLog(cn, GlobalSession.GlobalUserName, "Settings_Roles", "ASSIGN_PERMISSION_SUCCESS", descPermiso, CurrentRoleID, "INFO")
 
+            MessageBox.Show("Permiso asignado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
             LoadPermissions(CurrentRoleID)
 
         Catch ex As Exception
-            MessageBox.Show("Error: " & ex.Message)
-        End Try
+            'LOG DE ERROR
+            Dim descError As String = $"ERROR CRÍTICO: Falló la asignación de la pantalla ID: {formIdSeleccionado} al ROLE_ID: {CurrentRoleID}. Motivo: {ex.Message}"
+            InsertLog(cn, GlobalSession.GlobalUserName, "Settings_Roles", "ERROR_ASSIGN_PERMISSION", descError, CurrentRoleID, "ERROR", ex.StackTrace)
 
+            MessageBox.Show("Error al asignar el permiso: " & ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
 
