@@ -135,6 +135,106 @@ Public Class OP_UPD_GENERALMOVEMENTS
     End Function
 
 
+    'Private Sub BT_Update_Click(sender As Object, e As EventArgs) Handles BT_Update.Click
+    '    Try
+    '        DGV_ActiveEmployeesInfo.EndEdit()
+
+    '        Dim startDate As Date = DTP_StartDate.Value.Date
+    '        Dim endDate As Date = DTP_EndDate.Value.Date
+
+    '        For Each row As DataGridViewRow In DGV_ActiveEmployeesInfo.Rows
+    '            If row.IsNewRow Then Continue For
+
+    '            Dim emplId As Integer = Convert.ToInt32(row.Cells("No.").Value)
+
+    '            Dim lunchId As Integer = GetSafeInt(row, "TEMP_LUNCH_ID")
+    '            Dim lunchHours As Decimal = GetSafeDecimal(row, "DREMPL_LHOUR")
+
+    '            If lunchHours > 5 Then
+    '                MessageBox.Show("Las horas comida no pueden ser mayores a 5 en el empleado No. " & emplId.ToString(), "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    '                Continue For
+    '            End If
+
+    '            If lunchHours > 0 Then
+    '                If lunchId > 0 Then
+    '                    obj1.LUNCH_HOURS = lunchHours
+    '                    obj1.LUNCH_DATE = startDate
+    '                    obj1.LUNCH_CREBY = AppUser
+    '                    obj1.UpdateTemporalLunch(lunchId)
+    '                Else
+    '                    obj1.EMPL_ID = emplId
+    '                    obj1.LUNCH_DATE = startDate
+    '                    obj1.LUNCH_HOURS = lunchHours
+    '                    obj1.LUNCH_CREBY = AppUser
+    '                    obj1.InsertTemporalLunch()
+    '                End If
+
+    '                obj.InsertLunchHoursRecordByEmployeeDirect(emplId, startDate, startDate, lunchHours, AppUser)
+    '            End If
+
+    '            Dim diasTransporte As Decimal = 0D
+    '            Dim montoTransporte As Decimal = 0D
+
+    '            If row.Cells("DREMPL_TDAYS").Value IsNot Nothing AndAlso Not IsDBNull(row.Cells("DREMPL_TDAYS").Value) Then
+    '                Decimal.TryParse(row.Cells("DREMPL_TDAYS").Value.ToString(), diasTransporte)
+    '            End If
+
+    '            If row.Cells("DREMPL_AMOUNT").Value IsNot Nothing AndAlso Not IsDBNull(row.Cells("DREMPL_AMOUNT").Value) Then
+    '                Dim txtMonto As String = row.Cells("DREMPL_AMOUNT").Value.ToString().Replace("$", "").Trim()
+    '                Decimal.TryParse(txtMonto, montoTransporte)
+    '            End If
+
+    '            If diasTransporte > 0 Then
+    '                obj.ProcessTransportMovement(emplId, 285, startDate, diasTransporte, 0D, AppUser)
+    '            End If
+
+    '            If montoTransporte > 0 Then
+    '                obj.ProcessTransportMovement(emplId, 280, startDate, 0D, montoTransporte, AppUser)
+    '            End If
+
+
+    '            If row.Cells("OBSERVACIONES").Value IsNot Nothing Then
+    '                Dim comentario As String = row.Cells("OBSERVACIONES").Value.ToString().Trim()
+    '                Dim commId As Integer = GetSafeInt(row, "COMM_ID")
+    '                Dim remplIdComm As Integer = GetSafeInt(row, "REMPL_ID_COMM")
+
+    '                If comentario <> "" Then
+    '                    If commId > 0 Then
+    '                        obj.UpdateGeneralComment(commId, comentario)
+    '                    Else
+    '                        If remplIdComm > 0 Then
+    '                            obj.InsertGeneralComment(remplIdComm, comentario, AppUser, startDate)
+    '                        Else
+    '                            If lunchHours > 0 Then
+    '                                obj.InsertLunchHoursRecordByEmployeeDirect(emplId, startDate, startDate, lunchHours, AppUser)
+    '                            Else
+    '                                obj.ProcessTransportMovement(emplId, 285, startDate, diasTransporte, montoTransporte, AppUser)
+    '                            End If
+
+    '                            Dim dtAux As DataTable = obj.GetGeneralMovementsByRange(startDate, endDate)
+    '                            Dim filaFiltro = dtAux.Select("[No.] = " & emplId)
+    '                            If filaFiltro.Length > 0 Then
+    '                                Dim nuevoRemplId As Integer = Convert.ToInt32(filaFiltro(0)("REMPL_ID_COMM"))
+    '                                obj.InsertGeneralComment(nuevoRemplId, comentario, AppUser, startDate)
+    '                            End If
+    '                        End If
+    '                    End If
+    '                End If
+    '            End If
+    '        Next
+
+    '        ProcesarHorasOficiales()
+
+    '        MessageBox.Show("¡Registros validados y actualizados correctamente en el sistema!", "Operación Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+    '        RefreshGridData()
+
+    '    Catch ex As Exception
+    '        MessageBox.Show("Error durante la actualización: " & ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error)
+    '    End Try
+    'End Sub
+
+
     Private Sub BT_Update_Click(sender As Object, e As EventArgs) Handles BT_Update.Click
         Try
             DGV_ActiveEmployeesInfo.EndEdit()
@@ -142,34 +242,43 @@ Public Class OP_UPD_GENERALMOVEMENTS
             Dim startDate As Date = DTP_StartDate.Value.Date
             Dim endDate As Date = DTP_EndDate.Value.Date
 
+            Dim empleadosProcesados As Integer = 0
+            Dim totalComidas As Integer = 0
+            Dim totalTransportes As Integer = 0
+            Dim totalComentarios As Integer = 0
+
             For Each row As DataGridViewRow In DGV_ActiveEmployeesInfo.Rows
                 If row.IsNewRow Then Continue For
 
                 Dim emplId As Integer = Convert.ToInt32(row.Cells("No.").Value)
+                Dim huboMovimientoEmpleado As Boolean = False
 
                 Dim lunchId As Integer = GetSafeInt(row, "TEMP_LUNCH_ID")
                 Dim lunchHours As Decimal = GetSafeDecimal(row, "DREMPL_LHOUR")
 
                 If lunchHours > 5 Then
-                    MessageBox.Show("Las horas comida no pueden ser mayores a 5 en el empleado No. " & emplId.ToString(), "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    MessageBox.Show($"Las horas comida no pueden ser mayores a 5 en el empleado No. {emplId}.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                     Continue For
                 End If
 
                 If lunchHours > 0 Then
+                    huboMovimientoEmpleado = True
+                    totalComidas += 1
+
                     If lunchId > 0 Then
                         obj1.LUNCH_HOURS = lunchHours
                         obj1.LUNCH_DATE = startDate
-                        obj1.LUNCH_CREBY = AppUser
+                        obj1.LUNCH_CREBY = GlobalSession.GlobalUserName
                         obj1.UpdateTemporalLunch(lunchId)
                     Else
                         obj1.EMPL_ID = emplId
                         obj1.LUNCH_DATE = startDate
                         obj1.LUNCH_HOURS = lunchHours
-                        obj1.LUNCH_CREBY = AppUser
+                        obj1.LUNCH_CREBY = GlobalSession.GlobalUserName
                         obj1.InsertTemporalLunch()
                     End If
 
-                    obj.InsertLunchHoursRecordByEmployeeDirect(emplId, startDate, startDate, lunchHours, AppUser)
+                    obj.InsertLunchHoursRecordByEmployeeDirect(emplId, startDate, startDate, lunchHours, GlobalSession.GlobalUserName) ' 🌟 Actualizado
                 End If
 
                 Dim diasTransporte As Decimal = 0D
@@ -185,13 +294,16 @@ Public Class OP_UPD_GENERALMOVEMENTS
                 End If
 
                 If diasTransporte > 0 Then
-                    obj.ProcessTransportMovement(emplId, 285, startDate, diasTransporte, 0D, AppUser)
+                    huboMovimientoEmpleado = True
+                    totalTransportes += 1
+                    obj.ProcessTransportMovement(emplId, 285, startDate, diasTransporte, 0D, GlobalSession.GlobalUserName)
                 End If
 
                 If montoTransporte > 0 Then
-                    obj.ProcessTransportMovement(emplId, 280, startDate, 0D, montoTransporte, AppUser)
+                    huboMovimientoEmpleado = True
+                    If diasTransporte = 0 Then totalTransportes += 1
+                    obj.ProcessTransportMovement(emplId, 280, startDate, 0D, montoTransporte, GlobalSession.GlobalUserName)
                 End If
-
 
                 If row.Cells("OBSERVACIONES").Value IsNot Nothing Then
                     Dim comentario As String = row.Cells("OBSERVACIONES").Value.ToString().Trim()
@@ -199,41 +311,60 @@ Public Class OP_UPD_GENERALMOVEMENTS
                     Dim remplIdComm As Integer = GetSafeInt(row, "REMPL_ID_COMM")
 
                     If comentario <> "" Then
+                        huboMovimientoEmpleado = True
+                        totalComentarios += 1
+
                         If commId > 0 Then
                             obj.UpdateGeneralComment(commId, comentario)
                         Else
                             If remplIdComm > 0 Then
-                                obj.InsertGeneralComment(remplIdComm, comentario, AppUser, startDate)
+                                obj.InsertGeneralComment(remplIdComm, comentario, GlobalSession.GlobalUserName, startDate)
                             Else
                                 If lunchHours > 0 Then
-                                    obj.InsertLunchHoursRecordByEmployeeDirect(emplId, startDate, startDate, lunchHours, AppUser)
+                                    obj.InsertLunchHoursRecordByEmployeeDirect(emplId, startDate, startDate, lunchHours, GlobalSession.GlobalUserName)
                                 Else
-                                    obj.ProcessTransportMovement(emplId, 285, startDate, diasTransporte, montoTransporte, AppUser)
+                                    obj.ProcessTransportMovement(emplId, 285, startDate, diasTransporte, montoTransporte, GlobalSession.GlobalUserName)
                                 End If
 
                                 Dim dtAux As DataTable = obj.GetGeneralMovementsByRange(startDate, endDate)
                                 Dim filaFiltro = dtAux.Select("[No.] = " & emplId)
                                 If filaFiltro.Length > 0 Then
                                     Dim nuevoRemplId As Integer = Convert.ToInt32(filaFiltro(0)("REMPL_ID_COMM"))
-                                    obj.InsertGeneralComment(nuevoRemplId, comentario, AppUser, startDate)
+                                    obj.InsertGeneralComment(nuevoRemplId, comentario, GlobalSession.GlobalUserName, startDate)
                                 End If
                             End If
                         End If
                     End If
                 End If
+
+                If huboMovimientoEmpleado Then
+                    empleadosProcesados += 1
+                End If
             Next
 
             ProcesarHorasOficiales()
+
+            'LOG DE ÉXITO 
+            Dim connTmp As New SqlConnection(My.Settings.ConnectionString)
+            Dim descLog As String = $"PROCESAMIENTO DIARIO DE PRENOMINA: Se validaron y actualizaron movimientos para el rango [{startDate:dd/MM/yyyy} - {endDate:dd/MM/yyyy}]. " &
+                               $"Resumen de afectaciones -> Empleados con cambios: {empleadosProcesados} | Registros de Comida: {totalComidas} | Movimientos de Transporte: {totalTransportes} | Comentarios Guardados: {totalComentarios}."
+
+            InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Prenomina", "PROCESS_DAILY_MOVEMENTS_SUCCESS", descLog, 0, "INFO")
 
             MessageBox.Show("¡Registros validados y actualizados correctamente en el sistema!", "Operación Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
             RefreshGridData()
 
         Catch ex As Exception
-            MessageBox.Show("Error durante la actualización: " & ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            'LOG DE ERROR 
+            Dim connTmp As New SqlConnection(My.Settings.ConnectionString)
+            Dim descError As String = $"ERROR CRÍTICO: Falló la ejecución masiva de preclaudicación/actualización de incidencias diarias. Motivo: {ex.Message}"
+
+            InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Prenomina", "ERROR_DAILY_MOVEMENTS", descError, 0, "ERROR", ex.StackTrace)
+
+            MessageBox.Show("Error inesperado durante la actualización masiva: " & ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
-
 
 
     Public Sub ProcesarHorasOficiales()

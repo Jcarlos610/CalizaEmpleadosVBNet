@@ -1,7 +1,8 @@
 ﻿Imports System.IO
+Imports System.Net.Mail
 Imports System.Security.Cryptography
 Imports System.Text
-Imports System.Net.Mail
+Imports Microsoft.Data.SqlClient
 
 Public Class MD_INS_Employees
     Private Sub MD_INS_Employees_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -129,102 +130,224 @@ Public Class MD_INS_Employees
         Me.ActiveControl = TB_EmployeeName
     End Sub
 
+    'Private Sub BT_EmployeeRegister_Click(sender As Object, e As EventArgs) Handles BT_EmployeeRegister.Click
+    '    If TB_EmployeeName.Text = "" Then
+    '        MessageBox.Show("Favor de ingresar nombre(s) del empleado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    '    ElseIf TB_LastName1.Text = "" Then
+    '        MessageBox.Show("Favor de ingresar apellido paterno.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    '    ElseIf TB_LastName2.Text = "" Then
+    '        MessageBox.Show("Favor de indicar apellido materno.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    '    ElseIf DT_BornDate.Value = Date.Today Then
+    '        MessageBox.Show("Favor de ingresar una fecha de nacimiento valida.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    '    ElseIf Not IsValidEmail(TB_EmailAddress.Text) Then
+    '        MessageBox.Show("Ingrese una dirección de correo válida", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    '        TB_EmailAddress.Focus()
+    '    ElseIf CB_Company.SelectedItem Is Nothing Then
+    '        MessageBox.Show("Favor de indicar a qué empresa será asignado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    '    ElseIf CB_EmployeeType.SelectedItem Is Nothing Then
+    '        MessageBox.Show("Favor de indicar tipo de empleado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    '    ElseIf CB_Position.SelectedItem Is Nothing Then
+    '        MessageBox.Show("Favor de seleccionar la posición a ocupar.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    '    ElseIf CB_Department.SelectedItem Is Nothing Then
+    '        MessageBox.Show("Favor de seleccionar un departamento.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    '    Else
+
+    '        'select the company
+    '        Dim Company As ComboItem = CType(CB_Company.SelectedItem, ComboItem)
+    '        Dim Id_Company As Integer = Company.Id
+    '        Dim Description_Company As String = Company.Descripcion
+
+    '        'Select the Type of Employee
+    '        Dim TypeOfEmployee As ComboItem = CType(CB_EmployeeType.SelectedItem, ComboItem)
+    '        Dim Id_TypeOfEmployee As Integer = TypeOfEmployee.Id
+    '        Dim Description_TypeOfEmployee As String = TypeOfEmployee.Descripcion
+
+    '        'Select the Positions
+    '        Dim Positions As ComboItem = CType(CB_Position.SelectedItem, ComboItem)
+    '        Dim Id_Position As Integer = Positions.Id
+    '        Dim Description_Position As String = Positions.Descripcion
+
+    '        'Select the Supervisor
+    '        Dim Supervisor As ComboItem = CType(CB_Supervisor.SelectedItem, ComboItem)
+    '        Dim Id_Supervisor As Integer = Supervisor.Id
+    '        Dim Description_Supervisor As String = Supervisor.Descripcion
+
+    '        'Select the Supervisor
+    '        Dim Employees As ComboItem = CType(CB_Supervisor.SelectedItem, ComboItem)
+    '        Dim Id_Employee As Integer = Employees.Id
+    '        Dim Description_Employee As String = Employees.Descripcion
+
+    '        Dim PhotoPath As String = Nothing
+
+    '        If PB_Picture.Tag IsNot Nothing Then
+    '            PhotoPath = PB_Picture.Tag.ToString()
+    '        End If
+
+    '        Dim Department As ComboItem = CType(CB_Department.SelectedItem, ComboItem)
+    '        Dim Id_Department As Integer = Department.Id
+
+    '        Dim Employee = New CL_Employee(
+    '        TB_EmployeeName.Text,
+    '        TB_LastName1.Text,
+    '        TB_LastName2.Text,
+    '        DT_BornDate.Value,
+    '        TB_BornCity.Text,
+    '        TB_PersonalAddress.Text,
+    '        TB_PhoneNumber.Text,
+    '        TB_EmailAddress.Text,
+    '        TB_CivilStatus.Text,
+    '        TB_Curp.Text,
+    '        TB_SocialNumber.Text,
+    '        TB_RFC.Text,
+    '        TB_FiscalAddress.Text,
+    '        TB_BankName.Text,
+    '        TB_BankAccount.Text,
+    '        Id_Company,
+    '        Id_TypeOfEmployee,
+    '        DT_EntryDate.Value,
+    '        DT_RegistrationDate.Value,
+    '        Id_Position,
+    '        Id_Supervisor,
+    '        TB_VacationsDays.Text,
+    '        TB_BaseSalary.Text,
+    '        Id_Department,              'NUEVO
+    '        TB_EmergencyContact.Text,
+    '        TB_Relationship.Text,
+    '        TB_EmergencyPhone.Text,
+    '        TB_Baneficiary.Text,
+    '        TB_Costc.Text,         'NUEVO
+    '        AppUser,
+    '        PhotoPath,
+    '        1,
+    '        CB_Confidential.Checked)
+    '        If Employee.InsertEmployee() Then
+    '            MessageBox.Show("El empleado " + TB_EmployeeName.Text + " fue creado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    '            InitializationOfFields()
+    '        End If
+
+    '    End If
+    'End Sub
+
     Private Sub BT_EmployeeRegister_Click(sender As Object, e As EventArgs) Handles BT_EmployeeRegister.Click
-        If TB_EmployeeName.Text = "" Then
-            MessageBox.Show("Favor de ingresar nombre(s) del empleado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        ElseIf TB_LastName1.Text = "" Then
-            MessageBox.Show("Favor de ingresar apellido paterno.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        ElseIf TB_LastName2.Text = "" Then
-            MessageBox.Show("Favor de indicar apellido materno.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        ElseIf DT_BornDate.Value = Date.Today Then
-            MessageBox.Show("Favor de ingresar una fecha de nacimiento valida.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        ElseIf Not IsValidEmail(TB_EmailAddress.Text) Then
-            MessageBox.Show("Ingrese una dirección de correo válida", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            TB_EmailAddress.Focus()
-        ElseIf CB_Company.SelectedItem Is Nothing Then
-            MessageBox.Show("Favor de indicar a qué empresa será asignado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        ElseIf CB_EmployeeType.SelectedItem Is Nothing Then
-            MessageBox.Show("Favor de indicar tipo de empleado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        ElseIf CB_Position.SelectedItem Is Nothing Then
-            MessageBox.Show("Favor de seleccionar la posición a ocupar.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        ElseIf CB_Department.SelectedItem Is Nothing Then
-            MessageBox.Show("Favor de seleccionar un departamento.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        Else
+        Try
+            If TB_EmployeeName.Text.Trim = "" Then
+                MessageBox.Show("Favor de ingresar nombre(s) del empleado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+            If TB_LastName1.Text.Trim = "" Then
+                MessageBox.Show("Favor de ingresar apellido paterno.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+            If TB_LastName2.Text.Trim = "" Then
+                MessageBox.Show("Favor de indicar apellido materno.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+            If DT_BornDate.Value = Date.Today Then
+                MessageBox.Show("Favor de ingresar una fecha de nacimiento válida.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+            If Not IsValidEmail(TB_EmailAddress.Text.Trim) Then
+                MessageBox.Show("Ingrese una dirección de correo válida.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                TB_EmailAddress.Focus()
+                Exit Sub
+            End If
+            If CB_Company.SelectedItem Is Nothing Then
+                MessageBox.Show("Favor de indicar a qué empresa será asignado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+            If CB_EmployeeType.SelectedItem Is Nothing Then
+                MessageBox.Show("Favor de indicar tipo de empleado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+            If CB_Position.SelectedItem Is Nothing Then
+                MessageBox.Show("Favor de seleccionar la posición a ocupar.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+            If CB_Department.SelectedItem Is Nothing Then
+                MessageBox.Show("Favor de seleccionar un departamento.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
 
-            'select the company
             Dim Company As ComboItem = CType(CB_Company.SelectedItem, ComboItem)
-            Dim Id_Company As Integer = Company.Id
-            Dim Description_Company As String = Company.Descripcion
-
-            'Select the Type of Employee
             Dim TypeOfEmployee As ComboItem = CType(CB_EmployeeType.SelectedItem, ComboItem)
-            Dim Id_TypeOfEmployee As Integer = TypeOfEmployee.Id
-            Dim Description_TypeOfEmployee As String = TypeOfEmployee.Descripcion
-
-            'Select the Positions
             Dim Positions As ComboItem = CType(CB_Position.SelectedItem, ComboItem)
-            Dim Id_Position As Integer = Positions.Id
-            Dim Description_Position As String = Positions.Descripcion
+            Dim Department As ComboItem = CType(CB_Department.SelectedItem, ComboItem)
 
-            'Select the Supervisor
-            Dim Supervisor As ComboItem = CType(CB_Supervisor.SelectedItem, ComboItem)
-            Dim Id_Supervisor As Integer = Supervisor.Id
-            Dim Description_Supervisor As String = Supervisor.Descripcion
-
-            'Select the Supervisor
-            Dim Employees As ComboItem = CType(CB_Supervisor.SelectedItem, ComboItem)
-            Dim Id_Employee As Integer = Employees.Id
-            Dim Description_Employee As String = Employees.Descripcion
+            Dim Id_Supervisor As Integer = 0
+            Dim Desc_Supervisor As String = "NINGUNO"
+            If CB_Supervisor.SelectedItem IsNot Nothing Then
+                Dim Supervisor As ComboItem = CType(CB_Supervisor.SelectedItem, ComboItem)
+                Id_Supervisor = Supervisor.Id
+                Desc_Supervisor = Supervisor.Descripcion
+            End If
 
             Dim PhotoPath As String = Nothing
-
             If PB_Picture.Tag IsNot Nothing Then
                 PhotoPath = PB_Picture.Tag.ToString()
             End If
 
-            Dim Department As ComboItem = CType(CB_Department.SelectedItem, ComboItem)
-            Dim Id_Department As Integer = Department.Id
+            Dim nombreCompleto As String = $"{TB_EmployeeName.Text.Trim} {TB_LastName1.Text.Trim} {TB_LastName2.Text.Trim}"
 
             Dim Employee = New CL_Employee(
-            TB_EmployeeName.Text,
-            TB_LastName1.Text,
-            TB_LastName2.Text,
+            TB_EmployeeName.Text.Trim,
+            TB_LastName1.Text.Trim,
+            TB_LastName2.Text.Trim,
             DT_BornDate.Value,
-            TB_BornCity.Text,
-            TB_PersonalAddress.Text,
-            TB_PhoneNumber.Text,
-            TB_EmailAddress.Text,
-            TB_CivilStatus.Text,
-            TB_Curp.Text,
-            TB_SocialNumber.Text,
-            TB_RFC.Text,
-            TB_FiscalAddress.Text,
-            TB_BankName.Text,
-            TB_BankAccount.Text,
-            Id_Company,
-            Id_TypeOfEmployee,
+            TB_BornCity.Text.Trim,
+            TB_PersonalAddress.Text.Trim,
+            TB_PhoneNumber.Text.Trim,
+            TB_EmailAddress.Text.Trim,
+            TB_CivilStatus.Text.Trim,
+            TB_Curp.Text.Trim,
+            TB_SocialNumber.Text.Trim,
+            TB_RFC.Text.Trim,
+            TB_FiscalAddress.Text.Trim,
+            TB_BankName.Text.Trim,
+            TB_BankAccount.Text.Trim,
+            Company.Id,
+            TypeOfEmployee.Id,
             DT_EntryDate.Value,
             DT_RegistrationDate.Value,
-            Id_Position,
+            Positions.Id,
             Id_Supervisor,
-            TB_VacationsDays.Text,
-            TB_BaseSalary.Text,
-            Id_Department,              'NUEVO
-            TB_EmergencyContact.Text,
-            TB_Relationship.Text,
-            TB_EmergencyPhone.Text,
-            TB_Baneficiary.Text,
-            TB_Costc.Text,         'NUEVO
-            AppUser,
+            TB_VacationsDays.Text.Trim,
+            TB_BaseSalary.Text.Trim,
+            Department.Id,
+            TB_EmergencyContact.Text.Trim,
+            TB_Relationship.Text.Trim,
+            TB_EmergencyPhone.Text.Trim,
+            TB_Baneficiary.Text.Trim,
+            TB_Costc.Text.Trim,
+            GlobalSession.GlobalUserName,
             PhotoPath,
             1,
-            CB_Confidential.Checked)
+            CB_Confidential.Checked
+        )
+
             If Employee.InsertEmployee() Then
-                MessageBox.Show("El empleado " + TB_EmployeeName.Text + " fue creado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Dim connTmp As New SqlConnection(My.Settings.ConnectionString)
+
+                Dim salarioLog As String = If(CB_Confidential.Checked, "[PROTEGIDO/CONFIDENCIAL]", $"${TB_BaseSalary.Text.Trim}")
+                Dim confidencialTxt As String = If(CB_Confidential.Checked, "SÍ", "NO")
+
+                'LOG DE ÉXITO
+                Dim descExito As String = $"ALTA DE EMPLEADO: Se registró a '{nombreCompleto}' en la empresa '{Company.Descripcion}'. Depto: {Department.Descripcion}, Puesto: {Positions.Descripcion}, Salario Base: {salarioLog}, Confidencial: [{confidencialTxt}]."
+                InsertLog(connTmp, GlobalSession.GlobalUserName, "MD_Employees", "INSERT_EMPLOYEE_SUCCESS", descExito, 0, "INFO")
+
+                MessageBox.Show("El empleado " + TB_EmployeeName.Text.Trim + " fue creado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 InitializationOfFields()
             End If
 
-        End If
+        Catch ex As Exception
+            'LOG DE ERROR CRÍTICO
+            Dim connTmp As New SqlConnection(My.Settings.ConnectionString)
+            Dim nombreFalla As String = $"{TB_EmployeeName.Text.Trim} {TB_LastName1.Text.Trim}"
+            Dim descError As String = $"ERROR CRÍTICO: Falló la inserción del empleado '{nombreFalla}'. Motivo: {ex.Message}"
+
+            InsertLog(connTmp, GlobalSession.GlobalUserName, "MD_Employees", "ERROR_INSERT_EMPLOYEE", descError, 0, "ERROR", ex.StackTrace)
+
+            MessageBox.Show("Ocurrió un error inesperado al registrar el empleado: " & ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub BT_Picture_Click(sender As Object, e As EventArgs) Handles BT_Picture.Click

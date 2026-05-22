@@ -1,11 +1,17 @@
 ﻿Imports System.IO
 Imports System.Net.Mail
+Imports Microsoft.Data.SqlClient
 
 Public Class MD_UPD_Employees
 
     Private SelectedEmployeeID As Integer = 0
 
-    Private Sub MD_UPD_Employees_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Original_Dept As String = ""
+        Private Original_Pos As String = ""
+        Private Original_Salary As String = ""
+        Private Original_Status As Boolean = True
+
+        Private Sub MD_UPD_Employees_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         InitializationOfFields()
     End Sub
 
@@ -156,112 +162,253 @@ Public Class MD_UPD_Employees
         Me.ActiveControl = TB_EmployeeName
     End Sub
 
+    'Private Sub BT_EmployeeUpdate_Click(sender As Object, e As EventArgs) Handles BT_EmployeeUpdate.Click
+
+    '    If SelectedEmployeeID = 0 Then
+    '        MessageBox.Show("Seleccione un empleado para actualizar.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    '        Exit Sub
+    '    End If
+
+    '    If TB_EmployeeName.Text = "" Then
+    '        MessageBox.Show("Favor de ingresar nombre(s) del empleado.")
+    '        Exit Sub
+    '    End If
+
+    '    If TB_LastName1.Text = "" Then
+    '        MessageBox.Show("Favor de ingresar apellido paterno.")
+    '        Exit Sub
+    '    End If
+
+    '    If TB_LastName2.Text = "" Then
+    '        MessageBox.Show("Favor de indicar apellido materno.")
+    '        Exit Sub
+    '    End If
+
+    '    If Not IsValidEmail(TB_EmailAddress.Text) Then
+    '        MessageBox.Show("Ingrese un correo válido")
+    '        Exit Sub
+    '    End If
+
+    '    Dim company As Integer = CInt(CB_Company.SelectedValue)
+
+    '    Dim typeEmployee As ComboItem = CType(CB_EmployeeType.SelectedItem, ComboItem)
+    '    Dim Id_TypeOfEmployee As Integer = typeEmployee.Id
+
+    '    Dim position As ComboItem = CType(CB_Position.SelectedItem, ComboItem)
+    '    Dim Id_Position As Integer = position.Id
+
+    '    Dim supervisor As ComboItem = CType(CB_Supervisor.SelectedItem, ComboItem)
+    '    Dim Id_Supervisor As Integer = supervisor.Id
+
+    '    Dim PhotoPath As String = ""
+
+    '    If PB_Picture.Tag IsNot Nothing Then
+    '        PhotoPath = PB_Picture.Tag.ToString()
+    '    End If
+
+    '    Dim Department As ComboItem = CType(CB_Department.SelectedItem, ComboItem)
+    '    Dim Id_Department As Integer = Department.Id
+
+    '    Dim Employee As New CL_Employee(
+    '        SelectedEmployeeID,
+    '        TB_EmployeeName.Text,
+    '        TB_LastName1.Text,
+    '        TB_LastName2.Text,
+    '        DT_BornDate.Value,
+    '        TB_BornCity.Text,
+    '        TB_PersonalAddress.Text,
+    '        TB_PhoneNumber.Text,
+    '        TB_EmailAddress.Text,
+    '        TB_CivilStatus.Text,
+    '        TB_Curp.Text,
+    '        TB_SocialNumber.Text,
+    '        TB_RFC.Text,
+    '        TB_FiscalAddress.Text,
+    '        TB_BankName.Text,
+    '        TB_BankAccount.Text,
+    '        company,
+    '        Id_TypeOfEmployee,
+    '        DT_EntryDate.Value,
+    '        DT_RegistrationDate.Value,
+    '        Id_Position,
+    '        Id_Supervisor,
+    '        CDec(TB_VacationsDays.Text),
+    '        TB_BaseSalary.Text,
+    '        Id_Department,
+    '        TB_EmergencyContact.Text,
+    '        TB_Relationship.Text,
+    '        TB_EmergencyPhone.Text,
+    '        TB_Baneficiary.Text,
+    '        TB_Costc.Text,
+    '        AppUser,
+    '        PhotoPath,
+    '        CB_Status.Checked,
+    '        CB_Confidential.Checked
+    '    )
+
+    '    Employee.EMPL_STAT = CB_Status.Checked
+    '    If CB_Confidential.Checked Then
+    '        If Employee.UpdateEmployeeWithoutSalary() Then
+
+    '            MessageBox.Show("Empleado actualizado correctamente")
+
+    '            InitializationOfFields()
+    '            Display_Record()
+
+    '        End If
+    '    Else
+    '        If Employee.UpdateEmployee() Then
+
+    '            MessageBox.Show("Empleado actualizado correctamente")
+
+    '            InitializationOfFields()
+    '            Display_Record()
+
+    '        End If
+    '    End If
+
+
+    'End Sub
+
     Private Sub BT_EmployeeUpdate_Click(sender As Object, e As EventArgs) Handles BT_EmployeeUpdate.Click
+        Try
+            If SelectedEmployeeID = 0 Then
+                MessageBox.Show("Seleccione un empleado para actualizar.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+            If TB_EmployeeName.Text.Trim = "" OrElse TB_LastName1.Text.Trim = "" OrElse TB_LastName2.Text.Trim = "" Then
+                MessageBox.Show("Favor de ingresar el nombre completo del empleado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+            If Not IsValidEmail(TB_EmailAddress.Text.Trim) Then
+                MessageBox.Show("Ingrese un correo válido.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
 
-        If SelectedEmployeeID = 0 Then
-            MessageBox.Show("Seleccione un empleado para actualizar.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Exit Sub
-        End If
+            Dim companyID As Integer = CInt(CB_Company.SelectedValue)
+            Dim typeEmployee As ComboItem = CType(CB_EmployeeType.SelectedItem, ComboItem)
+            Dim position As ComboItem = CType(CB_Position.SelectedItem, ComboItem)
+            Dim department As ComboItem = CType(CB_Department.SelectedItem, ComboItem)
 
-        If TB_EmployeeName.Text = "" Then
-            MessageBox.Show("Favor de ingresar nombre(s) del empleado.")
-            Exit Sub
-        End If
+            Dim Id_Supervisor As Integer = 0
+            If CB_Supervisor.SelectedItem IsNot Nothing Then
+                Dim supervisor As ComboItem = CType(CB_Supervisor.SelectedItem, ComboItem)
+                Id_Supervisor = supervisor.Id
+            End If
 
-        If TB_LastName1.Text = "" Then
-            MessageBox.Show("Favor de ingresar apellido paterno.")
-            Exit Sub
-        End If
+            Dim PhotoPath As String = ""
+            If PB_Picture.Tag IsNot Nothing Then
+                PhotoPath = PB_Picture.Tag.ToString()
+            End If
 
-        If TB_LastName2.Text = "" Then
-            MessageBox.Show("Favor de indicar apellido materno.")
-            Exit Sub
-        End If
+            Dim listaCambios As New List(Of String)()
 
-        If Not IsValidEmail(TB_EmailAddress.Text) Then
-            MessageBox.Show("Ingrese un correo válido")
-            Exit Sub
-        End If
+            If Original_Dept <> CB_Department.Text Then
+                listaCambios.Add($"Depto: de '{Original_Dept}' a '{CB_Department.Text}'")
+            End If
 
-        Dim company As Integer = CInt(CB_Company.SelectedValue)
+            If Original_Pos <> CB_Position.Text Then
+                listaCambios.Add($"Puesto: de '{Original_Pos}' a '{CB_Position.Text}'")
+            End If
 
-        Dim typeEmployee As ComboItem = CType(CB_EmployeeType.SelectedItem, ComboItem)
-        Dim Id_TypeOfEmployee As Integer = typeEmployee.Id
+            If Original_Salary <> TB_BaseSalary.Text.Trim Then
+                If CB_Confidential.Checked Then
+                    listaCambios.Add("Salario: Modificado [VALOR PROTEGIDO POR CONFIDENCIALIDAD]")
+                Else
+                    listaCambios.Add($"Salario: de ${Original_Salary} a ${TB_BaseSalary.Text.Trim}")
+                End If
+            End If
 
-        Dim position As ComboItem = CType(CB_Position.SelectedItem, ComboItem)
-        Dim Id_Position As Integer = position.Id
+            If Original_Status <> CB_Status.Checked Then
+                Dim estAnt As String = If(Original_Status, "ACTIVO", "INACTIVO")
+                Dim estNue As String = If(CB_Status.Checked, "ACTIVO", "INACTIVO")
+                listaCambios.Add($"Estatus: de '{estAnt}' a '{estNue}'")
+            End If
 
-        Dim supervisor As ComboItem = CType(CB_Supervisor.SelectedItem, ComboItem)
-        Dim Id_Supervisor As Integer = supervisor.Id
+            Dim stringDetalleCambios As String = ""
+            If listaCambios.Count > 0 Then
+                stringDetalleCambios = "Cambios detectados -> " & String.Join(" | ", listaCambios) & "."
+            Else
+                stringDetalleCambios = "Actualización general sin cambios en campos estructurales."
+            End If
 
-        Dim PhotoPath As String = ""
+            Dim Employee As New CL_Employee(
+                SelectedEmployeeID,
+                TB_EmployeeName.Text.Trim,
+                TB_LastName1.Text.Trim,
+                TB_LastName2.Text.Trim,
+                DT_BornDate.Value,
+                TB_BornCity.Text.Trim,
+                TB_PersonalAddress.Text.Trim,
+                TB_PhoneNumber.Text.Trim,
+                TB_EmailAddress.Text.Trim,
+                TB_CivilStatus.Text.Trim,
+                TB_Curp.Text.Trim,
+                TB_SocialNumber.Text.Trim,
+                TB_RFC.Text.Trim,
+                TB_FiscalAddress.Text.Trim,
+                TB_BankName.Text.Trim,
+                TB_BankAccount.Text.Trim,
+                companyID,
+                typeEmployee.Id,
+                DT_EntryDate.Value,
+                DT_RegistrationDate.Value,
+                position.Id,
+                Id_Supervisor,
+                CDec(TB_VacationsDays.Text.Trim),
+                TB_BaseSalary.Text.Trim,
+                department.Id,
+                TB_EmergencyContact.Text.Trim,
+                TB_Relationship.Text.Trim,
+                TB_EmergencyPhone.Text.Trim,
+                TB_Baneficiary.Text.Trim,
+                TB_Costc.Text.Trim,
+                GlobalSession.GlobalUserName,
+                PhotoPath,
+                CB_Status.Checked,
+                CB_Confidential.Checked
+            )
 
-        If PB_Picture.Tag IsNot Nothing Then
-            PhotoPath = PB_Picture.Tag.ToString()
-        End If
+            Employee.EMPL_STAT = CB_Status.Checked
 
-        Dim Department As ComboItem = CType(CB_Department.SelectedItem, ComboItem)
-        Dim Id_Department As Integer = Department.Id
+            Dim connTmp As New SqlConnection(My.Settings.ConnectionString)
+            Dim nombreCompleto As String = $"{TB_EmployeeName.Text.Trim} {TB_LastName1.Text.Trim} {TB_LastName2.Text.Trim}"
+            Dim exitoActualizacion As Boolean = False
+            Dim accionLog As String = ""
 
-        Dim Employee As New CL_Employee(
-            SelectedEmployeeID,
-            TB_EmployeeName.Text,
-            TB_LastName1.Text,
-            TB_LastName2.Text,
-            DT_BornDate.Value,
-            TB_BornCity.Text,
-            TB_PersonalAddress.Text,
-            TB_PhoneNumber.Text,
-            TB_EmailAddress.Text,
-            TB_CivilStatus.Text,
-            TB_Curp.Text,
-            TB_SocialNumber.Text,
-            TB_RFC.Text,
-            TB_FiscalAddress.Text,
-            TB_BankName.Text,
-            TB_BankAccount.Text,
-            company,
-            Id_TypeOfEmployee,
-            DT_EntryDate.Value,
-            DT_RegistrationDate.Value,
-            Id_Position,
-            Id_Supervisor,
-            CDec(TB_VacationsDays.Text),
-            TB_BaseSalary.Text,
-            Id_Department,
-            TB_EmergencyContact.Text,
-            TB_Relationship.Text,
-            TB_EmergencyPhone.Text,
-            TB_Baneficiary.Text,
-            TB_Costc.Text,
-            AppUser,
-            PhotoPath,
-            CB_Status.Checked,
-            CB_Confidential.Checked
-        )
+            If CB_Confidential.Checked Then
+                If Employee.UpdateEmployeeWithoutSalary() Then
+                    exitoActualizacion = True
+                    accionLog = "UPDATE_EMPLOYEE_CONFIDENTIAL"
+                End If
+            Else
+                If Employee.UpdateEmployee() Then
+                    exitoActualizacion = True
+                    accionLog = "UPDATE_EMPLOYEE_STANDARD"
+                End If
+            End If
 
-        Employee.EMPL_STAT = CB_Status.Checked
-        If CB_Confidential.Checked Then
-            If Employee.UpdateEmployeeWithoutSalary() Then
+            If exitoActualizacion Then
+                Dim descFinalLog As String = $"MODIFICACIÓN EXPEDIENTE: El usuario editó al EMPL_ID: {SelectedEmployeeID} ('{nombreCompleto}'). {stringDetalleCambios}"
 
-                MessageBox.Show("Empleado actualizado correctamente")
+                InsertLog(connTmp, GlobalSession.GlobalUserName, "MD_Employees", accionLog, descFinalLog, SelectedEmployeeID, "INFO")
 
+                MessageBox.Show("Empleado actualizado correctamente en el sistema.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 InitializationOfFields()
                 Display_Record()
-
+            Else
+                Dim descWarn As String = $"RECHAZO EN BD: El procedimiento no aplicó cambios para el EMPL_ID: {SelectedEmployeeID}."
+                InsertLog(connTmp, GlobalSession.GlobalUserName, "MD_Employees", "UPDATE_EMPLOYEE_FAILED", descWarn, SelectedEmployeeID, "WARNING")
             End If
-        Else
-            If Employee.UpdateEmployee() Then
 
-                MessageBox.Show("Empleado actualizado correctamente")
+        Catch ex As Exception
+            Dim connTmp As New SqlConnection(My.Settings.ConnectionString)
+            Dim descError As String = $"ERROR CRÍTICO: Falló el guardado del formulario de edición del EMPL_ID: {SelectedEmployeeID}. Motivo: {ex.Message}"
 
-                InitializationOfFields()
-                Display_Record()
+            InsertLog(connTmp, GlobalSession.GlobalUserName, "MD_Employees", "ERROR_UPDATE_EMPLOYEE", descError, SelectedEmployeeID, "ERROR", ex.StackTrace)
 
-            End If
-        End If
-
-
+            MessageBox.Show("Ocurrió un error inesperado al actualizar el expediente: " & ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub DGV_AllEmployees_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_AllEmployees.CellClick
@@ -341,6 +488,11 @@ Public Class MD_UPD_Employees
             End If
 
             CB_Status.Checked = Item(35)
+
+            Original_Dept = CB_Department.Text
+            Original_Pos = CB_Position.Text
+            Original_Salary = TB_BaseSalary.Text.Trim
+            Original_Status = CB_Status.Checked
 
         Next
 
