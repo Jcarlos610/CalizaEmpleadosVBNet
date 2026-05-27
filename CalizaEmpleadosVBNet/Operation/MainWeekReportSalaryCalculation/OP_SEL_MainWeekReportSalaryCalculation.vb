@@ -302,7 +302,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         DGV_CompleteWeekInfo.Columns("Calculado").Width = 65
 
         PaintCells()
-        GetAdditionalValues()
+        'GetAdditionalValues()
 
         If DGV_CompleteWeekInfo.Rows.Count > 0 Then
             CB_Confirmation.Enabled = True
@@ -548,11 +548,11 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
             Next
 
             'Get lunch hours by employee
-            Dim BannsRecords As DataTable = RecordsbyEmployee.Get_BannQuantityByEmployee(DTP_StartDate.Value, DTP_EndDate.Value, EmployeeID, 270)
+            'Dim BannsRecords As DataTable = RecordsbyEmployee.Get_BannQuantityByEmployee(DTP_StartDate.Value, DTP_EndDate.Value, EmployeeID, 270)
             Dim BannsQuantity As Decimal = 0.0
-            For Each BannRecord As DataRow In BannsRecords.Rows
-                BannsQuantity = CDec(BannRecord(7))
-            Next
+            'For Each BannRecord As DataRow In BannsRecords.Rows
+            '    BannsQuantity = CDec(BannRecord(7))
+            'Next
 
             'Transport Days by employee
             Dim TDaysRecords As DataTable = RecordsbyEmployee.Get_TDaysQuantityByEmployee(DTP_StartDate.Value, DTP_EndDate.Value, EmployeeID, 280)
@@ -703,9 +703,9 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 DGV_CompleteWeekInfo.Rows(CounterLine).Cells(24).Value = PropPlantAmmount_2.ToString() & "%"
             End If
 
-            If EmployeeID = 600 Then
-                MsgBox("empleado" & EmployeeID)
-            End If
+            'If EmployeeID = 600 Then
+            '    MsgBox("empleado" & EmployeeID)
+            'End If
 
             'Check salary by employee
             NewSalary = MainSalaryCalculation(CounterA, CounterF, CounterFJ, CounterR, CounterPG, CounterPSG, CounterV, BaseSalary, SundaySalary, DailySalary, LunchHourAmmount, ProductivityAmmount, AttitudeGoodPract, SavingAmmount, PaymentAmmount, LunchHours)
