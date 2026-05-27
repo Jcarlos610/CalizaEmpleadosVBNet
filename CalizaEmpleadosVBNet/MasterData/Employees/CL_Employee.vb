@@ -590,6 +590,7 @@ Public Class CL_Employee
     Private _EMPL_PHOTO As Object
     Private _EMPL_STAT As Object
     Private _EMPL_CONF As Object
+    Private _PLANT_ID As Object
 
     Public Property EMPL_ID As Object
         Get
@@ -897,11 +898,20 @@ Public Class CL_Employee
         End Set
     End Property
 
+    Public Property PLANT_ID As Object
+        Get
+            Return _PLANT_ID
+        End Get
+        Set(value As Object)
+            _PLANT_ID = value
+        End Set
+    End Property
+
     Sub New()
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
     End Sub
 
-    Sub New(EMPL_ID, EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, DEPT_ID, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_COSTC, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT, EMPL_CONF)
+    Sub New(EMPL_ID, EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, DEPT_ID, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_COSTC, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT, EMPL_CONF, PLANT_ID)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
         _EMPL_ID = EMPL_ID
@@ -938,9 +948,10 @@ Public Class CL_Employee
         _EMPL_PHOTO = EMPL_PHOTO
         _EMPL_STAT = EMPL_STAT
         _EMPL_CONF = EMPL_CONF
+        _PLANT_ID = PLANT_ID
 
     End Sub
-    Sub New(EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, DEPT_ID, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_COSTC, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT, EMPL_CONF)
+    Sub New(EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, DEPT_ID, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_COSTC, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT, EMPL_CONF, PLANT_ID)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
         _EMPL_NAME = EMPL_NAME
@@ -976,6 +987,7 @@ Public Class CL_Employee
         _EMPL_PHOTO = EMPL_PHOTO
         _EMPL_STAT = EMPL_STAT
         _EMPL_CONF = EMPL_CONF
+        _PLANT_ID = PLANT_ID
 
     End Sub
 
@@ -1025,6 +1037,7 @@ Public Class CL_Employee
             End If
             DB_Command.Parameters.AddWithValue("EMPL_STAT", _EMPL_STAT)
             DB_Command.Parameters.AddWithValue("EMPL_CONF", _EMPL_CONF)
+            DB_Command.Parameters.AddWithValue("PLANT_ID", _PLANT_ID)
 
             DB_Command.ExecuteNonQuery()
 
@@ -1206,6 +1219,7 @@ Public Class CL_Employee
             DB_Command.Parameters.AddWithValue("EMPL_COSTC", _EMPL_COSTC)
             DB_Command.Parameters.AddWithValue("EMPL_PHOTO", _EMPL_PHOTO)
             DB_Command.Parameters.AddWithValue("EMPL_STAT", _EMPL_STAT)
+            DB_Command.Parameters.AddWithValue("PLANT_ID", _PLANT_ID)
             For Each p As SqlParameter In DB_Command.Parameters
                 Debug.WriteLine(p.ParameterName & " = " & p.Value.ToString())
             Next
@@ -1293,6 +1307,7 @@ Public Class CL_Employee
             DB_Command.Parameters.AddWithValue("EMPL_COSTC", _EMPL_COSTC)
             DB_Command.Parameters.AddWithValue("EMPL_PHOTO", _EMPL_PHOTO)
             DB_Command.Parameters.AddWithValue("EMPL_STAT", _EMPL_STAT)
+            DB_Command.Parameters.AddWithValue("PLANT_ID", _PLANT_ID)
             For Each p As SqlParameter In DB_Command.Parameters
                 Debug.WriteLine(p.ParameterName & " = " & p.Value.ToString())
             Next

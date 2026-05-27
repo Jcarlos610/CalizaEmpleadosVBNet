@@ -55,6 +55,20 @@ Public Class MD_INS_Employees
         TB_EmergencyPhone.Text = ""
         TB_Baneficiary.Text = ""
 
+        CB_Plant.Items.Clear()
+        Dim PlantClass As New CL_Plants()
+        Dim ListOfPlants As DataTable = PlantClass.Get_ListOfPlants()
+
+        For Each Item As DataRow In ListOfPlants.Rows
+            CB_Plant.Items.Add(New ComboItem With {
+                .Id = CInt(Item(0)),
+                .Descripcion = Item(1).ToString()
+            })
+        Next
+        CB_Plant.DisplayMember = "Descripcion"
+        CB_Plant.ValueMember = "Id"
+        CB_Plant.SelectedIndex = 0
+
         Dim Departments = New CL_Departments
         Dim ListOfDepartments As DataTable = Departments.Get_ListOfDepartments()
 
@@ -268,6 +282,12 @@ Public Class MD_INS_Employees
                 Exit Sub
             End If
 
+            Dim PlantSelected As ComboItem = CType(CB_Plant.SelectedItem, ComboItem)
+            If PlantSelected Is Nothing OrElse PlantSelected.Id = 0 Then
+                MessageBox.Show("Favor de seleccionar una planta válida para el empleado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+
             Dim Company As ComboItem = CType(CB_Company.SelectedItem, ComboItem)
             Dim TypeOfEmployee As ComboItem = CType(CB_EmployeeType.SelectedItem, ComboItem)
             Dim Positions As ComboItem = CType(CB_Position.SelectedItem, ComboItem)
@@ -321,7 +341,8 @@ Public Class MD_INS_Employees
             GlobalSession.GlobalUserName,
             PhotoPath,
             1,
-            CB_Confidential.Checked
+            CB_Confidential.Checked,
+            PlantSelected.Id
         )
 
             If Employee.InsertEmployee() Then
@@ -331,7 +352,7 @@ Public Class MD_INS_Employees
                 Dim confidencialTxt As String = If(CB_Confidential.Checked, "SÍ", "NO")
 
                 'LOG DE ÉXITO
-                Dim descExito As String = $"ALTA DE EMPLEADO: Se registró a '{nombreCompleto}' en la empresa '{Company.Descripcion}'. Depto: {Department.Descripcion}, Puesto: {Positions.Descripcion}, Salario Base: {salarioLog}, Confidencial: [{confidencialTxt}]."
+                Dim descExito As String = $"ALTA DE EMPLEADO: Se registró a '{nombreCompleto}' en la empresa '{Company.Descripcion}'. Planta Asignada: '{PlantSelected.Descripcion}', Depto: {Department.Descripcion}, Puesto: {Positions.Descripcion}, Salario Base: {salarioLog}, Confidencial: [{confidencialTxt}]."
                 InsertLog(connTmp, GlobalSession.GlobalUserName, "MD_Employees", "INSERT_EMPLOYEE_SUCCESS", descExito, 0, "INFO")
 
                 MessageBox.Show("El empleado " + TB_EmployeeName.Text.Trim + " fue creado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -403,6 +424,10 @@ Public Class MD_INS_Employees
             DGV_AllEmployees.DataSource = report.Get_AllEmployeesAllDepartments
         Else
             DGV_AllEmployees.DataSource = report.Get_AllEmployeesOnlyFewDepartments
+        End If
+
+        If DGV_AllEmployees.Columns.Contains("Planta") Then
+            DGV_AllEmployees.Columns("Planta").HeaderText = "Planta Asignada"
         End If
 
     End Sub

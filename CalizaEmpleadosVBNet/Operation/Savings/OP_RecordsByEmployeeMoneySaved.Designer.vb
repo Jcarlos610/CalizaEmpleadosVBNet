@@ -49,11 +49,12 @@ Partial Class OP_RecordsByEmployeeMoneySaved
         DGV_EmployeeInfo.AllowUserToAddRows = False
         DGV_EmployeeInfo.AllowUserToDeleteRows = False
         DGV_EmployeeInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_EmployeeInfo.Location = New Point(24, 47)
+        DGV_EmployeeInfo.Location = New Point(17, 28)
+        DGV_EmployeeInfo.Margin = New Padding(2, 2, 2, 2)
         DGV_EmployeeInfo.Name = "DGV_EmployeeInfo"
         DGV_EmployeeInfo.ReadOnly = True
         DGV_EmployeeInfo.RowHeadersWidth = 62
-        DGV_EmployeeInfo.Size = New Size(1530, 405)
+        DGV_EmployeeInfo.Size = New Size(1071, 243)
         DGV_EmployeeInfo.TabIndex = 0
         ' 
         ' DGV_DetailSaving
@@ -61,36 +62,38 @@ Partial Class OP_RecordsByEmployeeMoneySaved
         DGV_DetailSaving.AllowUserToAddRows = False
         DGV_DetailSaving.AllowUserToDeleteRows = False
         DGV_DetailSaving.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_DetailSaving.Location = New Point(24, 525)
+        DGV_DetailSaving.Location = New Point(17, 315)
+        DGV_DetailSaving.Margin = New Padding(2, 2, 2, 2)
         DGV_DetailSaving.Name = "DGV_DetailSaving"
         DGV_DetailSaving.ReadOnly = True
         DGV_DetailSaving.RowHeadersWidth = 62
-        DGV_DetailSaving.Size = New Size(826, 240)
+        DGV_DetailSaving.Size = New Size(578, 144)
         DGV_DetailSaving.TabIndex = 1
         ' 
         ' LB_ManualSaving
         ' 
         LB_ManualSaving.AutoSize = True
-        LB_ManualSaving.Location = New Point(24, 477)
+        LB_ManualSaving.Location = New Point(17, 286)
+        LB_ManualSaving.Margin = New Padding(2, 0, 2, 0)
         LB_ManualSaving.Name = "LB_ManualSaving"
-        LB_ManualSaving.Size = New Size(135, 25)
+        LB_ManualSaving.Size = New Size(90, 15)
         LB_ManualSaving.TabIndex = 2
         LB_ManualSaving.Text = "Ahorro manual:"
         ' 
         ' TB_ManualSaving
         ' 
         TB_ManualSaving.BackColor = SystemColors.Info
-        TB_ManualSaving.Location = New Point(160, 470)
-        TB_ManualSaving.Margin = New Padding(4, 5, 4, 5)
+        TB_ManualSaving.Location = New Point(112, 282)
         TB_ManualSaving.Name = "TB_ManualSaving"
-        TB_ManualSaving.Size = New Size(141, 31)
+        TB_ManualSaving.Size = New Size(100, 23)
         TB_ManualSaving.TabIndex = 3
         ' 
         ' BT_Register
         ' 
-        BT_Register.Location = New Point(310, 470)
+        BT_Register.Location = New Point(217, 282)
+        BT_Register.Margin = New Padding(2, 2, 2, 2)
         BT_Register.Name = "BT_Register"
-        BT_Register.Size = New Size(159, 38)
+        BT_Register.Size = New Size(111, 23)
         BT_Register.TabIndex = 4
         BT_Register.Text = "Registrar Monto"
         BT_Register.UseVisualStyleBackColor = True
@@ -112,11 +115,9 @@ Partial Class OP_RecordsByEmployeeMoneySaved
         GB_SavingInformation.Controls.Add(DGV_DetailSaving)
         GB_SavingInformation.Controls.Add(TB_ManualSaving)
         GB_SavingInformation.Controls.Add(LB_ManualSaving)
-        GB_SavingInformation.Location = New Point(17, 77)
-        GB_SavingInformation.Margin = New Padding(4, 5, 4, 5)
+        GB_SavingInformation.Location = New Point(12, 46)
         GB_SavingInformation.Name = "GB_SavingInformation"
-        GB_SavingInformation.Padding = New Padding(4, 5, 4, 5)
-        GB_SavingInformation.Size = New Size(1580, 889)
+        GB_SavingInformation.Size = New Size(1106, 533)
         GB_SavingInformation.TabIndex = 5
         GB_SavingInformation.TabStop = False
         GB_SavingInformation.Text = "Información sobre ahorros"
@@ -124,55 +125,55 @@ Partial Class OP_RecordsByEmployeeMoneySaved
         ' LB_TotalAvailable
         ' 
         LB_TotalAvailable.AutoSize = True
-        LB_TotalAvailable.Location = New Point(1265, 793)
+        LB_TotalAvailable.Location = New Point(886, 476)
+        LB_TotalAvailable.Margin = New Padding(2, 0, 2, 0)
         LB_TotalAvailable.Name = "LB_TotalAvailable"
-        LB_TotalAvailable.Size = New Size(141, 25)
+        LB_TotalAvailable.Size = New Size(94, 15)
         LB_TotalAvailable.TabIndex = 14
         LB_TotalAvailable.Text = "Total disponible:"
         ' 
         ' LB_TotalWithdrawn
         ' 
         LB_TotalWithdrawn.AutoSize = True
-        LB_TotalWithdrawn.Location = New Point(889, 793)
+        LB_TotalWithdrawn.Location = New Point(622, 476)
+        LB_TotalWithdrawn.Margin = New Padding(2, 0, 2, 0)
         LB_TotalWithdrawn.Name = "LB_TotalWithdrawn"
-        LB_TotalWithdrawn.Size = New Size(137, 25)
+        LB_TotalWithdrawn.Size = New Size(90, 15)
         LB_TotalWithdrawn.TabIndex = 13
         LB_TotalWithdrawn.Text = "Monto retirado:"
         ' 
         ' LB_TotalSaved
         ' 
         LB_TotalSaved.AutoSize = True
-        LB_TotalSaved.Location = New Point(24, 793)
+        LB_TotalSaved.Location = New Point(17, 476)
+        LB_TotalSaved.Margin = New Padding(2, 0, 2, 0)
         LB_TotalSaved.Name = "LB_TotalSaved"
-        LB_TotalSaved.Size = New Size(163, 25)
+        LB_TotalSaved.Size = New Size(113, 15)
         LB_TotalSaved.TabIndex = 12
-        LB_TotalSaved.Text = "Monto acumulado:"
+        LB_TotalSaved.Text = "Historial de ahorros:"
         ' 
         ' TB_TotalAvailable
         ' 
         TB_TotalAvailable.BackColor = SystemColors.Window
-        TB_TotalAvailable.Location = New Point(1413, 787)
-        TB_TotalAvailable.Margin = New Padding(4, 5, 4, 5)
+        TB_TotalAvailable.Location = New Point(989, 472)
         TB_TotalAvailable.Name = "TB_TotalAvailable"
-        TB_TotalAvailable.Size = New Size(141, 31)
+        TB_TotalAvailable.Size = New Size(100, 23)
         TB_TotalAvailable.TabIndex = 11
         ' 
         ' TB_TotalWithdrawn
         ' 
         TB_TotalWithdrawn.BackColor = SystemColors.Window
-        TB_TotalWithdrawn.Location = New Point(1027, 787)
-        TB_TotalWithdrawn.Margin = New Padding(4, 5, 4, 5)
+        TB_TotalWithdrawn.Location = New Point(719, 472)
         TB_TotalWithdrawn.Name = "TB_TotalWithdrawn"
-        TB_TotalWithdrawn.Size = New Size(141, 31)
+        TB_TotalWithdrawn.Size = New Size(100, 23)
         TB_TotalWithdrawn.TabIndex = 10
         ' 
         ' TB_TotalSaved
         ' 
         TB_TotalSaved.BackColor = SystemColors.Window
-        TB_TotalSaved.Location = New Point(183, 790)
-        TB_TotalSaved.Margin = New Padding(4, 5, 4, 5)
+        TB_TotalSaved.Location = New Point(128, 474)
         TB_TotalSaved.Name = "TB_TotalSaved"
-        TB_TotalSaved.Size = New Size(141, 31)
+        TB_TotalSaved.Size = New Size(100, 23)
         TB_TotalSaved.TabIndex = 9
         ' 
         ' DGV_Withdrawals
@@ -181,18 +182,20 @@ Partial Class OP_RecordsByEmployeeMoneySaved
         DGV_Withdrawals.AllowUserToDeleteRows = False
         DGV_Withdrawals.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         DGV_Withdrawals.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_Withdrawals.Location = New Point(889, 525)
+        DGV_Withdrawals.Location = New Point(622, 315)
+        DGV_Withdrawals.Margin = New Padding(2, 2, 2, 2)
         DGV_Withdrawals.Name = "DGV_Withdrawals"
         DGV_Withdrawals.ReadOnly = True
         DGV_Withdrawals.RowHeadersWidth = 62
-        DGV_Withdrawals.Size = New Size(665, 240)
+        DGV_Withdrawals.Size = New Size(466, 144)
         DGV_Withdrawals.TabIndex = 8
         ' 
         ' BT_Withdraw
         ' 
-        BT_Withdraw.Location = New Point(1180, 470)
+        BT_Withdraw.Location = New Point(826, 282)
+        BT_Withdraw.Margin = New Padding(2, 2, 2, 2)
         BT_Withdraw.Name = "BT_Withdraw"
-        BT_Withdraw.Size = New Size(159, 38)
+        BT_Withdraw.Size = New Size(111, 23)
         BT_Withdraw.TabIndex = 7
         BT_Withdraw.Text = "Registrar Retiro"
         BT_Withdraw.UseVisualStyleBackColor = True
@@ -200,28 +203,29 @@ Partial Class OP_RecordsByEmployeeMoneySaved
         ' TB_Withdrawal
         ' 
         TB_Withdrawal.BackColor = SystemColors.Info
-        TB_Withdrawal.Location = New Point(1027, 474)
-        TB_Withdrawal.Margin = New Padding(4, 5, 4, 5)
+        TB_Withdrawal.Location = New Point(719, 284)
         TB_Withdrawal.Name = "TB_Withdrawal"
-        TB_Withdrawal.Size = New Size(141, 31)
+        TB_Withdrawal.Size = New Size(100, 23)
         TB_Withdrawal.TabIndex = 6
         ' 
         ' LB_Withdrawals
         ' 
         LB_Withdrawals.AutoSize = True
-        LB_Withdrawals.Location = New Point(889, 477)
+        LB_Withdrawals.Location = New Point(622, 286)
+        LB_Withdrawals.Margin = New Padding(2, 0, 2, 0)
         LB_Withdrawals.Name = "LB_Withdrawals"
-        LB_Withdrawals.Size = New Size(125, 25)
+        LB_Withdrawals.Size = New Size(84, 15)
         LB_Withdrawals.TabIndex = 5
         LB_Withdrawals.Text = "Retiro manual:"
         ' 
         ' OP_RecordsByEmployeeMoneySaved
         ' 
-        AutoScaleDimensions = New SizeF(10F, 25F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(1924, 1050)
+        ClientSize = New Size(1347, 630)
         Controls.Add(GB_SavingInformation)
+        Margin = New Padding(2, 2, 2, 2)
         Name = "OP_RecordsByEmployeeMoneySaved"
         Tag = "OP_RecordsByEmployeeMoneySaved"
         Text = "Información sobre Ahorros"

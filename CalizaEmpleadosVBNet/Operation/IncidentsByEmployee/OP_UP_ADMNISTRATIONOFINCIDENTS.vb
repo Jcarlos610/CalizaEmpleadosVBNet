@@ -1,4 +1,6 @@
-﻿Public Class OP_UP_ADMNISTRATIONOFINCIDENTS
+﻿Imports Microsoft.Data.SqlClient
+
+Public Class OP_UP_ADMNISTRATIONOFINCIDENTS
 
     Private SelectedDREMPL_ID As Integer = 0
     Private SelectedEmployeeID As Integer = 0
@@ -184,101 +186,159 @@
 
     Private Sub BT_Upd_Click(sender As Object, e As EventArgs) Handles BT_Upd.Click
         If SelectedDREMPL_ID = 0 Then
-            MessageBox.Show("Selecciona un registro")
+            MessageBox.Show("Por favor, seleccione primero una incidencia de la lista para actualizar.", "Aviso de Selección", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
-        Dim obj As New CL_Incidents
 
-        obj.DREMPL_ID = SelectedDREMPL_ID
+        Try
+            Dim obj As New CL_Incidents
+            obj.DREMPL_ID = SelectedDREMPL_ID
+            obj.INC_DATEFR = DTP_DateFrom.Value
+            obj.INC_DATETO = DTP_DateTo.Value
+            obj.INC_DAYS = TB_Days.Text
+            obj.INC_DESCR = TB_Comment.Text
+            obj.INC_AUTH = TB_AuthorizeBy.Text
 
-        obj.INC_DATEFR = DTP_DateFrom.Value
-        obj.INC_DATETO = DTP_DateTo.Value
-        obj.INC_DAYS = TB_Days.Text
-        obj.INC_DESCR = TB_Comment.Text
-        obj.INC_AUTH = TB_AuthorizeBy.Text
+            If obj.UpdateIncident() Then
+                'LOG
+                Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                    Dim desc As String = $"MODIFICACIÓN INCIDENCIA: Se actualizó el registro con goce (Reg_ID: {SelectedDREMPL_ID}) del Empleado ID: {SelectedEmployeeID}. Nuevos datos - Período: del {DTP_DateFrom.Value.ToShortDateString()} al {DTP_DateTo.Value.ToShortDateString()} ({TB_Days.Text} días). Autorizado por: '{TB_AuthorizeBy.Text.Trim()}'. Comentarios: '{TB_Comment.Text.Trim()}'."
+                    InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Incidencias", "UPDATE_INCIDENT_WITH_PAY_SUCCESS", desc, SelectedEmployeeID, "INFO")
+                End Using
 
-        If obj.UpdateIncident() Then
-            MessageBox.Show("Registro actualizado")
-            LoadIncidentsByEmployee(SelectedEmployeeID)
-            LoadEmployeeSummary()
-            LimpiarFormulario()
-        End If
+                MessageBox.Show("¡El registro de la incidencia con goce ha sido actualizado con éxito!", "Confirmación de Actualización", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                LoadIncidentsByEmployee(SelectedEmployeeID)
+                LoadEmployeeSummary()
+                LimpiarFormulario()
+            End If
+
+        Catch ex As Exception
+            'LOG DE ERROR
+            Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                Dim descError As String = $"ERROR CRÍTICO: Falló la modificación de Incidencia Con Goce (Reg_ID: {SelectedDREMPL_ID}) para el Empleado ID: {SelectedEmployeeID}. Motivo: {ex.Message}"
+                InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Incidencias", "ERROR_UPDATE_INCIDENT_WITH_PAY", descError, SelectedEmployeeID, "ERROR", ex.StackTrace)
+            End Using
+            MessageBox.Show("Ocurrió un error inesperado al intentar actualizar el registro en el servidor: " & ex.Message, "Error Crítico del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub BT_InUpd_Click(sender As Object, e As EventArgs) Handles BT_InUpd.Click
         If SelectedDREMPL_ID = 0 Then
-            MessageBox.Show("Selecciona un registro")
+            MessageBox.Show("Por favor, seleccione primero una incidencia de la lista para actualizar.", "Aviso de Selección", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
-        Dim obj As New CL_Incidents
+        Try
+            Dim obj As New CL_Incidents
+            obj.DREMPL_ID = SelectedDREMPL_ID
+            obj.INC_DATEFR = DTP_InDateFrom.Value
+            obj.INC_DATETO = DTP_InDateTo.Value
+            obj.INC_DAYS = TB_InDays.Text
+            obj.INC_DESCR = TB_InComment.Text
+            obj.INC_AUTH = TB_InAuthorizeBy.Text
 
-        obj.DREMPL_ID = SelectedDREMPL_ID
+            If obj.UpdateIncident() Then
+                'Log
+                Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                    Dim desc As String = $"MODIFICACIÓN INCIDENCIA: Se actualizó el registro sin goce (Reg_ID: {SelectedDREMPL_ID}) del Empleado ID: {SelectedEmployeeID}. Nuevos datos - Período: del {DTP_InDateFrom.Value.ToShortDateString()} al {DTP_InDateTo.Value.ToShortDateString()} ({TB_InDays.Text} días). Autorizado por: '{TB_InAuthorizeBy.Text.Trim()}'. Comentarios: '{TB_InComment.Text.Trim()}'."
+                    InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Incidencias", "UPDATE_INCIDENT_WITHOUT_PAY_SUCCESS", desc, SelectedEmployeeID, "INFO")
+                End Using
 
-        obj.INC_DATEFR = DTP_InDateFrom.Value
-        obj.INC_DATETO = DTP_InDateTo.Value
-        obj.INC_DAYS = TB_InDays.Text
-        obj.INC_DESCR = TB_InComment.Text
-        obj.INC_AUTH = TB_InAuthorizeBy.Text
+                MessageBox.Show("¡El registro de la incidencia sin goce ha sido actualizado con éxito!", "Confirmación de Actualización", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                LoadIncidentsByEmployee(SelectedEmployeeID)
+                LoadEmployeeSummary()
+                LimpiarFormulario()
+            End If
 
-        If obj.UpdateIncident() Then
-            MessageBox.Show("Registro actualizado")
-            LoadIncidentsByEmployee(SelectedEmployeeID)
-            LoadEmployeeSummary()
-            LimpiarFormulario()
-        End If
+        Catch ex As Exception
+            'LOG DE ERROR 
+            Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                Dim descError As String = $"ERROR CRÍTICO: Falló la modificación de Incidencia Sin Goce (Reg_ID: {SelectedDREMPL_ID}) para el Empleado ID: {SelectedEmployeeID}. Motivo: {ex.Message}"
+                InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Incidencias", "ERROR_UPDATE_INCIDENT_WITHOUT_PAY", descError, SelectedEmployeeID, "ERROR", ex.StackTrace)
+            End Using
+            MessageBox.Show("Ocurrió un error inesperado al intentar actualizar el registro en el servidor: " & ex.Message, "Error Crítico del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub BT_VacUpd_Click(sender As Object, e As EventArgs) Handles BT_VacUpd.Click
 
         If SelectedDREMPL_ID = 0 Then
-            MessageBox.Show("Selecciona un registro")
+            MessageBox.Show("Por favor, seleccione primero una incidencia de la lista para actualizar.", "Aviso de Selección", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
-        Dim obj As New CL_Incidents
+        Try
+            Dim obj As New CL_Incidents
+            obj.DREMPL_ID = SelectedDREMPL_ID
+            obj.INC_DATEFR = DTP_VacDateFrom.Value
+            obj.INC_DATETO = DTP_VacDateTo.Value
+            obj.INC_DAYS = TB_VacDays.Text
+            obj.INC_DESCR = TB_VacComment.Text
+            obj.INC_AUTH = TB_VacAuthorizeBy.Text
 
-        obj.DREMPL_ID = SelectedDREMPL_ID
-        obj.INC_DATEFR = DTP_VacDateFrom.Value
-        obj.INC_DATETO = DTP_VacDateTo.Value
-        obj.INC_DAYS = TB_VacDays.Text
-        obj.INC_DESCR = TB_VacComment.Text
-        obj.INC_AUTH = TB_VacAuthorizeBy.Text
+            If obj.UpdateIncident() Then
+                'LOG
+                Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                    Dim desc As String = $"MODIFICACIÓN INCIDENCIA: Se actualizó el registro de vacaciones (Reg_ID: {SelectedDREMPL_ID}) del Empleado ID: {SelectedEmployeeID}. Nuevos datos - Período: del {DTP_VacDateFrom.Value.ToShortDateString()} al {DTP_VacDateTo.Value.ToShortDateString()} ({TB_VacDays.Text} días). Autorizado por: '{TB_VacAuthorizeBy.Text.Trim()}'. Comentarios: '{TB_VacComment.Text.Trim()}'."
+                    InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Incidencias", "UPDATE_INCIDENT_VACATION_SUCCESS", desc, SelectedEmployeeID, "INFO")
+                End Using
 
-        If obj.UpdateIncident() Then
-            MessageBox.Show("Registro actualizado")
-            LoadIncidentsByEmployee(SelectedEmployeeID)
-            LoadEmployeeSummary()
-            LimpiarFormulario()
-        End If
+                MessageBox.Show("¡El período de vacaciones ha sido modificado y actualizado con éxito!", "Confirmación de Actualización", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                LoadIncidentsByEmployee(SelectedEmployeeID)
+                LoadEmployeeSummary()
+                LimpiarFormulario()
+            End If
+
+        Catch ex As Exception
+            'LOG DE ERROR
+            Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                Dim descError As String = $"ERROR CRÍTICO: Falló la modificación de Vacaciones (Reg_ID: {SelectedDREMPL_ID}) para el Empleado ID: {SelectedEmployeeID}. Motivo: {ex.Message}"
+                InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Incidencias", "ERROR_UPDATE_INCIDENT_VACATION", descError, SelectedEmployeeID, "ERROR", ex.StackTrace)
+            End Using
+            MessageBox.Show("Ocurrió un error inesperado al intentar actualizar las vacaciones en el servidor: " & ex.Message, "Error Crítico del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
 
     End Sub
 
     Sub UpdateData(f1 As Date, f2 As Date, dias As String, com As String, auth As String)
 
         If SelectedDREMPL_ID = 0 Then
-            MessageBox.Show("Selecciona un registro")
+            MessageBox.Show("Por favor, seleccione primero un registro válido de la lista.", "Aviso de Selección", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
-        Dim obj As New CL_Incidents
+        Try
+            Dim obj As New CL_Incidents
+            obj.DREMPL_ID = SelectedDREMPL_ID
+            obj.INC_DATEFR = f1
+            obj.INC_DATETO = f2
+            obj.INC_DAYS = dias
+            obj.INC_DESCR = com
+            obj.INC_AUTH = auth
 
-        obj.DREMPL_ID = SelectedDREMPL_ID
-        obj.INC_DATEFR = f1
-        obj.INC_DATETO = f2
-        obj.INC_DAYS = dias
-        obj.INC_DESCR = com
-        obj.INC_AUTH = auth
+            If obj.UpdateIncident() Then
 
-        If obj.UpdateIncident() Then
-            MessageBox.Show("Registro actualizado")
+                Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                    Dim desc As String = $"MODIFICACIÓN INCIDENCIA VÍA PROCESO: Se modificó la incidencia Reg_ID: {SelectedDREMPL_ID} para el Empleado ID: {SelectedEmployeeID}. Parámetros nuevos -> Desde: {f1.ToShortDateString()} Hasta: {f2.ToShortDateString()} ({dias} días). Auth: '{auth.Trim()}'."
+                    InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Incidencias", "GENERIC_UPDATE_DATA_SUCCESS", desc, SelectedEmployeeID, "INFO")
+                End Using
 
-            LoadIncidentsByEmployee(SelectedEmployeeID)
-            LoadEmployeeSummary()
-            LimpiarFormulario()
-        End If
+                MessageBox.Show("Los datos del registro han sido actualizados correctamente por el proceso del sistema.", "Proceso Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
+                LoadIncidentsByEmployee(SelectedEmployeeID)
+                LoadEmployeeSummary()
+                LimpiarFormulario()
+            End If
+
+        Catch ex As Exception
+
+            Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                Dim descError As String = $"ERROR DE SCRIPT: Falló la ejecución de UpdateData() para la incidencia Reg_ID: {SelectedDREMPL_ID}, Empleado: {SelectedEmployeeID}. Motivo: {ex.Message}"
+                InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Incidencias", "ERROR_GENERIC_UPDATE_DATA", descError, SelectedEmployeeID, "ERROR", ex.StackTrace)
+            End Using
+            MessageBox.Show("Fallo interno al procesar UpdateData(): " & ex.Message, "Error Crítico del Proceso", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Sub LimpiarFormulario()

@@ -1,6 +1,7 @@
 ﻿Imports System.DirectoryServices.ActiveDirectory
 Imports System.Runtime.InteropServices.JavaScript.JSType
-
+Imports System.Data.SqlClient
+Imports Microsoft.Data.SqlClient
 Public Class OP_INS_BENEFITSPEREMPLOYEE
     Private Sub OP_INS_BENEFITSPEREMPLOYEE_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Display_EmployeesRecords()
@@ -176,10 +177,29 @@ Public Class OP_INS_BENEFITSPEREMPLOYEE
             Dim BenefitId = DGV_BenefitsByEmployee.Rows(e.RowIndex).Cells(1).Value
 
             Dim BenefitByEmployee = New CL_BenefitsEmployee
+            'If DGV_BenefitsByEmployee.Columns(e.ColumnIndex).Name = "BT_Activate" Then
+            '    BenefitByEmployee.Upd_BenefitsByEmployeeID(EmployeeId, BenefitId, True)
+            'ElseIf DGV_BenefitsByEmployee.Columns(e.ColumnIndex).Name = "BT_Deactivate" Then
+            '    BenefitByEmployee.Upd_BenefitsByEmployeeID(EmployeeId, BenefitId, False)
+            'End If
+
             If DGV_BenefitsByEmployee.Columns(e.ColumnIndex).Name = "BT_Activate" Then
                 BenefitByEmployee.Upd_BenefitsByEmployeeID(EmployeeId, BenefitId, True)
+
+                ' Log al Activar
+                Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                    Dim desc As String = $"CAMBIO DE ESTADO: Se ACTIVÓ el beneficio ID: {BenefitId} para el EMPL_ID: {EmployeeId}."
+                    InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Beneficios", "ACTIVATE_EMPLOYEE_BENEFIT", desc, CInt(EmployeeId), "INFO")
+                End Using
+
             ElseIf DGV_BenefitsByEmployee.Columns(e.ColumnIndex).Name = "BT_Deactivate" Then
                 BenefitByEmployee.Upd_BenefitsByEmployeeID(EmployeeId, BenefitId, False)
+
+                'Log al Desactivar
+                Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                    Dim desc As String = $"CAMBIO DE ESTADO: Se DESACTIVÓ el beneficio ID: {BenefitId} para el EMPL_ID: {EmployeeId}."
+                    InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Beneficios", "DEACTIVATE_EMPLOYEE_BENEFIT", desc, CInt(EmployeeId), "INFO")
+                End Using
             End If
 
             Get_AvailableBenefitByEmployee(EmployeeId)
@@ -242,8 +262,15 @@ Public Class OP_INS_BENEFITSPEREMPLOYEE
         Dim Employee_Id As Integer = GetSelectedEmployee()
 
 
-        Dim BenefitByEmployee = New CL_BenefitsEmployee(Employee_Id, Benefit_Id, Ammount, Date.Today, AppUser, 1)
+        Dim BenefitByEmployee = New CL_BenefitsEmployee(Employee_Id, Benefit_Id, Ammount, Date.Today, GlobalSession.GlobalUserName, 1)
         If BenefitByEmployee.InsertBenefitsByEmployee() Then
+
+            'Log al Insertar
+            Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                Dim desc As String = $"ASIGNACIÓN DE BENEFICIO: Se asignó el beneficio ID: {Benefit_Id} con monto {Ammount} al EMPL_ID: {Employee_Id}."
+                InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Beneficios", "ASSIGN_BENEFIT_SUCCESS", desc, Employee_Id, "INFO")
+            End Using
+
             Get_AvailableBenefitByEmployee(Employee_Id)
             Get_UpdatedSalaryByEmployee(Employee_Id)
         End If

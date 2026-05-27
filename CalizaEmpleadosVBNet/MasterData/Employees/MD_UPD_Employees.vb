@@ -7,11 +7,12 @@ Public Class MD_UPD_Employees
     Private SelectedEmployeeID As Integer = 0
 
     Private Original_Dept As String = ""
-        Private Original_Pos As String = ""
-        Private Original_Salary As String = ""
-        Private Original_Status As Boolean = True
+    Private Original_Pos As String = ""
+    Private Original_Salary As String = ""
+    Private Original_Status As Boolean = True
+    Private Original_Plant As String = ""
 
-        Private Sub MD_UPD_Employees_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub MD_UPD_Employees_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         InitializationOfFields()
     End Sub
 
@@ -76,6 +77,25 @@ Public Class MD_UPD_Employees
 
         If CB_Company.Items.Count > 0 Then
             CB_Company.SelectedIndex = 0
+        End If
+
+        CB_Plant.Items.Clear()
+
+        Dim Plants = New CL_Plants()
+        Dim ListOfPlants As DataTable = Plants.Get_ListOfPlants()
+
+        For Each Item As DataRow In ListOfPlants.Rows
+            CB_Plant.Items.Add(New ComboItem With {
+                .Id = CInt(Item(0)),
+                .Descripcion = Item(1).ToString()
+            })
+        Next
+
+        CB_Plant.DisplayMember = "Descripcion"
+        CB_Plant.ValueMember = "Id"
+
+        If CB_Plant.Items.Count > 0 Then
+            CB_Plant.SelectedIndex = 0
         End If
 
         'Department
@@ -290,6 +310,15 @@ Public Class MD_UPD_Employees
             Dim position As ComboItem = CType(CB_Position.SelectedItem, ComboItem)
             Dim department As ComboItem = CType(CB_Department.SelectedItem, ComboItem)
 
+            Dim plantIdSelected As Integer = 0
+
+            If CB_Plant.SelectedItem IsNot Nothing Then
+                If TypeOf CB_Plant.SelectedItem Is ComboItem Then
+                    plantIdSelected = CType(CB_Plant.SelectedItem, ComboItem).Id
+                ElseIf TypeOf CB_Plant.SelectedItem Is DataRowView Then
+                    plantIdSelected = CInt(CType(CB_Plant.SelectedItem, DataRowView)("PLANT_ID"))
+                End If
+            End If
             Dim Id_Supervisor As Integer = 0
             If CB_Supervisor.SelectedItem IsNot Nothing Then
                 Dim supervisor As ComboItem = CType(CB_Supervisor.SelectedItem, ComboItem)
@@ -317,6 +346,10 @@ Public Class MD_UPD_Employees
                 Else
                     listaCambios.Add($"Salario: de ${Original_Salary} a ${TB_BaseSalary.Text.Trim}")
                 End If
+            End If
+
+            If Original_Plant <> CB_Plant.Text Then
+                listaCambios.Add($"Planta: de '{Original_Plant}' a '{CB_Plant.Text}'")
             End If
 
             If Original_Status <> CB_Status.Checked Then
@@ -365,8 +398,9 @@ Public Class MD_UPD_Employees
                 TB_Costc.Text.Trim,
                 GlobalSession.GlobalUserName,
                 PhotoPath,
+                CB_Confidential.Checked,
                 CB_Status.Checked,
-                CB_Confidential.Checked
+                plantIdSelected
             )
 
             Employee.EMPL_STAT = CB_Status.Checked
@@ -489,10 +523,19 @@ Public Class MD_UPD_Employees
 
             CB_Status.Checked = Item(35)
 
+
+            If Not IsDBNull(Item(37)) Then
+                SelectComboById(CB_Plant, CInt(Item(37)))
+            Else
+                CB_Plant.SelectedIndex = 0
+            End If
+
+
             Original_Dept = CB_Department.Text
             Original_Pos = CB_Position.Text
             Original_Salary = TB_BaseSalary.Text.Trim
             Original_Status = CB_Status.Checked
+            Original_Plant = CB_Plant.Text
 
         Next
 

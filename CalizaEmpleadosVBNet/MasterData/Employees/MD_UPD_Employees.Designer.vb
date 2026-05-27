@@ -37,6 +37,8 @@ Partial Class MD_UPD_Employees
         TB_EmergencyContact = New TextBox()
         LB_SocialSecurityNumber = New Label()
         GB_EmployeeInformation = New GroupBox()
+        CB_Plant = New ComboBox()
+        LB_Plant = New Label()
         CB_Confidential = New CheckBox()
         TB_Costc = New TextBox()
         Label2 = New Label()
@@ -136,7 +138,7 @@ Partial Class MD_UPD_Employees
         GB_PersonalInformation.Controls.Add(PB_Picture)
         GB_PersonalInformation.Location = New Point(12, 248)
         GB_PersonalInformation.Name = "GB_PersonalInformation"
-        GB_PersonalInformation.Size = New Size(1248, 518)
+        GB_PersonalInformation.Size = New Size(1347, 518)
         GB_PersonalInformation.TabIndex = 101
         GB_PersonalInformation.TabStop = False
         GB_PersonalInformation.Text = "Información personal"
@@ -259,6 +261,8 @@ Partial Class MD_UPD_Employees
         ' 
         ' GB_EmployeeInformation
         ' 
+        GB_EmployeeInformation.Controls.Add(CB_Plant)
+        GB_EmployeeInformation.Controls.Add(LB_Plant)
         GB_EmployeeInformation.Controls.Add(CB_Confidential)
         GB_EmployeeInformation.Controls.Add(TB_Costc)
         GB_EmployeeInformation.Controls.Add(Label2)
@@ -282,16 +286,34 @@ Partial Class MD_UPD_Employees
         GB_EmployeeInformation.Controls.Add(CB_Company)
         GB_EmployeeInformation.Location = New Point(23, 286)
         GB_EmployeeInformation.Name = "GB_EmployeeInformation"
-        GB_EmployeeInformation.Size = New Size(1208, 125)
+        GB_EmployeeInformation.Size = New Size(1307, 125)
         GB_EmployeeInformation.TabIndex = 300
         GB_EmployeeInformation.TabStop = False
         GB_EmployeeInformation.Text = "Información de empleado"
+        ' 
+        ' CB_Plant
+        ' 
+        CB_Plant.DropDownStyle = ComboBoxStyle.DropDownList
+        CB_Plant.FormattingEnabled = True
+        CB_Plant.Location = New Point(1120, 86)
+        CB_Plant.Name = "CB_Plant"
+        CB_Plant.Size = New Size(168, 23)
+        CB_Plant.TabIndex = 416
+        ' 
+        ' LB_Plant
+        ' 
+        LB_Plant.AutoSize = True
+        LB_Plant.Location = New Point(1123, 68)
+        LB_Plant.Name = "LB_Plant"
+        LB_Plant.Size = New Size(40, 15)
+        LB_Plant.TabIndex = 415
+        LB_Plant.Text = "Planta"
         ' 
         ' CB_Confidential
         ' 
         CB_Confidential.AutoSize = True
         CB_Confidential.Enabled = False
-        CB_Confidential.Location = New Point(960, 88)
+        CB_Confidential.Location = New Point(885, 88)
         CB_Confidential.Name = "CB_Confidential"
         CB_Confidential.Size = New Size(93, 19)
         CB_Confidential.TabIndex = 413
@@ -300,15 +322,15 @@ Partial Class MD_UPD_Employees
         ' 
         ' TB_Costc
         ' 
-        TB_Costc.Location = New Point(1069, 86)
+        TB_Costc.Location = New Point(991, 86)
         TB_Costc.Name = "TB_Costc"
-        TB_Costc.Size = New Size(124, 23)
+        TB_Costc.Size = New Size(114, 23)
         TB_Costc.TabIndex = 412
         ' 
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Location = New Point(1069, 68)
+        Label2.Location = New Point(995, 68)
         Label2.Name = "Label2"
         Label2.Size = New Size(96, 15)
         Label2.TabIndex = 411
@@ -320,7 +342,7 @@ Partial Class MD_UPD_Employees
         CB_Department.FormattingEnabled = True
         CB_Department.Location = New Point(1051, 38)
         CB_Department.Name = "CB_Department"
-        CB_Department.Size = New Size(142, 23)
+        CB_Department.Size = New Size(241, 23)
         CB_Department.TabIndex = 410
         ' 
         ' Label1
@@ -354,15 +376,15 @@ Partial Class MD_UPD_Employees
         ' 
         CB_Supervisor.DropDownStyle = ComboBoxStyle.DropDownList
         CB_Supervisor.FormattingEnabled = True
-        CB_Supervisor.Location = New Point(373, 86)
+        CB_Supervisor.Location = New Point(369, 86)
         CB_Supervisor.Name = "CB_Supervisor"
-        CB_Supervisor.Size = New Size(334, 23)
+        CB_Supervisor.Size = New Size(274, 23)
         CB_Supervisor.TabIndex = 312
         ' 
         ' LB_Supervisor
         ' 
         LB_Supervisor.AutoSize = True
-        LB_Supervisor.Location = New Point(374, 69)
+        LB_Supervisor.Location = New Point(372, 69)
         LB_Supervisor.Name = "LB_Supervisor"
         LB_Supervisor.Size = New Size(51, 15)
         LB_Supervisor.TabIndex = 311
@@ -371,14 +393,14 @@ Partial Class MD_UPD_Employees
         ' TB_BaseSalary
         ' 
         TB_BaseSalary.BackColor = SystemColors.Info
-        TB_BaseSalary.Location = New Point(854, 86)
+        TB_BaseSalary.Location = New Point(779, 86)
         TB_BaseSalary.Name = "TB_BaseSalary"
         TB_BaseSalary.Size = New Size(100, 23)
         TB_BaseSalary.TabIndex = 316
         ' 
         ' TB_VacationsDays
         ' 
-        TB_VacationsDays.Location = New Point(723, 86)
+        TB_VacationsDays.Location = New Point(657, 86)
         TB_VacationsDays.Name = "TB_VacationsDays"
         TB_VacationsDays.Size = New Size(108, 23)
         TB_VacationsDays.TabIndex = 314
@@ -400,7 +422,7 @@ Partial Class MD_UPD_Employees
         ' LB_Salary
         ' 
         LB_Salary.AutoSize = True
-        LB_Salary.Location = New Point(855, 69)
+        LB_Salary.Location = New Point(783, 69)
         LB_Salary.Name = "LB_Salary"
         LB_Salary.Size = New Size(69, 15)
         LB_Salary.TabIndex = 315
@@ -409,7 +431,7 @@ Partial Class MD_UPD_Employees
         ' LB_VacationDays
         ' 
         LB_VacationDays.AutoSize = True
-        LB_VacationDays.Location = New Point(726, 69)
+        LB_VacationDays.Location = New Point(660, 69)
         LB_VacationDays.Name = "LB_VacationDays"
         LB_VacationDays.Size = New Size(106, 15)
         LB_VacationDays.TabIndex = 313
@@ -488,7 +510,7 @@ Partial Class MD_UPD_Employees
         GB_FiscalInformation.Controls.Add(LB_RFC)
         GB_FiscalInformation.Location = New Point(23, 202)
         GB_FiscalInformation.Name = "GB_FiscalInformation"
-        GB_FiscalInformation.Size = New Size(1208, 79)
+        GB_FiscalInformation.Size = New Size(1307, 79)
         GB_FiscalInformation.TabIndex = 200
         GB_FiscalInformation.TabStop = False
         GB_FiscalInformation.Text = "Información Fiscal"
@@ -744,7 +766,7 @@ Partial Class MD_UPD_Employees
         GroupBox1.Controls.Add(DGV_AllEmployees)
         GroupBox1.Location = New Point(12, 46)
         GroupBox1.Name = "GroupBox1"
-        GroupBox1.Size = New Size(1248, 196)
+        GroupBox1.Size = New Size(1347, 196)
         GroupBox1.TabIndex = 102
         GroupBox1.TabStop = False
         GroupBox1.Text = "Empleados registrados"
@@ -759,7 +781,7 @@ Partial Class MD_UPD_Employees
         DGV_AllEmployees.Name = "DGV_AllEmployees"
         DGV_AllEmployees.ReadOnly = True
         DGV_AllEmployees.RowHeadersWidth = 62
-        DGV_AllEmployees.Size = New Size(1208, 150)
+        DGV_AllEmployees.Size = New Size(1307, 150)
         DGV_AllEmployees.TabIndex = 0
         ' 
         ' LB_Title
@@ -778,7 +800,7 @@ Partial Class MD_UPD_Employees
         AutoScaleMode = AutoScaleMode.Font
         AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(1281, 630)
+        ClientSize = New Size(1425, 630)
         Controls.Add(LB_Title)
         Controls.Add(GroupBox1)
         Controls.Add(GB_PersonalInformation)
@@ -873,4 +895,6 @@ Partial Class MD_UPD_Employees
     Friend WithEvents TB_Costc As TextBox
     Friend WithEvents CB_Status As CheckBox
     Friend WithEvents CB_Confidential As CheckBox
+    Friend WithEvents CB_Plant As ComboBox
+    Friend WithEvents LB_Plant As Label
 End Class

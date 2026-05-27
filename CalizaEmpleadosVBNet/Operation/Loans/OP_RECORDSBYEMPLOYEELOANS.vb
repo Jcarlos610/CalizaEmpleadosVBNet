@@ -1,4 +1,6 @@
-﻿Public Class OP_RECORDSBYEMPLOYEELOANS
+﻿Imports Microsoft.Data.SqlClient
+
+Public Class OP_RECORDSBYEMPLOYEELOANS
     Public GV_Balance As Decimal = 0.0
 
     Private Sub OP_RECORDSBYEMPLOYEELOANS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -139,54 +141,119 @@
         CalcularTotales()
     End Sub
 
+    'Private Sub BT_Register_Click(sender As Object, e As EventArgs) Handles BT_Register.Click
+
+
+    '    If Get_LOAN_ID() = 0 Then
+    '        MessageBox.Show("Selecciona un préstamo primero")
+    '        Exit Sub
+    '    End If
+
+    '    If TB_ManualInstalment.Text = "" Then
+    '        MessageBox.Show("Ingresa un monto")
+    '        Exit Sub
+    '    End If
+
+    '    If Not IsNumeric(TB_ManualInstalment.Text) Then
+    '        MessageBox.Show("Solo números")
+    '        Exit Sub
+    '    End If
+
+
+    '    If TB_balance.Text = "$0.00" Then
+    '        MessageBox.Show("El préstamo ya está liquidado")
+    '        Exit Sub
+    '    End If
+
+    '    Dim obj As New CL_EmployeeLoans
+
+    '    obj.LOAN_ID = Get_LOAN_ID()
+    '    obj.LOAN_PAYM = Convert.ToDecimal(TB_ManualInstalment.Text)
+    '    obj.LOAN_PTYPE = 1
+    '    obj.REMPL_CREBY = AppUser
+    '    obj.REMPL_RDATE = Date.Today
+
+    '    If CDec(TB_ManualInstalment.Text) > GV_Balance Then
+    '        MessageBox.Show("El monto ingresado es mayor al saldo a pagar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
+    '        TB_ManualInstalment.SelectAll()
+    '        TB_ManualInstalment.Focus()
+    '    Else
+    '        obj.InsertPayment()
+    '        MessageBox.Show("Pago registrado", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+    '        TB_ManualInstalment.Text = ""
+
+    '        LoadEmployeeInfo()
+    '        LoadLoans()
+    '        LoadDetail()
+    '        CalcularTotales()
+    '    End If
+
+    'End Sub
+
     Private Sub BT_Register_Click(sender As Object, e As EventArgs) Handles BT_Register.Click
-
-
         If Get_LOAN_ID() = 0 Then
-            MessageBox.Show("Selecciona un préstamo primero")
+            MessageBox.Show("Por favor, seleccione el préstamo al cual desea aplicar el abono.", "Aviso de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
-        If TB_ManualInstalment.Text = "" Then
-            MessageBox.Show("Ingresa un monto")
+        If String.IsNullOrWhiteSpace(TB_ManualInstalment.Text) Then
+            MessageBox.Show("Debe ingresar un monto para realizar el abono.", "Campo Vacío", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
         If Not IsNumeric(TB_ManualInstalment.Text) Then
-            MessageBox.Show("Solo números")
+            MessageBox.Show("El abono debe ser exclusivamente un valor numérico.", "Monto Inválido", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
-
 
         If TB_balance.Text = "$0.00" Then
-            MessageBox.Show("El préstamo ya está liquidado")
+            MessageBox.Show("Este préstamo ya se encuentra completamente liquidado.", "Cuenta Saldada", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If
 
-        Dim obj As New CL_EmployeeLoans
+        Dim loanId As Integer = Get_LOAN_ID()
+        Dim montoAbono As Decimal = Convert.ToDecimal(TB_ManualInstalment.Text)
 
-        obj.LOAN_ID = Get_LOAN_ID()
-        obj.LOAN_PAYM = Convert.ToDecimal(TB_ManualInstalment.Text)
-        obj.LOAN_PTYPE = 1
-        obj.REMPL_CREBY = AppUser
-        obj.REMPL_RDATE = Date.Today
-
-        If CDec(TB_ManualInstalment.Text) > GV_Balance Then
-            MessageBox.Show("El monto ingresado es mayor al saldo a pagar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        If montoAbono > GV_Balance Then
+            MessageBox.Show($"El monto ingresado (${montoAbono}) supera el saldo pendiente de la deuda (${GV_Balance}).", "Error de Monto", MessageBoxButtons.OK, MessageBoxIcon.Error)
             TB_ManualInstalment.SelectAll()
             TB_ManualInstalment.Focus()
-        Else
-            obj.InsertPayment()
-            MessageBox.Show("Pago registrado", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
 
+        Try
+            Dim obj As New CL_EmployeeLoans
+            obj.LOAN_ID = loanId
+            obj.LOAN_PAYM = montoAbono
+            obj.LOAN_PTYPE = 1
+            obj.REMPL_CREBY = GlobalSession.GlobalUserName
+            obj.REMPL_RDATE = Date.Today
+
+            obj.InsertPayment()
+
+            'LOG
+            Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                Dim desc As String = $"ABONO A CRÉDITO: Se registró un pago exitoso al Préstamo ID: {loanId}. Importe Abonado: ${montoAbono} | Saldo Anterior: ${GV_Balance} | Nuevo Saldo Estimado: ${GV_Balance - montoAbono}."
+                InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Abonos", "INSERT_PAYMENT_SUCCESS", desc, 0, "INFO")
+            End Using
+
+            MessageBox.Show($"¡El pago por ${montoAbono} ha sido aplicado correctamente al préstamo!", "Confirmación de Pago", MessageBoxButtons.OK, MessageBoxIcon.Information)
             TB_ManualInstalment.Text = ""
 
             LoadEmployeeInfo()
             LoadLoans()
             LoadDetail()
             CalcularTotales()
-        End If
 
+        Catch ex As Exception
+            'LOG DE ERROR
+            Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                Dim descError As String = $"ERROR CRÍTICO: Falló el registro del abono para el Préstamo ID: {loanId} por cantidad de ${montoAbono}. Motivo: {ex.Message}"
+                InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Abonos", "ERROR_INSERT_PAYMENT", descError, 0, "ERROR", ex.StackTrace)
+            End Using
+            MessageBox.Show("Ocurrió un error inesperado al intentar aplicar el pago en el servidor: " & ex.Message, "Error Crítico del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Function SumarColumna(dgv As DataGridView, nombreColumna As String) As Decimal

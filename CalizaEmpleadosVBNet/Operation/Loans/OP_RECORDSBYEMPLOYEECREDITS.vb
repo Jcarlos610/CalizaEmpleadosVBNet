@@ -1,4 +1,6 @@
-﻿Public Class OP_RECORDSBYEMPLOYEECREDITS
+﻿Imports Microsoft.Data.SqlClient
+
+Public Class OP_RECORDSBYEMPLOYEECREDITS
     Private Sub OP_RECORDSBYEMPLOYEECREDITS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadCreditTypes()
         LoadDiscounts()
@@ -55,61 +57,123 @@
         Return Convert.ToInt32(DGV_EmployeeInfo.CurrentRow.Cells("No. Empleado").Value)
     End Function
 
+    'Private Sub BT_Register_Click(sender As Object, e As EventArgs) Handles BT_Register.Click
+    '    If Get_EMPL_ID() = 0 Then
+    '        MessageBox.Show("Selecciona un empleado")
+    '        Exit Sub
+    '    End If
+
+    '    If TB_Ammount.Text = "" OrElse Not IsNumeric(TB_Ammount.Text) Then
+    '        MessageBox.Show("Monto inválido")
+    '        Exit Sub
+    '    End If
+
+    '    If CB_Credits.SelectedIndex = -1 Then
+    '        MessageBox.Show("Selecciona tipo de crédito")
+    '        Exit Sub
+    '    End If
+
+    '    Dim tipoCredito As Integer
+
+    '    If CB_Credits.SelectedIndex = 0 Then
+    '        tipoCredito = 1
+    '    Else
+    '        tipoCredito = 2
+    '    End If
+
+    '    If TB_AuthorizeBy.Text = "" Then
+    '        MessageBox.Show("Ingresa quién autoriza")
+    '        Exit Sub
+    '    End If
+
+    '    Dim obj As New CL_EmployeeLoans
+
+    '    obj.EMPL_ID = Get_EMPL_ID()
+    '    obj.DREMPL_LAMM = Convert.ToDecimal(TB_Ammount.Text)
+    '    obj.DREMPL_LTYPE = tipoCredito
+    '    obj.REMPL_CREBY = AppUser
+    '    obj.REMPL_RDATE = Date.Today
+    '    obj.DREMPL_DESCR = TB_Comment.Text
+    '    obj.DREMPL_AUTH = TB_AuthorizeBy.Text
+
+
+    '    If CB_Discounts.SelectedValue IsNot Nothing Then
+    '        obj.DISC_ID = CB_Discounts.SelectedValue
+    '    Else
+    '        obj.DISC_ID = DBNull.Value
+    '    End If
+
+
+    '    obj.InsertLoan()
+
+    '    MessageBox.Show("Crédito registrado correctamente")
+
+    '    LoadLoans()
+
+    '    InitializationOfFields()
+
+    'End Sub
+
     Private Sub BT_Register_Click(sender As Object, e As EventArgs) Handles BT_Register.Click
         If Get_EMPL_ID() = 0 Then
-            MessageBox.Show("Selecciona un empleado")
+            MessageBox.Show("Por favor, seleccione un empleado de la lista antes de registrar el crédito.", "Aviso de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
-        If TB_Ammount.Text = "" OrElse Not IsNumeric(TB_Ammount.Text) Then
-            MessageBox.Show("Monto inválido")
+        If String.IsNullOrWhiteSpace(TB_Ammount.Text) OrElse Not IsNumeric(TB_Ammount.Text) Then
+            MessageBox.Show("El monto ingresado no es válido. Verifique que sea un valor numérico.", "Monto Inválido", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
         If CB_Credits.SelectedIndex = -1 Then
-            MessageBox.Show("Selecciona tipo de crédito")
+            MessageBox.Show("Debe seleccionar un tipo de crédito para continuar.", "Campo Obligatorio", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
-        Dim tipoCredito As Integer
-
-        If CB_Credits.SelectedIndex = 0 Then
-            tipoCredito = 1
-        Else
-            tipoCredito = 2
-        End If
-
-        If TB_AuthorizeBy.Text = "" Then
-            MessageBox.Show("Ingresa quién autoriza")
+        If String.IsNullOrWhiteSpace(TB_AuthorizeBy.Text) Then
+            MessageBox.Show("Por favor, ingrese el nombre de la persona que autoriza este crédito.", "Campo Obligatorio", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
-        Dim obj As New CL_EmployeeLoans
+        Dim tipoCredito As Integer = If(CB_Credits.SelectedIndex = 0, 1, 2)
+        Dim empId As Integer = Get_EMPL_ID()
 
-        obj.EMPL_ID = Get_EMPL_ID()
-        obj.DREMPL_LAMM = Convert.ToDecimal(TB_Ammount.Text)
-        obj.DREMPL_LTYPE = tipoCredito
-        obj.REMPL_CREBY = AppUser
-        obj.REMPL_RDATE = Date.Today
-        obj.DREMPL_DESCR = TB_Comment.Text
-        obj.DREMPL_AUTH = TB_AuthorizeBy.Text
+        Try
+            Dim obj As New CL_EmployeeLoans
+            obj.EMPL_ID = empId
+            obj.DREMPL_LAMM = Convert.ToDecimal(TB_Ammount.Text)
+            obj.DREMPL_LTYPE = tipoCredito
+            obj.REMPL_CREBY = GlobalSession.GlobalUserName
+            obj.REMPL_RDATE = Date.Today
+            obj.DREMPL_DESCR = TB_Comment.Text
+            obj.DREMPL_AUTH = TB_AuthorizeBy.Text
 
+            If CB_Discounts.SelectedValue IsNot Nothing Then
+                obj.DISC_ID = CB_Discounts.SelectedValue
+            Else
+                obj.DISC_ID = DBNull.Value
+            End If
 
-        If CB_Discounts.SelectedValue IsNot Nothing Then
-            obj.DISC_ID = CB_Discounts.SelectedValue
-        Else
-            obj.DISC_ID = DBNull.Value
-        End If
+            obj.InsertLoan()
 
+            'LOG 
+            Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                Dim desc As String = $"REGISTRO CRÉDITO EXITOSO: Se otorgó préstamo al Empleado ID: {empId}. Monto: ${obj.DREMPL_LAMM} | Tipo Crédito: {tipoCredito} | Autorizado por: '{obj.DREMPL_AUTH.Trim()}' | Descuento_ID: {If(CB_Discounts.SelectedValue IsNot Nothing, CB_Discounts.SelectedValue.ToString(), "N/A")}."
+                InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Prestamos", "INSERT_LOAN_SUCCESS", desc, empId, "INFO")
+            End Using
 
-        obj.InsertLoan()
+            MessageBox.Show("¡El crédito financiero ha sido registrado correctamente en el sistema!", "Confirmación de Registro", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            LoadLoans()
+            InitializationOfFields()
 
-        MessageBox.Show("Crédito registrado correctamente")
-
-        LoadLoans()
-
-        InitializationOfFields()
-
+        Catch ex As Exception
+            'LOG DE ERROR 
+            Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                Dim descError As String = $"ERROR CRÍTICO: Falló la inserción del préstamo para el Empleado ID: {empId}. Motivo: {ex.Message}"
+                InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Prestamos", "ERROR_INSERT_LOAN", descError, empId, "ERROR", ex.StackTrace)
+            End Using
+            MessageBox.Show("Ocurrió un error inesperado al intentar guardar el crédito en el servidor: " & ex.Message, "Error Crítico del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Sub InitializationOfFields()

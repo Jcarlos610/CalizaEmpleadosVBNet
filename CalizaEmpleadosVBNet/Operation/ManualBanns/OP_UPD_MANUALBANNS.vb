@@ -129,11 +129,13 @@
 'End Class
 
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports Microsoft.Data.SqlClient
 
 Public Class OP_UPD_MANUALBANNS
 
     Dim SelectedEBannID As Integer = 0
     Dim JustificacionDesactivar As String = ""
+    Private Original_BannDays As Decimal = 0D
 
     Private Sub OP_UPD_MANUALBANNS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         DTP_Valid.Enabled = False
@@ -152,6 +154,8 @@ Public Class OP_UPD_MANUALBANNS
             TB_Description.Text = row.Cells("Descripción").Value.ToString()
             TB_BannDays.Text = row.Cells("Días").Value.ToString()
             DTP_Valid.Value = CDate(row.Cells("Fecha").Value)
+
+            Decimal.TryParse(TB_BannDays.Text, Original_BannDays)
 
             TB_EmployeeId.ReadOnly = True
             TB_EmployeeName.ReadOnly = True
@@ -176,49 +180,77 @@ Public Class OP_UPD_MANUALBANNS
     End Sub
 
     Private Sub BT_Upd_Click(sender As Object, e As EventArgs) Handles BT_Upd.Click
-        If SelectedEBannID = 0 Then
-            MsgBox("Por favor, seleccione una amonestación de la tabla.", MsgBoxStyle.Exclamation, "Aviso")
-            Return
-        End If
-
-        Dim dias As Decimal = 0
-        If Not Decimal.TryParse(TB_BannDays.Text, dias) OrElse dias <= 0 Then
-            MsgBox("Por favor, introduzca una cantidad de días válida mayor a cero.", MsgBoxStyle.Exclamation, "Aviso")
-            Return
-        End If
-
-        If CB_Status.Checked = False AndAlso String.IsNullOrWhiteSpace(JustificacionDesactivar) Then
-            Dim row As DataGridViewRow = DGV_Banns.CurrentRow
-            If row IsNot Nothing AndAlso row.Cells("Estado").Value.ToString() = "Activa" Then
-                MsgBox("No se puede desactivar una amonestación activa sin una justificación.", MsgBoxStyle.Critical, "Error de Validación")
+        Try
+            If SelectedEBannID = 0 Then
+                MsgBox("Por favor, seleccione una amonestación de la tabla.", MsgBoxStyle.Exclamation, "Aviso")
                 Return
             End If
-        End If
 
-        Dim CL As New CL_EmployeeBanns
-        CL.DREMPL_DATE = DTP_Valid.Value.Date
-        CL.DREMPL_DQUANTITY = dias
-        CL.DREMPL_BNAME = TB_BannName.Text.Trim()
-        CL.DREMPL_DESCR = TB_Description.Text.Trim()
-        CL.DREMPL_STATUS = CB_Status.Checked
-        CL.DREMPL_CREBY = AppUser
+            Dim dias As Decimal = 0
+            If Not Decimal.TryParse(TB_BannDays.Text, dias) OrElse dias <= 0 Then
+                MsgBox("Por favor, introduzca una cantidad de días válida mayor a cero.", MsgBoxStyle.Exclamation, "Aviso")
+                Return
+            End If
 
-        Dim justiFinal As String = JustificacionDesactivar
-        If String.IsNullOrWhiteSpace(justiFinal) AndAlso CB_Status.Checked = False Then
-            justiFinal = "Modificación de días / campos sin alterar estado activo."
-        End If
+            If CB_Status.Checked = False AndAlso String.IsNullOrWhiteSpace(JustificacionDesactivar) Then
+                Dim row As DataGridViewRow = DGV_Banns.CurrentRow
+                If row IsNot Nothing AndAlso row.Cells("Estado").Value.ToString() = "Activa" Then
+                    MsgBox("No se puede desactivar una amonestación activa sin una justificación.", MsgBoxStyle.Critical, "Error de Validación")
+                    Return
+                End If
+            End If
 
-        If CL.UpdateEmployeeBanns(SelectedEBannID, justiFinal) Then
-            MsgBox("¡Amonestación actualizada con éxito!", MsgBoxStyle.Information, "Éxito")
+            Dim detalleCambios As String = ""
+            If Original_BannDays <> dias Then
+                detalleCambios &= $"Modificación de días (Antes: {Original_BannDays} -> Ahora: {dias}). "
+            End If
+            If CB_Status.Checked = False Then
+                detalleCambios &= "Estado cambiado a INACTIVA. "
+            End If
+            If detalleCambios = "" Then
+                detalleCambios = "Actualización de campos descriptivos o fechas."
+            End If
 
-            Historial()
-            ResetFormFields()
-        End If
+            Dim CL As New CL_EmployeeBanns
+            CL.DREMPL_DATE = DTP_Valid.Value.Date
+            CL.DREMPL_DQUANTITY = dias
+            CL.DREMPL_BNAME = TB_BannName.Text.Trim()
+            CL.DREMPL_DESCR = TB_Description.Text.Trim()
+            CL.DREMPL_STATUS = CB_Status.Checked
+            CL.DREMPL_CREBY = GlobalSession.GlobalUserName
+
+            Dim justiFinal As String = JustificacionDesactivar
+            If String.IsNullOrWhiteSpace(justiFinal) AndAlso CB_Status.Checked = False Then
+                justiFinal = "Modificación de días / campos sin alterar estado activo."
+            End If
+
+            If CL.UpdateEmployeeBanns(SelectedEBannID, justiFinal) Then
+
+                'LOG 
+                Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                    Dim descLog As String = $"MODIFICACIÓN DE AMONESTACIÓN: Se editó el registro BANN_ID: {SelectedEBannID}. Cambios: {detalleCambios} Justificación: '{justiFinal}'."
+                    InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Amonestaciones", "UPDATE_BANN_SUCCESS", descLog, SelectedEBannID, "INFO")
+                End Using
+
+                MsgBox("¡Amonestación actualizada con éxito!", MsgBoxStyle.Information, "Éxito")
+
+                Historial()
+                ResetFormFields()
+            End If
+
+        Catch ex As Exception
+            'LOG DE ERROR 
+            Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                Dim descError As String = $"ERROR CRÍTICO: Falló la modificación del registro BANN_ID: {SelectedEBannID}. Motivo: {ex.Message}"
+                InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Amonestaciones", "ERROR_UPDATE_BANN", descError, SelectedEBannID, "ERROR", ex.StackTrace)
+            End Using
+            MsgBox("Ocurrió un error inesperado al actualizar la amonestación: " & ex.Message, MsgBoxStyle.Critical, "Error Crítico")
+        End Try
     End Sub
 
     Private Sub Historial()
         Dim CL As New CL_EmployeeBanns
-        DGV_Banns.DataSource = CL.GetAllBannsHistory(AppUser)
+        DGV_Banns.DataSource = CL.GetAllBannsHistory(GlobalSession.GlobalUserName)
 
         If DGV_Banns.Columns.Count > 0 Then
             DGV_Banns.Columns("ID").Visible = False

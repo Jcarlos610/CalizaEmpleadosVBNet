@@ -1,4 +1,6 @@
-﻿Public Class OP_INS_TEMPORALLUNCH
+﻿Imports System.Data.SqlClient
+Imports Microsoft.Data.SqlClient
+Public Class OP_INS_TEMPORALLUNCH
 
     Dim SelectedEmplID As Integer = 0
     Private Sub OP_INS_TEMPORALLUNCH_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -10,7 +12,7 @@
         If TB_Employee.Text.Trim.Length > 1 Then
             Dim CL As New CL_TemporalLunchTime
 
-            Dim dt As DataTable = CL.GetEmployeeSuggestions(AppUser, TB_Employee.Text.Trim())
+            Dim dt As DataTable = CL.GetEmployeeSuggestions(GlobalSession.GlobalUserName, TB_Employee.Text.Trim())
 
             If dt.Rows.Count > 0 Then
                 LBX_Suggesting.DataSource = dt
@@ -41,32 +43,49 @@
     End Sub
 
     Private Sub BT_Register_Click(sender As Object, e As EventArgs) Handles BT_Register.Click
+        Try
+            If String.IsNullOrEmpty(TB_EmployeeId.Text) Then
+                MsgBox("Debe seleccionar un empleado de la lista.", MsgBoxStyle.Exclamation, "Atención")
+                Return
+            End If
 
-        If String.IsNullOrEmpty(TB_EmployeeId.Text) Then
-            MsgBox("Debe seleccionar un empleado de la lista.", MsgBoxStyle.Exclamation, "Atención")
-            Return
-        End If
+            Dim horas As Decimal
+            If Not Decimal.TryParse(TB_Lunch.Text, horas) OrElse horas < 0 OrElse horas > 5 Then
+                MsgBox("Las horas permitidas son de 0 a 5.", MsgBoxStyle.Critical, "Rango no válido")
+                TB_Lunch.Focus()
+                Return
+            End If
 
-        Dim horas As Decimal
-        If Not Decimal.TryParse(TB_Lunch.Text, horas) OrElse horas < 0 OrElse horas > 5 Then
-            MsgBox("Las horas permitidas son de 0 a 5.", MsgBoxStyle.Critical, "Rango no válido")
-            TB_Lunch.Focus()
-            Return
-        End If
+            Dim targetEmpID As Integer = CInt(TB_EmployeeId.Text)
+            Dim CL As New CL_TemporalLunchTime
+            CL.EMPL_ID = CInt(TB_EmployeeId.Text)
+            CL.LUNCH_DATE = DTP_Valid.Value
+            CL.LUNCH_HOURS = horas
+            CL.LUNCH_CREBY = GlobalSession.GlobalUserName
+            CL.LUNCH_DATEC = Now
+            CL.LUNCH_STAT = True
 
-        Dim CL As New CL_TemporalLunchTime
-        CL.EMPL_ID = CInt(TB_EmployeeId.Text)
-        CL.LUNCH_DATE = DTP_Valid.Value
-        CL.LUNCH_HOURS = horas
-        CL.LUNCH_CREBY = AppUser
-        CL.LUNCH_DATEC = Now
-        CL.LUNCH_STAT = True
+            If CL.InsertTemporalLunch() Then
 
-        If CL.InsertTemporalLunch() Then
-            MsgBox("El registro se guardó correctamente.", MsgBoxStyle.Information, "Éxito")
-            Historial(0)
-            ResetFormFields()
-        End If
+                'LOG EXITOSO
+                Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                    Dim descLog As String = $"REGISTRO DE INCIDENCIA DE COMIDA: Se asignaron {horas} hrs de comida para el EMPL_ID: {targetEmpID} válidas para la fecha [{DTP_Valid.Value:dd/MM/yyyy}]."
+                    InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Comidas", "INSERT_LUNCH_SUCCESS", descLog, targetEmpID, "INFO")
+                End Using
+
+                MsgBox("El registro se guardó correctamente.", MsgBoxStyle.Information, "Éxito")
+                Historial(0)
+                ResetFormFields()
+            End If
+
+        Catch ex As Exception
+            'LOG DE ERROR
+            Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                Dim descError As String = $"ERROR CRÍTICO: Falló la inserción en el formulario de horas de comida. Motivo: {ex.Message}"
+                InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Comidas", "ERROR_INSERT_LUNCH", descError, 0, "ERROR", ex.StackTrace)
+            End Using
+            MsgBox("Ocurrió un error inesperado al registrar las horas: " & ex.Message, MsgBoxStyle.Critical, "Error Crítico")
+        End Try
     End Sub
 
     Private Sub Historial(ByVal idEmp As Integer)

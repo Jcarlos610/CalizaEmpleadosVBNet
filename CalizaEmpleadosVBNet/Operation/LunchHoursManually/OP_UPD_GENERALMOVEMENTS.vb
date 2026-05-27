@@ -103,10 +103,17 @@ Public Class OP_UPD_GENERALMOVEMENTS
                 .Columns("DREMPL_TDAYS").DefaultCellStyle.BackColor = System.Drawing.Color.Honeydew
             End If
 
+            'If .Columns.Contains("DREMPL_AMOUNT") Then
+            '    .Columns("DREMPL_AMOUNT").ReadOnly = False
+            '    .Columns("DREMPL_AMOUNT").HeaderText = "Transporte entre Empleados"
+            '    .Columns("DREMPL_AMOUNT").DefaultCellStyle.BackColor = System.Drawing.Color.Honeydew
+            '    .Columns("DREMPL_AMOUNT").DefaultCellStyle.Format = "C2"
+            'End If
+
             If .Columns.Contains("DREMPL_AMOUNT") Then
                 .Columns("DREMPL_AMOUNT").ReadOnly = False
                 .Columns("DREMPL_AMOUNT").HeaderText = "Transporte entre Empleados"
-                .Columns("DREMPL_AMOUNT").DefaultCellStyle.BackColor = System.Drawing.Color.Honeydew
+                .Columns("DREMPL_AMOUNT").DefaultCellStyle.BackColor = System.Drawing.Color.Linen
                 .Columns("DREMPL_AMOUNT").DefaultCellStyle.Format = "C2"
             End If
 

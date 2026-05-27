@@ -1,4 +1,6 @@
-﻿Public Class OP_UPD_RECORDSBYEMPLOYEECREDITS
+﻿Imports Microsoft.Data.SqlClient
+
+Public Class OP_UPD_RECORDSBYEMPLOYEECREDITS
     Private Sub DGV_Loans_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Loans.CellContentClick
         If DGV_Loans.CurrentRow Is Nothing Then Exit Sub
 
@@ -71,42 +73,87 @@
 
     End Sub
 
+    'Private Sub BT_Upd_Click(sender As Object, e As EventArgs) Handles BT_Upd.Click
+    '    If Get_LOAN_ID() = 0 Then
+    '        MessageBox.Show("Selecciona un crédito")
+    '        Exit Sub
+    '    End If
+
+    '    Dim tipoCredito As Integer
+
+    '    If CB_Credits.SelectedIndex = 0 Then
+    '        tipoCredito = 1
+    '    Else
+    '        tipoCredito = 2
+    '    End If
+
+    '    Dim obj As New CL_EmployeeLoans
+
+    '    obj.LOAN_ID = Get_LOAN_ID()
+    '    obj.DREMPL_LAMM = Convert.ToDecimal(TB_Ammount.Text)
+    '    obj.DREMPL_LTYPE = tipoCredito
+    '    obj.DREMPL_DESCR = TB_Comment.Text
+    '    obj.DREMPL_AUTH = TB_AuthorizeBy.Text
+
+    '    If CB_Discounts.SelectedValue IsNot Nothing Then
+    '        obj.DISC_ID = CB_Discounts.SelectedValue
+    '    Else
+    '        obj.DISC_ID = DBNull.Value
+    '    End If
+
+
+
+    '    obj.UpdateLoan()
+
+    '    MessageBox.Show("Crédito actualizado")
+
+    '    LoadLoans()
+    '    InitializationOfFields()
+    'End Sub
+
     Private Sub BT_Upd_Click(sender As Object, e As EventArgs) Handles BT_Upd.Click
         If Get_LOAN_ID() = 0 Then
-            MessageBox.Show("Selecciona un crédito")
+            MessageBox.Show("Por favor, seleccione un crédito de la lista para proceder con la actualización.", "Aviso de Selección", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
-        Dim tipoCredito As Integer
+        Dim loanId As Integer = Get_LOAN_ID()
+        Dim tipoCredito As Integer = If(CB_Credits.SelectedIndex = 0, 1, 2)
 
-        If CB_Credits.SelectedIndex = 0 Then
-            tipoCredito = 1
-        Else
-            tipoCredito = 2
-        End If
+        Try
+            Dim obj As New CL_EmployeeLoans
+            obj.LOAN_ID = loanId
+            obj.DREMPL_LAMM = Convert.ToDecimal(TB_Ammount.Text)
+            obj.DREMPL_LTYPE = tipoCredito
+            obj.DREMPL_DESCR = TB_Comment.Text
+            obj.DREMPL_AUTH = TB_AuthorizeBy.Text
 
-        Dim obj As New CL_EmployeeLoans
+            If CB_Discounts.SelectedValue IsNot Nothing Then
+                obj.DISC_ID = CB_Discounts.SelectedValue
+            Else
+                obj.DISC_ID = DBNull.Value
+            End If
 
-        obj.LOAN_ID = Get_LOAN_ID()
-        obj.DREMPL_LAMM = Convert.ToDecimal(TB_Ammount.Text)
-        obj.DREMPL_LTYPE = tipoCredito
-        obj.DREMPL_DESCR = TB_Comment.Text
-        obj.DREMPL_AUTH = TB_AuthorizeBy.Text
+            obj.UpdateLoan()
 
-        If CB_Discounts.SelectedValue IsNot Nothing Then
-            obj.DISC_ID = CB_Discounts.SelectedValue
-        Else
-            obj.DISC_ID = DBNull.Value
-        End If
+            'LOG 
+            Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                Dim desc As String = $"MODIFICACIÓN CRÉDITO: Se actualizaron los datos del Préstamo ID: {loanId}. Nuevos valores -> Monto: ${obj.DREMPL_LAMM} | Tipo: {tipoCredito} | Autorizado por: '{obj.DREMPL_AUTH.Trim()}' | Comentario: '{obj.DREMPL_DESCR.Trim()}'."
+                InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Prestamos", "UPDATE_LOAN_SUCCESS", desc, 0, "INFO")
+            End Using
 
+            MessageBox.Show("¡Los datos del crédito han sido modificados con éxito!", "Confirmación de Actualización", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            LoadLoans()
+            InitializationOfFields()
 
-
-        obj.UpdateLoan()
-
-        MessageBox.Show("Crédito actualizado")
-
-        LoadLoans()
-        InitializationOfFields()
+        Catch ex As Exception
+            'LOG DE ERROR
+            Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                Dim descError As String = $"ERROR CRÍTICO: Falló la modificación del Préstamo ID: {loanId}. Motivo: {ex.Message}"
+                InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Prestamos", "ERROR_UPDATE_LOAN", descError, 0, "ERROR", ex.StackTrace)
+            End Using
+            MessageBox.Show("Ocurrió un error inesperado al intentar actualizar el crédito en el servidor: " & ex.Message, "Error Crítico del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub OP_UPD_RECORDSBYEMPLOYEECREDITS_Load(sender As Object, e As EventArgs) Handles MyBase.Load

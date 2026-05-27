@@ -1,4 +1,5 @@
 ﻿Imports DocumentFormat.OpenXml.Bibliography
+Imports Microsoft.Data.SqlClient
 
 Public Class OP_ADMNISTRATIONOFINCIDENTS
 
@@ -56,16 +57,17 @@ Public Class OP_ADMNISTRATIONOFINCIDENTS
     'REGISTRAR CON GOCE
     Private Sub BT_Register_Click(sender As Object, e As EventArgs) Handles BT_Register.Click
         If SelectedEmployeeID = 0 Then
-            MessageBox.Show("Debes seleccionar un empleado", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            MessageBox.Show("Debes seleccionar un empleado de la lista antes de continuar.", "Aviso de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
         If TB_AuthorizeBy.Text = "" Then
-            MessageBox.Show("Ingresa quién autoriza")
+            MessageBox.Show("Por favor, ingrese el nombre de la persona que autoriza este permiso.", "Campo Obligatorio", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
-        Dim Result As Boolean = InsertIncident(
+        Try
+            Dim Result As Boolean = InsertIncident(
             SelectedEmployeeID,
             500,
             DTP_DateFrom.Value,
@@ -74,57 +76,91 @@ Public Class OP_ADMNISTRATIONOFINCIDENTS
             TB_AuthorizeBy.Text
         )
 
-        If Result Then
-            MessageBox.Show("Permiso con goce registrado para el empleado: " & TB_EmployeeName.Text,
+            If Result Then
+
+                'Log
+                Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                    Dim desc As String = $"REGISTRO INCIDENCIA EXITOSO: Se asignó un Permiso CON GOCE DE SUELDO (Código: 500) al Empleado ID: {SelectedEmployeeID}. Período: del {DTP_DateFrom.Value.ToShortDateString()} al {DTP_DateTo.Value.ToShortDateString()}. Autorizado por: '{TB_AuthorizeBy.Text.Trim()}'. Comentarios: '{TB_Comment.Text.Trim()}'."
+                    InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Incidencias", "INSERT_INCIDENT_WITH_PAY_SUCCESS", desc, SelectedEmployeeID, "INFO")
+                End Using
+
+                MessageBox.Show("Permiso con goce registrado para el empleado: " & TB_EmployeeName.Text,
                 "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            LoadIncidents()
-            InitializationOfFields()
-        End If
+                LoadIncidents()
+                InitializationOfFields()
+            End If
+
+        Catch ex As Exception
+            'LOG DE ERROR
+            Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                Dim descError As String = $"ERROR CRÍTICO: Falló la inserción de Permiso Con Goce (Código: 500) para el Empleado ID: {SelectedEmployeeID}. Motivo del sistema: {ex.Message}"
+                InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Incidencias", "ERROR_INSERT_INCIDENT_WITH_PAY", descError, SelectedEmployeeID, "ERROR", ex.StackTrace)
+            End Using
+            MessageBox.Show("Ocurrió un error inesperado al intentar registrar el permiso con goce en el servidor: " & ex.Message, "Error Crítico del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
 
     'REGISTRAR SIN GOCE
     Private Sub BT_InRegister_Click(sender As Object, e As EventArgs) Handles BT_InRegister.Click
         If SelectedEmployeeID = 0 Then
-            MessageBox.Show("Debes seleccionar un empleado", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            MessageBox.Show("Debes seleccionar un empleado de la lista antes de continuar.", "Aviso de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
         If TB_InAuthorizeBy.Text = "" Then
-            MessageBox.Show("Ingresa quién autoriza")
+            MessageBox.Show("Por favor, ingrese el nombre de la persona que autoriza este permiso sin goce.", "Campo Obligatorio", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
-        Dim Result As Boolean = InsertIncident(
+        Try
+            Dim Result As Boolean = InsertIncident(
             SelectedEmployeeID,
             510,
             DTP_InDateFrom.Value,
             DTP_InDateTo.Value,
             TB_InComment.Text,
             TB_InAuthorizeBy.Text
-        )
+            )
 
-        If Result Then
-            MessageBox.Show("Permiso sin goce registrado para el empleado: " & TB_EmployeeName.Text,
-                "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            LoadIncidents()
-            InitializationOfFields()
-        End If
+            If Result Then
+                'LOG
+                Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                    Dim desc As String = $"REGISTRO INCIDENCIA EXITOSO: Se asignó un Permiso SIN GOCE DE SUELDO (Código: 510) al Empleado ID: {SelectedEmployeeID}. Período: del {DTP_InDateFrom.Value.ToShortDateString()} al {DTP_InDateTo.Value.ToShortDateString()}. Autorizado por: '{TB_InAuthorizeBy.Text.Trim()}'. Comentarios: '{TB_InComment.Text.Trim()}'."
+                    InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Incidencias", "INSERT_INCIDENT_WITHOUT_PAY_SUCCESS", desc, SelectedEmployeeID, "INFO")
+                End Using
+
+                MessageBox.Show("Permiso sin goce registrado para el empleado: " & TB_EmployeeName.Text,
+                    "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                LoadIncidents()
+                InitializationOfFields()
+            End If
+
+        Catch ex As Exception
+            'LOG DE ERROR
+            Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                Dim descError As String = $"ERROR CRÍTICO: Falló la inserción de Permiso Sin Goce (Código: 510) para el Empleado ID: {SelectedEmployeeID}. Motivo del sistema: {ex.Message}"
+                InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Incidencias", "ERROR_INSERT_INCIDENT_WITHOUT_PAY", descError, SelectedEmployeeID, "ERROR", ex.StackTrace)
+            End Using
+            MessageBox.Show("Ocurrió un error inesperado al intentar registrar el permiso sin goce en el servidor: " & ex.Message, "Error Crítico del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     'REGISTRAR VACACIONES
     Private Sub BT_VacRegister_Click(sender As Object, e As EventArgs) Handles BT_VacRegister.Click
         If SelectedEmployeeID = 0 Then
-            MessageBox.Show("Debes seleccionar un empleado", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            MessageBox.Show("Debes seleccionar un empleado de la lista antes de continuar.", "Aviso de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
         If TB_VacAuthorizeBy.Text = "" Then
-            MessageBox.Show("Ingresa quién autoriza")
+            MessageBox.Show("Por favor, ingrese el nombre de la persona que autoriza el período vacacional.", "Campo Obligatorio", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
-        Dim Result As Boolean = InsertIncident(
+
+        Try
+            Dim Result As Boolean = InsertIncident(
             SelectedEmployeeID,
             520,
             DTP_VacDateFrom.Value,
@@ -133,12 +169,27 @@ Public Class OP_ADMNISTRATIONOFINCIDENTS
             TB_VacAuthorizeBy.Text
         )
 
-        If Result Then
-            MessageBox.Show("Vacaciones registradas para el empleado: " & TB_EmployeeName.Text,
-                "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            LoadIncidents()
-            InitializationOfFields()
-        End If
+            If Result Then
+                'LOG
+                Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                    Dim desc As String = $"REGISTRO INCIDENCIA EXITOSO: Se asignaron VACACIONES (Código: 520) al Empleado ID: {SelectedEmployeeID}. Período: del {DTP_VacDateFrom.Value.ToShortDateString()} al {DTP_VacDateTo.Value.ToShortDateString()}. Autorizado por: '{TB_VacAuthorizeBy.Text.Trim()}'. Comentarios: '{TB_VacComment.Text.Trim()}'."
+                    InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Incidencias", "INSERT_INCIDENT_VACATION_SUCCESS", desc, SelectedEmployeeID, "INFO")
+                End Using
+
+                MessageBox.Show("Vacaciones registradas para el empleado: " & TB_EmployeeName.Text,
+                    "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                LoadIncidents()
+                InitializationOfFields()
+            End If
+
+        Catch ex As Exception
+            'LOG DE ERROR
+            Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                Dim descError As String = $"ERROR CRÍTICO: Falló la inserción de Vacaciones (Código: 520) para el Empleado ID: {SelectedEmployeeID}. Motivo del sistema: {ex.Message}"
+                InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Incidencias", "ERROR_INSERT_INCIDENT_VACATION", descError, SelectedEmployeeID, "ERROR", ex.StackTrace)
+            End Using
+            MessageBox.Show("Ocurrió un error inesperado al intentar guardar el período vacacional en el servidor: " & ex.Message, "Error Crítico del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
 
