@@ -728,16 +728,19 @@ Partial Class MainScreen
         EditarExistenteToolStripMenuItem5 = New ToolStripMenuItem()
         RegistrarAbonoToolStripMenuItem = New ToolStripMenuItem()
         ReportesToolStripMenuItem1 = New ToolStripMenuItem()
+        AdicionalesToolStripMenuItem = New ToolStripMenuItem()
+        ReToolStripMenuItem = New ToolStripMenuItem()
         ReportesToolStripMenuItem2 = New ToolStripMenuItem()
         AnalisisSemanalToolStripMenuItem = New ToolStripMenuItem()
         AnalisisDeSalarioToolStripMenuItem = New ToolStripMenuItem()
+        CargaDeMontoATransferirToolStripMenuItem = New ToolStripMenuItem()
         MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
         ' MenuStrip1
         ' 
         MenuStrip1.ImageScalingSize = New Size(24, 24)
-        MenuStrip1.Items.AddRange(New ToolStripItem() {SistemaToolStripMenuItem, DatosMaestrosToolStripMenuItem, EmpleadosToolStripMenuItem, IncidenciasToolStripMenuItem, BeneficiosToolStripMenuItem1, ReportesToolStripMenuItem2})
+        MenuStrip1.Items.AddRange(New ToolStripItem() {SistemaToolStripMenuItem, DatosMaestrosToolStripMenuItem, EmpleadosToolStripMenuItem, IncidenciasToolStripMenuItem, BeneficiosToolStripMenuItem1, AdicionalesToolStripMenuItem, ReportesToolStripMenuItem2})
         MenuStrip1.Location = New Point(0, 0)
         MenuStrip1.Name = "MenuStrip1"
         MenuStrip1.Padding = New Padding(9, 3, 0, 3)
@@ -823,7 +826,7 @@ Partial Class MainScreen
         ' 
         EmpresasToolStripMenuItem1.DropDownItems.AddRange(New ToolStripItem() {CrearEmpresaToolStripMenuItem, EditarEmpresaToolStripMenuItem1})
         EmpresasToolStripMenuItem1.Name = "EmpresasToolStripMenuItem1"
-        EmpresasToolStripMenuItem1.Size = New Size(180, 22)
+        EmpresasToolStripMenuItem1.Size = New Size(144, 22)
         EmpresasToolStripMenuItem1.Text = "Empresas"
         ' 
         ' CrearEmpresaToolStripMenuItem
@@ -844,20 +847,20 @@ Partial Class MainScreen
         ' 
         PlantasToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {CrearPlantaToolStripMenuItem, EditarExistenteToolStripMenuItem6})
         PlantasToolStripMenuItem.Name = "PlantasToolStripMenuItem"
-        PlantasToolStripMenuItem.Size = New Size(180, 22)
+        PlantasToolStripMenuItem.Size = New Size(144, 22)
         PlantasToolStripMenuItem.Text = "Plantas"
         ' 
         ' CrearPlantaToolStripMenuItem
         ' 
         CrearPlantaToolStripMenuItem.Name = "CrearPlantaToolStripMenuItem"
-        CrearPlantaToolStripMenuItem.Size = New Size(180, 22)
+        CrearPlantaToolStripMenuItem.Size = New Size(140, 22)
         CrearPlantaToolStripMenuItem.Tag = "MD_INS_Plants"
         CrearPlantaToolStripMenuItem.Text = "Crear Planta"
         ' 
         ' EditarExistenteToolStripMenuItem6
         ' 
         EditarExistenteToolStripMenuItem6.Name = "EditarExistenteToolStripMenuItem6"
-        EditarExistenteToolStripMenuItem6.Size = New Size(180, 22)
+        EditarExistenteToolStripMenuItem6.Size = New Size(140, 22)
         EditarExistenteToolStripMenuItem6.Tag = "MD_UPD_Plants"
         EditarExistenteToolStripMenuItem6.Text = "Editar Planta"
         ' 
@@ -865,7 +868,7 @@ Partial Class MainScreen
         ' 
         CatálogosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {BeneficiosToolStripMenuItem, AmonestacionesToolStripMenuItem, PuestosToolStripMenuItem, DescuentosToolStripMenuItem, DepartamentosToolStripMenuItem})
         CatálogosToolStripMenuItem.Name = "CatálogosToolStripMenuItem"
-        CatálogosToolStripMenuItem.Size = New Size(180, 22)
+        CatálogosToolStripMenuItem.Size = New Size(144, 22)
         CatálogosToolStripMenuItem.Text = "Catálogos"
         ' 
         ' BeneficiosToolStripMenuItem
@@ -977,7 +980,7 @@ Partial Class MainScreen
         ' 
         MovimientosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {CrearMovimientoToolStripMenuItem, EditarMovimientoToolStripMenuItem})
         MovimientosToolStripMenuItem.Name = "MovimientosToolStripMenuItem"
-        MovimientosToolStripMenuItem.Size = New Size(180, 22)
+        MovimientosToolStripMenuItem.Size = New Size(144, 22)
         MovimientosToolStripMenuItem.Text = "Movimientos"
         ' 
         ' CrearMovimientoToolStripMenuItem
@@ -1220,6 +1223,20 @@ Partial Class MainScreen
         ReportesToolStripMenuItem1.Size = New Size(173, 22)
         ReportesToolStripMenuItem1.Text = "Reportes"
         ' 
+        ' AdicionalesToolStripMenuItem
+        ' 
+        AdicionalesToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {ReToolStripMenuItem})
+        AdicionalesToolStripMenuItem.Name = "AdicionalesToolStripMenuItem"
+        AdicionalesToolStripMenuItem.Size = New Size(80, 19)
+        AdicionalesToolStripMenuItem.Text = "Adicionales"
+        ' 
+        ' ReToolStripMenuItem
+        ' 
+        ReToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {CargaDeMontoATransferirToolStripMenuItem})
+        ReToolStripMenuItem.Name = "ReToolStripMenuItem"
+        ReToolStripMenuItem.Size = New Size(180, 22)
+        ReToolStripMenuItem.Text = "Registros"
+        ' 
         ' ReportesToolStripMenuItem2
         ' 
         ReportesToolStripMenuItem2.DropDownItems.AddRange(New ToolStripItem() {AnalisisSemanalToolStripMenuItem, AnalisisDeSalarioToolStripMenuItem})
@@ -1240,6 +1257,13 @@ Partial Class MainScreen
         AnalisisDeSalarioToolStripMenuItem.Size = New Size(218, 22)
         AnalisisDeSalarioToolStripMenuItem.Tag = "OP_SEL_MainWeekReportSalaryCalculation"
         AnalisisDeSalarioToolStripMenuItem.Text = "Analisis de salario"
+        ' 
+        ' CargaDeMontoATransferirToolStripMenuItem
+        ' 
+        CargaDeMontoATransferirToolStripMenuItem.Name = "CargaDeMontoATransferirToolStripMenuItem"
+        CargaDeMontoATransferirToolStripMenuItem.Size = New Size(219, 22)
+        CargaDeMontoATransferirToolStripMenuItem.Tag = "OP_INS_AmountToTransfer"
+        CargaDeMontoATransferirToolStripMenuItem.Text = "Carga de monto a transferir"
         ' 
         ' MainScreen
         ' 
@@ -1335,4 +1359,7 @@ Partial Class MainScreen
     Friend WithEvents PlantasToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CrearPlantaToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents EditarExistenteToolStripMenuItem6 As ToolStripMenuItem
+    Friend WithEvents AdicionalesToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ReToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CargaDeMontoATransferirToolStripMenuItem As ToolStripMenuItem
 End Class
