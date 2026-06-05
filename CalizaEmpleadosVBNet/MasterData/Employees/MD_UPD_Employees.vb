@@ -11,6 +11,7 @@ Public Class MD_UPD_Employees
     Private Original_Salary As String = ""
     Private Original_Status As Boolean = True
     Private Original_Plant As String = ""
+    Private Original_Infonavit As Boolean = False
 
     Private Sub MD_UPD_Employees_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         InitializationOfFields()
@@ -51,6 +52,8 @@ Public Class MD_UPD_Employees
         TB_Relationship.Text = ""
         TB_EmergencyPhone.Text = ""
         TB_Baneficiary.Text = ""
+
+        CB_InfonavitCredit.Checked = False
 
         Dim imagePath As String = Path.Combine(Application.StartupPath, "System_Images", "default_user.png")
 
@@ -182,113 +185,6 @@ Public Class MD_UPD_Employees
         Me.ActiveControl = TB_EmployeeName
     End Sub
 
-    'Private Sub BT_EmployeeUpdate_Click(sender As Object, e As EventArgs) Handles BT_EmployeeUpdate.Click
-
-    '    If SelectedEmployeeID = 0 Then
-    '        MessageBox.Show("Seleccione un empleado para actualizar.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-    '        Exit Sub
-    '    End If
-
-    '    If TB_EmployeeName.Text = "" Then
-    '        MessageBox.Show("Favor de ingresar nombre(s) del empleado.")
-    '        Exit Sub
-    '    End If
-
-    '    If TB_LastName1.Text = "" Then
-    '        MessageBox.Show("Favor de ingresar apellido paterno.")
-    '        Exit Sub
-    '    End If
-
-    '    If TB_LastName2.Text = "" Then
-    '        MessageBox.Show("Favor de indicar apellido materno.")
-    '        Exit Sub
-    '    End If
-
-    '    If Not IsValidEmail(TB_EmailAddress.Text) Then
-    '        MessageBox.Show("Ingrese un correo válido")
-    '        Exit Sub
-    '    End If
-
-    '    Dim company As Integer = CInt(CB_Company.SelectedValue)
-
-    '    Dim typeEmployee As ComboItem = CType(CB_EmployeeType.SelectedItem, ComboItem)
-    '    Dim Id_TypeOfEmployee As Integer = typeEmployee.Id
-
-    '    Dim position As ComboItem = CType(CB_Position.SelectedItem, ComboItem)
-    '    Dim Id_Position As Integer = position.Id
-
-    '    Dim supervisor As ComboItem = CType(CB_Supervisor.SelectedItem, ComboItem)
-    '    Dim Id_Supervisor As Integer = supervisor.Id
-
-    '    Dim PhotoPath As String = ""
-
-    '    If PB_Picture.Tag IsNot Nothing Then
-    '        PhotoPath = PB_Picture.Tag.ToString()
-    '    End If
-
-    '    Dim Department As ComboItem = CType(CB_Department.SelectedItem, ComboItem)
-    '    Dim Id_Department As Integer = Department.Id
-
-    '    Dim Employee As New CL_Employee(
-    '        SelectedEmployeeID,
-    '        TB_EmployeeName.Text,
-    '        TB_LastName1.Text,
-    '        TB_LastName2.Text,
-    '        DT_BornDate.Value,
-    '        TB_BornCity.Text,
-    '        TB_PersonalAddress.Text,
-    '        TB_PhoneNumber.Text,
-    '        TB_EmailAddress.Text,
-    '        TB_CivilStatus.Text,
-    '        TB_Curp.Text,
-    '        TB_SocialNumber.Text,
-    '        TB_RFC.Text,
-    '        TB_FiscalAddress.Text,
-    '        TB_BankName.Text,
-    '        TB_BankAccount.Text,
-    '        company,
-    '        Id_TypeOfEmployee,
-    '        DT_EntryDate.Value,
-    '        DT_RegistrationDate.Value,
-    '        Id_Position,
-    '        Id_Supervisor,
-    '        CDec(TB_VacationsDays.Text),
-    '        TB_BaseSalary.Text,
-    '        Id_Department,
-    '        TB_EmergencyContact.Text,
-    '        TB_Relationship.Text,
-    '        TB_EmergencyPhone.Text,
-    '        TB_Baneficiary.Text,
-    '        TB_Costc.Text,
-    '        AppUser,
-    '        PhotoPath,
-    '        CB_Status.Checked,
-    '        CB_Confidential.Checked
-    '    )
-
-    '    Employee.EMPL_STAT = CB_Status.Checked
-    '    If CB_Confidential.Checked Then
-    '        If Employee.UpdateEmployeeWithoutSalary() Then
-
-    '            MessageBox.Show("Empleado actualizado correctamente")
-
-    '            InitializationOfFields()
-    '            Display_Record()
-
-    '        End If
-    '    Else
-    '        If Employee.UpdateEmployee() Then
-
-    '            MessageBox.Show("Empleado actualizado correctamente")
-
-    '            InitializationOfFields()
-    '            Display_Record()
-
-    '        End If
-    '    End If
-
-
-    'End Sub
 
     Private Sub BT_EmployeeUpdate_Click(sender As Object, e As EventArgs) Handles BT_EmployeeUpdate.Click
         Try
@@ -311,14 +207,23 @@ Public Class MD_UPD_Employees
             Dim department As ComboItem = CType(CB_Department.SelectedItem, ComboItem)
 
             Dim plantIdSelected As Integer = 0
-
             If CB_Plant.SelectedItem IsNot Nothing Then
                 If TypeOf CB_Plant.SelectedItem Is ComboItem Then
                     plantIdSelected = CType(CB_Plant.SelectedItem, ComboItem).Id
-                ElseIf TypeOf CB_Plant.SelectedItem Is DataRowView Then
-                    plantIdSelected = CInt(CType(CB_Plant.SelectedItem, DataRowView)("PLANT_ID"))
                 End If
             End If
+
+
+            If CB_Status.Checked AndAlso plantIdSelected > 0 Then
+                Dim empValidar As New CL_Employee()
+                If Not empValidar.PlantaTieneCupo(plantIdSelected, SelectedEmployeeID) Then
+                    MessageBox.Show("No se pueden guardar los cambios. La planta seleccionada ya tiene asignados 2 empleados activos.",
+                        "Límite de Planta Alcanzado", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    Exit Sub
+                End If
+            End If
+
+
             Dim Id_Supervisor As Integer = 0
             If CB_Supervisor.SelectedItem IsNot Nothing Then
                 Dim supervisor As ComboItem = CType(CB_Supervisor.SelectedItem, ComboItem)
@@ -356,6 +261,12 @@ Public Class MD_UPD_Employees
                 Dim estAnt As String = If(Original_Status, "ACTIVO", "INACTIVO")
                 Dim estNue As String = If(CB_Status.Checked, "ACTIVO", "INACTIVO")
                 listaCambios.Add($"Estatus: de '{estAnt}' a '{estNue}'")
+            End If
+
+            If Original_Infonavit <> CB_InfonavitCredit.Checked Then
+                Dim infAnt As String = If(Original_Infonavit, "SÍ TIENE CRÉDITO", "NO TIENE CRÉDITO")
+                Dim infNue As String = If(CB_InfonavitCredit.Checked, "SÍ TIENE CRÉDITO", "NO TIENE CRÉDITO")
+                listaCambios.Add($"INFONAVIT: de '{infAnt}' a '{infNue}'")
             End If
 
             Dim stringDetalleCambios As String = ""
@@ -400,8 +311,11 @@ Public Class MD_UPD_Employees
                 PhotoPath,
                 CB_Confidential.Checked,
                 CB_Status.Checked,
-                plantIdSelected
+                plantIdSelected,
+                CB_InfonavitCredit.Checked
             )
+
+
 
             Employee.EMPL_STAT = CB_Status.Checked
 
@@ -530,12 +444,18 @@ Public Class MD_UPD_Employees
                 CB_Plant.SelectedIndex = 0
             End If
 
+            If Not IsDBNull(Item(38)) Then
+                CB_InfonavitCredit.Checked = CBool(Item(38))
+            Else
+                CB_InfonavitCredit.Checked = False
+            End If
 
             Original_Dept = CB_Department.Text
             Original_Pos = CB_Position.Text
             Original_Salary = TB_BaseSalary.Text.Trim
             Original_Status = CB_Status.Checked
             Original_Plant = CB_Plant.Text
+            Original_Infonavit = CB_InfonavitCredit.Checked
 
         Next
 

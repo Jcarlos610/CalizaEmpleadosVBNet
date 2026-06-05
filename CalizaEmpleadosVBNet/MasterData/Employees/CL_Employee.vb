@@ -591,6 +591,8 @@ Public Class CL_Employee
     Private _EMPL_STAT As Object
     Private _EMPL_CONF As Object
     Private _PLANT_ID As Object
+    Private _EMPL_INFONAVIT As Object
+
 
     Public Property EMPL_ID As Object
         Get
@@ -907,11 +909,20 @@ Public Class CL_Employee
         End Set
     End Property
 
+    Public Property EMPL_INFONAVIT As Object
+        Get
+            Return _EMPL_INFONAVIT
+        End Get
+        Set(value As Object)
+            _EMPL_INFONAVIT = value
+        End Set
+    End Property
+
     Sub New()
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
     End Sub
 
-    Sub New(EMPL_ID, EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, DEPT_ID, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_COSTC, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT, EMPL_CONF, PLANT_ID)
+    Sub New(EMPL_ID, EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, DEPT_ID, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_COSTC, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT, EMPL_CONF, PLANT_ID, EMPL_INFONAVIT)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
         _EMPL_ID = EMPL_ID
@@ -949,9 +960,10 @@ Public Class CL_Employee
         _EMPL_STAT = EMPL_STAT
         _EMPL_CONF = EMPL_CONF
         _PLANT_ID = PLANT_ID
+        _EMPL_INFONAVIT = EMPL_INFONAVIT
 
     End Sub
-    Sub New(EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, DEPT_ID, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_COSTC, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT, EMPL_CONF, PLANT_ID)
+    Sub New(EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, DEPT_ID, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_COSTC, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT, EMPL_CONF, PLANT_ID, EMPL_INFONAVIT)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
         _EMPL_NAME = EMPL_NAME
@@ -988,6 +1000,7 @@ Public Class CL_Employee
         _EMPL_STAT = EMPL_STAT
         _EMPL_CONF = EMPL_CONF
         _PLANT_ID = PLANT_ID
+        _EMPL_INFONAVIT = EMPL_INFONAVIT
 
     End Sub
 
@@ -1038,6 +1051,7 @@ Public Class CL_Employee
             DB_Command.Parameters.AddWithValue("EMPL_STAT", _EMPL_STAT)
             DB_Command.Parameters.AddWithValue("EMPL_CONF", _EMPL_CONF)
             DB_Command.Parameters.AddWithValue("PLANT_ID", _PLANT_ID)
+            DB_Command.Parameters.AddWithValue("EMPL_INFONAVIT", _EMPL_INFONAVIT)
 
             DB_Command.ExecuteNonQuery()
 
@@ -1220,6 +1234,7 @@ Public Class CL_Employee
             DB_Command.Parameters.AddWithValue("EMPL_PHOTO", _EMPL_PHOTO)
             DB_Command.Parameters.AddWithValue("EMPL_STAT", _EMPL_STAT)
             DB_Command.Parameters.AddWithValue("PLANT_ID", _PLANT_ID)
+            DB_Command.Parameters.AddWithValue("EMPL_INFONAVIT", _EMPL_INFONAVIT)
             For Each p As SqlParameter In DB_Command.Parameters
                 Debug.WriteLine(p.ParameterName & " = " & p.Value.ToString())
             Next
@@ -1308,6 +1323,7 @@ Public Class CL_Employee
             DB_Command.Parameters.AddWithValue("EMPL_PHOTO", _EMPL_PHOTO)
             DB_Command.Parameters.AddWithValue("EMPL_STAT", _EMPL_STAT)
             DB_Command.Parameters.AddWithValue("PLANT_ID", _PLANT_ID)
+            DB_Command.Parameters.AddWithValue("EMPL_INFONAVIT", _EMPL_INFONAVIT)
             For Each p As SqlParameter In DB_Command.Parameters
                 Debug.WriteLine(p.ParameterName & " = " & p.Value.ToString())
             Next
@@ -1577,5 +1593,32 @@ Public Class CL_Employee
         End Try
     End Function
 
+
+    Public Function PlantaTieneCupo(plantId As Integer, currentEmployeeId As Integer) As Boolean
+        If plantId <= 0 Then Return True
+
+        Dim tieneCupo As Boolean = True
+        Dim query As String = "SELECT COUNT(*) FROM MD_Employees WHERE PLANT_ID = @PlantID AND EMPL_STAT = 1 AND EMPL_ID <> @EmployeeID"
+
+        Using conn As New SqlConnection(My.Settings.ConnectionString)
+            Using cmd As New SqlCommand(query, conn)
+                cmd.Parameters.AddWithValue("@PlantID", plantId)
+                cmd.Parameters.AddWithValue("@EmployeeID", currentEmployeeId)
+
+                Try
+                    conn.Open()
+                    Dim conteo As Integer = Convert.ToInt32(cmd.ExecuteScalar())
+
+                    If conteo >= 2 Then
+                        tieneCupo = False
+                    End If
+                Catch ex As Exception
+                    tieneCupo = True
+                End Try
+            End Using
+        End Using
+
+        Return tieneCupo
+    End Function
 
 End Class

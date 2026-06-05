@@ -95,6 +95,7 @@ Partial Class OP_RECORDSBYEMPLOYEECREDITS
         ' 
         ' CB_Discounts
         ' 
+        CB_Discounts.DropDownStyle = ComboBoxStyle.DropDownList
         CB_Discounts.FormattingEnabled = True
         CB_Discounts.Location = New Point(20, 388)
         CB_Discounts.Name = "CB_Discounts"
@@ -147,6 +148,7 @@ Partial Class OP_RECORDSBYEMPLOYEECREDITS
         ' 
         ' CB_Credits
         ' 
+        CB_Credits.DropDownStyle = ComboBoxStyle.DropDownList
         CB_Credits.FormattingEnabled = True
         CB_Credits.Location = New Point(20, 287)
         CB_Credits.Name = "CB_Credits"

@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class OP_INS_AmountToTransfer
+Partial Class OP_INS_InfonavitAmount
     Inherits System.Windows.Forms.Form
 
     'Form reemplaza a Dispose para limpiar la lista de componentes.
@@ -22,6 +22,10 @@ Partial Class OP_INS_AmountToTransfer
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        LB_TotalAmount = New Label()
+        LB_TotalEmployees = New Label()
+        PB_Progress = New ProgressBar()
+        DGV_Infonavit = New DataGridView()
         GroupBox1 = New GroupBox()
         TB_Amount = New TextBox()
         LB_Amount = New Label()
@@ -33,15 +37,47 @@ Partial Class OP_INS_AmountToTransfer
         LB_EmployeeName = New Label()
         TB_EmployeeId = New TextBox()
         LB_EmplyeeId = New Label()
-        DGV_Amtrans = New DataGridView()
         OFD_Amtrans = New OpenFileDialog()
-        PB_Progress = New ProgressBar()
-        LB_TotalEmployees = New Label()
-        LB_TotalAmount = New Label()
         LB_Title = New Label()
+        CType(DGV_Infonavit, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox1.SuspendLayout()
-        CType(DGV_Amtrans, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
+        ' 
+        ' LB_TotalAmount
+        ' 
+        LB_TotalAmount.AutoSize = True
+        LB_TotalAmount.Location = New Point(159, 690)
+        LB_TotalAmount.Name = "LB_TotalAmount"
+        LB_TotalAmount.Size = New Size(105, 15)
+        LB_TotalAmount.TabIndex = 11
+        LB_TotalAmount.Text = "Monto Total: $0.00"
+        ' 
+        ' LB_TotalEmployees
+        ' 
+        LB_TotalEmployees.AutoSize = True
+        LB_TotalEmployees.Location = New Point(12, 690)
+        LB_TotalEmployees.Name = "LB_TotalEmployees"
+        LB_TotalEmployees.Size = New Size(106, 15)
+        LB_TotalEmployees.TabIndex = 10
+        LB_TotalEmployees.Text = "Total Empleados: 0"
+        ' 
+        ' PB_Progress
+        ' 
+        PB_Progress.Location = New Point(15, 653)
+        PB_Progress.Name = "PB_Progress"
+        PB_Progress.Size = New Size(1215, 10)
+        PB_Progress.TabIndex = 9
+        ' 
+        ' DGV_Infonavit
+        ' 
+        DGV_Infonavit.AllowUserToAddRows = False
+        DGV_Infonavit.AllowUserToDeleteRows = False
+        DGV_Infonavit.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        DGV_Infonavit.Location = New Point(12, 266)
+        DGV_Infonavit.Name = "DGV_Infonavit"
+        DGV_Infonavit.ReadOnly = True
+        DGV_Infonavit.Size = New Size(1218, 380)
+        DGV_Infonavit.TabIndex = 8
         ' 
         ' GroupBox1
         ' 
@@ -58,9 +94,9 @@ Partial Class OP_INS_AmountToTransfer
         GroupBox1.Location = New Point(12, 46)
         GroupBox1.Name = "GroupBox1"
         GroupBox1.Size = New Size(1218, 203)
-        GroupBox1.TabIndex = 2
+        GroupBox1.TabIndex = 7
         GroupBox1.TabStop = False
-        GroupBox1.Text = "Información sobre monto"
+        GroupBox1.Text = "Información sobre monto de infonavit"
         ' 
         ' TB_Amount
         ' 
@@ -108,7 +144,7 @@ Partial Class OP_INS_AmountToTransfer
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Location = New Point(147, 19)
+        Label1.Location = New Point(147, 24)
         Label1.Name = "Label1"
         Label1.Size = New Size(114, 15)
         Label1.TabIndex = 6
@@ -148,45 +184,9 @@ Partial Class OP_INS_AmountToTransfer
         LB_EmplyeeId.TabIndex = 2
         LB_EmplyeeId.Text = "Número de empleado: "
         ' 
-        ' DGV_Amtrans
-        ' 
-        DGV_Amtrans.AllowUserToAddRows = False
-        DGV_Amtrans.AllowUserToDeleteRows = False
-        DGV_Amtrans.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_Amtrans.Location = New Point(12, 267)
-        DGV_Amtrans.Name = "DGV_Amtrans"
-        DGV_Amtrans.ReadOnly = True
-        DGV_Amtrans.Size = New Size(1218, 380)
-        DGV_Amtrans.TabIndex = 3
-        ' 
         ' OFD_Amtrans
         ' 
         OFD_Amtrans.FileName = "OpenFileDialog1"
-        ' 
-        ' PB_Progress
-        ' 
-        PB_Progress.Location = New Point(15, 654)
-        PB_Progress.Name = "PB_Progress"
-        PB_Progress.Size = New Size(1215, 10)
-        PB_Progress.TabIndex = 4
-        ' 
-        ' LB_TotalEmployees
-        ' 
-        LB_TotalEmployees.AutoSize = True
-        LB_TotalEmployees.Location = New Point(12, 691)
-        LB_TotalEmployees.Name = "LB_TotalEmployees"
-        LB_TotalEmployees.Size = New Size(106, 15)
-        LB_TotalEmployees.TabIndex = 5
-        LB_TotalEmployees.Text = "Total Empleados: 0"
-        ' 
-        ' LB_TotalAmount
-        ' 
-        LB_TotalAmount.AutoSize = True
-        LB_TotalAmount.Location = New Point(159, 691)
-        LB_TotalAmount.Name = "LB_TotalAmount"
-        LB_TotalAmount.Size = New Size(105, 15)
-        LB_TotalAmount.TabIndex = 6
-        LB_TotalAmount.Text = "Monto Total: $0.00"
         ' 
         ' LB_Title
         ' 
@@ -194,11 +194,11 @@ Partial Class OP_INS_AmountToTransfer
         LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         LB_Title.Location = New Point(12, 11)
         LB_Title.Name = "LB_Title"
-        LB_Title.Size = New Size(172, 30)
-        LB_Title.TabIndex = 104
-        LB_Title.Text = "Carga de montos"
+        LB_Title.Size = New Size(265, 30)
+        LB_Title.TabIndex = 106
+        LB_Title.Text = "Infonavit: Carga de montos"
         ' 
-        ' OP_INS_AmountToTransfer
+        ' OP_INS_InfonavitAmount
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
@@ -208,19 +208,26 @@ Partial Class OP_INS_AmountToTransfer
         Controls.Add(LB_TotalAmount)
         Controls.Add(LB_TotalEmployees)
         Controls.Add(PB_Progress)
-        Controls.Add(DGV_Amtrans)
+        Controls.Add(DGV_Infonavit)
         Controls.Add(GroupBox1)
-        Name = "OP_INS_AmountToTransfer"
-        Text = "Monto a transferir"
+        Name = "OP_INS_InfonavitAmount"
+        Text = "Montos de infonavit"
         WindowState = FormWindowState.Maximized
+        CType(DGV_Infonavit, ComponentModel.ISupportInitialize).EndInit()
         GroupBox1.ResumeLayout(False)
         GroupBox1.PerformLayout()
-        CType(DGV_Amtrans, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
     End Sub
 
+    Friend WithEvents LB_TotalAmount As Label
+    Friend WithEvents LB_TotalEmployees As Label
+    Friend WithEvents PB_Progress As ProgressBar
+    Friend WithEvents DGV_Infonavit As DataGridView
     Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents TB_Amount As TextBox
+    Friend WithEvents LB_Amount As Label
+    Friend WithEvents BT_SearchExcel As Button
     Friend WithEvents BT_Register As Button
     Friend WithEvents DTP_Valid As DateTimePicker
     Friend WithEvents Label1 As Label
@@ -228,13 +235,6 @@ Partial Class OP_INS_AmountToTransfer
     Friend WithEvents LB_EmployeeName As Label
     Friend WithEvents TB_EmployeeId As TextBox
     Friend WithEvents LB_EmplyeeId As Label
-    Friend WithEvents BT_SearchExcel As Button
-    Friend WithEvents DGV_Amtrans As DataGridView
     Friend WithEvents OFD_Amtrans As OpenFileDialog
-    Friend WithEvents TB_Amount As TextBox
-    Friend WithEvents LB_Amount As Label
-    Friend WithEvents PB_Progress As ProgressBar
-    Friend WithEvents LB_TotalEmployees As Label
-    Friend WithEvents LB_TotalAmount As Label
     Friend WithEvents LB_Title As Label
 End Class

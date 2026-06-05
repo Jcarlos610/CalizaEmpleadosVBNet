@@ -55,6 +55,8 @@ Public Class MD_INS_Employees
         TB_EmergencyPhone.Text = ""
         TB_Baneficiary.Text = ""
 
+        CB_InfonavitCredit.Checked = False
+
         CB_Plant.Items.Clear()
         Dim PlantClass As New CL_Plants()
         Dim ListOfPlants As DataTable = PlantClass.Get_ListOfPlants()
@@ -144,104 +146,6 @@ Public Class MD_INS_Employees
         Me.ActiveControl = TB_EmployeeName
     End Sub
 
-    'Private Sub BT_EmployeeRegister_Click(sender As Object, e As EventArgs) Handles BT_EmployeeRegister.Click
-    '    If TB_EmployeeName.Text = "" Then
-    '        MessageBox.Show("Favor de ingresar nombre(s) del empleado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-    '    ElseIf TB_LastName1.Text = "" Then
-    '        MessageBox.Show("Favor de ingresar apellido paterno.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-    '    ElseIf TB_LastName2.Text = "" Then
-    '        MessageBox.Show("Favor de indicar apellido materno.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-    '    ElseIf DT_BornDate.Value = Date.Today Then
-    '        MessageBox.Show("Favor de ingresar una fecha de nacimiento valida.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-    '    ElseIf Not IsValidEmail(TB_EmailAddress.Text) Then
-    '        MessageBox.Show("Ingrese una dirección de correo válida", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-    '        TB_EmailAddress.Focus()
-    '    ElseIf CB_Company.SelectedItem Is Nothing Then
-    '        MessageBox.Show("Favor de indicar a qué empresa será asignado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-    '    ElseIf CB_EmployeeType.SelectedItem Is Nothing Then
-    '        MessageBox.Show("Favor de indicar tipo de empleado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-    '    ElseIf CB_Position.SelectedItem Is Nothing Then
-    '        MessageBox.Show("Favor de seleccionar la posición a ocupar.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-    '    ElseIf CB_Department.SelectedItem Is Nothing Then
-    '        MessageBox.Show("Favor de seleccionar un departamento.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-    '    Else
-
-    '        'select the company
-    '        Dim Company As ComboItem = CType(CB_Company.SelectedItem, ComboItem)
-    '        Dim Id_Company As Integer = Company.Id
-    '        Dim Description_Company As String = Company.Descripcion
-
-    '        'Select the Type of Employee
-    '        Dim TypeOfEmployee As ComboItem = CType(CB_EmployeeType.SelectedItem, ComboItem)
-    '        Dim Id_TypeOfEmployee As Integer = TypeOfEmployee.Id
-    '        Dim Description_TypeOfEmployee As String = TypeOfEmployee.Descripcion
-
-    '        'Select the Positions
-    '        Dim Positions As ComboItem = CType(CB_Position.SelectedItem, ComboItem)
-    '        Dim Id_Position As Integer = Positions.Id
-    '        Dim Description_Position As String = Positions.Descripcion
-
-    '        'Select the Supervisor
-    '        Dim Supervisor As ComboItem = CType(CB_Supervisor.SelectedItem, ComboItem)
-    '        Dim Id_Supervisor As Integer = Supervisor.Id
-    '        Dim Description_Supervisor As String = Supervisor.Descripcion
-
-    '        'Select the Supervisor
-    '        Dim Employees As ComboItem = CType(CB_Supervisor.SelectedItem, ComboItem)
-    '        Dim Id_Employee As Integer = Employees.Id
-    '        Dim Description_Employee As String = Employees.Descripcion
-
-    '        Dim PhotoPath As String = Nothing
-
-    '        If PB_Picture.Tag IsNot Nothing Then
-    '            PhotoPath = PB_Picture.Tag.ToString()
-    '        End If
-
-    '        Dim Department As ComboItem = CType(CB_Department.SelectedItem, ComboItem)
-    '        Dim Id_Department As Integer = Department.Id
-
-    '        Dim Employee = New CL_Employee(
-    '        TB_EmployeeName.Text,
-    '        TB_LastName1.Text,
-    '        TB_LastName2.Text,
-    '        DT_BornDate.Value,
-    '        TB_BornCity.Text,
-    '        TB_PersonalAddress.Text,
-    '        TB_PhoneNumber.Text,
-    '        TB_EmailAddress.Text,
-    '        TB_CivilStatus.Text,
-    '        TB_Curp.Text,
-    '        TB_SocialNumber.Text,
-    '        TB_RFC.Text,
-    '        TB_FiscalAddress.Text,
-    '        TB_BankName.Text,
-    '        TB_BankAccount.Text,
-    '        Id_Company,
-    '        Id_TypeOfEmployee,
-    '        DT_EntryDate.Value,
-    '        DT_RegistrationDate.Value,
-    '        Id_Position,
-    '        Id_Supervisor,
-    '        TB_VacationsDays.Text,
-    '        TB_BaseSalary.Text,
-    '        Id_Department,              'NUEVO
-    '        TB_EmergencyContact.Text,
-    '        TB_Relationship.Text,
-    '        TB_EmergencyPhone.Text,
-    '        TB_Baneficiary.Text,
-    '        TB_Costc.Text,         'NUEVO
-    '        AppUser,
-    '        PhotoPath,
-    '        1,
-    '        CB_Confidential.Checked)
-    '        If Employee.InsertEmployee() Then
-    '            MessageBox.Show("El empleado " + TB_EmployeeName.Text + " fue creado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
-    '            InitializationOfFields()
-    '        End If
-
-    '    End If
-    'End Sub
-
     Private Sub BT_EmployeeRegister_Click(sender As Object, e As EventArgs) Handles BT_EmployeeRegister.Click
         Try
             If TB_EmployeeName.Text.Trim = "" Then
@@ -282,9 +186,25 @@ Public Class MD_INS_Employees
                 Exit Sub
             End If
 
-            Dim PlantSelected As ComboItem = CType(CB_Plant.SelectedItem, ComboItem)
-            If PlantSelected Is Nothing OrElse PlantSelected.Id = 0 Then
-                MessageBox.Show("Favor de seleccionar una planta válida para el empleado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Dim plantIdSelected As Integer = 0
+            Dim plantDescription As String = "Sin Planta"
+
+            If CB_Plant.SelectedItem IsNot Nothing Then
+                If TypeOf CB_Plant.SelectedItem Is ComboItem Then
+                    Dim itemPlanta As ComboItem = CType(CB_Plant.SelectedItem, ComboItem)
+                    plantIdSelected = itemPlanta.Id
+                    plantDescription = itemPlanta.Descripcion
+                ElseIf TypeOf CB_Plant.SelectedItem Is DataRowView Then
+                    plantIdSelected = CInt(CType(CB_Plant.SelectedItem, DataRowView)("PLANT_ID"))
+                    plantDescription = CType(CB_Plant.SelectedItem, DataRowView)("PLANT_NAME").ToString()
+                End If
+            End If
+
+            ' Validar cupo MÁXIMO únicamente si seleccionó una planta real (Mayor a 0)
+            Dim empValidar As New CL_Employee()
+            If plantIdSelected > 0 AndAlso Not empValidar.PlantaTieneCupo(plantIdSelected, 0) Then
+                MessageBox.Show("No se puede asignar el empleado a esta planta. La planta seleccionada ya cuenta con el límite máximo de 2 empleados activos.",
+                        "Límite de Planta Alcanzado", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Exit Sub
             End If
 
@@ -342,30 +262,42 @@ Public Class MD_INS_Employees
             PhotoPath,
             1,
             CB_Confidential.Checked,
-            PlantSelected.Id
+            plantIdSelected,
+            CB_InfonavitCredit.Checked
         )
 
+
             If Employee.InsertEmployee() Then
-                Dim connTmp As New SqlConnection(My.Settings.ConnectionString)
 
-                Dim salarioLog As String = If(CB_Confidential.Checked, "[PROTEGIDO/CONFIDENCIAL]", $"${TB_BaseSalary.Text.Trim}")
-                Dim confidencialTxt As String = If(CB_Confidential.Checked, "SÍ", "NO")
+                'LOG 
+                Try
+                    Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                        Dim salarioLog As String = If(CB_Confidential.Checked, "[PROTEGIDO/CONFIDENCIAL]", $"${TB_BaseSalary.Text.Trim}")
+                        Dim confidencialTxt As String = If(CB_Confidential.Checked, "SÍ", "NO")
+                        Dim infonavitTxt As String = If(CB_InfonavitCredit.Checked, "SÍ TIENE CRÉDITO", "NO TIENE CRÉDITO")
+                        Dim descExito As String = $"ALTA DE EMPLEADO: Se registró a '{nombreCompleto}' en la empresa '{Company.Descripcion}'. Planta Asignada: '{plantDescription}', Depto: {Department.Descripcion}, Puesto: {Positions.Descripcion}, Salario Base: {salarioLog}, Confidencial: [{confidencialTxt}], INFONAVIT: [{infonavitTxt}]."
 
-                'LOG DE ÉXITO
-                Dim descExito As String = $"ALTA DE EMPLEADO: Se registró a '{nombreCompleto}' en la empresa '{Company.Descripcion}'. Planta Asignada: '{PlantSelected.Descripcion}', Depto: {Department.Descripcion}, Puesto: {Positions.Descripcion}, Salario Base: {salarioLog}, Confidencial: [{confidencialTxt}]."
-                InsertLog(connTmp, GlobalSession.GlobalUserName, "MD_Employees", "INSERT_EMPLOYEE_SUCCESS", descExito, 0, "INFO")
+                        InsertLog(connTmp, GlobalSession.GlobalUserName, "MD_Employees", "INSERT_EMPLOYEE_SUCCESS", descExito, 0, "INFO")
+                    End Using
+                Catch logEx As Exception
+                    Console.WriteLine("No se pudo escribir el log de éxito: " & logEx.Message)
+                End Try
 
                 MessageBox.Show("El empleado " + TB_EmployeeName.Text.Trim + " fue creado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 InitializationOfFields()
             End If
 
         Catch ex As Exception
-            'LOG DE ERROR CRÍTICO
-            Dim connTmp As New SqlConnection(My.Settings.ConnectionString)
-            Dim nombreFalla As String = $"{TB_EmployeeName.Text.Trim} {TB_LastName1.Text.Trim}"
-            Dim descError As String = $"ERROR CRÍTICO: Falló la inserción del empleado '{nombreFalla}'. Motivo: {ex.Message}"
-
-            InsertLog(connTmp, GlobalSession.GlobalUserName, "MD_Employees", "ERROR_INSERT_EMPLOYEE", descError, 0, "ERROR", ex.StackTrace)
+            'LOG DE ERROR 
+            Try
+                Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                    Dim nombreFalla As String = $"{TB_EmployeeName.Text.Trim} {TB_LastName1.Text.Trim}"
+                    Dim descError As String = $"ERROR CRÍTICO: Falló la inserción del empleado '{nombreFalla}'. Motivo: {ex.Message}"
+                    InsertLog(connTmp, GlobalSession.GlobalUserName, "MD_Employees", "ERROR_INSERT_EMPLOYEE", descError, 0, "ERROR", ex.StackTrace)
+                End Using
+            Catch logEx As Exception
+                Console.WriteLine("Error al intentar escribir log de excepción: " & logEx.Message)
+            End Try
 
             MessageBox.Show("Ocurrió un error inesperado al registrar el empleado: " & ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -431,4 +363,5 @@ Public Class MD_INS_Employees
         End If
 
     End Sub
+
 End Class
