@@ -2,6 +2,8 @@
 
 Public Class OP_SEL_MainWeekReportAsistance
     Dim SelectedEmployeeID As Integer = 0
+    Dim PlantId As Integer = 0
+    Dim PlantName As String = ""
 
     Private Sub OP_SEL_MainWeekReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -10,6 +12,31 @@ Public Class OP_SEL_MainWeekReportAsistance
         DTP_StartDate.Visible = False
         DTP_EndDate.Visible = False
     End Sub
+
+    'Get plants list
+    Private Sub CB_Plants_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_Plants.SelectedIndexChanged
+
+        If CB_Plants.SelectedValue Is Nothing Then Exit Sub
+        If TypeOf CB_Plants.SelectedValue IsNot Integer Then Exit Sub
+
+        Dim idPlant As Integer = CInt(CB_Plants.SelectedValue)
+
+        If idPlant = 0 Then
+            Exit Sub
+        End If
+
+        Dim Plant As New CL_Plants()
+        Dim SelectedPlant As DataTable = Plant.Get_OnePlant(idPlant)
+
+        If SelectedPlant.Rows.Count = 0 Then Exit Sub
+
+        For Each item As DataRow In SelectedPlant.Rows
+            PlantId = idPlant
+            PlantName = item(1)
+        Next
+
+    End Sub
+
 
     Private Function GetWeekRange(selectedDate As Date) As Tuple(Of Date, Date)
 
@@ -38,7 +65,7 @@ Public Class OP_SEL_MainWeekReportAsistance
 
         Dim RecordsByEmployee As New CL_RecordsByEmployee
 
-        Dim dt As DataTable = RecordsByEmployee.Get_WeekRecords(startDate, endDate)
+        Dim dt As DataTable = RecordsByEmployee.Get_WeekRecords(startDate, endDate, PlantId)
 
         DTP_StartDate.Value = startDate
         DTP_StartDate.Enabled = False

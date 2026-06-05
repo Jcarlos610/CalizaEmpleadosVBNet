@@ -61,6 +61,7 @@ Partial Class OP_SEL_MainWeekReport
         Panel2 = New Panel()
         Label14 = New Label()
         DGV_DetailsByEmployee = New DataGridView()
+        CB_Plants = New ComboBox()
         GB_NumberOfWeek.SuspendLayout()
         CType(DGV_CompleteWeekInfo, ComponentModel.ISupportInitialize).BeginInit()
         PN_1.SuspendLayout()
@@ -78,6 +79,7 @@ Partial Class OP_SEL_MainWeekReport
         ' 
         ' GB_NumberOfWeek
         ' 
+        GB_NumberOfWeek.Controls.Add(CB_Plants)
         GB_NumberOfWeek.Controls.Add(DTP_EndDate)
         GB_NumberOfWeek.Controls.Add(LB_EndDate)
         GB_NumberOfWeek.Controls.Add(DTP_StartDate)
@@ -93,7 +95,7 @@ Partial Class OP_SEL_MainWeekReport
         ' 
         ' DTP_EndDate
         ' 
-        DTP_EndDate.Location = New Point(113, 87)
+        DTP_EndDate.Location = New Point(113, 106)
         DTP_EndDate.Name = "DTP_EndDate"
         DTP_EndDate.Size = New Size(235, 23)
         DTP_EndDate.TabIndex = 5
@@ -101,7 +103,7 @@ Partial Class OP_SEL_MainWeekReport
         ' LB_EndDate
         ' 
         LB_EndDate.AutoSize = True
-        LB_EndDate.Location = New Point(21, 93)
+        LB_EndDate.Location = New Point(21, 112)
         LB_EndDate.Name = "LB_EndDate"
         LB_EndDate.Size = New Size(74, 15)
         LB_EndDate.TabIndex = 4
@@ -109,7 +111,7 @@ Partial Class OP_SEL_MainWeekReport
         ' 
         ' DTP_StartDate
         ' 
-        DTP_StartDate.Location = New Point(113, 58)
+        DTP_StartDate.Location = New Point(113, 77)
         DTP_StartDate.Name = "DTP_StartDate"
         DTP_StartDate.Size = New Size(232, 23)
         DTP_StartDate.TabIndex = 3
@@ -117,7 +119,7 @@ Partial Class OP_SEL_MainWeekReport
         ' LB_StartDate
         ' 
         LB_StartDate.AutoSize = True
-        LB_StartDate.Location = New Point(17, 63)
+        LB_StartDate.Location = New Point(17, 82)
         LB_StartDate.Name = "LB_StartDate"
         LB_StartDate.Size = New Size(86, 15)
         LB_StartDate.TabIndex = 2
@@ -126,7 +128,7 @@ Partial Class OP_SEL_MainWeekReport
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Location = New Point(17, 35)
+        Label1.Location = New Point(17, 54)
         Label1.Name = "Label1"
         Label1.Size = New Size(171, 15)
         Label1.TabIndex = 1
@@ -135,7 +137,7 @@ Partial Class OP_SEL_MainWeekReport
         ' DTP_WeekSelector
         ' 
         DTP_WeekSelector.Format = DateTimePickerFormat.Short
-        DTP_WeekSelector.Location = New Point(194, 29)
+        DTP_WeekSelector.Location = New Point(194, 48)
         DTP_WeekSelector.Name = "DTP_WeekSelector"
         DTP_WeekSelector.Size = New Size(112, 23)
         DTP_WeekSelector.TabIndex = 0
@@ -442,6 +444,14 @@ Partial Class OP_SEL_MainWeekReport
         DGV_DetailsByEmployee.Size = New Size(1232, 237)
         DGV_DetailsByEmployee.TabIndex = 22
         ' 
+        ' CB_Plants
+        ' 
+        CB_Plants.FormattingEnabled = True
+        CB_Plants.Location = New Point(17, 22)
+        CB_Plants.Name = "CB_Plants"
+        CB_Plants.Size = New Size(148, 23)
+        CB_Plants.TabIndex = 6
+        ' 
         ' OP_SEL_MainWeekReport
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -541,4 +551,5 @@ Partial Class OP_SEL_MainWeekReport
     Friend WithEvents Panel2 As Panel
     Friend WithEvents Label14 As Label
     Friend WithEvents DGV_DetailsByEmployee As DataGridView
+    Friend WithEvents CB_Plants As ComboBox
 End Class

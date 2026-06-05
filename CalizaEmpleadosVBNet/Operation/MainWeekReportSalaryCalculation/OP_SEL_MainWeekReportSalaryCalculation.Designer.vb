@@ -23,15 +23,16 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         GB_NumberOfWeek = New GroupBox()
+        CB_Plants = New ComboBox()
         BT_LoadInfo = New Button()
         TB_ProdPlant = New TextBox()
-        LB_ProdPlant = New Label()
         DTP_EndDate = New DateTimePicker()
+        LB_ProdPlant = New Label()
         LB_EndDate = New Label()
-        DTP_StartDate = New DateTimePicker()
-        LB_StartDate = New Label()
         Label1 = New Label()
         DTP_WeekSelector = New DateTimePicker()
+        DTP_StartDate = New DateTimePicker()
+        LB_StartDate = New Label()
         PB_Progress = New ProgressBar()
         Label5 = New Label()
         Panel1 = New Panel()
@@ -62,6 +63,7 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         Label9 = New Label()
         Label10 = New Label()
         BT_ExportExcel = New Button()
+        Label12 = New Label()
         GB_NumberOfWeek.SuspendLayout()
         Panel1.SuspendLayout()
         PN_2.SuspendLayout()
@@ -72,100 +74,110 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         CType(DGV_BenefitsDetailsByEmployee, ComponentModel.ISupportInitialize).BeginInit()
         Panel2.SuspendLayout()
         Panel3.SuspendLayout()
+        Panel4.SuspendLayout()
         SuspendLayout()
         ' 
         ' GB_NumberOfWeek
         ' 
+        GB_NumberOfWeek.Controls.Add(CB_Plants)
         GB_NumberOfWeek.Controls.Add(BT_LoadInfo)
         GB_NumberOfWeek.Controls.Add(TB_ProdPlant)
-        GB_NumberOfWeek.Controls.Add(LB_ProdPlant)
         GB_NumberOfWeek.Controls.Add(DTP_EndDate)
+        GB_NumberOfWeek.Controls.Add(LB_ProdPlant)
         GB_NumberOfWeek.Controls.Add(LB_EndDate)
-        GB_NumberOfWeek.Controls.Add(DTP_StartDate)
-        GB_NumberOfWeek.Controls.Add(LB_StartDate)
         GB_NumberOfWeek.Controls.Add(Label1)
         GB_NumberOfWeek.Controls.Add(DTP_WeekSelector)
+        GB_NumberOfWeek.Controls.Add(DTP_StartDate)
+        GB_NumberOfWeek.Controls.Add(LB_StartDate)
         GB_NumberOfWeek.Location = New Point(12, 46)
         GB_NumberOfWeek.Name = "GB_NumberOfWeek"
-        GB_NumberOfWeek.Size = New Size(626, 90)
+        GB_NumberOfWeek.Size = New Size(751, 90)
         GB_NumberOfWeek.TabIndex = 0
         GB_NumberOfWeek.TabStop = False
         GB_NumberOfWeek.Text = "Información de la semana"
         ' 
+        ' CB_Plants
+        ' 
+        CB_Plants.FormattingEnabled = True
+        CB_Plants.Location = New Point(8, 24)
+        CB_Plants.Name = "CB_Plants"
+        CB_Plants.Size = New Size(148, 23)
+        CB_Plants.TabIndex = 1
+        ' 
         ' BT_LoadInfo
         ' 
-        BT_LoadInfo.Location = New Point(533, 21)
+        BT_LoadInfo.Location = New Point(671, 24)
         BT_LoadInfo.Name = "BT_LoadInfo"
         BT_LoadInfo.Size = New Size(75, 23)
-        BT_LoadInfo.TabIndex = 8
+        BT_LoadInfo.TabIndex = 6
         BT_LoadInfo.Text = "Cargar Info"
         BT_LoadInfo.UseVisualStyleBackColor = True
         ' 
         ' TB_ProdPlant
         ' 
         TB_ProdPlant.BackColor = SystemColors.Info
-        TB_ProdPlant.Location = New Point(150, 20)
+        TB_ProdPlant.Location = New Point(299, 23)
         TB_ProdPlant.Name = "TB_ProdPlant"
         TB_ProdPlant.Size = New Size(72, 23)
-        TB_ProdPlant.TabIndex = 1
+        TB_ProdPlant.TabIndex = 3
+        ' 
+        ' DTP_EndDate
+        ' 
+        DTP_EndDate.Location = New Point(464, 57)
+        DTP_EndDate.Name = "DTP_EndDate"
+        DTP_EndDate.Size = New Size(213, 23)
+        DTP_EndDate.TabIndex = 10
         ' 
         ' LB_ProdPlant
         ' 
         LB_ProdPlant.AutoSize = True
-        LB_ProdPlant.Location = New Point(8, 24)
+        LB_ProdPlant.Location = New Point(161, 27)
         LB_ProdPlant.Name = "LB_ProdPlant"
         LB_ProdPlant.Size = New Size(136, 15)
-        LB_ProdPlant.TabIndex = 0
+        LB_ProdPlant.TabIndex = 2
         LB_ProdPlant.Text = "Productividad de planta:"
-        ' 
-        ' DTP_EndDate
-        ' 
-        DTP_EndDate.Location = New Point(396, 54)
-        DTP_EndDate.Name = "DTP_EndDate"
-        DTP_EndDate.Size = New Size(213, 23)
-        DTP_EndDate.TabIndex = 7
         ' 
         ' LB_EndDate
         ' 
         LB_EndDate.AutoSize = True
-        LB_EndDate.Location = New Point(320, 58)
+        LB_EndDate.Location = New Point(388, 61)
         LB_EndDate.Name = "LB_EndDate"
         LB_EndDate.Size = New Size(74, 15)
-        LB_EndDate.TabIndex = 6
+        LB_EndDate.TabIndex = 9
         LB_EndDate.Text = "Fecha de fin:"
-        ' 
-        ' DTP_StartDate
-        ' 
-        DTP_StartDate.Location = New Point(99, 54)
-        DTP_StartDate.Name = "DTP_StartDate"
-        DTP_StartDate.Size = New Size(215, 23)
-        DTP_StartDate.TabIndex = 5
-        ' 
-        ' LB_StartDate
-        ' 
-        LB_StartDate.AutoSize = True
-        LB_StartDate.Location = New Point(8, 58)
-        LB_StartDate.Name = "LB_StartDate"
-        LB_StartDate.Size = New Size(89, 15)
-        LB_StartDate.TabIndex = 4
-        LB_StartDate.Text = "Fecha de inicio:"
         ' 
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Location = New Point(234, 24)
+        Label1.Location = New Point(377, 27)
         Label1.Name = "Label1"
         Label1.Size = New Size(171, 15)
-        Label1.TabIndex = 2
+        Label1.TabIndex = 4
         Label1.Text = "Selecciona un día de la semana"
         ' 
         ' DTP_WeekSelector
         ' 
         DTP_WeekSelector.Format = DateTimePickerFormat.Short
-        DTP_WeekSelector.Location = New Point(411, 20)
+        DTP_WeekSelector.Location = New Point(551, 23)
         DTP_WeekSelector.Name = "DTP_WeekSelector"
         DTP_WeekSelector.Size = New Size(112, 23)
-        DTP_WeekSelector.TabIndex = 3
+        DTP_WeekSelector.TabIndex = 5
+        ' 
+        ' DTP_StartDate
+        ' 
+        DTP_StartDate.Location = New Point(167, 57)
+        DTP_StartDate.Name = "DTP_StartDate"
+        DTP_StartDate.Size = New Size(215, 23)
+        DTP_StartDate.TabIndex = 8
+        ' 
+        ' LB_StartDate
+        ' 
+        LB_StartDate.AutoSize = True
+        LB_StartDate.Location = New Point(76, 61)
+        LB_StartDate.Name = "LB_StartDate"
+        LB_StartDate.Size = New Size(89, 15)
+        LB_StartDate.TabIndex = 7
+        LB_StartDate.Text = "Fecha de inicio:"
         ' 
         ' PB_Progress
         ' 
@@ -177,7 +189,7 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         ' Label5
         ' 
         Label5.AutoSize = True
-        Label5.Location = New Point(695, 117)
+        Label5.Location = New Point(820, 117)
         Label5.Name = "Label5"
         Label5.Size = New Size(90, 15)
         Label5.TabIndex = 24
@@ -188,10 +200,10 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         Panel1.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(128))
         Panel1.BorderStyle = BorderStyle.Fixed3D
         Panel1.Controls.Add(Label6)
-        Panel1.Location = New Point(655, 114)
+        Panel1.Location = New Point(780, 114)
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(40, 22)
-        Panel1.TabIndex = 23
+        Panel1.TabIndex = 22
         ' 
         ' Label6
         ' 
@@ -199,13 +211,13 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         Label6.Location = New Point(10, 2)
         Label6.Name = "Label6"
         Label6.Size = New Size(17, 15)
-        Label6.TabIndex = 6
+        Label6.TabIndex = 30
         Label6.Text = "FJ"
         ' 
         ' Label3
         ' 
         Label3.AutoSize = True
-        Label3.Location = New Point(695, 89)
+        Label3.Location = New Point(820, 89)
         Label3.Name = "Label3"
         Label3.Size = New Size(32, 15)
         Label3.TabIndex = 9
@@ -213,13 +225,13 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         ' 
         ' PN_2
         ' 
-        PN_2.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+        PN_2.BackColor = Color.FromArgb(CByte(255), CByte(229), CByte(204))
         PN_2.BorderStyle = BorderStyle.Fixed3D
         PN_2.Controls.Add(Label4)
-        PN_2.Location = New Point(655, 85)
+        PN_2.Location = New Point(780, 85)
         PN_2.Name = "PN_2"
         PN_2.Size = New Size(40, 22)
-        PN_2.TabIndex = 8
+        PN_2.TabIndex = 21
         ' 
         ' Label4
         ' 
@@ -227,13 +239,13 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         Label4.Location = New Point(12, 1)
         Label4.Name = "Label4"
         Label4.Size = New Size(13, 15)
-        Label4.TabIndex = 6
+        Label4.TabIndex = 29
         Label4.Text = "F"
         ' 
         ' LB_Absence
         ' 
         LB_Absence.AutoSize = True
-        LB_Absence.Location = New Point(852, 118)
+        LB_Absence.Location = New Point(977, 118)
         LB_Absence.Name = "LB_Absence"
         LB_Absence.Size = New Size(102, 15)
         LB_Absence.TabIndex = 7
@@ -244,10 +256,10 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         PN_4.BackColor = Color.FromArgb(CByte(255), CByte(255), CByte(192))
         PN_4.BorderStyle = BorderStyle.Fixed3D
         PN_4.Controls.Add(LB_3)
-        PN_4.Location = New Point(811, 114)
+        PN_4.Location = New Point(936, 114)
         PN_4.Name = "PN_4"
         PN_4.Size = New Size(40, 22)
-        PN_4.TabIndex = 6
+        PN_4.TabIndex = 25
         ' 
         ' LB_3
         ' 
@@ -255,13 +267,13 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         LB_3.Location = New Point(8, 2)
         LB_3.Name = "LB_3"
         LB_3.Size = New Size(22, 15)
-        LB_3.TabIndex = 8
+        LB_3.TabIndex = 33
         LB_3.Text = "PG"
         ' 
         ' LB_Incomplete
         ' 
         LB_Incomplete.AutoSize = True
-        LB_Incomplete.Location = New Point(852, 88)
+        LB_Incomplete.Location = New Point(977, 88)
         LB_Incomplete.Name = "LB_Incomplete"
         LB_Incomplete.Size = New Size(65, 15)
         LB_Incomplete.TabIndex = 5
@@ -272,10 +284,10 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         PN_1.BackColor = Color.FromArgb(CByte(192), CByte(255), CByte(192))
         PN_1.BorderStyle = BorderStyle.Fixed3D
         PN_1.Controls.Add(LB_1)
-        PN_1.Location = New Point(655, 55)
+        PN_1.Location = New Point(780, 55)
         PN_1.Name = "PN_1"
         PN_1.Size = New Size(39, 22)
-        PN_1.TabIndex = 2
+        PN_1.TabIndex = 20
         ' 
         ' LB_1
         ' 
@@ -283,18 +295,18 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         LB_1.Location = New Point(10, 2)
         LB_1.Name = "LB_1"
         LB_1.Size = New Size(15, 15)
-        LB_1.TabIndex = 6
+        LB_1.TabIndex = 28
         LB_1.Text = "A"
         ' 
         ' PN_3
         ' 
-        PN_3.BackColor = Color.FromArgb(CByte(255), CByte(224), CByte(192))
+        PN_3.BackColor = Color.FromArgb(CByte(255), CByte(192), CByte(128))
         PN_3.BorderStyle = BorderStyle.Fixed3D
         PN_3.Controls.Add(LB_2)
-        PN_3.Location = New Point(811, 85)
+        PN_3.Location = New Point(936, 85)
         PN_3.Name = "PN_3"
         PN_3.Size = New Size(40, 22)
-        PN_3.TabIndex = 4
+        PN_3.TabIndex = 24
         ' 
         ' LB_2
         ' 
@@ -302,13 +314,13 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         LB_2.Location = New Point(12, 2)
         LB_2.Name = "LB_2"
         LB_2.Size = New Size(14, 15)
-        LB_2.TabIndex = 6
+        LB_2.TabIndex = 32
         LB_2.Text = "V"
         ' 
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Location = New Point(695, 59)
+        Label2.Location = New Point(820, 59)
         Label2.Name = "Label2"
         Label2.Size = New Size(60, 15)
         Label2.TabIndex = 3
@@ -324,7 +336,7 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         DGV_CompleteWeekInfo.ReadOnly = True
         DGV_CompleteWeekInfo.RowHeadersWidth = 51
         DGV_CompleteWeekInfo.Size = New Size(1890, 556)
-        DGV_CompleteWeekInfo.TabIndex = 1
+        DGV_CompleteWeekInfo.TabIndex = 15
         ' 
         ' DGV_BenefitsDetailsByEmployee
         ' 
@@ -336,7 +348,7 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         DGV_BenefitsDetailsByEmployee.ReadOnly = True
         DGV_BenefitsDetailsByEmployee.RowHeadersWidth = 51
         DGV_BenefitsDetailsByEmployee.Size = New Size(1890, 111)
-        DGV_BenefitsDetailsByEmployee.TabIndex = 22
+        DGV_BenefitsDetailsByEmployee.TabIndex = 16
         ' 
         ' LB_EmployeeDetailInfo
         ' 
@@ -350,7 +362,7 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         ' Label7
         ' 
         Label7.AutoSize = True
-        Label7.Location = New Point(852, 59)
+        Label7.Location = New Point(977, 59)
         Label7.Name = "Label7"
         Label7.Size = New Size(48, 15)
         Label7.TabIndex = 27
@@ -361,10 +373,10 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         Panel2.BackColor = Color.FromArgb(CByte(192), CByte(255), CByte(255))
         Panel2.BorderStyle = BorderStyle.Fixed3D
         Panel2.Controls.Add(Label8)
-        Panel2.Location = New Point(811, 55)
+        Panel2.Location = New Point(936, 55)
         Panel2.Name = "Panel2"
         Panel2.Size = New Size(40, 22)
-        Panel2.TabIndex = 26
+        Panel2.TabIndex = 23
         ' 
         ' Label8
         ' 
@@ -372,7 +384,7 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         Label8.Location = New Point(13, 2)
         Label8.Name = "Label8"
         Label8.Size = New Size(14, 15)
-        Label8.TabIndex = 8
+        Label8.TabIndex = 31
         Label8.Text = "R"
         ' 
         ' CB_Confirmation
@@ -400,10 +412,10 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         Panel3.BackColor = Color.Aquamarine
         Panel3.BorderStyle = BorderStyle.Fixed3D
         Panel3.Controls.Add(Label11)
-        Panel3.Location = New Point(1002, 55)
+        Panel3.Location = New Point(1127, 55)
         Panel3.Name = "Panel3"
         Panel3.Size = New Size(40, 22)
-        Panel3.TabIndex = 30
+        Panel3.TabIndex = 26
         ' 
         ' Label11
         ' 
@@ -416,17 +428,18 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         ' 
         ' Panel4
         ' 
+        Panel4.BackColor = Color.FromArgb(CByte(255), CByte(230), CByte(153))
         Panel4.BorderStyle = BorderStyle.Fixed3D
-        Panel4.Location = New Point(1002, 85)
+        Panel4.Controls.Add(Label12)
+        Panel4.Location = New Point(1127, 85)
         Panel4.Name = "Panel4"
         Panel4.Size = New Size(40, 22)
-        Panel4.TabIndex = 31
-        Panel4.Visible = False
+        Panel4.TabIndex = 27
         ' 
         ' Label9
         ' 
         Label9.AutoSize = True
-        Label9.Location = New Point(1048, 59)
+        Label9.Location = New Point(1173, 59)
         Label9.Name = "Label9"
         Label9.Size = New Size(97, 15)
         Label9.TabIndex = 32
@@ -435,12 +448,11 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         ' Label10
         ' 
         Label10.AutoSize = True
-        Label10.Location = New Point(1048, 88)
+        Label10.Location = New Point(1173, 88)
         Label10.Name = "Label10"
-        Label10.Size = New Size(47, 15)
+        Label10.Size = New Size(121, 15)
         Label10.TabIndex = 33
-        Label10.Text = "Label10"
-        Label10.Visible = False
+        Label10.Text = "Domingo incompleto"
         ' 
         ' BT_ExportExcel
         ' 
@@ -451,13 +463,22 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         BT_ExportExcel.Text = "Exportar Nómina"
         BT_ExportExcel.UseVisualStyleBackColor = True
         ' 
+        ' Label12
+        ' 
+        Label12.AutoSize = True
+        Label12.Location = New Point(3, 2)
+        Label12.Name = "Label12"
+        Label12.Size = New Size(24, 15)
+        Label12.TabIndex = 35
+        Label12.Text = "NC"
+        ' 
         ' OP_SEL_MainWeekReportSalaryCalculation
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(1684, 878)
+        ClientSize = New Size(2019, 878)
         Controls.Add(BT_ExportExcel)
         Controls.Add(PB_Progress)
         Controls.Add(Label10)
@@ -503,6 +524,8 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         Panel2.PerformLayout()
         Panel3.ResumeLayout(False)
         Panel3.PerformLayout()
+        Panel4.ResumeLayout(False)
+        Panel4.PerformLayout()
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -547,4 +570,6 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
     Friend WithEvents TB_ProdPlant As TextBox
     Friend WithEvents BT_ExportExcel As Button
     Friend WithEvents BT_LoadInfo As Button
+    Friend WithEvents CB_Plants As ComboBox
+    Friend WithEvents Label12 As Label
 End Class
