@@ -24,6 +24,7 @@ Partial Class MD_INS_Employees
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MD_INS_Employees))
         GB_PersonalInformation = New GroupBox()
+        CB_InfonavitCredit = New CheckBox()
         BT_EmployeeRegister = New Button()
         TB_SocialNumber = New TextBox()
         GB_EmergencyInfo = New GroupBox()
@@ -105,6 +106,7 @@ Partial Class MD_INS_Employees
         ' 
         ' GB_PersonalInformation
         ' 
+        GB_PersonalInformation.Controls.Add(CB_InfonavitCredit)
         GB_PersonalInformation.Controls.Add(BT_EmployeeRegister)
         GB_PersonalInformation.Controls.Add(TB_SocialNumber)
         GB_PersonalInformation.Controls.Add(GB_EmergencyInfo)
@@ -141,9 +143,19 @@ Partial Class MD_INS_Employees
         GB_PersonalInformation.TabStop = False
         GB_PersonalInformation.Text = "Información personal"
         ' 
+        ' CB_InfonavitCredit
+        ' 
+        CB_InfonavitCredit.AutoSize = True
+        CB_InfonavitCredit.Location = New Point(845, 152)
+        CB_InfonavitCredit.Name = "CB_InfonavitCredit"
+        CB_InfonavitCredit.Size = New Size(170, 19)
+        CB_InfonavitCredit.TabIndex = 408
+        CB_InfonavitCredit.Text = "¿Tiene Crédito INFONAVIT?"
+        CB_InfonavitCredit.UseVisualStyleBackColor = True
+        ' 
         ' BT_EmployeeRegister
         ' 
-        BT_EmployeeRegister.Location = New Point(1101, 471)
+        BT_EmployeeRegister.Location = New Point(1200, 471)
         BT_EmployeeRegister.Name = "BT_EmployeeRegister"
         BT_EmployeeRegister.Size = New Size(130, 25)
         BT_EmployeeRegister.TabIndex = 407
@@ -869,4 +881,5 @@ Partial Class MD_INS_Employees
     Friend WithEvents CB_Confidential As CheckBox
     Friend WithEvents CB_Plant As ComboBox
     Friend WithEvents LB_Plant As Label
+    Friend WithEvents CB_InfonavitCredit As CheckBox
 End Class

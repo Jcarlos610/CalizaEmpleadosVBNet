@@ -141,55 +141,6 @@ Public Class OP_RECORDSBYEMPLOYEELOANS
         CalcularTotales()
     End Sub
 
-    'Private Sub BT_Register_Click(sender As Object, e As EventArgs) Handles BT_Register.Click
-
-
-    '    If Get_LOAN_ID() = 0 Then
-    '        MessageBox.Show("Selecciona un préstamo primero")
-    '        Exit Sub
-    '    End If
-
-    '    If TB_ManualInstalment.Text = "" Then
-    '        MessageBox.Show("Ingresa un monto")
-    '        Exit Sub
-    '    End If
-
-    '    If Not IsNumeric(TB_ManualInstalment.Text) Then
-    '        MessageBox.Show("Solo números")
-    '        Exit Sub
-    '    End If
-
-
-    '    If TB_balance.Text = "$0.00" Then
-    '        MessageBox.Show("El préstamo ya está liquidado")
-    '        Exit Sub
-    '    End If
-
-    '    Dim obj As New CL_EmployeeLoans
-
-    '    obj.LOAN_ID = Get_LOAN_ID()
-    '    obj.LOAN_PAYM = Convert.ToDecimal(TB_ManualInstalment.Text)
-    '    obj.LOAN_PTYPE = 1
-    '    obj.REMPL_CREBY = AppUser
-    '    obj.REMPL_RDATE = Date.Today
-
-    '    If CDec(TB_ManualInstalment.Text) > GV_Balance Then
-    '        MessageBox.Show("El monto ingresado es mayor al saldo a pagar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
-    '        TB_ManualInstalment.SelectAll()
-    '        TB_ManualInstalment.Focus()
-    '    Else
-    '        obj.InsertPayment()
-    '        MessageBox.Show("Pago registrado", "Confirmación", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-    '        TB_ManualInstalment.Text = ""
-
-    '        LoadEmployeeInfo()
-    '        LoadLoans()
-    '        LoadDetail()
-    '        CalcularTotales()
-    '    End If
-
-    'End Sub
 
     Private Sub BT_Register_Click(sender As Object, e As EventArgs) Handles BT_Register.Click
         If Get_LOAN_ID() = 0 Then
@@ -242,6 +193,13 @@ Public Class OP_RECORDSBYEMPLOYEELOANS
             TB_ManualInstalment.Text = ""
 
             LoadEmployeeInfo()
+
+            DGV_EmployeeInfo.ClearSelection()
+            DGV_EmployeeInfo.CurrentCell = Nothing
+
+            DGV_Loans.DataSource = Nothing
+            LimpiarDetalle()
+
             LoadLoans()
             LoadDetail()
             CalcularTotales()
@@ -286,12 +244,39 @@ Public Class OP_RECORDSBYEMPLOYEELOANS
 
     End Function
 
+    'Sub CalcularTotales()
+
+    '    Dim totalPagado As Decimal = SumarColumna(DGV_DetailInstalment, "Monto")
+
+    '    Dim totalLoan As Decimal = 0
+
+
+    '    If DGV_Loans.CurrentRow IsNot Nothing AndAlso
+    '   DGV_Loans.Columns.Contains("Monto") AndAlso
+    '   DGV_Loans.CurrentRow.Cells("Monto").Value IsNot DBNull.Value Then
+
+    '        totalLoan = Convert.ToDecimal(DGV_Loans.CurrentRow.Cells("Monto").Value)
+
+    '    End If
+
+    '    Dim saldo As Decimal = totalLoan - totalPagado
+
+    '    TB_TotalLoans.Text = totalLoan.ToString("C2")
+    '    TB_balance.Text = saldo.ToString("C2")
+
+    '    If saldo = 0 Then
+    '        BT_Register.Enabled = False
+    '    Else
+    '        BT_Register.Enabled = True
+    '    End If
+
+
+    'End Sub
+
     Sub CalcularTotales()
 
         Dim totalPagado As Decimal = SumarColumna(DGV_DetailInstalment, "Monto")
-
         Dim totalLoan As Decimal = 0
-
 
         If DGV_Loans.CurrentRow IsNot Nothing AndAlso
        DGV_Loans.Columns.Contains("Monto") AndAlso
@@ -303,6 +288,9 @@ Public Class OP_RECORDSBYEMPLOYEELOANS
 
         Dim saldo As Decimal = totalLoan - totalPagado
 
+
+        GV_Balance = saldo
+
         TB_TotalLoans.Text = totalLoan.ToString("C2")
         TB_balance.Text = saldo.ToString("C2")
 
@@ -312,14 +300,23 @@ Public Class OP_RECORDSBYEMPLOYEELOANS
             BT_Register.Enabled = True
         End If
 
-
     End Sub
+
+    'Sub LimpiarDetalle()
+
+    '    DGV_DetailInstalment.DataSource = Nothing
+    '    TB_TotalLoans.Text = ""
+    '    TB_balance.Text = ""
+    '    BT_Register.Enabled = False
+
+    'End Sub
 
     Sub LimpiarDetalle()
 
         DGV_DetailInstalment.DataSource = Nothing
         TB_TotalLoans.Text = ""
         TB_balance.Text = ""
+        GV_Balance = 0.0
         BT_Register.Enabled = False
 
     End Sub

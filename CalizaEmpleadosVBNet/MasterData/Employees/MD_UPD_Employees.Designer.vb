@@ -23,6 +23,7 @@ Partial Class MD_UPD_Employees
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         GB_PersonalInformation = New GroupBox()
+        CB_InfonavitCredit = New CheckBox()
         CB_Status = New CheckBox()
         BT_EmployeeUpdate = New Button()
         TB_SocialNumber = New TextBox()
@@ -106,6 +107,7 @@ Partial Class MD_UPD_Employees
         ' 
         ' GB_PersonalInformation
         ' 
+        GB_PersonalInformation.Controls.Add(CB_InfonavitCredit)
         GB_PersonalInformation.Controls.Add(CB_Status)
         GB_PersonalInformation.Controls.Add(BT_EmployeeUpdate)
         GB_PersonalInformation.Controls.Add(TB_SocialNumber)
@@ -143,10 +145,20 @@ Partial Class MD_UPD_Employees
         GB_PersonalInformation.TabStop = False
         GB_PersonalInformation.Text = "Información personal"
         ' 
+        ' CB_InfonavitCredit
+        ' 
+        CB_InfonavitCredit.AutoSize = True
+        CB_InfonavitCredit.Location = New Point(841, 152)
+        CB_InfonavitCredit.Name = "CB_InfonavitCredit"
+        CB_InfonavitCredit.Size = New Size(170, 19)
+        CB_InfonavitCredit.TabIndex = 409
+        CB_InfonavitCredit.Text = "¿Tiene Crédito INFONAVIT?"
+        CB_InfonavitCredit.UseVisualStyleBackColor = True
+        ' 
         ' CB_Status
         ' 
         CB_Status.AutoSize = True
-        CB_Status.Location = New Point(1171, 14)
+        CB_Status.Location = New Point(1272, 22)
         CB_Status.Name = "CB_Status"
         CB_Status.Size = New Size(58, 19)
         CB_Status.TabIndex = 408
@@ -155,7 +167,7 @@ Partial Class MD_UPD_Employees
         ' 
         ' BT_EmployeeUpdate
         ' 
-        BT_EmployeeUpdate.Location = New Point(1101, 471)
+        BT_EmployeeUpdate.Location = New Point(1200, 471)
         BT_EmployeeUpdate.Name = "BT_EmployeeUpdate"
         BT_EmployeeUpdate.Size = New Size(130, 25)
         BT_EmployeeUpdate.TabIndex = 407
@@ -719,18 +731,18 @@ Partial Class MD_UPD_Employees
         LB_LastName2.AutoSize = True
         LB_LastName2.Location = New Point(712, 35)
         LB_LastName2.Name = "LB_LastName2"
-        LB_LastName2.Size = New Size(95, 15)
+        LB_LastName2.Size = New Size(99, 15)
         LB_LastName2.TabIndex = 108
-        LB_LastName2.Text = "Apellido Paterno"
+        LB_LastName2.Text = "Apellido Materno"
         ' 
         ' LB_LastName
         ' 
         LB_LastName.AutoSize = True
         LB_LastName.Location = New Point(497, 35)
         LB_LastName.Name = "LB_LastName"
-        LB_LastName.Size = New Size(99, 15)
+        LB_LastName.Size = New Size(95, 15)
         LB_LastName.TabIndex = 106
-        LB_LastName.Text = "Apellido Materno"
+        LB_LastName.Text = "Apellido Paterno"
         ' 
         ' BT_Picture
         ' 
@@ -897,4 +909,5 @@ Partial Class MD_UPD_Employees
     Friend WithEvents CB_Confidential As CheckBox
     Friend WithEvents CB_Plant As ComboBox
     Friend WithEvents LB_Plant As Label
+    Friend WithEvents CB_InfonavitCredit As CheckBox
 End Class

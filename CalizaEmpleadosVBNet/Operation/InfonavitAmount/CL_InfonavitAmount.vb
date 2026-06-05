@@ -1,22 +1,22 @@
 ﻿Imports Microsoft.Data.SqlClient
-Public Class CL_AmountToTransfer
+Public Class CL_InfonavitAmount
     Public DB_Connection As SqlConnection
     Public DB_Command As SqlCommand
     Public DB_Reader As SqlDataReader
 
-    Private _AMTRANS_ID As Object
+    Private _INFONAVIT_ID As Object
     Private _REMPL_ID As Object
-    Private _DREMPL_DATE As Object
-    Private _AMTRANS_AMOUN As Object
-    Private _AMTRANS_CREBY As Object
-    Private _AMTRANS_RDATE As Object
+    Private _INFONAVIT_DATE As Object
+    Private _INFONAVIT_AMOUN As Object
+    Private _INFONAVIT_CREBY As Object
+    Private _INFONAVIT_RDATE As Object
 
-    Public Property AMTRANS_ID As Object
+    Public Property INFONAVIT_ID As Object
         Get
-            Return _AMTRANS_ID
+            Return _INFONAVIT_ID
         End Get
         Set(value As Object)
-            _AMTRANS_ID = value
+            _INFONAVIT_ID = value
         End Set
     End Property
 
@@ -29,39 +29,39 @@ Public Class CL_AmountToTransfer
         End Set
     End Property
 
-    Public Property DREMPL_DATE As Object
+    Public Property INFONAVIT_DATE As Object
         Get
-            Return _DREMPL_DATE
+            Return _INFONAVIT_DATE
         End Get
         Set(value As Object)
-            _DREMPL_DATE = value
+            _INFONAVIT_DATE = value
         End Set
     End Property
 
-    Public Property AMTRANS_AMOUN As Object
+    Public Property INFONAVIT_AMOUN As Object
         Get
-            Return _AMTRANS_AMOUN
+            Return _INFONAVIT_AMOUN
         End Get
         Set(value As Object)
-            _AMTRANS_AMOUN = value
+            _INFONAVIT_AMOUN = value
         End Set
     End Property
 
-    Public Property AMTRANS_CREBY As Object
+    Public Property INFONAVIT_CREBY As Object
         Get
-            Return _AMTRANS_CREBY
+            Return _INFONAVIT_CREBY
         End Get
         Set(value As Object)
-            _AMTRANS_CREBY = value
+            _INFONAVIT_CREBY = value
         End Set
     End Property
 
-    Public Property AMTRANS_RDATE As Object
+    Public Property INFONAVIT_RDATE As Object
         Get
-            Return _AMTRANS_RDATE
+            Return _INFONAVIT_RDATE
         End Get
         Set(value As Object)
-            _AMTRANS_RDATE = value
+            _INFONAVIT_RDATE = value
         End Set
     End Property
 
@@ -69,34 +69,34 @@ Public Class CL_AmountToTransfer
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
     End Sub
 
-
-    Sub New(AMTRANS_ID, REMPL_ID, DREMPL_DATE, AMTRANS_AMOUN, AMTRANS_CREBY, AMTRANS_RDATE)
+    Sub New(INFONAVIT_ID, REMPL_ID, INFONAVIT_DATE, INFONAVIT_AMOUN, INFONAVIT_CREBY, INFONAVIT_RDATE)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
-        Me.AMTRANS_ID = AMTRANS_ID
-        Me.REMPL_ID = REMPL_ID
-        Me.DREMPL_DATE = DREMPL_DATE
-        Me.AMTRANS_AMOUN = AMTRANS_AMOUN
-        Me.AMTRANS_CREBY = AMTRANS_CREBY
-        Me.AMTRANS_RDATE = AMTRANS_RDATE
+        _INFONAVIT_ID = INFONAVIT_ID
+        _REMPL_ID = REMPL_ID
+        _INFONAVIT_DATE = INFONAVIT_DATE
+        _INFONAVIT_AMOUN = INFONAVIT_AMOUN
+        _INFONAVIT_CREBY = INFONAVIT_CREBY
+        _INFONAVIT_RDATE = INFONAVIT_RDATE
 
     End Sub
 
-    Sub New(REMPL_ID, DREMPL_DATE, AMTRANS_AMOUN, AMTRANS_CREBY, AMTRANS_RDATE)
+    Sub New(REMPL_ID, INFONAVIT_DATE, INFONAVIT_AMOUN, INFONAVIT_CREBY, INFONAVIT_RDATE)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
-        Me.REMPL_ID = REMPL_ID
-        Me.DREMPL_DATE = DREMPL_DATE
-        Me.AMTRANS_AMOUN = AMTRANS_AMOUN
-        Me.AMTRANS_CREBY = AMTRANS_CREBY
-        Me.AMTRANS_RDATE = AMTRANS_RDATE
+        _REMPL_ID = REMPL_ID
+        _INFONAVIT_DATE = INFONAVIT_DATE
+        _INFONAVIT_AMOUN = INFONAVIT_AMOUN
+        _INFONAVIT_CREBY = INFONAVIT_CREBY
+        _INFONAVIT_RDATE = INFONAVIT_RDATE
 
     End Sub
 
-    Public Function InsertAmountToTransfer(ByVal EMPL_ID As Object) As Object
+
+    Public Function InsertAmountInfonavit(ByVal EMPL_ID As Object) As Object
         Try
             DB_Command = New SqlCommand With {
-                .CommandText = "INS_AMOUNT_TO_TRANSFER",
+                .CommandText = "INS_AMOUNT_INFONAVIT",
                 .CommandType = CommandType.StoredProcedure
             }
 
@@ -104,9 +104,9 @@ Public Class CL_AmountToTransfer
             DB_Command.Connection = DB_Connection
 
             DB_Command.Parameters.AddWithValue("EMPL_ID", EMPL_ID)
-            DB_Command.Parameters.AddWithValue("DREMPL_DATE", _DREMPL_DATE)
-            DB_Command.Parameters.AddWithValue("AMTRANS_AMOUN", _AMTRANS_AMOUN)
-            DB_Command.Parameters.AddWithValue("AMTRANS_CREBY", _AMTRANS_CREBY)
+            DB_Command.Parameters.AddWithValue("INFONAVIT_DATE", _INFONAVIT_DATE)
+            DB_Command.Parameters.AddWithValue("INFONAVIT_AMOUN", _INFONAVIT_AMOUN)
+            DB_Command.Parameters.AddWithValue("INFONAVIT_CREBY", _INFONAVIT_CREBY)
 
             DB_Command.ExecuteNonQuery()
             DB_Connection.Close()
@@ -115,12 +115,12 @@ Public Class CL_AmountToTransfer
 
         Catch ex As Exception
             DB_Connection.Close()
-            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_AmountToTransfer.InsertAmountToTransfer()")
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_InfonavitAmount.InsertAmountInfonavit()")
             Return Nothing
         End Try
     End Function
 
-    Public Function ValidarRegistroSemanal(ByVal fechaSeleccionada As Date) As Boolean
+    Public Function ValidarRegistroSemanalInfonavit(ByVal fechaSeleccionada As Date) As Boolean
         Dim yaExiste As Boolean = False
 
         Dim diasDesdeJueves As Integer = CInt(fechaSeleccionada.DayOfWeek) - DayOfWeek.Thursday
@@ -129,8 +129,8 @@ Public Class CL_AmountToTransfer
         Dim fechaJueves As Date = fechaSeleccionada.AddDays(-diasDesdeJueves).Date
         Dim fechaMiercoles As Date = fechaJueves.AddDays(6).Date
 
-        Dim Query As String = "SELECT COUNT(*) FROM dbo.OP_RecordsByEmployeeAmountToTransfer " &
-                              "WHERE AMTRANS_RDATE >= @FechaInicio AND AMTRANS_RDATE <= @FechaFin"
+        Dim Query As String = "SELECT COUNT(*) FROM dbo.OP_RecordsByEmployeeAmountInfonavit " &
+                      "WHERE INFONAVIT_DATE >= @FechaInicio AND INFONAVIT_DATE <= @FechaFin"
 
         Try
             Using Conn As New SqlConnection(My.Settings.ConnectionString)
@@ -153,17 +153,17 @@ Public Class CL_AmountToTransfer
         Return yaExiste
     End Function
 
-    Public Function UpdateAmountToTransfer(ByVal AMTRANS_ID As Integer, ByVal NuevoMonto As Decimal, ByVal UsuarioModifica As String) As Boolean
+    Public Function UpdateInfonavitAmount(ByVal INFONAVIT_ID As Integer, ByVal NuevoMonto As Decimal, ByVal UsuarioModifica As String) As Boolean
         Try
             DB_Command = New SqlCommand With {
-                .CommandText = "UPD_AMOUNT_TO_TRANSFER",
+                .CommandText = "UPD_AMOUNT_INFONAVIT",
                 .CommandType = CommandType.StoredProcedure
             }
 
             DB_Connection.Open()
             DB_Command.Connection = DB_Connection
 
-            DB_Command.Parameters.AddWithValue("AmtransId", AMTRANS_ID)
+            DB_Command.Parameters.AddWithValue("InfonavitId", INFONAVIT_ID)
             DB_Command.Parameters.AddWithValue("NuevoMonto", NuevoMonto)
             DB_Command.Parameters.AddWithValue("UsuarioModifica", UsuarioModifica)
 
@@ -174,16 +174,16 @@ Public Class CL_AmountToTransfer
 
         Catch ex As Exception
             DB_Connection.Close()
-            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_AmountToTransfer.UpdateAmountToTransfer()")
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_InfonavitAmount.UpdateInfonavitAmount()")
             Return False
         End Try
     End Function
 
-    Public Function GetAmountToTransferByWeek(ByVal FechaInicio As Date, ByVal FechaFin As Date) As DataTable
+    Public Function GetInfonavitAmountByWeek(ByVal FechaInicio As Date, ByVal FechaFin As Date) As DataTable
         Dim Dt As New DataTable()
         Try
             DB_Command = New SqlCommand With {
-                .CommandText = "SEL_AMOUNTTOTRANSFER_BYWEEK",
+                .CommandText = "SEL_AMOUNTINFONAVIT_BYWEEK",
                 .CommandType = CommandType.StoredProcedure
             }
 
@@ -200,7 +200,7 @@ Public Class CL_AmountToTransfer
 
         Catch ex As Exception
             DB_Connection.Close()
-            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_AmountToTransfer.GetAmountToTransferByWeek()")
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_InfonavitAmount.GetInfonavitAmountByWeek()")
         End Try
 
         Return Dt

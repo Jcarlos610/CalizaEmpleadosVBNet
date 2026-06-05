@@ -730,10 +730,17 @@ Partial Class MainScreen
         ReportesToolStripMenuItem1 = New ToolStripMenuItem()
         AdicionalesToolStripMenuItem = New ToolStripMenuItem()
         ReToolStripMenuItem = New ToolStripMenuItem()
+        CargaDeMontoATransferirToolStripMenuItem = New ToolStripMenuItem()
+        EditarExistenteToolStripMenuItem7 = New ToolStripMenuItem()
+        CargaDeMontoInfonavitToolStripMenuItem = New ToolStripMenuItem()
+        EditarExistenteToolStripMenuItem8 = New ToolStripMenuItem()
+        AdeudoAEmpresaToolStripMenuItem = New ToolStripMenuItem()
+        EditarExistenteToolStripMenuItem9 = New ToolStripMenuItem()
+        HorasExtraRegistrarToolStripMenuItem = New ToolStripMenuItem()
+        HorasExtraEditarToolStripMenuItem = New ToolStripMenuItem()
         ReportesToolStripMenuItem2 = New ToolStripMenuItem()
         AnalisisSemanalToolStripMenuItem = New ToolStripMenuItem()
         AnalisisDeSalarioToolStripMenuItem = New ToolStripMenuItem()
-        CargaDeMontoATransferirToolStripMenuItem = New ToolStripMenuItem()
         MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -1232,10 +1239,66 @@ Partial Class MainScreen
         ' 
         ' ReToolStripMenuItem
         ' 
-        ReToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {CargaDeMontoATransferirToolStripMenuItem})
+        ReToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {CargaDeMontoATransferirToolStripMenuItem, EditarExistenteToolStripMenuItem7, CargaDeMontoInfonavitToolStripMenuItem, EditarExistenteToolStripMenuItem8, AdeudoAEmpresaToolStripMenuItem, EditarExistenteToolStripMenuItem9, HorasExtraRegistrarToolStripMenuItem, HorasExtraEditarToolStripMenuItem})
         ReToolStripMenuItem.Name = "ReToolStripMenuItem"
         ReToolStripMenuItem.Size = New Size(180, 22)
         ReToolStripMenuItem.Text = "Registros"
+        ' 
+        ' CargaDeMontoATransferirToolStripMenuItem
+        ' 
+        CargaDeMontoATransferirToolStripMenuItem.Name = "CargaDeMontoATransferirToolStripMenuItem"
+        CargaDeMontoATransferirToolStripMenuItem.Size = New Size(251, 22)
+        CargaDeMontoATransferirToolStripMenuItem.Tag = "OP_INS_AmountToTransfer"
+        CargaDeMontoATransferirToolStripMenuItem.Text = "Transferencias - Carga de montos"
+        ' 
+        ' EditarExistenteToolStripMenuItem7
+        ' 
+        EditarExistenteToolStripMenuItem7.Name = "EditarExistenteToolStripMenuItem7"
+        EditarExistenteToolStripMenuItem7.Size = New Size(251, 22)
+        EditarExistenteToolStripMenuItem7.Tag = "OP_UPD_AmountToTransfer"
+        EditarExistenteToolStripMenuItem7.Text = "Transferencias - Editar montos"
+        ' 
+        ' CargaDeMontoInfonavitToolStripMenuItem
+        ' 
+        CargaDeMontoInfonavitToolStripMenuItem.Name = "CargaDeMontoInfonavitToolStripMenuItem"
+        CargaDeMontoInfonavitToolStripMenuItem.Size = New Size(251, 22)
+        CargaDeMontoInfonavitToolStripMenuItem.Tag = "OP_INS_InfonavitAmount"
+        CargaDeMontoInfonavitToolStripMenuItem.Text = "Infonavit - Carga de montos"
+        ' 
+        ' EditarExistenteToolStripMenuItem8
+        ' 
+        EditarExistenteToolStripMenuItem8.Name = "EditarExistenteToolStripMenuItem8"
+        EditarExistenteToolStripMenuItem8.Size = New Size(251, 22)
+        EditarExistenteToolStripMenuItem8.Tag = "OP_UPD_InfonavitAmount"
+        EditarExistenteToolStripMenuItem8.Text = "Infonavit - Editar montos"
+        ' 
+        ' AdeudoAEmpresaToolStripMenuItem
+        ' 
+        AdeudoAEmpresaToolStripMenuItem.Name = "AdeudoAEmpresaToolStripMenuItem"
+        AdeudoAEmpresaToolStripMenuItem.Size = New Size(251, 22)
+        AdeudoAEmpresaToolStripMenuItem.Tag = "OP_INS_EmployeeAmountDebt"
+        AdeudoAEmpresaToolStripMenuItem.Text = "Adeudos - Registrar"
+        ' 
+        ' EditarExistenteToolStripMenuItem9
+        ' 
+        EditarExistenteToolStripMenuItem9.Name = "EditarExistenteToolStripMenuItem9"
+        EditarExistenteToolStripMenuItem9.Size = New Size(251, 22)
+        EditarExistenteToolStripMenuItem9.Tag = "OP_UPD_EmployeeAmountDebt"
+        EditarExistenteToolStripMenuItem9.Text = "Adeudos - Editar"
+        ' 
+        ' HorasExtraRegistrarToolStripMenuItem
+        ' 
+        HorasExtraRegistrarToolStripMenuItem.Name = "HorasExtraRegistrarToolStripMenuItem"
+        HorasExtraRegistrarToolStripMenuItem.Size = New Size(251, 22)
+        HorasExtraRegistrarToolStripMenuItem.Tag = "OP_INS_EmployeeOvertime"
+        HorasExtraRegistrarToolStripMenuItem.Text = "Horas extra - Registrar"
+        ' 
+        ' HorasExtraEditarToolStripMenuItem
+        ' 
+        HorasExtraEditarToolStripMenuItem.Name = "HorasExtraEditarToolStripMenuItem"
+        HorasExtraEditarToolStripMenuItem.Size = New Size(251, 22)
+        HorasExtraEditarToolStripMenuItem.Tag = "OP_UPD_EmployeeOvertime"
+        HorasExtraEditarToolStripMenuItem.Text = "Horas extra - Editar"
         ' 
         ' ReportesToolStripMenuItem2
         ' 
@@ -1257,13 +1320,6 @@ Partial Class MainScreen
         AnalisisDeSalarioToolStripMenuItem.Size = New Size(218, 22)
         AnalisisDeSalarioToolStripMenuItem.Tag = "OP_SEL_MainWeekReportSalaryCalculation"
         AnalisisDeSalarioToolStripMenuItem.Text = "Analisis de salario"
-        ' 
-        ' CargaDeMontoATransferirToolStripMenuItem
-        ' 
-        CargaDeMontoATransferirToolStripMenuItem.Name = "CargaDeMontoATransferirToolStripMenuItem"
-        CargaDeMontoATransferirToolStripMenuItem.Size = New Size(219, 22)
-        CargaDeMontoATransferirToolStripMenuItem.Tag = "OP_INS_AmountToTransfer"
-        CargaDeMontoATransferirToolStripMenuItem.Text = "Carga de monto a transferir"
         ' 
         ' MainScreen
         ' 
@@ -1362,4 +1418,11 @@ Partial Class MainScreen
     Friend WithEvents AdicionalesToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ReToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CargaDeMontoATransferirToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents EditarExistenteToolStripMenuItem7 As ToolStripMenuItem
+    Friend WithEvents CargaDeMontoInfonavitToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents EditarExistenteToolStripMenuItem8 As ToolStripMenuItem
+    Friend WithEvents AdeudoAEmpresaToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents EditarExistenteToolStripMenuItem9 As ToolStripMenuItem
+    Friend WithEvents HorasExtraRegistrarToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents HorasExtraEditarToolStripMenuItem As ToolStripMenuItem
 End Class

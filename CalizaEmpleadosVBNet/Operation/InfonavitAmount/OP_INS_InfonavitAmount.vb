@@ -1,21 +1,18 @@
-﻿Imports System.Data
-Imports System.Data.OleDb
-Imports Microsoft.Data.SqlClient
+﻿Imports Microsoft.Data.SqlClient
 
-Public Class OP_INS_AmountToTransfer
+Public Class OP_INS_InfonavitAmount
 
     Private RutaArchivoExcel As String = ""
 
-    Private Sub OP_INS_AmountToTransfer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub OP_INS_InfonavitAmount_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         BT_Register.Enabled = False
         DTP_Valid.Value = DateTime.Now
-
         PB_Progress.Value = 0
     End Sub
 
     Private Sub BT_SearchExcel_Click(sender As Object, e As EventArgs) Handles BT_SearchExcel.Click
         OFD_Amtrans.Filter = "Archivos de Excel (*.xlsx)|*.xlsx|Archivos de Excel Antiguos (*.xls)|*.xls"
-        OFD_Amtrans.Title = "Seleccionar archivo de montos a depositar"
+        OFD_Amtrans.Title = "Seleccionar archivo de montos de Infonavit"
 
         If OFD_Amtrans.ShowDialog() = DialogResult.OK Then
             RutaArchivoExcel = OFD_Amtrans.FileName
@@ -33,12 +30,12 @@ Public Class OP_INS_AmountToTransfer
                         Dim Dt As New DataTable()
                         Da.Fill(Dt)
 
-                        DGV_Amtrans.DataSource = Dt
+                        DGV_Infonavit.DataSource = Dt
 
-                        DGV_Amtrans.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
-                        DGV_Amtrans.AutoResizeColumns()
+                        DGV_Infonavit.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+                        DGV_Infonavit.AutoResizeColumns()
 
-                        If DGV_Amtrans.Rows.Count > 0 Then
+                        If DGV_Infonavit.Rows.Count > 0 Then
                             BT_Register.Enabled = True
 
                             Dim ConteoFilas As Integer = 0
@@ -57,8 +54,7 @@ Public Class OP_INS_AmountToTransfer
                             LB_TotalEmployees.Text = "Total Empleados: " & ConteoFilas
                             LB_TotalAmount.Text = "Monto Total: " & String.Format("{0:C2}", SumaMontos)
 
-
-                            MessageBox.Show("Vista previa cargada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show("Vista previa de Infonavit cargada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Else
                             BT_Register.Enabled = False
                             MessageBox.Show("El archivo de Excel no contiene registros.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -72,25 +68,25 @@ Public Class OP_INS_AmountToTransfer
     End Sub
 
     Private Sub BT_Register_Click(sender As Object, e As EventArgs) Handles BT_Register.Click
-        If DGV_Amtrans.Rows.Count = 0 Then
+        If DGV_Infonavit.Rows.Count = 0 Then
             MessageBox.Show("No hay datos en la tabla para procesar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Exit Sub
         End If
 
-        If MessageBox.Show("¿Deseas guardar de forma masiva los montos de este Excel?", "Confirmar Registro", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then
+        If MessageBox.Show("¿Deseas guardar de forma masiva los montos de Infonavit de este Excel?", "Confirmar Registro", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then
             Exit Sub
         End If
 
-        Dim ObjValidar As New CL_AmountToTransfer()
-        If ObjValidar.ValidarRegistroSemanal(DTP_Valid.Value) Then
+        Dim ObjValidar As New CL_InfonavitAmount()
+        If ObjValidar.ValidarRegistroSemanalInfonavit(DTP_Valid.Value) Then
             Dim diasDesdeJueves As Integer = CInt(DTP_Valid.Value.DayOfWeek) - DayOfWeek.Thursday
             If diasDesdeJueves < 0 Then diasDesdeJueves += 7
             Dim jueves As Date = DTP_Valid.Value.AddDays(-diasDesdeJueves)
             Dim miercoles As Date = jueves.AddDays(6)
 
-            MessageBox.Show($"¡Atención! Ya se realizó una importación de montos para el periodo semanal del " &
+            MessageBox.Show($"¡Atención! Ya se realizó una importación de montos de Infonavit para el periodo semanal del " &
                             $"{jueves:dd/MM/yyyy} al {miercoles:dd/MM/yyyy}." & vbCrLf & vbCrLf &
-                            "No se permiten registros duplicados en la misma semana.",
+                            "No se permiten registros duplicados de Infonavit en la misma semana.",
                             "Bloqueo de Seguridad", MessageBoxButtons.OK, MessageBoxIcon.Stop)
             Exit Sub
         End If
@@ -99,10 +95,10 @@ Public Class OP_INS_AmountToTransfer
         Dim Errores As Integer = 0
 
         PB_Progress.Minimum = 0
-        PB_Progress.Maximum = DGV_Amtrans.Rows.Count
+        PB_Progress.Maximum = DGV_Infonavit.Rows.Count
         PB_Progress.Value = 0
 
-        For Each Row As DataGridViewRow In DGV_Amtrans.Rows
+        For Each Row As DataGridViewRow In DGV_Infonavit.Rows
             PB_Progress.Value += 1
 
             If Row.IsNewRow Then Continue For
@@ -120,12 +116,12 @@ Public Class OP_INS_AmountToTransfer
 
                     Application.DoEvents()
 
-                    Dim ObjAmount As New CL_AmountToTransfer()
-                    ObjAmount.DREMPL_DATE = DTP_Valid.Value.Date
-                    ObjAmount.AMTRANS_AMOUN = Convert.ToDecimal(MontoDinero)
-                    ObjAmount.AMTRANS_CREBY = GlobalSession.GlobalUserName
+                    Dim ObjInfonavit As New CL_InfonavitAmount()
+                    ObjInfonavit.INFONAVIT_DATE = DTP_Valid.Value.Date
+                    ObjInfonavit.INFONAVIT_AMOUN = Convert.ToDecimal(MontoDinero)
+                    ObjInfonavit.INFONAVIT_CREBY = GlobalSession.GlobalUserName
 
-                    Dim Resultado As Object = ObjAmount.InsertAmountToTransfer(Convert.ToInt32(IdEmpleado))
+                    Dim Resultado As Object = ObjInfonavit.InsertAmountInfonavit(Convert.ToInt32(IdEmpleado))
 
                     If Resultado IsNot Nothing AndAlso CType(Resultado, Boolean) = True Then
                         Guardados += 1
@@ -141,34 +137,34 @@ Public Class OP_INS_AmountToTransfer
 
         PB_Progress.Value = PB_Progress.Maximum
 
-        Dim Mensaje As String = "Proceso de importación finalizado." & vbCrLf & "Registros guardados: " & Guardados
+        Dim Mensaje As String = "Proceso de importación de Infonavit finalizado." & vbCrLf & "Registros guardados: " & Guardados
 
         If Errores > 0 Then
             Mensaje &= vbCrLf & "Registros omitidos con error: " & Errores
             MessageBox.Show(Mensaje, "Completado con Observaciones", MessageBoxButtons.OK, MessageBoxIcon.Warning)
 
-            ' LOG de advertencia
+            ' LOG de advertencia 
             Try
                 Using connTmp As New SqlConnection(My.Settings.ConnectionString)
-                    Dim descLog As String = $"IMPORTACIÓN MASIVA CON OBSERVACIONES: Se cargó un Excel para la fecha de aplicación [{DTP_Valid.Value:dd/MM/yyyy}]. Éxitos: {Guardados}, Errores/Omitidos: {Errores}."
-                    InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_MontosTransferir", "IMPORT_AMOUNT_WARN", descLog, 0, "WARN")
+                    Dim descLog As String = $"IMPORTACIÓN MASIVA INFONAVIT CON OBSERVACIONES: Se cargó un Excel para la fecha de aplicación [{DTP_Valid.Value:dd/MM/yyyy}]. Éxitos: {Guardados}, Errores/Omitidos: {Errores}."
+                    InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_MontosInfonavit", "IMPORT_INFONAVIT_WARN", descLog, 0, "WARN")
                 End Using
             Catch ex As Exception
             End Try
         Else
-            MessageBox.Show(Mensaje, "¡Guardado Masivo Exitoso!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show(Mensaje, "¡Guardado Masivo de Infonavit Exitoso!", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-            ' LOG de éxito
+            ' LOG de éxito 
             Try
                 Using connTmp As New SqlConnection(My.Settings.ConnectionString)
-                    Dim descLog As String = $"IMPORTACIÓN MASIVA EXITOSA: Se registraron correctamente {Guardados} montos de empleados para la fecha de aplicación [{DTP_Valid.Value:dd/MM/yyyy}]."
-                    InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_MontosTransferir", "IMPORT_AMOUNT_SUCCESS", descLog, 0, "INFO")
+                    Dim descLog As String = $"IMPORTACIÓN MASIVA INFONAVIT EXITOSA: Se registraron correctamente {Guardados} montos de Infonavit (Mov: 750) para la fecha de aplicación [{DTP_Valid.Value:dd/MM/yyyy}]."
+                    InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_MontosInfonavit", "IMPORT_INFONAVIT_SUCCESS", descLog, 0, "INFO")
                 End Using
             Catch ex As Exception
             End Try
         End If
 
-        DGV_Amtrans.DataSource = Nothing
+        DGV_Infonavit.DataSource = Nothing
         TB_EmployeeId.Text = ""
         TB_EmployeeName.Text = ""
         TB_Amount.Text = ""
@@ -178,11 +174,10 @@ Public Class OP_INS_AmountToTransfer
         BT_Register.Enabled = False
     End Sub
 
-    Private Sub DGV_Amtrans_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Amtrans.CellClick
+    Private Sub DGV_Infonavit_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Infonavit.CellClick
         If e.RowIndex >= 0 Then
             Try
-
-                Dim FilaSeleccionada As DataGridViewRow = DGV_Amtrans.Rows(e.RowIndex)
+                Dim FilaSeleccionada As DataGridViewRow = DGV_Infonavit.Rows(e.RowIndex)
 
                 Dim IdEmp As Object = FilaSeleccionada.Cells(0).Value
                 Dim NombreEmp As Object = FilaSeleccionada.Cells(1).Value
@@ -199,4 +194,5 @@ Public Class OP_INS_AmountToTransfer
             End Try
         End If
     End Sub
+
 End Class
