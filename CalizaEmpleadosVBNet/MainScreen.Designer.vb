@@ -702,6 +702,9 @@ Partial Class MainScreen
         ReportesToolStripMenuItem7 = New ToolStripMenuItem()
         AsignarBeneficiosToolStripMenuItem = New ToolStripMenuItem()
         AsignarBeneficiosToolStripMenuItem1 = New ToolStripMenuItem()
+        ValidaciónBonoDeBotoneroToolStripMenuItem = New ToolStripMenuItem()
+        ValidaciónToolStripMenuItem = New ToolStripMenuItem()
+        ValidaciónEditarToolStripMenuItem = New ToolStripMenuItem()
         IncidenciasToolStripMenuItem = New ToolStripMenuItem()
         IncidenciasToolStripMenuItem1 = New ToolStripMenuItem()
         PorArchivoToolStripMenuItem = New ToolStripMenuItem()
@@ -736,6 +739,7 @@ Partial Class MainScreen
         EditarExistenteToolStripMenuItem8 = New ToolStripMenuItem()
         AdeudoAEmpresaToolStripMenuItem = New ToolStripMenuItem()
         EditarExistenteToolStripMenuItem9 = New ToolStripMenuItem()
+        AdeudosRegistrarAbonoToolStripMenuItem = New ToolStripMenuItem()
         HorasExtraRegistrarToolStripMenuItem = New ToolStripMenuItem()
         HorasExtraEditarToolStripMenuItem = New ToolStripMenuItem()
         ReportesToolStripMenuItem2 = New ToolStripMenuItem()
@@ -1004,7 +1008,7 @@ Partial Class MainScreen
         ' 
         ' EmpleadosToolStripMenuItem
         ' 
-        EmpleadosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {EmpleadoToolStripMenuItem, AsignarBeneficiosToolStripMenuItem})
+        EmpleadosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {EmpleadoToolStripMenuItem, AsignarBeneficiosToolStripMenuItem, ValidaciónBonoDeBotoneroToolStripMenuItem})
         EmpleadosToolStripMenuItem.Name = "EmpleadosToolStripMenuItem"
         EmpleadosToolStripMenuItem.Size = New Size(77, 19)
         EmpleadosToolStripMenuItem.Text = "Empleados"
@@ -1050,6 +1054,27 @@ Partial Class MainScreen
         AsignarBeneficiosToolStripMenuItem1.Size = New Size(171, 22)
         AsignarBeneficiosToolStripMenuItem1.Tag = "OP_INS_BENEFITSPEREMPLOYEE"
         AsignarBeneficiosToolStripMenuItem1.Text = "Asignar Beneficios"
+        ' 
+        ' ValidaciónBonoDeBotoneroToolStripMenuItem
+        ' 
+        ValidaciónBonoDeBotoneroToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {ValidaciónToolStripMenuItem, ValidaciónEditarToolStripMenuItem})
+        ValidaciónBonoDeBotoneroToolStripMenuItem.Name = "ValidaciónBonoDeBotoneroToolStripMenuItem"
+        ValidaciónBonoDeBotoneroToolStripMenuItem.Size = New Size(205, 22)
+        ValidaciónBonoDeBotoneroToolStripMenuItem.Text = "Bono de botonero"
+        ' 
+        ' ValidaciónToolStripMenuItem
+        ' 
+        ValidaciónToolStripMenuItem.Name = "ValidaciónToolStripMenuItem"
+        ValidaciónToolStripMenuItem.Size = New Size(180, 22)
+        ValidaciónToolStripMenuItem.Tag = "OP_BenefitBotonero"
+        ValidaciónToolStripMenuItem.Text = "Asignar"
+        ' 
+        ' ValidaciónEditarToolStripMenuItem
+        ' 
+        ValidaciónEditarToolStripMenuItem.Name = "ValidaciónEditarToolStripMenuItem"
+        ValidaciónEditarToolStripMenuItem.Size = New Size(180, 22)
+        ValidaciónEditarToolStripMenuItem.Tag = "OP_UPD_BenefitBotonero"
+        ValidaciónEditarToolStripMenuItem.Text = "Editar aignación"
         ' 
         ' IncidenciasToolStripMenuItem
         ' 
@@ -1239,9 +1264,9 @@ Partial Class MainScreen
         ' 
         ' ReToolStripMenuItem
         ' 
-        ReToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {CargaDeMontoATransferirToolStripMenuItem, EditarExistenteToolStripMenuItem7, CargaDeMontoInfonavitToolStripMenuItem, EditarExistenteToolStripMenuItem8, AdeudoAEmpresaToolStripMenuItem, EditarExistenteToolStripMenuItem9, HorasExtraRegistrarToolStripMenuItem, HorasExtraEditarToolStripMenuItem})
+        ReToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {CargaDeMontoATransferirToolStripMenuItem, EditarExistenteToolStripMenuItem7, CargaDeMontoInfonavitToolStripMenuItem, EditarExistenteToolStripMenuItem8, AdeudoAEmpresaToolStripMenuItem, EditarExistenteToolStripMenuItem9, AdeudosRegistrarAbonoToolStripMenuItem, HorasExtraRegistrarToolStripMenuItem, HorasExtraEditarToolStripMenuItem})
         ReToolStripMenuItem.Name = "ReToolStripMenuItem"
-        ReToolStripMenuItem.Size = New Size(180, 22)
+        ReToolStripMenuItem.Size = New Size(122, 22)
         ReToolStripMenuItem.Text = "Registros"
         ' 
         ' CargaDeMontoATransferirToolStripMenuItem
@@ -1285,6 +1310,13 @@ Partial Class MainScreen
         EditarExistenteToolStripMenuItem9.Size = New Size(251, 22)
         EditarExistenteToolStripMenuItem9.Tag = "OP_UPD_EmployeeAmountDebt"
         EditarExistenteToolStripMenuItem9.Text = "Adeudos - Editar"
+        ' 
+        ' AdeudosRegistrarAbonoToolStripMenuItem
+        ' 
+        AdeudosRegistrarAbonoToolStripMenuItem.Name = "AdeudosRegistrarAbonoToolStripMenuItem"
+        AdeudosRegistrarAbonoToolStripMenuItem.Size = New Size(251, 22)
+        AdeudosRegistrarAbonoToolStripMenuItem.Tag = "OP_INS_EmployeeAmountDebtPayments"
+        AdeudosRegistrarAbonoToolStripMenuItem.Text = "Adeudos - Registrar abono"
         ' 
         ' HorasExtraRegistrarToolStripMenuItem
         ' 
@@ -1425,4 +1457,8 @@ Partial Class MainScreen
     Friend WithEvents EditarExistenteToolStripMenuItem9 As ToolStripMenuItem
     Friend WithEvents HorasExtraRegistrarToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents HorasExtraEditarToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents AdeudosRegistrarAbonoToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ValidaciónBonoDeBotoneroToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ValidaciónToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ValidaciónEditarToolStripMenuItem As ToolStripMenuItem
 End Class

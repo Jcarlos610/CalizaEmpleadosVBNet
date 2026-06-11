@@ -52,21 +52,18 @@ Partial Class ST_INS_Roles
         GroupBox1.Controls.Add(LB_RoleName)
         GroupBox1.Controls.Add(TB_Description)
         GroupBox1.Controls.Add(TB_AuthorizeBy)
-        GroupBox1.Location = New Point(17, 77)
-        GroupBox1.Margin = New Padding(4, 5, 4, 5)
+        GroupBox1.Location = New Point(12, 46)
         GroupBox1.Name = "GroupBox1"
-        GroupBox1.Padding = New Padding(4, 5, 4, 5)
-        GroupBox1.Size = New Size(1216, 222)
+        GroupBox1.Size = New Size(851, 133)
         GroupBox1.TabIndex = 11
         GroupBox1.TabStop = False
         GroupBox1.Text = "Información sobre rol"
         ' 
         ' BT_Register
         ' 
-        BT_Register.Location = New Point(1094, 171)
-        BT_Register.Margin = New Padding(4, 5, 4, 5)
+        BT_Register.Location = New Point(766, 103)
         BT_Register.Name = "BT_Register"
-        BT_Register.Size = New Size(107, 38)
+        BT_Register.Size = New Size(75, 23)
         BT_Register.TabIndex = 8
         BT_Register.Text = "Registrar"
         BT_Register.UseVisualStyleBackColor = True
@@ -74,56 +71,50 @@ Partial Class ST_INS_Roles
         ' LB_AuthorizeBy
         ' 
         LB_AuthorizeBy.AutoSize = True
-        LB_AuthorizeBy.Location = New Point(25, 134)
-        LB_AuthorizeBy.Margin = New Padding(4, 0, 4, 0)
+        LB_AuthorizeBy.Location = New Point(18, 80)
         LB_AuthorizeBy.Name = "LB_AuthorizeBy"
-        LB_AuthorizeBy.Size = New Size(137, 25)
+        LB_AuthorizeBy.Size = New Size(89, 15)
         LB_AuthorizeBy.TabIndex = 7
         LB_AuthorizeBy.Text = "Autorizado por:"
         ' 
         ' LB_Description
         ' 
         LB_Description.AutoSize = True
-        LB_Description.Location = New Point(365, 51)
-        LB_Description.Margin = New Padding(4, 0, 4, 0)
+        LB_Description.Location = New Point(256, 31)
         LB_Description.Name = "LB_Description"
-        LB_Description.Size = New Size(104, 25)
+        LB_Description.Size = New Size(69, 15)
         LB_Description.TabIndex = 6
         LB_Description.Text = "Descripción"
         ' 
         ' TB_RoleName
         ' 
-        TB_RoleName.Location = New Point(23, 77)
-        TB_RoleName.Margin = New Padding(4, 5, 4, 5)
+        TB_RoleName.Location = New Point(16, 46)
         TB_RoleName.Name = "TB_RoleName"
-        TB_RoleName.Size = New Size(315, 31)
+        TB_RoleName.Size = New Size(222, 23)
         TB_RoleName.TabIndex = 1
         ' 
         ' LB_RoleName
         ' 
         LB_RoleName.AutoSize = True
-        LB_RoleName.Location = New Point(25, 52)
-        LB_RoleName.Margin = New Padding(4, 0, 4, 0)
+        LB_RoleName.Location = New Point(18, 31)
         LB_RoleName.Name = "LB_RoleName"
-        LB_RoleName.Size = New Size(133, 25)
+        LB_RoleName.Size = New Size(87, 15)
         LB_RoleName.TabIndex = 5
         LB_RoleName.Text = "Nombre del rol"
         ' 
         ' TB_Description
         ' 
-        TB_Description.Location = New Point(363, 77)
-        TB_Description.Margin = New Padding(4, 5, 4, 5)
+        TB_Description.Location = New Point(254, 46)
         TB_Description.Multiline = True
         TB_Description.Name = "TB_Description"
-        TB_Description.Size = New Size(575, 114)
+        TB_Description.Size = New Size(404, 70)
         TB_Description.TabIndex = 2
         ' 
         ' TB_AuthorizeBy
         ' 
-        TB_AuthorizeBy.Location = New Point(23, 155)
-        TB_AuthorizeBy.Margin = New Padding(4, 5, 4, 5)
+        TB_AuthorizeBy.Location = New Point(16, 93)
         TB_AuthorizeBy.Name = "TB_AuthorizeBy"
-        TB_AuthorizeBy.Size = New Size(315, 31)
+        TB_AuthorizeBy.Size = New Size(222, 23)
         TB_AuthorizeBy.TabIndex = 3
         ' 
         ' DGV_RoleList
@@ -131,12 +122,11 @@ Partial Class ST_INS_Roles
         DGV_RoleList.AllowUserToAddRows = False
         DGV_RoleList.AllowUserToDeleteRows = False
         DGV_RoleList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_RoleList.Location = New Point(17, 313)
-        DGV_RoleList.Margin = New Padding(4, 5, 4, 5)
+        DGV_RoleList.Location = New Point(12, 188)
         DGV_RoleList.Name = "DGV_RoleList"
         DGV_RoleList.ReadOnly = True
         DGV_RoleList.RowHeadersWidth = 62
-        DGV_RoleList.Size = New Size(1226, 260)
+        DGV_RoleList.Size = New Size(858, 156)
         DGV_RoleList.TabIndex = 12
         ' 
         ' GroupBox2
@@ -145,29 +135,28 @@ Partial Class ST_INS_Roles
         GroupBox2.Controls.Add(BT_Assing)
         GroupBox2.Controls.Add(Label2)
         GroupBox2.Controls.Add(TB_FormDescription)
-        GroupBox2.Location = New Point(17, 606)
-        GroupBox2.Margin = New Padding(4, 5, 4, 5)
+        GroupBox2.Location = New Point(12, 364)
         GroupBox2.Name = "GroupBox2"
-        GroupBox2.Padding = New Padding(4, 5, 4, 5)
-        GroupBox2.Size = New Size(748, 335)
+        GroupBox2.Size = New Size(524, 201)
         GroupBox2.TabIndex = 14
         GroupBox2.TabStop = False
         GroupBox2.Text = "Asignar permisos"
         ' 
         ' CB_Forms
         ' 
+        CB_Forms.DropDownStyle = ComboBoxStyle.DropDownList
         CB_Forms.FormattingEnabled = True
-        CB_Forms.Location = New Point(23, 48)
+        CB_Forms.Location = New Point(16, 29)
+        CB_Forms.Margin = New Padding(2, 2, 2, 2)
         CB_Forms.Name = "CB_Forms"
-        CB_Forms.Size = New Size(410, 33)
+        CB_Forms.Size = New Size(288, 23)
         CB_Forms.TabIndex = 18
         ' 
         ' BT_Assing
         ' 
-        BT_Assing.Location = New Point(621, 270)
-        BT_Assing.Margin = New Padding(4, 5, 4, 5)
+        BT_Assing.Location = New Point(435, 162)
         BT_Assing.Name = "BT_Assing"
-        BT_Assing.Size = New Size(107, 38)
+        BT_Assing.Size = New Size(75, 23)
         BT_Assing.TabIndex = 17
         BT_Assing.Text = "Asignar"
         BT_Assing.UseVisualStyleBackColor = True
@@ -175,20 +164,18 @@ Partial Class ST_INS_Roles
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Location = New Point(23, 99)
-        Label2.Margin = New Padding(4, 0, 4, 0)
+        Label2.Location = New Point(16, 59)
         Label2.Name = "Label2"
-        Label2.Size = New Size(104, 25)
+        Label2.Size = New Size(69, 15)
         Label2.TabIndex = 6
         Label2.Text = "Descripción"
         ' 
         ' TB_FormDescription
         ' 
-        TB_FormDescription.Location = New Point(23, 135)
-        TB_FormDescription.Margin = New Padding(4, 5, 4, 5)
+        TB_FormDescription.Location = New Point(16, 81)
         TB_FormDescription.Multiline = True
         TB_FormDescription.Name = "TB_FormDescription"
-        TB_FormDescription.Size = New Size(575, 114)
+        TB_FormDescription.Size = New Size(404, 70)
         TB_FormDescription.TabIndex = 2
         ' 
         ' DGV_Permissions
@@ -196,25 +183,25 @@ Partial Class ST_INS_Roles
         DGV_Permissions.AllowUserToAddRows = False
         DGV_Permissions.AllowUserToDeleteRows = False
         DGV_Permissions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_Permissions.Location = New Point(793, 606)
-        DGV_Permissions.Margin = New Padding(4, 5, 4, 5)
+        DGV_Permissions.Location = New Point(555, 364)
         DGV_Permissions.Name = "DGV_Permissions"
         DGV_Permissions.ReadOnly = True
         DGV_Permissions.RowHeadersWidth = 62
-        DGV_Permissions.Size = New Size(450, 335)
+        DGV_Permissions.Size = New Size(315, 201)
         DGV_Permissions.TabIndex = 15
         ' 
         ' ST_INS_Roles
         ' 
-        AutoScaleDimensions = New SizeF(10F, 25F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(1774, 1050)
+        ClientSize = New Size(1242, 630)
         Controls.Add(DGV_Permissions)
         Controls.Add(GroupBox2)
         Controls.Add(DGV_RoleList)
         Controls.Add(GroupBox1)
+        Margin = New Padding(2, 2, 2, 2)
         Name = "ST_INS_Roles"
         Text = "Creación de roles"
         WindowState = FormWindowState.Maximized

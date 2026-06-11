@@ -73,6 +73,7 @@ Partial Class ST_UPD_Roles
         ' 
         ' CB_AllRoles
         ' 
+        CB_AllRoles.DropDownStyle = ComboBoxStyle.DropDownList
         CB_AllRoles.FormattingEnabled = True
         CB_AllRoles.Location = New Point(16, 22)
         CB_AllRoles.Name = "CB_AllRoles"
@@ -152,6 +153,7 @@ Partial Class ST_UPD_Roles
         ' 
         ' CB_Forms
         ' 
+        CB_Forms.DropDownStyle = ComboBoxStyle.DropDownList
         CB_Forms.FormattingEnabled = True
         CB_Forms.Location = New Point(16, 22)
         CB_Forms.Name = "CB_Forms"
@@ -206,7 +208,7 @@ Partial Class ST_UPD_Roles
         Controls.Add(DGV_Permissions)
         Controls.Add(GroupBox2)
         Controls.Add(GroupBox1)
-        Margin = New Padding(2, 2, 2, 2)
+        Margin = New Padding(2)
         Name = "ST_UPD_Roles"
         Text = "Actualizar Rol"
         WindowState = FormWindowState.Maximized

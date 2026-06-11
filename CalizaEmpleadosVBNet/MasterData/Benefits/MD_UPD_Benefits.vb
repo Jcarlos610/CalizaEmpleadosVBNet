@@ -8,29 +8,43 @@ Public Class MD_UPD_Benefits
 
 
 
+
     Private Sub BT_Update_Click(sender As Object, e As EventArgs) Handles BT_Update.Click
+        Try
+            If AppUser Is Nothing OrElse AppUser.Trim() = "" Then
+                MsgBox("No se puede actualizar el beneficio debido a que no hay un usuario con sesión activa.", MsgBoxStyle.Critical, "Acceso Denegado")
+                Exit Sub
+            End If
 
-        If TB_BenefitName.Text = "" Then
-            MessageBox.Show("Favor de ingresar un nombre de beneficio.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        ElseIf TB_Description.Text = "" Then
-            MessageBox.Show("Favor de ingresar una descripción.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        ElseIf CB_Type.SelectedItem Is Nothing Then
-            MessageBox.Show("Favor de indicar el tipo de beneficio.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        ElseIf TB_AuthorizeBy.Text = "" Then
-            MessageBox.Show("Favor de indicar quién autoriza el beneficio.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        ElseIf TB_Ammount.Text <> "" And TB_Percent.Text <> "" Then
-            MessageBox.Show("Solo puedes ingresar monto o porcentaje, no ambos.")
-            Exit Sub
-
-        ElseIf TB_Ammount.Text = "" And TB_Percent.Text = "" Then
-            MessageBox.Show("Debes ingresar un monto o un porcentaje.")
-            Exit Sub
-        Else
-
+            If TB_BenefitName.Text.Trim() = "" Then
+                MsgBox("Por favor, ingrese el nombre del beneficio.", MsgBoxStyle.Exclamation, "Falta Información")
+                TB_BenefitName.Focus()
+                Exit Sub
+            ElseIf TB_Description.Text.Trim() = "" Then
+                MsgBox("Por favor, ingrese una descripción para el beneficio.", MsgBoxStyle.Exclamation, "Falta Información")
+                TB_Description.Focus()
+                Exit Sub
+            ElseIf CB_Type.SelectedItem Is Nothing Then
+                MsgBox("Por favor, seleccione el tipo de beneficio de la lista.", MsgBoxStyle.Exclamation, "Falta Información")
+                CB_Type.Focus()
+                Exit Sub
+            ElseIf TB_AuthorizeBy.Text.Trim() = "" Then
+                MsgBox("Por favor, indique quién autoriza este beneficio.", MsgBoxStyle.Exclamation, "Falta Información")
+                TB_AuthorizeBy.Focus()
+                Exit Sub
+            ElseIf TB_Ammount.Text.Trim() <> "" AndAlso TB_Percent.Text.Trim() <> "" Then
+                MsgBox("Operación inválida: Solo puede ingresar un Monto fijo o un Porcentaje, no ambos.", MsgBoxStyle.Critical, "Error de Configuración")
+                Return
+            ElseIf TB_Ammount.Text.Trim() = "" AndAlso TB_Percent.Text.Trim() = "" Then
+                MsgBox("Por favor, debe ingresar un Monto monetario o un Porcentaje de beneficio.", MsgBoxStyle.Exclamation, "Falta Información")
+                Return
+            ElseIf DT_ValidTo.Value.Date < DT_ValidFrom.Value.Date Then
+                MsgBox("La fecha de término del beneficio no puede ser menor a la fecha de inicio.", MsgBoxStyle.Exclamation, "Fechas Inválidas")
+                Return
+            End If
 
             Dim Type As ComboItem = CType(CB_Type.SelectedItem, ComboItem)
             Dim Id_Type As Integer = Type.Id
-
 
             Dim Benefit = New CL_Benefits(CInt(CB_AllBenefits.SelectedValue),
                                           TB_BenefitName.Text,
@@ -47,16 +61,16 @@ Public Class MD_UPD_Benefits
 
             Benefit.BENEF_STAT = CB_Status.Checked
 
-            If AppUser IsNot Nothing Then
-                If Benefit.UpdateBenefit() Then
-                    MessageBox.Show("El beneficio " + TB_BenefitName.Text + " fue actualizado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    InitializationOfFields()
-                End If
+            If Benefit.UpdateBenefit() Then
+                MsgBox("¡El beneficio '" & TB_BenefitName.Text.Trim() & "' ha sido actualizado correctamente!", MsgBoxStyle.Information, "Actualización Exitosa")
+                InitializationOfFields()
             Else
-                MessageBox.Show("No se actualizó el beneficio debido a que no hay usuario logeado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MsgBox("El beneficio no pudo ser actualizado. Verifique las reglas o restricciones de la base de datos.", MsgBoxStyle.Critical, "Error al Actualizar")
             End If
 
-        End If
+        Catch ex As Exception
+            MsgBox("Ocurrió un error crítico inesperado al intentar actualizar el beneficio: " & vbCrLf & ex.Message, MsgBoxStyle.Critical, "Error del Sistema")
+        End Try
     End Sub
 
     Private Sub Display_Record()
@@ -67,12 +81,11 @@ Public Class MD_UPD_Benefits
         DGV_BenefitsList.DataSource = report.Get_AllBenefits
     End Sub
 
+
     Private Sub CB_AllBenefits_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_AllBenefits.SelectedIndexChanged
 
-        ' Evita ejecución durante la carga del DataSource
         If CB_AllBenefits.SelectedValue Is Nothing Then Exit Sub
 
-        ' Evita DataRowView
         If TypeOf CB_AllBenefits.SelectedValue IsNot Integer Then Exit Sub
 
         Dim idBenefit As Integer = CInt(CB_AllBenefits.SelectedValue)
@@ -86,21 +99,39 @@ Public Class MD_UPD_Benefits
 
         TB_BenefitName.Text = Item(1).ToString()
         TB_Description.Text = Item(2).ToString()
-        Dim type As Integer = CInt(Item(3))
 
+        Dim type As Integer = CInt(Item(3))
         If type = 20 Then
             CB_Type.SelectedIndex = 1
         ElseIf type = 30 Then
             CB_Type.SelectedIndex = 2
         End If
+
         TB_AuthorizeBy.Text = Item(6).ToString()
-        DT_ValidFrom.Value = CDate(Item(10))
-        DT_ValidTo.Value = CDate(Item(11))
-        CB_Status.Checked = Item(9)
+
+        If IsDBNull(Item(8)) Then
+            CB_Status.Checked = False
+        Else
+            CB_Status.Checked = Convert.ToBoolean(Item(8))
+        End If
+
+        If IsDBNull(Item(9)) Then
+            DT_ValidFrom.Value = Date.Today
+        Else
+            DT_ValidFrom.Value = CDate(Item(9))
+        End If
+
+        If IsDBNull(Item(10)) Then
+            DT_ValidTo.Value = Date.Today.AddYears(10)
+        Else
+            DT_ValidTo.Value = CDate(Item(10))
+        End If
+
         TB_Ammount.Text = If(IsDBNull(Item("BENEF_AMMOU")), "", Item("BENEF_AMMOU").ToString())
         TB_Percent.Text = If(IsDBNull(Item("BENEF_PERCENT")), "", Item("BENEF_PERCENT").ToString())
 
     End Sub
+
 
     Private Sub InitializationOfFields()
         Dim report As New CL_Benefits()
@@ -134,17 +165,20 @@ Public Class MD_UPD_Benefits
         Display_Record()
     End Sub
 
-    Private Sub CB_Type_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_Type.SelectedIndexChanged
-        If CB_Type.SelectedItem IsNot Nothing Then
 
+    Private Sub CB_Type_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_Type.SelectedIndexChanged
+        If Not CB_Type.Focused Then Return
+
+        If CB_Type.SelectedItem IsNot Nothing Then
             Dim item As ComboItem = CType(CB_Type.SelectedItem, ComboItem)
             Dim id As Integer = item.Id
 
             If id = 30 Then
-                MessageBox.Show("Este beneficio se asignará automáticamente.")
+                System.Windows.Forms.MessageBox.Show("Este beneficio se asignará automáticamente.",
+                                                    "Información del Sistema",
+                                                    System.Windows.Forms.MessageBoxButtons.OK,
+                                                    System.Windows.Forms.MessageBoxIcon.Information)
             End If
-
         End If
-
     End Sub
 End Class
