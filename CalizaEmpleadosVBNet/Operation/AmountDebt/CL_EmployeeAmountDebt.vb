@@ -19,6 +19,12 @@ Public Class CL_EmployeeAmountDebt
     Private _DAMT_CURRENT_BALANCE As Object
     Private _DAMT_PAYMENT_STATUS As Object
 
+    Private _DAMI_ID As Object
+    Private _DAMI_AMOUNT As Object
+    Private _DAMI_CREBY As Object
+    Private _DAMI_RDATE As Object
+    Private _DAMI_TYPE As Object
+
 
     Public Property DAMT_ID As Object
         Get
@@ -137,11 +143,56 @@ Public Class CL_EmployeeAmountDebt
         End Set
     End Property
 
+    Public Property DAMI_ID As Object
+        Get
+            Return _DAMI_ID
+        End Get
+        Set(value As Object)
+            _DAMI_ID = value
+        End Set
+    End Property
+
+    Public Property DAMI_AMOUNT As Object
+        Get
+            Return _DAMI_AMOUNT
+        End Get
+        Set(value As Object)
+            _DAMI_AMOUNT = value
+        End Set
+    End Property
+
+    Public Property DAMI_CREBY As Object
+        Get
+            Return _DAMI_CREBY
+        End Get
+        Set(value As Object)
+            _DAMI_CREBY = value
+        End Set
+    End Property
+
+    Public Property DAMI_RDATE As Object
+        Get
+            Return _DAMI_RDATE
+        End Get
+        Set(value As Object)
+            _DAMI_RDATE = value
+        End Set
+    End Property
+
+    Public Property DAMI_TYPE As Object
+        Get
+            Return _DAMI_TYPE
+        End Get
+        Set(value As Object)
+            _DAMI_TYPE = value
+        End Set
+    End Property
+
     Sub New()
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
     End Sub
 
-    Sub New(DAMT_ID, REMPL_ID, DAMT_DATE, DAMT_CAUSE, DAMT_DESCR, DAMT_TOTAL_AMOUNT, DAMT_PERIODIC_DISCOUNT, DAMT_AUTH, DAMT_STATUS, DAMT_CREBY, DAMT_RDATE, DAMT_CURRENT_BALANCE, DAMT_PAYMENT_STATUS)
+    Sub New(DAMT_ID, REMPL_ID, DAMT_DATE, DAMT_CAUSE, DAMT_DESCR, DAMT_TOTAL_AMOUNT, DAMT_PERIODIC_DISCOUNT, DAMT_AUTH, DAMT_STATUS, DAMT_CREBY, DAMT_RDATE, DAMT_CURRENT_BALANCE, DAMT_PAYMENT_STATUS, DAMI_ID, DAMI_AMOUNT, DAMI_CREBY, DAMI_RDATE, DAMI_TYPE)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
         _DAMT_ID = DAMT_ID
@@ -157,9 +208,17 @@ Public Class CL_EmployeeAmountDebt
         _DAMT_RDATE = DAMT_RDATE
         _DAMT_CURRENT_BALANCE = DAMT_CURRENT_BALANCE
         _DAMT_PAYMENT_STATUS = DAMT_PAYMENT_STATUS
+
+
+        _DAMI_ID = DAMI_ID
+        _DAMI_AMOUNT = DAMI_AMOUNT
+        _DAMI_CREBY = DAMI_CREBY
+        _DAMI_RDATE = DAMI_RDATE
+        _DAMI_TYPE = DAMI_TYPE
+
     End Sub
 
-    Sub New(REMPL_ID, DAMT_DATE, DAMT_CAUSE, DAMT_DESCR, DAMT_TOTAL_AMOUNT, DAMT_PERIODIC_DISCOUNT, DAMT_AUTH, DAMT_STATUS, DAMT_CREBY, DAMT_RDATE, DAMT_CURRENT_BALANCE, DAMT_PAYMENT_STATUS)
+    Sub New(REMPL_ID, DAMT_DATE, DAMT_CAUSE, DAMT_DESCR, DAMT_TOTAL_AMOUNT, DAMT_PERIODIC_DISCOUNT, DAMT_AUTH, DAMT_STATUS, DAMT_CREBY, DAMT_RDATE, DAMT_CURRENT_BALANCE, DAMT_PAYMENT_STATUS, DAMI_ID, DAMI_AMOUNT, DAMI_CREBY, DAMI_RDATE, DAMI_TYPE)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
         _REMPL_ID = REMPL_ID
@@ -174,6 +233,13 @@ Public Class CL_EmployeeAmountDebt
         _DAMT_RDATE = DAMT_RDATE
         _DAMT_CURRENT_BALANCE = DAMT_CURRENT_BALANCE
         _DAMT_PAYMENT_STATUS = DAMT_PAYMENT_STATUS
+
+
+        _DAMI_ID = DAMI_ID
+        _DAMI_AMOUNT = DAMI_AMOUNT
+        _DAMI_CREBY = DAMI_CREBY
+        _DAMI_RDATE = DAMI_RDATE
+        _DAMI_TYPE = DAMI_TYPE
     End Sub
 
 
@@ -269,6 +335,66 @@ Public Class CL_EmployeeAmountDebt
             MsgBox("Error al actualizar el adeudo en BD (UpdateEmployeeDebt): " & ex.Message, MsgBoxStyle.Critical)
             Return False
         End Try
+    End Function
+
+
+    'Abonos
+
+    Public Function InsertDebtPaymentItem() As Boolean
+        Try
+            DB_Command = New SqlCommand("INS_EMPLOYEEDEBT_PAYMENT", DB_Connection) With {
+                .CommandType = CommandType.StoredProcedure
+            }
+
+            DB_Connection.Open()
+
+            DB_Command.Parameters.AddWithValue("@DAMT_ID", DAMT_ID)
+            DB_Command.Parameters.AddWithValue("@AMOUNT", DAMI_AMOUNT)
+            DB_Command.Parameters.AddWithValue("@CREBY", DAMI_CREBY)
+            DB_Command.Parameters.AddWithValue("@TYPE", If(DAMI_TYPE IsNot Nothing, DAMI_TYPE, 1))
+
+            DB_Command.ExecuteNonQuery()
+            DB_Connection.Close()
+            Return True
+        Catch ex As Exception
+            If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
+            MsgBox("Error en CL_EmployeeAmountDebt.InsertDebtPaymentItem(): " & ex.Message, MsgBoxStyle.Critical)
+            Return False
+        End Try
+    End Function
+    Public Function GetDebtPaymentItemsHistory(ByVal debtId As Integer) As DataTable
+        Dim dt As New DataTable
+        Try
+            DB_Command = New SqlCommand("SEL_EMPLOYEEDEBTPAYMENTITEMS", DB_Connection) With {
+                .CommandType = CommandType.StoredProcedure
+            }
+            DB_Command.Parameters.AddWithValue("@DAMT_ID", debtId)
+
+            DB_Connection.Open()
+            Dim adapter As New SqlDataAdapter(DB_Command)
+            adapter.Fill(dt)
+            DB_Connection.Close()
+        Catch ex As Exception
+            If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
+            MsgBox("Error al cargar historial de abonos del adeudo: " & ex.Message, MsgBoxStyle.Critical)
+        End Try
+        Return dt
+    End Function
+
+    Public Function GetEmployeesWithDebts() As DataTable
+        Dim dt As New DataTable
+        Try
+            DB_Command = New SqlCommand("SEL_EMPLOYEES_WITH_DEBTS", DB_Connection) With {.CommandType = CommandType.StoredProcedure}
+
+            DB_Connection.Open()
+            Dim adapter As New SqlDataAdapter(DB_Command)
+            adapter.Fill(dt)
+            DB_Connection.Close()
+        Catch ex As Exception
+            If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
+            MsgBox("Error al obtener catálogo de deudores: " & ex.Message, MsgBoxStyle.Critical)
+        End Try
+        Return dt
     End Function
 
 End Class

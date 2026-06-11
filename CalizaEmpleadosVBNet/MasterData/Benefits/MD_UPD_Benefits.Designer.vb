@@ -358,12 +358,11 @@ Partial Class MD_UPD_Benefits
         DGV_BenefitsList.AllowUserToAddRows = False
         DGV_BenefitsList.AllowUserToDeleteRows = False
         DGV_BenefitsList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_BenefitsList.Location = New Point(17, 537)
-        DGV_BenefitsList.Margin = New Padding(4, 5, 4, 5)
+        DGV_BenefitsList.Location = New Point(12, 322)
         DGV_BenefitsList.Name = "DGV_BenefitsList"
         DGV_BenefitsList.ReadOnly = True
         DGV_BenefitsList.RowHeadersWidth = 62
-        DGV_BenefitsList.Size = New Size(1740, 597)
+        DGV_BenefitsList.Size = New Size(1218, 358)
         DGV_BenefitsList.TabIndex = 12
         ' 
         ' GroupBox1
@@ -387,11 +386,9 @@ Partial Class MD_UPD_Benefits
         GroupBox1.Controls.Add(LB_BenefitName)
         GroupBox1.Controls.Add(TB_Description)
         GroupBox1.Controls.Add(TB_AuthorizeBy)
-        GroupBox1.Location = New Point(17, 73)
-        GroupBox1.Margin = New Padding(4, 5, 4, 5)
+        GroupBox1.Location = New Point(12, 44)
         GroupBox1.Name = "GroupBox1"
-        GroupBox1.Padding = New Padding(4, 5, 4, 5)
-        GroupBox1.Size = New Size(1280, 435)
+        GroupBox1.Size = New Size(896, 261)
         GroupBox1.TabIndex = 11
         GroupBox1.TabStop = False
         GroupBox1.Text = "Información sobre beneficios"
@@ -399,122 +396,111 @@ Partial Class MD_UPD_Benefits
         ' TB_Percent
         ' 
         TB_Percent.BackColor = SystemColors.Info
-        TB_Percent.Location = New Point(214, 372)
-        TB_Percent.Margin = New Padding(4, 5, 4, 5)
+        TB_Percent.Location = New Point(150, 223)
         TB_Percent.Name = "TB_Percent"
-        TB_Percent.Size = New Size(170, 31)
+        TB_Percent.Size = New Size(120, 23)
         TB_Percent.TabIndex = 23
         ' 
         ' LB_Percent
         ' 
         LB_Percent.AutoSize = True
-        LB_Percent.Location = New Point(214, 342)
-        LB_Percent.Margin = New Padding(4, 0, 4, 0)
+        LB_Percent.Location = New Point(150, 205)
         LB_Percent.Name = "LB_Percent"
-        LB_Percent.Size = New Size(164, 25)
+        LB_Percent.Size = New Size(110, 15)
         LB_Percent.TabIndex = 22
         LB_Percent.Text = "Porcentaje definido"
         ' 
         ' CB_Type
         ' 
+        CB_Type.DropDownStyle = ComboBoxStyle.DropDownList
         CB_Type.FormattingEnabled = True
-        CB_Type.Location = New Point(981, 133)
-        CB_Type.Margin = New Padding(4, 5, 4, 5)
+        CB_Type.Location = New Point(687, 80)
         CB_Type.Name = "CB_Type"
-        CB_Type.Size = New Size(171, 33)
+        CB_Type.Size = New Size(121, 23)
         CB_Type.TabIndex = 21
         ' 
         ' LB_Type
         ' 
         LB_Type.AutoSize = True
-        LB_Type.Location = New Point(981, 105)
-        LB_Type.Margin = New Padding(4, 0, 4, 0)
+        LB_Type.Location = New Point(687, 63)
         LB_Type.Name = "LB_Type"
-        LB_Type.Size = New Size(149, 25)
+        LB_Type.Size = New Size(99, 15)
         LB_Type.TabIndex = 20
         LB_Type.Text = "Tipo de beneficio"
         ' 
         ' TB_Ammount
         ' 
         TB_Ammount.BackColor = SystemColors.Info
-        TB_Ammount.Location = New Point(26, 372)
-        TB_Ammount.Margin = New Padding(4, 5, 4, 5)
+        TB_Ammount.Location = New Point(18, 223)
         TB_Ammount.Name = "TB_Ammount"
-        TB_Ammount.Size = New Size(170, 31)
+        TB_Ammount.Size = New Size(120, 23)
         TB_Ammount.TabIndex = 19
         ' 
         ' LB_Ammount
         ' 
         LB_Ammount.AutoSize = True
-        LB_Ammount.Location = New Point(26, 342)
-        LB_Ammount.Margin = New Padding(4, 0, 4, 0)
+        LB_Ammount.Location = New Point(18, 205)
         LB_Ammount.Name = "LB_Ammount"
-        LB_Ammount.Size = New Size(137, 25)
+        LB_Ammount.Size = New Size(90, 15)
         LB_Ammount.TabIndex = 18
         LB_Ammount.Text = "Monto definido"
         ' 
         ' CB_Status
         ' 
         CB_Status.AutoSize = True
-        CB_Status.Location = New Point(1170, 37)
-        CB_Status.Margin = New Padding(4, 5, 4, 5)
+        CB_Status.Location = New Point(819, 22)
         CB_Status.Name = "CB_Status"
-        CB_Status.Size = New Size(86, 29)
+        CB_Status.Size = New Size(58, 19)
         CB_Status.TabIndex = 17
         CB_Status.Text = "Status"
         CB_Status.UseVisualStyleBackColor = True
         ' 
         ' CB_AllBenefits
         ' 
+        CB_AllBenefits.DropDownStyle = ComboBoxStyle.DropDownList
         CB_AllBenefits.FormattingEnabled = True
-        CB_AllBenefits.Location = New Point(23, 37)
-        CB_AllBenefits.Margin = New Padding(4, 5, 4, 5)
+        CB_AllBenefits.Location = New Point(16, 22)
         CB_AllBenefits.Name = "CB_AllBenefits"
-        CB_AllBenefits.Size = New Size(444, 33)
+        CB_AllBenefits.Size = New Size(312, 23)
         CB_AllBenefits.TabIndex = 0
         ' 
         ' DT_ValidTo
         ' 
-        DT_ValidTo.Location = New Point(401, 293)
-        DT_ValidTo.Margin = New Padding(4, 5, 4, 5)
+        DT_ValidTo.Location = New Point(281, 176)
         DT_ValidTo.Name = "DT_ValidTo"
-        DT_ValidTo.Size = New Size(324, 31)
+        DT_ValidTo.Size = New Size(228, 23)
         DT_ValidTo.TabIndex = 7
         ' 
         ' LB_ValidTo
         ' 
         LB_ValidTo.AutoSize = True
-        LB_ValidTo.Location = New Point(401, 263)
-        LB_ValidTo.Margin = New Padding(4, 0, 4, 0)
+        LB_ValidTo.Location = New Point(281, 158)
         LB_ValidTo.Name = "LB_ValidTo"
-        LB_ValidTo.Size = New Size(108, 25)
+        LB_ValidTo.Size = New Size(70, 15)
         LB_ValidTo.TabIndex = 15
         LB_ValidTo.Text = "Valido hasta"
         ' 
         ' DT_ValidFrom
         ' 
-        DT_ValidFrom.Location = New Point(23, 293)
-        DT_ValidFrom.Margin = New Padding(4, 5, 4, 5)
+        DT_ValidFrom.Location = New Point(16, 176)
         DT_ValidFrom.Name = "DT_ValidFrom"
-        DT_ValidFrom.Size = New Size(330, 31)
+        DT_ValidFrom.Size = New Size(232, 23)
         DT_ValidFrom.TabIndex = 6
         ' 
         ' LB_ValidFrom
         ' 
         LB_ValidFrom.AutoSize = True
-        LB_ValidFrom.Location = New Point(23, 263)
-        LB_ValidFrom.Margin = New Padding(4, 0, 4, 0)
+        LB_ValidFrom.Location = New Point(16, 158)
         LB_ValidFrom.Name = "LB_ValidFrom"
-        LB_ValidFrom.Size = New Size(114, 25)
+        LB_ValidFrom.Size = New Size(73, 15)
         LB_ValidFrom.TabIndex = 13
         LB_ValidFrom.Text = "Valido desde"
         ' 
         ' BT_Update
         ' 
-        BT_Update.Location = New Point(1146, 372)
-        BT_Update.Margin = New Padding(4, 5, 4, 5)
+        BT_Update.Location = New Point(802, 223)
         BT_Update.Name = "BT_Update"
-        BT_Update.Size = New Size(107, 38)
+        BT_Update.Size = New Size(75, 23)
         BT_Update.TabIndex = 8
         BT_Update.Text = "Actualizar"
         BT_Update.UseVisualStyleBackColor = True
@@ -522,68 +508,61 @@ Partial Class MD_UPD_Benefits
         ' LB_AuthorizeBy
         ' 
         LB_AuthorizeBy.AutoSize = True
-        LB_AuthorizeBy.Location = New Point(23, 188)
-        LB_AuthorizeBy.Margin = New Padding(4, 0, 4, 0)
+        LB_AuthorizeBy.Location = New Point(16, 113)
         LB_AuthorizeBy.Name = "LB_AuthorizeBy"
-        LB_AuthorizeBy.Size = New Size(137, 25)
+        LB_AuthorizeBy.Size = New Size(89, 15)
         LB_AuthorizeBy.TabIndex = 7
         LB_AuthorizeBy.Text = "Autorizado por:"
         ' 
         ' LB_Description
         ' 
         LB_Description.AutoSize = True
-        LB_Description.Location = New Point(363, 105)
-        LB_Description.Margin = New Padding(4, 0, 4, 0)
+        LB_Description.Location = New Point(254, 63)
         LB_Description.Name = "LB_Description"
-        LB_Description.Size = New Size(104, 25)
+        LB_Description.Size = New Size(69, 15)
         LB_Description.TabIndex = 6
         LB_Description.Text = "Descripción"
         ' 
         ' TB_BenefitName
         ' 
-        TB_BenefitName.Location = New Point(23, 135)
-        TB_BenefitName.Margin = New Padding(4, 5, 4, 5)
+        TB_BenefitName.Location = New Point(16, 81)
         TB_BenefitName.Name = "TB_BenefitName"
-        TB_BenefitName.Size = New Size(315, 31)
+        TB_BenefitName.Size = New Size(222, 23)
         TB_BenefitName.TabIndex = 1
         ' 
         ' LB_BenefitName
         ' 
         LB_BenefitName.AutoSize = True
-        LB_BenefitName.Location = New Point(23, 107)
-        LB_BenefitName.Margin = New Padding(4, 0, 4, 0)
+        LB_BenefitName.Location = New Point(16, 64)
         LB_BenefitName.Name = "LB_BenefitName"
-        LB_BenefitName.Size = New Size(184, 25)
+        LB_BenefitName.Size = New Size(122, 15)
         LB_BenefitName.TabIndex = 5
         LB_BenefitName.Text = "Nombre del beneficio"
         ' 
         ' TB_Description
         ' 
-        TB_Description.Location = New Point(363, 135)
-        TB_Description.Margin = New Padding(4, 5, 4, 5)
+        TB_Description.Location = New Point(254, 81)
         TB_Description.Multiline = True
         TB_Description.Name = "TB_Description"
-        TB_Description.Size = New Size(575, 114)
+        TB_Description.Size = New Size(404, 70)
         TB_Description.TabIndex = 2
         ' 
         ' TB_AuthorizeBy
         ' 
-        TB_AuthorizeBy.Location = New Point(23, 213)
-        TB_AuthorizeBy.Margin = New Padding(4, 5, 4, 5)
+        TB_AuthorizeBy.Location = New Point(16, 128)
         TB_AuthorizeBy.Name = "TB_AuthorizeBy"
-        TB_AuthorizeBy.Size = New Size(315, 31)
+        TB_AuthorizeBy.Size = New Size(222, 23)
         TB_AuthorizeBy.TabIndex = 3
         ' 
         ' MD_UPD_Benefits
         ' 
-        AutoScaleDimensions = New SizeF(10F, 25F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(1774, 1050)
+        ClientSize = New Size(1242, 630)
         Controls.Add(DGV_BenefitsList)
         Controls.Add(GroupBox1)
-        Margin = New Padding(4, 5, 4, 5)
         Name = "MD_UPD_Benefits"
         Text = "Actualizar Beneficio"
         WindowState = FormWindowState.Maximized

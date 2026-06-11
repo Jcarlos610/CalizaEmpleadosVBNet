@@ -11,85 +11,72 @@ Public Class MD_INS_Benefits
 
 
     Private Sub BT_Register_Click(sender As Object, e As EventArgs) Handles BT_Register.Click
+        Try
 
-        'If TB_BenefitName.Text = "" Then
-        '    MessageBox.Show("Favor de ingresar un nombre de beneficio.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        'ElseIf TB_Description.Text = "" Then
-        '    MessageBox.Show("Favor de ingresar una descripción.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        'ElseIf CB_Type.SelectedItem Is Nothing Then
-        '    MessageBox.Show("Favor de indicar el tipo de beneficio.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        'ElseIf TB_AuthorizeBy.Text = "" Then
-        '    MessageBox.Show("Favor de indicar quién autoriza el beneficio.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        '    'ElseIf TB_Ammount.Text = "" Then
-        '    '    MessageBox.Show("Favor de indicar el monto asignado para este beneficio.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        '    'Else
-        'ElseIf TB_Ammount.Text <> "" And TB_Percent.Text <> "" Then
-        '    MessageBox.Show("Solo puedes ingresar monto o porcentaje, no ambos.")
+            If TB_BenefitName.Text.Trim() = "" Then
+                MsgBox("Por favor, ingrese el nombre del beneficio.", MsgBoxStyle.Exclamation, "Falta Información")
+                TB_BenefitName.Focus()
+                Exit Sub
 
-        'ElseIf TB_Ammount.Text = "" And TB_Percent.Text = "" Then
-        '    MessageBox.Show("Debes ingresar un monto o un porcentaje.")
+            ElseIf TB_Description.Text.Trim() = "" Then
+                MsgBox("Por favor, ingrese una descripción para el beneficio.", MsgBoxStyle.Exclamation, "Falta Información")
+                TB_Description.Focus()
+                Exit Sub
 
+            ElseIf CB_Type.SelectedItem Is Nothing Then
+                MsgBox("Por favor, seleccione el tipo de beneficio de la lista.", MsgBoxStyle.Exclamation, "Falta Información")
+                CB_Type.Focus()
+                Exit Sub
 
+            ElseIf TB_AuthorizeBy.Text.Trim() = "" Then
+                MsgBox("Por favor, indique quién autoriza este beneficio.", MsgBoxStyle.Exclamation, "Falta Información")
+                TB_AuthorizeBy.Focus()
+                Exit Sub
 
-        '    Dim Type As ComboItem = CType(CB_Type.SelectedItem, ComboItem)
-        '    Dim Id_Type As Integer = Type.Id
+            ElseIf TB_Ammount.Text.Trim() <> "" AndAlso TB_Percent.Text.Trim() <> "" Then
+                MsgBox("Operación inválida: Solo puede ingresar un Monto fijo o un Porcentaje, no ambos.", MsgBoxStyle.Critical, "Error de Configuración")
+                Return
 
+            ElseIf TB_Ammount.Text.Trim() = "" AndAlso TB_Percent.Text.Trim() = "" Then
+                MsgBox("Por favor, debe ingresar un Monto monetario o un Porcentaje de beneficio.", MsgBoxStyle.Exclamation, "Falta Información")
+                Return
 
-
-
-        '    Dim Benefit = New CL_Benefits(TB_BenefitName.Text, TB_Description.Text, Id_Type, Date.Now, AppUser, TB_AuthorizeBy.Text, TB_Ammount.Text, 1, DT_ValidFrom.Value, DT_ValidTo.Value, TB_Percent.Text)
-
-        '    If Benefit.InsertBenefit() Then
-        '        MessageBox.Show("El beneficio " + TB_BenefitName.Text + " fue ingresado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        '        InitializationOfFields()
-        '    End If
-
-        'End If
-
-        If TB_BenefitName.Text = "" Then
-            MessageBox.Show("Favor de ingresar un nombre de beneficio.")
-
-        ElseIf TB_Description.Text = "" Then
-            MessageBox.Show("Favor de ingresar una descripción.")
-
-        ElseIf CB_Type.SelectedItem Is Nothing Then
-            MessageBox.Show("Favor de indicar el tipo de beneficio.")
-
-        ElseIf TB_AuthorizeBy.Text = "" Then
-            MessageBox.Show("Favor de indicar quién autoriza el beneficio.")
-
-        ElseIf TB_Ammount.Text <> "" And TB_Percent.Text <> "" Then
-            MessageBox.Show("Solo puedes ingresar monto o porcentaje, no ambos.")
-            Exit Sub
-
-        ElseIf TB_Ammount.Text = "" And TB_Percent.Text = "" Then
-            MessageBox.Show("Debes ingresar un monto o un porcentaje.")
-            Exit Sub
-        End If
+            ElseIf DT_ValidTo.Value.Date < DT_ValidFrom.Value.Date Then
+                MsgBox("La fecha de término del beneficio no puede ser menor a la fecha de inicio.", MsgBoxStyle.Exclamation, "Fechas Inválidas")
+                Return
+            End If
 
 
 
-        Dim Type As ComboItem = CType(CB_Type.SelectedItem, ComboItem)
-        Dim Id_Type As Integer = Type.Id
+            Dim Type As ComboItem = CType(CB_Type.SelectedItem, ComboItem)
+            Dim Id_Type As Integer = Type.Id
 
-        Dim Benefit = New CL_Benefits(
-            TB_BenefitName.Text,
-            TB_Description.Text,
-            Id_Type,
-            Date.Now,
-            AppUser,
-            TB_AuthorizeBy.Text,
-            TB_Ammount.Text,
-            1,
-            DT_ValidFrom.Value,
-            DT_ValidTo.Value,
-            TB_Percent.Text
-        )
+            Dim Benefit = New CL_Benefits(
+                TB_BenefitName.Text,
+                TB_Description.Text,
+                Id_Type,
+                Date.Now,
+                AppUser,
+                TB_AuthorizeBy.Text,
+                TB_Ammount.Text,
+                1,
+                DT_ValidFrom.Value,
+                DT_ValidTo.Value,
+                TB_Percent.Text
+            )
 
-        If Benefit.InsertBenefit() Then
-            MessageBox.Show("El beneficio " + TB_BenefitName.Text + " fue ingresado correctamente.")
-            InitializationOfFields()
-        End If
+            If Benefit.InsertBenefit() Then
+                MsgBox("¡El beneficio '" & TB_BenefitName.Text.Trim() & "' ha sido registrado exitosamente en el sistema!", MsgBoxStyle.Information, "Registro Completo")
+
+                InitializationOfFields()
+            Else
+                MsgBox("El beneficio no pudo ser guardado. Verifique las conexiones o las reglas de la base de datos.", MsgBoxStyle.Critical, "Error al Guardar")
+            End If
+
+        Catch ex As Exception
+
+            MsgBox("Ocurrió un error crítico inesperado al registrar el beneficio: " & vbCrLf & ex.Message, MsgBoxStyle.Critical, "Error del Sistema")
+        End Try
 
     End Sub
 
@@ -128,16 +115,18 @@ Public Class MD_INS_Benefits
     End Sub
 
     Private Sub CB_Type_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_Type.SelectedIndexChanged
-        If CB_Type.SelectedItem IsNot Nothing Then
+        If Not CB_Type.Focused Then Return
 
+        If CB_Type.SelectedItem IsNot Nothing Then
             Dim item As ComboItem = CType(CB_Type.SelectedItem, ComboItem)
             Dim id As Integer = item.Id
 
             If id = 30 Then
-                MessageBox.Show("Este beneficio se asignará automáticamente.")
+                System.Windows.Forms.MessageBox.Show("Este beneficio se asignará automáticamente.",
+                                                    "Información del Sistema",
+                                                    System.Windows.Forms.MessageBoxButtons.OK,
+                                                    System.Windows.Forms.MessageBoxIcon.Information)
             End If
-
         End If
-
     End Sub
 End Class
