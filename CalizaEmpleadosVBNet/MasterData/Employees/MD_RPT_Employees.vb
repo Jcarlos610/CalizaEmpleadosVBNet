@@ -26,7 +26,7 @@ Public Class MD_RPT_Employees
         view.RowFilter = "[Empresa a la que pertenece] = '" & CB_Company.Text & "'"
 
         DGV_AllEmployees.DataSource = view
-
+        DGV_AllEmployees.Columns("Salario Inicial").Visible = False
     End Sub
 
     Private Sub CB_EmployeeName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_EmployeeName.SelectedIndexChanged
@@ -41,7 +41,9 @@ Public Class MD_RPT_Employees
 
         view.RowFilter = "[No. Empleado] = " & CB_EmployeeName.SelectedValue
 
+
         DGV_AllEmployees.DataSource = view
+        DGV_AllEmployees.Columns("Salario Inicial").Visible = False
     End Sub
 
     Private Sub BT_EmployeeExport_Click(sender As Object, e As EventArgs) Handles BT_EmployeeExport.Click

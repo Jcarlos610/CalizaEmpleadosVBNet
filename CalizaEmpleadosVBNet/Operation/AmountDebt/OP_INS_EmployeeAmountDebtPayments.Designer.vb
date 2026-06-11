@@ -50,7 +50,7 @@ Partial Class OP_INS_EmployeeAmountDebtPayments
         GroupBox3.Controls.Add(BT_RegisterPayment)
         GroupBox3.Controls.Add(TB_PaymentAmount)
         GroupBox3.Controls.Add(LB_ManualInstalment)
-        GroupBox3.Location = New Point(12, 728)
+        GroupBox3.Location = New Point(12, 498)
         GroupBox3.Name = "GroupBox3"
         GroupBox3.Size = New Size(392, 71)
         GroupBox3.TabIndex = 116
@@ -88,9 +88,9 @@ Partial Class OP_INS_EmployeeAmountDebtPayments
         ' GroupBox2
         ' 
         GroupBox2.Controls.Add(DGV_DetailPayments)
-        GroupBox2.Location = New Point(429, 728)
+        GroupBox2.Location = New Point(429, 498)
         GroupBox2.Name = "GroupBox2"
-        GroupBox2.Size = New Size(894, 302)
+        GroupBox2.Size = New Size(894, 230)
         GroupBox2.TabIndex = 115
         GroupBox2.TabStop = False
         GroupBox2.Text = "Historial de abonos por empleado"
@@ -106,15 +106,15 @@ Partial Class OP_INS_EmployeeAmountDebtPayments
         DGV_DetailPayments.Name = "DGV_DetailPayments"
         DGV_DetailPayments.ReadOnly = True
         DGV_DetailPayments.RowHeadersWidth = 62
-        DGV_DetailPayments.Size = New Size(846, 245)
+        DGV_DetailPayments.Size = New Size(846, 182)
         DGV_DetailPayments.TabIndex = 0
         ' 
         ' GroupBox1
         ' 
         GroupBox1.Controls.Add(DGV_EmployeeDebts)
-        GroupBox1.Location = New Point(12, 409)
+        GroupBox1.Location = New Point(12, 292)
         GroupBox1.Name = "GroupBox1"
-        GroupBox1.Size = New Size(1311, 302)
+        GroupBox1.Size = New Size(1311, 200)
         GroupBox1.TabIndex = 114
         GroupBox1.TabStop = False
         GroupBox1.Text = "Adeudos específicos del empleado seleccionado"
@@ -130,7 +130,7 @@ Partial Class OP_INS_EmployeeAmountDebtPayments
         DGV_EmployeeDebts.Name = "DGV_EmployeeDebts"
         DGV_EmployeeDebts.ReadOnly = True
         DGV_EmployeeDebts.RowHeadersWidth = 62
-        DGV_EmployeeDebts.Size = New Size(1263, 245)
+        DGV_EmployeeDebts.Size = New Size(1263, 153)
         DGV_EmployeeDebts.TabIndex = 0
         ' 
         ' LB_Title
@@ -149,7 +149,7 @@ Partial Class OP_INS_EmployeeAmountDebtPayments
         GB_DebtInformation.Controls.Add(DGV_GlobalDebts)
         GB_DebtInformation.Location = New Point(12, 46)
         GB_DebtInformation.Name = "GB_DebtInformation"
-        GB_DebtInformation.Size = New Size(1311, 346)
+        GB_DebtInformation.Size = New Size(1311, 240)
         GB_DebtInformation.TabIndex = 112
         GB_DebtInformation.TabStop = False
         GB_DebtInformation.Text = "Información sobre adeudo a empresa"
@@ -175,13 +175,13 @@ Partial Class OP_INS_EmployeeAmountDebtPayments
         DGV_GlobalDebts.Name = "DGV_GlobalDebts"
         DGV_GlobalDebts.ReadOnly = True
         DGV_GlobalDebts.RowHeadersWidth = 62
-        DGV_GlobalDebts.Size = New Size(1263, 278)
+        DGV_GlobalDebts.Size = New Size(1263, 177)
         DGV_GlobalDebts.TabIndex = 0
         ' 
         ' LB_Accumulated
         ' 
         LB_Accumulated.AutoSize = True
-        LB_Accumulated.Location = New Point(12, 817)
+        LB_Accumulated.Location = New Point(12, 587)
         LB_Accumulated.Name = "LB_Accumulated"
         LB_Accumulated.Size = New Size(165, 15)
         LB_Accumulated.TabIndex = 117
@@ -190,7 +190,7 @@ Partial Class OP_INS_EmployeeAmountDebtPayments
         ' LB_Balnce
         ' 
         LB_Balnce.AutoSize = True
-        LB_Balnce.Location = New Point(260, 817)
+        LB_Balnce.Location = New Point(260, 587)
         LB_Balnce.Name = "LB_Balnce"
         LB_Balnce.Size = New Size(69, 15)
         LB_Balnce.TabIndex = 118
@@ -201,7 +201,7 @@ Partial Class OP_INS_EmployeeAmountDebtPayments
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(1374, 1051)
+        ClientSize = New Size(1374, 753)
         Controls.Add(LB_Balnce)
         Controls.Add(LB_Accumulated)
         Controls.Add(GroupBox3)

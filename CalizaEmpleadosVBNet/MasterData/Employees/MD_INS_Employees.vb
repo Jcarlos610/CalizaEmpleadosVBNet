@@ -346,6 +346,7 @@ Public Class MD_INS_Employees
         DGV_AllEmployees.AutoResizeColumns()
         DGV_AllEmployees.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
 
+
         Dim Employeeinfo As DataTable = report.Get_EmployeeInfoByUserName(AppUser)
         Dim ID_Depto As Integer
         For Each Line As DataRow In Employeeinfo.Rows
@@ -357,6 +358,8 @@ Public Class MD_INS_Employees
         Else
             DGV_AllEmployees.DataSource = report.Get_AllEmployeesOnlyFewDepartments
         End If
+
+        DGV_AllEmployees.Columns("Salario Inicial").Visible = False
 
         If DGV_AllEmployees.Columns.Contains("Planta") Then
             DGV_AllEmployees.Columns("Planta").HeaderText = "Planta Asignada"

@@ -177,6 +177,7 @@ Public Class MD_UPD_Employees
         End If
 
         DGV_AllEmployees.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+        DGV_AllEmployees.Columns("Salario Inicial").Visible = False
         DGV_AllEmployees.AutoResizeColumns()
 
     End Sub
