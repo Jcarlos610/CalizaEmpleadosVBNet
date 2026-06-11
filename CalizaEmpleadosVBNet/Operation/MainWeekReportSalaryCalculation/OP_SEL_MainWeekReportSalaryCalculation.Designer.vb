@@ -60,10 +60,11 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         Panel3 = New Panel()
         Label11 = New Label()
         Panel4 = New Panel()
+        Label12 = New Label()
         Label9 = New Label()
         Label10 = New Label()
         BT_ExportExcel = New Button()
-        Label12 = New Label()
+        LB_Progress = New Label()
         GB_NumberOfWeek.SuspendLayout()
         Panel1.SuspendLayout()
         PN_2.SuspendLayout()
@@ -436,6 +437,15 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         Panel4.Size = New Size(40, 22)
         Panel4.TabIndex = 27
         ' 
+        ' Label12
+        ' 
+        Label12.AutoSize = True
+        Label12.Location = New Point(3, 2)
+        Label12.Name = "Label12"
+        Label12.Size = New Size(24, 15)
+        Label12.TabIndex = 35
+        Label12.Text = "NC"
+        ' 
         ' Label9
         ' 
         Label9.AutoSize = True
@@ -463,14 +473,15 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         BT_ExportExcel.Text = "Exportar Nómina"
         BT_ExportExcel.UseVisualStyleBackColor = True
         ' 
-        ' Label12
+        ' LB_Progress
         ' 
-        Label12.AutoSize = True
-        Label12.Location = New Point(3, 2)
-        Label12.Name = "Label12"
-        Label12.Size = New Size(24, 15)
-        Label12.TabIndex = 35
-        Label12.Text = "NC"
+        LB_Progress.AutoSize = True
+        LB_Progress.Font = New Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        LB_Progress.Location = New Point(476, 23)
+        LB_Progress.Name = "LB_Progress"
+        LB_Progress.Size = New Size(13, 20)
+        LB_Progress.TabIndex = 35
+        LB_Progress.Text = "."
         ' 
         ' OP_SEL_MainWeekReportSalaryCalculation
         ' 
@@ -479,6 +490,7 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(2019, 878)
+        Controls.Add(LB_Progress)
         Controls.Add(BT_ExportExcel)
         Controls.Add(PB_Progress)
         Controls.Add(Label10)
@@ -572,4 +584,5 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
     Friend WithEvents BT_LoadInfo As Button
     Friend WithEvents CB_Plants As ComboBox
     Friend WithEvents Label12 As Label
+    Friend WithEvents LB_Progress As Label
 End Class

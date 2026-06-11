@@ -238,7 +238,7 @@ Public Class CL_RecordsByEmployeeMoneySaved
 
             DB_Command.Parameters.AddWithValue("EMPL_ID", _EMPL_ID)
             DB_Command.Parameters.AddWithValue("DREMPL_AMM", _DREMPL_AMM)
-            DB_Command.Parameters.AddWithValue("DREMPL_TYPE", 2)
+            DB_Command.Parameters.AddWithValue("DREMPL_TYPE", 1)
             DB_Command.Parameters.AddWithValue("REMPL_CREBY", _REMPL_CREBY)
             DB_Command.Parameters.AddWithValue("REMPL_RDATE", _REMPL_RDATE)
 

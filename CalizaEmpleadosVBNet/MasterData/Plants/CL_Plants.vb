@@ -174,6 +174,7 @@ Public Class CL_Plants
         dt.Columns.Add("Nombre", GetType(String))
 
         dt.Rows.Add(0, "Seleccione una planta")
+        dt.Rows.Add(1, "Sin planta")
 
         Try
             DB_Command = New SqlCommand With {

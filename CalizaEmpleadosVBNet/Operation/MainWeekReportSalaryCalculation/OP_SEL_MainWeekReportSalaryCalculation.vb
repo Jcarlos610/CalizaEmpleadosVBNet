@@ -14,8 +14,10 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
     Dim SelectedEmployeeID As Integer = 0
     Dim PlantId As Integer = 0
     Dim PlantName As String = ""
+    Dim ReleasePayment As Boolean = True
 
     Private Sub OP_SEL_MainWeekReportSalaryCalculation_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        LB_Progress.Text = ""
         DTP_WeekSelector.Value = Today
         LB_StartDate.Visible = False
         DTP_StartDate.Visible = False
@@ -50,16 +52,24 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
             Exit Sub
         End If
 
-        Dim Plant As New CL_Plants()
-        Dim SelectedPlant As DataTable = Plant.Get_OnePlant(idPlant)
 
-        If SelectedPlant.Rows.Count = 0 Then Exit Sub
-
-        For Each item As DataRow In SelectedPlant.Rows
+        If idPlant = 1 Then
             PlantId = idPlant
-            PlantName = item(1)
-            TB_ProdPlant.Enabled = True
-        Next
+            PlantName = "Sin planta"
+            DTP_WeekSelector.Enabled = True
+        Else
+            Dim Plant As New CL_Plants()
+            Dim SelectedPlant As DataTable = Plant.Get_OnePlant(idPlant)
+
+            If SelectedPlant.Rows.Count = 0 Then Exit Sub
+
+            For Each item As DataRow In SelectedPlant.Rows
+                PlantId = idPlant
+                PlantName = item(1)
+                TB_ProdPlant.Enabled = True
+            Next
+        End If
+
 
     End Sub
 
@@ -99,7 +109,12 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         Dim endDate As Date = weekRange.Item2
 
         Dim RecordsByEmployee As New CL_RecordsByEmployee
-        Dim dt As DataTable = RecordsByEmployee.Get_WeekRecords(startDate, endDate, PlantId)
+        Dim dt As DataTable
+        If PlantId = 1 Then
+            dt = RecordsByEmployee.Get_WeekRecordsWithoutPlant(startDate, endDate)
+        Else
+            dt = RecordsByEmployee.Get_WeekRecords(startDate, endDate, PlantId)
+        End If
 
         DTP_StartDate.Value = startDate
         DTP_StartDate.Enabled = False
@@ -237,51 +252,33 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
         Next
         '----- 1.- Add Column to DGV
-        ' 15
         EmployeesInfo.Columns.Add("Faltas en el Mes", GetType(Integer))
-        ' 16
         EmployeesInfo.Columns.Add("S. Diario", GetType(String))
-        ' 17
         EmployeesInfo.Columns.Add("Ext. S", GetType(String))
-        ' 18
         EmployeesInfo.Columns.Add("Ext. D", GetType(String))
-        ' 19
         EmployeesInfo.Columns.Add("Ext. T", GetType(String))
-        ' 20
+        EmployeesInfo.Columns.Add("No. H. Extra", GetType(String))
         EmployeesInfo.Columns.Add("H. Comida", GetType(Decimal))
-        ' 21
         EmployeesInfo.Columns.Add("B. Comida", GetType(String))
-        ' 22
         EmployeesInfo.Columns.Add("Bono Prod.", GetType(String))
-        ' 23
         EmployeesInfo.Columns.Add("Bono BP", GetType(String))
-        ' 24
         EmployeesInfo.Columns.Add("Amonest..", GetType(Decimal))
-        ' 25
         EmployeesInfo.Columns.Add("Ahorro", GetType(String))
-        ' 26
         EmployeesInfo.Columns.Add("Bono P. P.", GetType(String))
-        ' 27
         EmployeesInfo.Columns.Add("D. Transporte", GetType(Decimal))
-        ' 28
         EmployeesInfo.Columns.Add("Transporte", GetType(String))
-        '  # -> 29
         EmployeesInfo.Columns.Add("Transporte entre Empleados", GetType(String))
-        ' 29 -> 30
         EmployeesInfo.Columns.Add("Prestado", GetType(String))
-        ' 30 -> 31
         EmployeesInfo.Columns.Add("Pagado", GetType(String))
-        ' 31 -> 32
         EmployeesInfo.Columns.Add("Saldo a pagar", GetType(String))
-        ' 32 -> 33
         EmployeesInfo.Columns.Add("Desc. Prest.", GetType(String))
-        ' 33 -> 34
         EmployeesInfo.Columns.Add("Calculado", GetType(String))
-        ' 35
+        EmployeesInfo.Columns.Add("Infonavit", GetType(Boolean))
+        EmployeesInfo.Columns.Add("Monto infonavit", GetType(String))
+        EmployeesInfo.Columns.Add("Monto adeudo", GetType(String))
+        EmployeesInfo.Columns.Add("Desc. por adeudo", GetType(String))
+        EmployeesInfo.Columns.Add("Saldo adeudo", GetType(String))
         EmployeesInfo.Columns.Add("Monto a transferir", GetType(String))
-
-
-        'Bono de transporte entre empleados (29), monto a transferir (30)
 
         DGV_CompleteWeekInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
 
@@ -307,102 +304,125 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         Next
 
         '----- 2.- Adit Width 
-        ' 13 -> 15
         DGV_CompleteWeekInfo.Columns("Faltas en el Mes").Width = 100
         DGV_CompleteWeekInfo.Columns("Faltas en el Mes").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Faltas en el Mes").ToolTipText = "Número de faltas durante el mes actual."
         DGV_CompleteWeekInfo.Columns("Faltas en el Mes").DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(CByte(255), CByte(0), CByte(0))
         DGV_CompleteWeekInfo.Columns("Faltas en el Mes").DefaultCellStyle.Font = New System.Drawing.Font(DGV_CompleteWeekInfo.Font, FontStyle.Bold)
 
-        ' 16
         DGV_CompleteWeekInfo.Columns("S. Diario").Width = 65
         DGV_CompleteWeekInfo.Columns("S. Diario").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
-        ' 17
+
+        DGV_CompleteWeekInfo.Columns("No. H. Extra").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+        DGV_CompleteWeekInfo.Columns("No. H. Extra").Width = 50
+
         DGV_CompleteWeekInfo.Columns("Ext. S").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         DGV_CompleteWeekInfo.Columns("Ext. S").Width = 50
-        ' 18
+
         DGV_CompleteWeekInfo.Columns("Ext. D").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         DGV_CompleteWeekInfo.Columns("Ext. D").Width = 50
-        ' 19
+
         DGV_CompleteWeekInfo.Columns("Ext. T").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         DGV_CompleteWeekInfo.Columns("Ext. T").Width = 50
-        ' 20
+
         DGV_CompleteWeekInfo.Columns("H. Comida").Width = 70
         DGV_CompleteWeekInfo.Columns("H. Comida").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("H. Comida").ToolTipText = "Horas de comida"
-        ' 21
+
         DGV_CompleteWeekInfo.Columns("B. Comida").Width = 70
         DGV_CompleteWeekInfo.Columns("B. Comida").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("B. Comida").ToolTipText = "Bono de comida"
-        ' 22
+
         DGV_CompleteWeekInfo.Columns("Bono Prod.").Width = 80
         DGV_CompleteWeekInfo.Columns("Bono Prod.").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Bono Prod.").ToolTipText = "Bono de Productividad"
-        ' 23
+
         DGV_CompleteWeekInfo.Columns("Bono BP").Width = 70
         DGV_CompleteWeekInfo.Columns("Bono BP").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Bono BP").ToolTipText = "Bono de actitud y buenas practicas"
-        ' 24
+
         DGV_CompleteWeekInfo.Columns("Amonest..").Width = 70
         DGV_CompleteWeekInfo.Columns("Amonest..").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Amonest..").ToolTipText = "Número de amonestaciones"
-        ' 25
+
         DGV_CompleteWeekInfo.Columns("Ahorro").Width = 50
         DGV_CompleteWeekInfo.Columns("Ahorro").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Ahorro").ToolTipText = "Cantidad a Ahorrar"
-        ' 26
+
         DGV_CompleteWeekInfo.Columns("Bono P. P.").Width = 70
         DGV_CompleteWeekInfo.Columns("Bono P. P.").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Bono P. P.").ToolTipText = "Bono de productividad de planta"
-        ' 27
+
         DGV_CompleteWeekInfo.Columns("D. Transporte").Width = 90
         DGV_CompleteWeekInfo.Columns("D. Transporte").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("D. Transporte").ToolTipText = "Días de transporte"
-        ' 28
+
         DGV_CompleteWeekInfo.Columns("Transporte").Width = 70
         DGV_CompleteWeekInfo.Columns("Transporte").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Transporte").ToolTipText = "Monto de bono de transporte"
-        ' 29
+
         DGV_CompleteWeekInfo.Columns("Transporte entre Empleados").Width = 70
         DGV_CompleteWeekInfo.Columns("Transporte entre Empleados").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Transporte entre Empleados").ToolTipText = "Transporte entre Empleados"
-        ' 30
+
         DGV_CompleteWeekInfo.Columns("Prestado").Width = 70
         DGV_CompleteWeekInfo.Columns("Prestado").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Prestado").ToolTipText = "Monto Prestado"
-        ' 31
+
         DGV_CompleteWeekInfo.Columns("Pagado").Width = 70
         DGV_CompleteWeekInfo.Columns("Pagado").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Pagado").ToolTipText = "Monto Pagado"
-        ' 32
+
         DGV_CompleteWeekInfo.Columns("Saldo a pagar").Width = 90
         DGV_CompleteWeekInfo.Columns("Saldo a pagar").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Saldo a pagar").ToolTipText = "Saldo a pagar"
-        ' 33
+
         DGV_CompleteWeekInfo.Columns("Desc. Prest.").Width = 80
         DGV_CompleteWeekInfo.Columns("Desc. Prest.").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Desc. Prest.").ToolTipText = "Monto a descontar"
-        ' 34
+
         DGV_CompleteWeekInfo.Columns("Calculado").Width = 100
-        DGV_CompleteWeekInfo.Columns("Calculado").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+        DGV_CompleteWeekInfo.Columns("Calculado").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Calculado").ToolTipText = "Monto calculado"
-        ' 35
-        DGV_CompleteWeekInfo.Columns("Monto a transferir").Width = 100
-        DGV_CompleteWeekInfo.Columns("Monto a transferir").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+
+        DGV_CompleteWeekInfo.Columns("Monto a transferir").Width = 120
+        DGV_CompleteWeekInfo.Columns("Monto a transferir").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Monto a transferir").ToolTipText = "Monto a transferir"
+
+        DGV_CompleteWeekInfo.Columns("Infonavit").Width = 60
+        DGV_CompleteWeekInfo.Columns("Infonavit").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Infonavit").ToolTipText = "¿El empleado tiene infonavit?"
+
+        DGV_CompleteWeekInfo.Columns("Monto infonavit").Width = 100
+        DGV_CompleteWeekInfo.Columns("Monto infonavit").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Monto infonavit").ToolTipText = "Monto a descontar por infonavit"
+
+        DGV_CompleteWeekInfo.Columns("No. H. Extra").Width = 50
+        DGV_CompleteWeekInfo.Columns("No. H. Extra").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("No. H. Extra").ToolTipText = "Cantidad de horas extras"
+
+        DGV_CompleteWeekInfo.Columns("Monto adeudo").Width = 100
+        DGV_CompleteWeekInfo.Columns("Monto adeudo").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Monto adeudo").ToolTipText = "Monto acumulado por adeudo a empresa"
+
+        DGV_CompleteWeekInfo.Columns("Desc. por adeudo").Width = 100
+        DGV_CompleteWeekInfo.Columns("Desc. por adeudo").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Desc. por adeudo").ToolTipText = "Cantidad a descontar por adeudo"
+
+        DGV_CompleteWeekInfo.Columns("Saldo adeudo").Width = 100
+        DGV_CompleteWeekInfo.Columns("Saldo adeudo").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Saldo adeudo").ToolTipText = "saldo por adeudos"
 
         PaintCells()
         GetAdditionalValues()
 
         'in case of DGV has record, we activate the checkbox to be able to release
-        If DGV_CompleteWeekInfo.Rows.Count > 0 Then
+        If DGV_CompleteWeekInfo.Rows.Count > 0 And ReleasePayment = True Then
             CB_Confirmation.Enabled = True
             For i As Integer = 0 To 7
                 DGV_CompleteWeekInfo.Columns(i).Frozen = True
             Next
         End If
-
-
 
     End Sub
 
@@ -566,6 +586,8 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
         'Scroll trough the list of employees into the DGV
         For Each EmployeeCum As DataRow In CumulativesEmployees.Rows
+            LB_Progress.Text = "Descargando y analizando información del empleado: " & DGV_CompleteWeekInfo.Item("Nombre Completo", CounterLine).Value
+            LB_Progress.Refresh()
             Dim LunchHourAmmount As Decimal = 0.0
             Dim ProductGoodPract As Decimal = 0.0
             Dim ProductivityAmmount As Decimal = 0.0
@@ -585,6 +607,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
             Dim CounterPSG As Integer = CInt(EmployeeCum(12))
             Dim CounterV As Integer = CInt(EmployeeCum(14))
 
+            'Let's paint the SUNDAY cell
             If CounterA = 6 Then
                 DGV_CompleteWeekInfo.Rows(CounterLine).Cells(11).Value = "A"
                 DGV_CompleteWeekInfo.Rows(CounterLine).Cells(11).Style.BackColor = System.Drawing.Color.FromArgb(CByte(192), CByte(255), CByte(192))
@@ -597,6 +620,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
             Dim Employees = New CL_Employee
             Dim EmployeesCompleteInformation As DataTable = Employees.Get_EmployeesInfoByID(EmployeeID)
 
+            Dim infonavit As Boolean = False
             Dim NewSalary As Decimal = 0.0
             Dim DailySalary As Decimal = 0.0
             Dim BaseSalary As Decimal = 0.0
@@ -608,13 +632,25 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
             'Get employee's base salary 
             For Each EmployeeCompleteInformation As DataRow In EmployeesCompleteInformation.Rows
                 BaseSalary = EmployeeCompleteInformation(9)
+                If EmployeeCompleteInformation.IsNull(11) Then
+                    infonavit = False
+                Else
+                    infonavit = EmployeeCompleteInformation(11)
+                End If
+
             Next
+
+            'infonavit
+            DGV_CompleteWeekInfo.Item("Infonavit", CounterLine).Value = infonavit
 
             'Obtain sunday salary
             SundaySalary = (BaseSalary / 7)
             DailySalary = (BaseSalary / 7)
 
             '----- 3.- asign value 
+
+            'Let see if employee has infonavit
+
 
             'Get lunch hours by employee
             Dim AbsenceByEmploee = New CL_RecordsByEmployee
@@ -624,20 +660,29 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 AbscenceNumber = CDec(AbscenceRecord(0))
             Next
             If AbscenceNumber > 0 Then
-                ' 15
-                DGV_CompleteWeekInfo.Rows(CounterLine).Cells(15).Value = AbscenceNumber
+                ' 15 - "Faltas en el Mes"
+                'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(15).Value = AbscenceNumber
+                DGV_CompleteWeekInfo.Item("Faltas en el Mes", CounterLine).Value = AbscenceNumber
             End If
-            ' 6
-            DGV_CompleteWeekInfo.Rows(CounterLine).Cells(16).Value = DailySalary.ToString("C2")
+
+            ' 16 - "S. Diario"
+            'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(16).Value = DailySalary.ToString("C2")
+            DGV_CompleteWeekInfo.Item("S. Diario", CounterLine).Value = DailySalary.ToString("C2")
             ExtraS = DailySalary / 48
-            ' 17
-            DGV_CompleteWeekInfo.Rows(CounterLine).Cells(17).Value = ExtraS.ToString("C2")
+
+            ' 17 - "Ext. S"
+            'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(17).Value = ExtraS.ToString("C2")
+            DGV_CompleteWeekInfo.Item("Ext. S", CounterLine).Value = ExtraS.ToString("C2")
             ExtraD = ExtraS * 2
-            ' 18
-            DGV_CompleteWeekInfo.Rows(CounterLine).Cells(18).Value = ExtraD.ToString("C2")
+
+            ' 18 - "Ext. D"
+            'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(18).Value = ExtraD.ToString("C2")
+            DGV_CompleteWeekInfo.Item("Ext. D", CounterLine).Value = ExtraD.ToString("C2")
             Extrat = ExtraS * 3
-            ' 19
-            DGV_CompleteWeekInfo.Rows(CounterLine).Cells(19).Value = Extrat.ToString("C2")
+
+            ' 19 - "Ext. T"
+            'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(19).Value = Extrat.ToString("C2")
+            DGV_CompleteWeekInfo.Item("Ext. T", CounterLine).Value = Extrat.ToString("C2")
 
             'Get lunch hours by employee
             Dim RecordsbyEmployee = New CL_RecordsByEmployee
@@ -652,8 +697,9 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
             Dim BannsQuantity As Decimal = 0.0
             For Each BannRecord As DataRow In BannsRecords.Rows
                 BannsQuantity = CDec(BannRecord(7))
-                ' 24
-                DGV_CompleteWeekInfo.Rows(CounterLine).Cells(24).Value = BannsQuantity
+                ' 24 - "Amonest.."
+                'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(24).Value = BannsQuantity
+                DGV_CompleteWeekInfo.Item("Amonest..", CounterLine).Value = BannsQuantity
             Next
 
             'Transport Days by employee
@@ -675,9 +721,46 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
             Dim AmountToTransferValue As Decimal = 0.0
             For Each Item As DataRow In AmountToTransfer.Rows
                 AmountToTransferValue = CDec(Item(7))
-                ' 35
-                DGV_CompleteWeekInfo.Rows(CounterLine).Cells(35).Value = AmountToTransferValue.ToString("C2")
+                ' 35 - "Monto a transferir"
+                'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(35).Value = AmountToTransferValue.ToString("C2")
+                DGV_CompleteWeekInfo.Item("Monto a transferir", CounterLine).Value = AmountToTransferValue.ToString("C2")
             Next
+
+            ' Monto infonavit
+            Dim infonavitAmount As DataTable = RecordsbyEmployee.Get_infonavitAmmount(DTP_StartDate.Value, DTP_EndDate.Value, EmployeeID, 750)
+            Dim infonavitAmountValue As Decimal = 0.0
+            If infonavit = True And infonavitAmount.Rows.Count = 0 Then
+                MessageBox.Show("El empleado " & EmployeeID & ": " & DGV_CompleteWeekInfo.Item("Nombre Completo", CounterLine).Value & " no tiene un monto de infonavit cargado.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+
+                ' Deactivation of posibility to release the payment
+                ReleasePayment = False
+            Else
+                For Each Item As DataRow In infonavitAmount.Rows
+                    infonavitAmountValue = CDec(Item(7))
+                    DGV_CompleteWeekInfo.Item("Monto infonavit", CounterLine).Value = infonavitAmountValue.ToString("C2")
+                Next
+            End If
+
+            ' Adeudos
+            Dim OwedAmount As DataTable = RecordsbyEmployee.Get_AmountOwedByEmployee(DTP_StartDate.Value, DTP_EndDate.Value, EmployeeID, 800)
+            Dim OwedAmountValue As Decimal = 0.0
+            For Each Item As DataRow In OwedAmount.Rows
+                OwedAmountValue = CDec(Item(7))
+                DGV_CompleteWeekInfo.Item("Monto adeudo", CounterLine).Value = OwedAmountValue.ToString("C2")
+                DGV_CompleteWeekInfo.Item("Monto adeudo", CounterLine).ToolTipText = Item(8).ToString
+            Next
+
+            ' Adeudos - Descuento
+            Dim DiscountAmount As DataTable = RecordsbyEmployee.Get_DiscountOwedByEmployee(DTP_StartDate.Value, DTP_EndDate.Value, EmployeeID, 800)
+            Dim DiscountAmountValue As Decimal = 0.0
+            Dim BalanceAmountValue As Decimal = 0.0
+            For Each Item As DataRow In DiscountAmount.Rows
+                DiscountAmountValue = CDec(Item(7))
+                BalanceAmountValue = CDec(Item(9))
+                DGV_CompleteWeekInfo.Item("Desc. por adeudo", CounterLine).Value = DiscountAmountValue.ToString("C2")
+                DGV_CompleteWeekInfo.Item("Saldo adeudo", CounterLine).Value = BalanceAmountValue.ToString("C2")
+            Next
+
 
             Dim Benefits As New CL_Benefits
             Dim ListOfBenefits As DataTable = Benefits.Get_AllActiveManualAutomaticBenefits
@@ -700,36 +783,28 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
                         'Bono Productividad
                         If TBenefitDetails.Rows.Count > 0 Then
-                            ' 22
-                            DGV_CompleteWeekInfo.Rows(CounterLine).Cells(22).Value = BenefitAmmount.ToString("C2")
+                            ' 22 - "Bono Prod."
+                            'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(22).Value = BenefitAmmount.ToString("C2")
+                            DGV_CompleteWeekInfo.Item("Bono Prod.", CounterLine).Value = BenefitAmmount.ToString("C2")
                             ProductivityAmmount = BenefitAmmount
                         Else
                             BenefitAmmount = 0.0
-                            ' 22
-                            DGV_CompleteWeekInfo.Rows(CounterLine).Cells(22).Value = BenefitAmmount.ToString("C2")
+                            ' 22 - "Bono Prod."
+                            'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(22).Value = BenefitAmmount.ToString("C2")
+                            DGV_CompleteWeekInfo.Item("Bono Prod.", CounterLine).Value = BenefitAmmount.ToString("C2")
                         End If
                     Case 40 ' Bono de comida
 
-                        ''Lets verify if employee has the benefitID
-                        'Dim BenefDetail As New CL_Benefits
-                        'BenefDetail.BENEF_ID = BenefitID
-                        'BenefDetail.EMPL_ID = EmployeeID
-                        'Dim TBenefitDetails As DataTable = BenefDetail.Get_BenefitIDDetailsByEmployee()
-
-                        'If TBenefitDetails.Rows.Count > 0 Then
-
-                        '    'Bono de días de transporte
-                        '    LunchHourAmmount = BenefitAmmount
-                        '    DGV_CompleteWeekInfo.Rows(CounterLine).Cells(17).Value = LunchHours
-                        '    DGV_CompleteWeekInfo.Rows(CounterLine).Cells(18).Value = LunchHourAmmount.ToString("C2")
-                        'End If
-
                         ' Let's show for all employes even some of them don't have the benefit but hours loaded
                         LunchHourAmmount = BenefitAmmount
-                        ' 20
-                        DGV_CompleteWeekInfo.Rows(CounterLine).Cells(20).Value = LunchHours
-                        ' 21
-                        DGV_CompleteWeekInfo.Rows(CounterLine).Cells(21).Value = LunchHourAmmount.ToString("C2")
+
+                        ' 20 - "H. Comida"
+                        'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(20).Value = LunchHours
+                        DGV_CompleteWeekInfo.Item("H. Comida", CounterLine).Value = LunchHours
+
+                        ' 21 - "B. Comida"
+                        'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(21).Value = LunchHourAmmount.ToString("C2")
+                        DGV_CompleteWeekInfo.Item("B. Comida", CounterLine).Value = LunchHourAmmount.ToString("C2")
 
                     Case 60 ' Bono de transporte autobus empresarial
 
@@ -742,10 +817,13 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                         If TBenefitDetails.Rows.Count > 0 Then
 
                             'Bono de productividad de planta
-                            ' 27
-                            DGV_CompleteWeekInfo.Rows(CounterLine).Cells(27).Value = TDaysQuantity
-                            ' 28
-                            DGV_CompleteWeekInfo.Rows(CounterLine).Cells(28).Value = BenefitAmmount.ToString("C2")
+                            ' 27 - "D. Transporte"
+                            'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(27).Value = TDaysQuantity
+                            DGV_CompleteWeekInfo.Item("D. Transporte", CounterLine).Value = TDaysQuantity
+
+                            ' 28 - "Transporte"
+                            'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(28).Value = BenefitAmmount.ToString("C2")
+                            DGV_CompleteWeekInfo.Item("Transporte", CounterLine).Value = BenefitAmmount.ToString("C2")
                         End If
 
                     Case 70 ' Bono de transporte entre empleados
@@ -757,8 +835,9 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                         Dim TBenefitDetails As DataTable = BenefDetail.Get_BenefitIDDetailsByEmployee()
 
                         If TBenefitDetails.Rows.Count > 0 Then
-                            ' 29
-                            DGV_CompleteWeekInfo.Rows(CounterLine).Cells(29).Value = TEmployeesAmount
+                            ' 29 - "Transporte entre Empleados"
+                            'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(29).Value = TEmployeesAmount
+                            DGV_CompleteWeekInfo.Item("Transporte entre Empleados", CounterLine).Value = TEmployeesAmount
                         End If
 
                     Case 90, 100, 110, 120, 130, 140, 150, 160, 170 ' Bono de buenas practicas o actitud
@@ -772,8 +851,9 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                         If TBenefitDetails.Rows.Count > 0 Then
 
                             'Bono Buenas Prácticas
-                            ' 23
-                            DGV_CompleteWeekInfo.Rows(CounterLine).Cells(23).Value = BenefitAmmount.ToString("C2")
+                            ' 23 - "Bono BP"
+                            'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(23).Value = BenefitAmmount.ToString("C2")
+                            DGV_CompleteWeekInfo.Item("Bono BP", CounterLine).Value = BenefitAmmount.ToString("C2")
                             AttitudeGoodPract = BenefitAmmount
                         End If
 
@@ -786,11 +866,13 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
                         If TBenefitDetails.Rows.Count > 0 Then
                             'Ahorro fijo
-                            ' 25
-                            DGV_CompleteWeekInfo.Rows(CounterLine).Cells(25).Value = BenefitAmmount.ToString("C2")
+                            ' 25 - "Ahorro"
+                            'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(25).Value = BenefitAmmount.ToString("C2")
+                            DGV_CompleteWeekInfo.Item("Ahorro", CounterLine).Value = BenefitAmmount.ToString("C2")
                             SavingAmmount = BenefitAmmount
                         End If
-                    Case 200
+
+                    Case 200 'Bono de productividad de planta 80%
                         'Lets verify if employee has the benefitID
                         Dim BenefDetail As New CL_Benefits
                         BenefDetail.BENEF_ID = BenefitID
@@ -800,7 +882,8 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                         If TBenefitDetails.Rows.Count > 0 Then
                             PropPlantAmmount_1 = BenefitAmmount
                         End If
-                    Case 210
+
+                    Case 210 'Bono de productividad de planta 90%
                         'Lets verify if employee has the benefitID
                         Dim BenefDetail As New CL_Benefits
                         BenefDetail.BENEF_ID = BenefitID
@@ -820,45 +903,61 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                         If TLoandsDetails.Rows.Count > 0 Then
                             For Each Line As DataRow In TLoandsDetails.Rows
                                 'Let's validate that the ammount of discount is less or equal than the balance, else put only the balance
-                                ' 30
-                                DGV_CompleteWeekInfo.Rows(CounterLine).Cells(30).Value = Line(1).ToString()
-                                ' 31
-                                DGV_CompleteWeekInfo.Rows(CounterLine).Cells(31).Value = Line(2).ToString()
-                                ' 32
-                                DGV_CompleteWeekInfo.Rows(CounterLine).Cells(32).Value = Line(3).ToString()
-                                ' 33
-                                DGV_CompleteWeekInfo.Rows(CounterLine).Cells(33).Value = Line(4).ToString()
+                                ' 30 - "Prestado" 
+                                'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(30).Value = Line(1).ToString()
+                                DGV_CompleteWeekInfo.Item("Prestado", CounterLine).Value = Line(1).ToString()
+
+                                ' 31 - "Pagado" 
+                                'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(31).Value = Line(2).ToString()
+                                DGV_CompleteWeekInfo.Item("Pagado", CounterLine).Value = Line(2).ToString()
+
+                                ' 32 - "Saldo a pagar" 
+                                'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(32).Value = Line(3).ToString()
+                                DGV_CompleteWeekInfo.Item("Saldo a pagar", CounterLine).Value = Line(3).ToString()
+
+                                ' 33 - "Desc. Prest."
+                                'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(33).Value = Line(4).ToString()
+                                DGV_CompleteWeekInfo.Item("Desc. Prest.", CounterLine).Value = Line(4).ToString()
                                 PaymentAmmount = CDec(Line(4).ToString.Replace("$", ""))
                             Next
                         End If
 
-                        ' 23
-                        DGV_CompleteWeekInfo.Rows(CounterLine).Cells(23).Value = BenefitAmmount.ToString("C2")
-                        ' 33
-                        'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(33).Value = BenefitAmmount.ToString("C2")
+                        ' 23 - "Bono BP"
+                        'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(23).Value = BenefitAmmount.ToString("C2")
+                        DGV_CompleteWeekInfo.Item("Bono BP", CounterLine).Value = BenefitAmmount.ToString("C2")
+
                 End Select
+
+                'Reset the benefit ammount
                 BenefitAmmount = 0.0
             Next
 
             If TB_ProdPlant.Text = "80" And (PropPlantAmmount_1 <> 0 Or PropPlantAmmount_2 <> 0) Then
-                ' 26
-                DGV_CompleteWeekInfo.Rows(CounterLine).Cells(26).Value = PropPlantAmmount_1.ToString() & "%"
+                ' 26 - "Bono P. P." 
+                'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(26).Value = PropPlantAmmount_1.ToString() & "%"
+                DGV_CompleteWeekInfo.Item("Bono P. P.", CounterLine).Value = PropPlantAmmount_1.ToString() & "%"
+
             ElseIf TB_ProdPlant.Text = "90" Then
-                ' 26
-                DGV_CompleteWeekInfo.Rows(CounterLine).Cells(26).Value = PropPlantAmmount_2.ToString() & "%"
+                ' 26 - "Bono P. P." 
+                'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(26).Value = PropPlantAmmount_2.ToString() & "%"
+                DGV_CompleteWeekInfo.Item("Bono P. P.", CounterLine).Value = PropPlantAmmount_2.ToString() & "%"
             End If
 
             'Check salary by employee
             NewSalary = MainSalaryCalculation(CounterA, CounterF, CounterFJ, CounterR, CounterPG, CounterPSG, CounterV, BaseSalary, SundaySalary, DailySalary, LunchHourAmmount, ProductivityAmmount, AttitudeGoodPract, SavingAmmount, PaymentAmmount, LunchHours)
 
             'Calculado
-            ' 34
-            DGV_CompleteWeekInfo.Rows(CounterLine).Cells(34).Value = NewSalary.ToString("C2")
+            ' 34 - "Calculado"
+            'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(34).Value = NewSalary.ToString("C2")
+            DGV_CompleteWeekInfo.Item("Calculado", CounterLine).Value = NewSalary.ToString("C2")
 
             CounterLine += 1
 
             SEL_MainWeekReportSalaryCalculation_PG_Progress(PB_Progress, CumulativesEmployees.Rows.Count, CounterLine)
+            infonavit = False
         Next
+        LB_Progress.Text = "La información de " & CounterLine & " empleados fue analizada."
+
 
     End Sub
 
