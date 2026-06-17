@@ -227,9 +227,9 @@ Partial Class OP_UPD_BenefitBotonero
         LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         LB_Title.Location = New Point(12, 11)
         LB_Title.Name = "LB_Title"
-        LB_Title.Size = New Size(220, 30)
+        LB_Title.Size = New Size(335, 30)
         LB_Title.TabIndex = 115
-        LB_Title.Text = "Edición de asignación "
+        LB_Title.Text = "Edición de asignación - ""Temporal"""
         ' 
         ' OP_UPD_BenefitBotonero
         ' 

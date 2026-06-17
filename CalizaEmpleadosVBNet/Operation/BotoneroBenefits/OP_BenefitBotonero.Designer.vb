@@ -51,9 +51,9 @@ Partial Class OP_BenefitBotonero
         LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         LB_Title.Location = New Point(12, 11)
         LB_Title.Name = "LB_Title"
-        LB_Title.Size = New Size(257, 30)
+        LB_Title.Size = New Size(378, 30)
         LB_Title.TabIndex = 106
-        LB_Title.Text = "Asignar Bono de Botonero"
+        LB_Title.Text = "Asignar Bono de Botonero - ""Temporal"""
         ' 
         ' GB_DebtInformation
         ' 

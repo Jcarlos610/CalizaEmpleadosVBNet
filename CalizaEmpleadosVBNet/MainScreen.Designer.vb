@@ -736,6 +736,7 @@ Partial Class MainScreen
         CargaDeMontoATransferirToolStripMenuItem = New ToolStripMenuItem()
         EditarExistenteToolStripMenuItem7 = New ToolStripMenuItem()
         CargaDeMontoInfonavitToolStripMenuItem = New ToolStripMenuItem()
+        InfonavitRegistrarMontosToolStripMenuItem = New ToolStripMenuItem()
         EditarExistenteToolStripMenuItem8 = New ToolStripMenuItem()
         AdeudoAEmpresaToolStripMenuItem = New ToolStripMenuItem()
         EditarExistenteToolStripMenuItem9 = New ToolStripMenuItem()
@@ -745,7 +746,6 @@ Partial Class MainScreen
         ReportesToolStripMenuItem2 = New ToolStripMenuItem()
         AnalisisSemanalToolStripMenuItem = New ToolStripMenuItem()
         AnalisisDeSalarioToolStripMenuItem = New ToolStripMenuItem()
-        InfonavitRegistrarMontosToolStripMenuItem = New ToolStripMenuItem()
         MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -1273,63 +1273,70 @@ Partial Class MainScreen
         ' CargaDeMontoATransferirToolStripMenuItem
         ' 
         CargaDeMontoATransferirToolStripMenuItem.Name = "CargaDeMontoATransferirToolStripMenuItem"
-        CargaDeMontoATransferirToolStripMenuItem.Size = New Size(251, 22)
+        CargaDeMontoATransferirToolStripMenuItem.Size = New Size(265, 22)
         CargaDeMontoATransferirToolStripMenuItem.Tag = "OP_INS_AmountToTransfer"
         CargaDeMontoATransferirToolStripMenuItem.Text = "Transferencias - Carga de montos"
         ' 
         ' EditarExistenteToolStripMenuItem7
         ' 
         EditarExistenteToolStripMenuItem7.Name = "EditarExistenteToolStripMenuItem7"
-        EditarExistenteToolStripMenuItem7.Size = New Size(251, 22)
+        EditarExistenteToolStripMenuItem7.Size = New Size(265, 22)
         EditarExistenteToolStripMenuItem7.Tag = "OP_UPD_AmountToTransfer"
         EditarExistenteToolStripMenuItem7.Text = "Transferencias - Editar montos"
         ' 
         ' CargaDeMontoInfonavitToolStripMenuItem
         ' 
         CargaDeMontoInfonavitToolStripMenuItem.Name = "CargaDeMontoInfonavitToolStripMenuItem"
-        CargaDeMontoInfonavitToolStripMenuItem.Size = New Size(251, 22)
+        CargaDeMontoInfonavitToolStripMenuItem.Size = New Size(265, 22)
         CargaDeMontoInfonavitToolStripMenuItem.Tag = "OP_INS_InfonavitAmount"
         CargaDeMontoInfonavitToolStripMenuItem.Text = "Infonavit - Carga de montos"
+        ' 
+        ' InfonavitRegistrarMontosToolStripMenuItem
+        ' 
+        InfonavitRegistrarMontosToolStripMenuItem.Name = "InfonavitRegistrarMontosToolStripMenuItem"
+        InfonavitRegistrarMontosToolStripMenuItem.Size = New Size(265, 22)
+        InfonavitRegistrarMontosToolStripMenuItem.Tag = "OP_INS_InfonavitAmountManually"
+        InfonavitRegistrarMontosToolStripMenuItem.Text = "Infonavit - Registrar manual montos"
         ' 
         ' EditarExistenteToolStripMenuItem8
         ' 
         EditarExistenteToolStripMenuItem8.Name = "EditarExistenteToolStripMenuItem8"
-        EditarExistenteToolStripMenuItem8.Size = New Size(251, 22)
+        EditarExistenteToolStripMenuItem8.Size = New Size(265, 22)
         EditarExistenteToolStripMenuItem8.Tag = "OP_UPD_InfonavitAmount"
         EditarExistenteToolStripMenuItem8.Text = "Infonavit - Editar montos"
         ' 
         ' AdeudoAEmpresaToolStripMenuItem
         ' 
         AdeudoAEmpresaToolStripMenuItem.Name = "AdeudoAEmpresaToolStripMenuItem"
-        AdeudoAEmpresaToolStripMenuItem.Size = New Size(251, 22)
+        AdeudoAEmpresaToolStripMenuItem.Size = New Size(265, 22)
         AdeudoAEmpresaToolStripMenuItem.Tag = "OP_INS_EmployeeAmountDebt"
         AdeudoAEmpresaToolStripMenuItem.Text = "Adeudos - Registrar"
         ' 
         ' EditarExistenteToolStripMenuItem9
         ' 
         EditarExistenteToolStripMenuItem9.Name = "EditarExistenteToolStripMenuItem9"
-        EditarExistenteToolStripMenuItem9.Size = New Size(251, 22)
+        EditarExistenteToolStripMenuItem9.Size = New Size(265, 22)
         EditarExistenteToolStripMenuItem9.Tag = "OP_UPD_EmployeeAmountDebt"
         EditarExistenteToolStripMenuItem9.Text = "Adeudos - Editar"
         ' 
         ' AdeudosRegistrarAbonoToolStripMenuItem
         ' 
         AdeudosRegistrarAbonoToolStripMenuItem.Name = "AdeudosRegistrarAbonoToolStripMenuItem"
-        AdeudosRegistrarAbonoToolStripMenuItem.Size = New Size(251, 22)
+        AdeudosRegistrarAbonoToolStripMenuItem.Size = New Size(265, 22)
         AdeudosRegistrarAbonoToolStripMenuItem.Tag = "OP_INS_EmployeeAmountDebtPayments"
         AdeudosRegistrarAbonoToolStripMenuItem.Text = "Adeudos - Registrar abono"
         ' 
         ' HorasExtraRegistrarToolStripMenuItem
         ' 
         HorasExtraRegistrarToolStripMenuItem.Name = "HorasExtraRegistrarToolStripMenuItem"
-        HorasExtraRegistrarToolStripMenuItem.Size = New Size(251, 22)
+        HorasExtraRegistrarToolStripMenuItem.Size = New Size(265, 22)
         HorasExtraRegistrarToolStripMenuItem.Tag = "OP_INS_EmployeeOvertime"
         HorasExtraRegistrarToolStripMenuItem.Text = "Horas extra - Registrar"
         ' 
         ' HorasExtraEditarToolStripMenuItem
         ' 
         HorasExtraEditarToolStripMenuItem.Name = "HorasExtraEditarToolStripMenuItem"
-        HorasExtraEditarToolStripMenuItem.Size = New Size(251, 22)
+        HorasExtraEditarToolStripMenuItem.Size = New Size(265, 22)
         HorasExtraEditarToolStripMenuItem.Tag = "OP_UPD_EmployeeOvertime"
         HorasExtraEditarToolStripMenuItem.Text = "Horas extra - Editar"
         ' 
@@ -1353,13 +1360,6 @@ Partial Class MainScreen
         AnalisisDeSalarioToolStripMenuItem.Size = New Size(218, 22)
         AnalisisDeSalarioToolStripMenuItem.Tag = "OP_SEL_MainWeekReportSalaryCalculation"
         AnalisisDeSalarioToolStripMenuItem.Text = "Analisis de salario"
-        ' 
-        ' InfonavitRegistrarMontosToolStripMenuItem
-        ' 
-        InfonavitRegistrarMontosToolStripMenuItem.Name = "InfonavitRegistrarMontosToolStripMenuItem"
-        InfonavitRegistrarMontosToolStripMenuItem.Size = New Size(251, 22)
-        InfonavitRegistrarMontosToolStripMenuItem.Tag = "OP_INS_InfonavitAmountManually"
-        InfonavitRegistrarMontosToolStripMenuItem.Text = "Infonavit - Registrar montos"
         ' 
         ' MainScreen
         ' 
