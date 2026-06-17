@@ -115,16 +115,16 @@ Public Class MD_UPD_Benefits
             CB_Status.Checked = Convert.ToBoolean(Item(8))
         End If
 
-        If IsDBNull(Item(9)) Then
+        If IsDBNull(Item(10)) Then
             DT_ValidFrom.Value = Date.Today
         Else
-            DT_ValidFrom.Value = CDate(Item(9))
+            DT_ValidFrom.Value = CDate(Item(10))
         End If
 
         If IsDBNull(Item(10)) Then
-            DT_ValidTo.Value = Date.Today.AddYears(10)
+            DT_ValidTo.Value = Date.Today.AddYears(11)
         Else
-            DT_ValidTo.Value = CDate(Item(10))
+            DT_ValidTo.Value = CDate(Item(11))
         End If
 
         TB_Ammount.Text = If(IsDBNull(Item("BENEF_AMMOU")), "", Item("BENEF_AMMOU").ToString())

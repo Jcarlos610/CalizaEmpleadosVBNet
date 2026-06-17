@@ -37,6 +37,8 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
     End Sub
 
     Private Sub BT_LoadInfo_Click(sender As Object, e As EventArgs) Handles BT_LoadInfo.Click
+        LB_Progress.Text = "Conectando con los servicios de la nube para descargar información..."
+        LB_Progress.Refresh()
         LoadWeekInformation()
     End Sub
 
@@ -55,7 +57,8 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
         If idPlant = 1 Then
             PlantId = idPlant
-            PlantName = "Sin planta"
+            PlantName = "Sin planta asignada"
+            TB_ProdPlant.Enabled = False
             DTP_WeekSelector.Enabled = True
         Else
             Dim Plant As New CL_Plants()
@@ -257,7 +260,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         EmployeesInfo.Columns.Add("Ext. S", GetType(String))
         EmployeesInfo.Columns.Add("Ext. D", GetType(String))
         EmployeesInfo.Columns.Add("Ext. T", GetType(String))
-        EmployeesInfo.Columns.Add("No. H. Extra", GetType(String))
+        EmployeesInfo.Columns.Add("No. H. Extra", GetType(Decimal))
         EmployeesInfo.Columns.Add("H. Comida", GetType(Decimal))
         EmployeesInfo.Columns.Add("B. Comida", GetType(String))
         EmployeesInfo.Columns.Add("Bono Prod.", GetType(String))
@@ -268,6 +271,9 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         EmployeesInfo.Columns.Add("D. Transporte", GetType(Decimal))
         EmployeesInfo.Columns.Add("Transporte", GetType(String))
         EmployeesInfo.Columns.Add("Transporte entre Empleados", GetType(String))
+        EmployeesInfo.Columns.Add("Monto B. Botonero", GetType(String))
+        EmployeesInfo.Columns.Add("Fecha inicio", GetType(Date))
+        EmployeesInfo.Columns.Add("Fecha Fin", GetType(Date))
         EmployeesInfo.Columns.Add("Prestado", GetType(String))
         EmployeesInfo.Columns.Add("Pagado", GetType(String))
         EmployeesInfo.Columns.Add("Saldo a pagar", GetType(String))
@@ -287,7 +293,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         DGV_CompleteWeekInfo.DataSource = EmployeesInfo
         DGV_CompleteWeekInfo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None
         DGV_CompleteWeekInfo.Columns("Empresa").Width = 220
-        DGV_CompleteWeekInfo.Columns("ID Planta").Width = 40
+        DGV_CompleteWeekInfo.Columns("ID Planta").Width = 60
         DGV_CompleteWeekInfo.Columns("Nombre de Planta").Width = 180
         DGV_CompleteWeekInfo.Columns("No.").Width = 40
         DGV_CompleteWeekInfo.Columns("Nombre Completo").Width = 180
@@ -364,6 +370,18 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         DGV_CompleteWeekInfo.Columns("Transporte entre Empleados").Width = 70
         DGV_CompleteWeekInfo.Columns("Transporte entre Empleados").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Transporte entre Empleados").ToolTipText = "Transporte entre Empleados"
+
+        DGV_CompleteWeekInfo.Columns("Monto B. Botonero").Width = 70
+        DGV_CompleteWeekInfo.Columns("Monto B. Botonero").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Monto B. Botonero").ToolTipText = "Monto bono botonero."
+
+        DGV_CompleteWeekInfo.Columns("Fecha inicio").Width = 80
+        DGV_CompleteWeekInfo.Columns("Fecha inicio").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Fecha inicio").ToolTipText = "Fecha inicio"
+
+        DGV_CompleteWeekInfo.Columns("Fecha fin").Width = 80
+        DGV_CompleteWeekInfo.Columns("Fecha fin").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Fecha fin").ToolTipText = "Fecha fin"
 
         DGV_CompleteWeekInfo.Columns("Prestado").Width = 70
         DGV_CompleteWeekInfo.Columns("Prestado").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
@@ -596,6 +614,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
             Dim PaymentAmmount As Decimal = 0.0
             Dim PropPlantAmmount_1 As Decimal = 0.0
             Dim PropPlantAmmount_2 As Decimal = 0.0
+            Dim BotoneroAmmount As Decimal = 0.0
 
             Dim CounterOfDays As Integer = 0
             Dim EmployeeID As Integer = CInt(EmployeeCum(0))
@@ -709,11 +728,29 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 TDaysQuantity = CDec(TDaysRecord(7))
             Next
 
+            'Extra time quantity
+            Dim ExtraTimeRecords As DataTable = RecordsbyEmployee.Get_ExtraTimeByEmployee(DTP_StartDate.Value, DTP_EndDate.Value, EmployeeID, 850)
+            Dim ExtraTimeQuantity As Decimal = 0.0
+            For Each ExtraTimeRecord As DataRow In ExtraTimeRecords.Rows
+                ExtraTimeQuantity = CDec(ExtraTimeRecord(7))
+                DGV_CompleteWeekInfo.Item("No. H. Extra", CounterLine).Value = ExtraTimeQuantity.ToString()
+            Next
+
             ' Transporte entre empleados
             Dim TEmployees As DataTable = RecordsbyEmployee.Get_TransportBetweenEmployeesAmount(DTP_StartDate.Value, DTP_EndDate.Value, EmployeeID, 280)
             Dim TEmployeesAmount As Decimal = 0.0
             For Each Item As DataRow In TEmployees.Rows
                 TEmployeesAmount = CDec(Item(7))
+            Next
+
+            ' Bonus Botonero
+            Dim BotoneroRecords As DataTable = RecordsbyEmployee.Get_BotoneroDetailsByEmployee(DTP_StartDate.Value, DTP_EndDate.Value, EmployeeID, 900)
+            Dim BotoneroAmount As Decimal = 0.0
+            For Each BotoneroRecord As DataRow In BotoneroRecords.Rows
+                'BotoneroAmount = CDec(BotoneroRecord(7))
+                'DGV_CompleteWeekInfo.Item("Monto B. Botonero", CounterLine).Value = BotoneroAmount.ToString()
+                DGV_CompleteWeekInfo.Item("Fecha inicio", CounterLine).Value = BotoneroRecord(7)
+                DGV_CompleteWeekInfo.Item("Fecha fin", CounterLine).Value = BotoneroRecord(8)
             Next
 
             ' Monto a transferir
@@ -731,6 +768,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
             Dim infonavitAmountValue As Decimal = 0.0
             If infonavit = True And infonavitAmount.Rows.Count = 0 Then
                 MessageBox.Show("El empleado " & EmployeeID & ": " & DGV_CompleteWeekInfo.Item("Nombre Completo", CounterLine).Value & " no tiene un monto de infonavit cargado.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                'DGV_CompleteWeekInfo.Item("Monto infonavit", CounterLine).Style.ForeColor = System.Drawing.Color.Yellow
 
                 ' Deactivation of posibility to release the payment
                 ReleasePayment = False
@@ -894,6 +932,19 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                             PropPlantAmmount_2 = BenefitAmmount
                         End If
 
+                    Case 220
+                        Dim BenefDetail As New CL_Benefits
+                        BenefDetail.BENEF_ID = BenefitID
+                        BenefDetail.EMPL_ID = EmployeeID
+                        Dim TBenefitDetails As DataTable = BenefDetail.Get_BenefitIDDetailsByEmployee()
+
+                        If TBenefitDetails.Rows.Count > 0 Then
+                            BotoneroAmmount = BenefitAmmount
+                            DGV_CompleteWeekInfo.Item("Monto B. botonero", CounterLine).Value = BotoneroAmmount
+                            MessageBox.Show("El empleado " & EmployeeID & ": " & DGV_CompleteWeekInfo.Item("Nombre Completo", CounterLine).Value & vbCrLf _
+                                & "Tiene el bono de botonero, favor de verificar su periodo de validez. (" & DGV_CompleteWeekInfo.Item("Fecha inicio", CounterLine).Value & " - " _
+                                & DGV_CompleteWeekInfo.Item("Fecha fin", CounterLine).Value & ")", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        End If
                     Case Else
                         'let's check if employee has loans - prestamos
                         Dim LoansDetail As New CL_EmployeeLoans
@@ -944,7 +995,9 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
             End If
 
             'Check salary by employee
-            NewSalary = MainSalaryCalculation(CounterA, CounterF, CounterFJ, CounterR, CounterPG, CounterPSG, CounterV, BaseSalary, SundaySalary, DailySalary, LunchHourAmmount, ProductivityAmmount, AttitudeGoodPract, SavingAmmount, PaymentAmmount, LunchHours)
+            NewSalary = MainSalaryCalculation(CounterA, CounterF, CounterFJ, CounterR, CounterPG, CounterPSG, CounterV, BaseSalary,
+                                              SundaySalary, DailySalary, LunchHourAmmount, ProductivityAmmount, AttitudeGoodPract,
+                                              SavingAmmount, PaymentAmmount, LunchHours)
 
             'Calculado
             ' 34 - "Calculado"
@@ -1283,7 +1336,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         If hit.RowIndex >= 0 Then
             Dim row As DataGridViewRow = DGV_CompleteWeekInfo.Rows(hit.RowIndex)
 
-            Dim Employee_Id As Integer = CInt(row.Cells(1).Value)
+            Dim Employee_Id As Integer = CInt(row.Cells(3).Value)
 
             Dim EmployeeRecords As New CL_RecordsByEmployee
             Dim EmployeeInfo = EmployeeRecords.Get_WeekRecordsDetailsBYEmployee(DTP_StartDate.Value, DTP_EndDate.Value, Employee_Id)
