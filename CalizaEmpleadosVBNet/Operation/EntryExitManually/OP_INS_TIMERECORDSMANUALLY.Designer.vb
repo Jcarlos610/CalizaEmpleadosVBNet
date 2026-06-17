@@ -39,6 +39,7 @@ Partial Class OP_INS_TIMERECORDSMANUALLY
         GB_EmployeeInfo = New GroupBox()
         LB_SelectEmployee = New Label()
         DGV_DisplayInformation = New DataGridView()
+        LB_Title = New Label()
         TB_Asistance.SuspendLayout()
         ManualAsistance.SuspendLayout()
         ManualDelay.SuspendLayout()
@@ -222,12 +223,23 @@ Partial Class OP_INS_TIMERECORDSMANUALLY
         DGV_DisplayInformation.Size = New Size(1247, 150)
         DGV_DisplayInformation.TabIndex = 3
         ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(314, 30)
+        LB_Title.TabIndex = 109
+        LB_Title.Text = "Registrar manualmente entradas"
+        ' 
         ' OP_INS_TIMERECORDSMANUALLY
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1408, 694)
+        Controls.Add(LB_Title)
         Controls.Add(DGV_DisplayInformation)
         Controls.Add(GB_EmployeeInfo)
         Controls.Add(TB_Asistance)
@@ -245,6 +257,7 @@ Partial Class OP_INS_TIMERECORDSMANUALLY
         GB_EmployeeInfo.PerformLayout()
         CType(DGV_DisplayInformation, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
     Friend WithEvents TB_Asistance As TabControl
     Friend WithEvents ManualAsistance As TabPage
@@ -263,4 +276,5 @@ Partial Class OP_INS_TIMERECORDSMANUALLY
     Friend WithEvents TB_DelayComment As TextBox
     Friend WithEvents LB_AbsenceReason As Label
     Friend WithEvents TB_AbsenceReason As TextBox
+    Friend WithEvents LB_Title As Label
 End Class

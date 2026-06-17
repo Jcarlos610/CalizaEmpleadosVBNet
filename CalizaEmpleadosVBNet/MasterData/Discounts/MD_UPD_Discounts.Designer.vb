@@ -41,6 +41,7 @@ Partial Class MD_UPD_Discounts
         TB_Description = New TextBox()
         TB_AuthorizeBy = New TextBox()
         DGV_DiscountsList = New DataGridView()
+        LB_Title = New Label()
         GroupBox1.SuspendLayout()
         CType(DGV_DiscountsList, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -225,22 +226,34 @@ Partial Class MD_UPD_Discounts
         DGV_DiscountsList.Size = New Size(1218, 406)
         DGV_DiscountsList.TabIndex = 14
         ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(220, 30)
+        LB_Title.TabIndex = 108
+        LB_Title.Text = "Edición de descuentos"
+        ' 
         ' MD_UPD_Discounts
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1242, 630)
+        Controls.Add(LB_Title)
         Controls.Add(DGV_DiscountsList)
         Controls.Add(GroupBox1)
         Margin = New Padding(2)
         Name = "MD_UPD_Discounts"
-        Text = "Modificación de opciones de descuentos"
+        Text = "Edición de descuentos"
         WindowState = FormWindowState.Maximized
         GroupBox1.ResumeLayout(False)
         GroupBox1.PerformLayout()
         CType(DGV_DiscountsList, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents GroupBox1 As GroupBox
@@ -262,4 +275,5 @@ Partial Class MD_UPD_Discounts
     Friend WithEvents DGV_DiscountsList As DataGridView
     Friend WithEvents LB_Type As Label
     Friend WithEvents CB_Type As ComboBox
+    Friend WithEvents LB_Title As Label
 End Class

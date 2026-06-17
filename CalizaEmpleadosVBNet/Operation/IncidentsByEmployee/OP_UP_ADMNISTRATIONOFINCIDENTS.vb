@@ -126,12 +126,26 @@ Public Class OP_UP_ADMNISTRATIONOFINCIDENTS
 
     End Sub
 
-    Private Sub DGV_Incidents_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Incidents.CellClick
+    'Private Sub DGV_Incidents_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Incidents.CellClick
 
-        If e.RowIndex < 0 Then Exit Sub
+    '    If e.RowIndex < 0 Then Exit Sub
 
-        LlenarFormulario(DGV_Incidents.Rows(e.RowIndex))
+    '    LlenarFormulario(DGV_Incidents.Rows(e.RowIndex))
 
+    'End Sub
+
+    Private Sub DGV_Incidents_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_Incidents.MouseClick
+
+        Dim hit As DataGridView.HitTestInfo = DGV_Incidents.HitTest(e.X, e.Y)
+
+        If hit.RowIndex >= 0 AndAlso hit.Type = DataGridViewHitTestType.RowHeader Then
+            Try
+                LlenarFormulario(DGV_Incidents.Rows(hit.RowIndex))
+
+            Catch ex As Exception
+                MsgBox("Error al cargar los datos en el formulario: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            End Try
+        End If
     End Sub
 
     Sub LlenarFormulario(ByVal row As DataGridViewRow)

@@ -29,6 +29,7 @@ Partial Class MD_INS_Plants
         BT_Register = New Button()
         TB_PlantName = New TextBox()
         LB_PlantName = New Label()
+        LB_Title = New Label()
         CType(DGV_PlantsList, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox1.SuspendLayout()
         SuspendLayout()
@@ -101,21 +102,33 @@ Partial Class MD_INS_Plants
         LB_PlantName.TabIndex = 5
         LB_PlantName.Text = "Nombre de planta"
         ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(190, 30)
+        LB_Title.TabIndex = 110
+        LB_Title.Text = "Registro de plantas"
+        ' 
         ' MD_INS_Plants
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(800, 450)
+        Controls.Add(LB_Title)
         Controls.Add(DGV_PlantsList)
         Controls.Add(GroupBox1)
         Name = "MD_INS_Plants"
-        Text = "Crear planta"
+        Text = "Registro de plantas"
         WindowState = FormWindowState.Maximized
         CType(DGV_PlantsList, ComponentModel.ISupportInitialize).EndInit()
         GroupBox1.ResumeLayout(False)
         GroupBox1.PerformLayout()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents DGV_PlantsList As DataGridView
@@ -125,4 +138,5 @@ Partial Class MD_INS_Plants
     Friend WithEvents LB_PlantName As Label
     Friend WithEvents LB_Description As Label
     Friend WithEvents TB_Description As TextBox
+    Friend WithEvents LB_Title As Label
 End Class

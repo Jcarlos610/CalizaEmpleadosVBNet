@@ -34,6 +34,7 @@ Partial Class OP_INS_ADMINTIMERECORDS
         BT_Register = New Button()
         GB_LoadedInformation = New GroupBox()
         DGV_Registerinformation = New DataGridView()
+        LB_Title = New Label()
         GB_RegisterData.SuspendLayout()
         CType(DGV_DataValidation, ComponentModel.ISupportInitialize).BeginInit()
         CType(DGV_EmployeesInfo, ComponentModel.ISupportInitialize).BeginInit()
@@ -161,12 +162,23 @@ Partial Class OP_INS_ADMINTIMERECORDS
         DGV_Registerinformation.Size = New Size(1244, 204)
         DGV_Registerinformation.TabIndex = 0
         ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(287, 30)
+        LB_Title.TabIndex = 107
+        LB_Title.Text = "Registro de entradas y salidas"
+        ' 
         ' OP_INS_ADMINTIMERECORDS
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1408, 844)
+        Controls.Add(LB_Title)
         Controls.Add(GB_LoadedInformation)
         Controls.Add(GB_RegisterData)
         Controls.Add(BT_Register)
@@ -181,6 +193,7 @@ Partial Class OP_INS_ADMINTIMERECORDS
         GB_LoadedInformation.ResumeLayout(False)
         CType(DGV_Registerinformation, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents GB_RegisterData As GroupBox
@@ -195,4 +208,5 @@ Partial Class OP_INS_ADMINTIMERECORDS
     Friend WithEvents DGV_Registerinformation As DataGridView
     Friend WithEvents BT_Check As Button
     Friend WithEvents LB_Validation As Label
+    Friend WithEvents LB_Title As Label
 End Class

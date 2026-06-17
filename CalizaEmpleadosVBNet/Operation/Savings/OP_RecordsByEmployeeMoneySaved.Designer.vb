@@ -38,6 +38,7 @@ Partial Class OP_RecordsByEmployeeMoneySaved
         BT_Withdraw = New Button()
         TB_Withdrawal = New TextBox()
         LB_Withdrawals = New Label()
+        LB_Title = New Label()
         CType(DGV_EmployeeInfo, ComponentModel.ISupportInitialize).BeginInit()
         CType(DGV_DetailSaving, ComponentModel.ISupportInitialize).BeginInit()
         GB_SavingInformation.SuspendLayout()
@@ -50,7 +51,7 @@ Partial Class OP_RecordsByEmployeeMoneySaved
         DGV_EmployeeInfo.AllowUserToDeleteRows = False
         DGV_EmployeeInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DGV_EmployeeInfo.Location = New Point(17, 28)
-        DGV_EmployeeInfo.Margin = New Padding(2, 2, 2, 2)
+        DGV_EmployeeInfo.Margin = New Padding(2)
         DGV_EmployeeInfo.Name = "DGV_EmployeeInfo"
         DGV_EmployeeInfo.ReadOnly = True
         DGV_EmployeeInfo.RowHeadersWidth = 62
@@ -63,7 +64,7 @@ Partial Class OP_RecordsByEmployeeMoneySaved
         DGV_DetailSaving.AllowUserToDeleteRows = False
         DGV_DetailSaving.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DGV_DetailSaving.Location = New Point(17, 315)
-        DGV_DetailSaving.Margin = New Padding(2, 2, 2, 2)
+        DGV_DetailSaving.Margin = New Padding(2)
         DGV_DetailSaving.Name = "DGV_DetailSaving"
         DGV_DetailSaving.ReadOnly = True
         DGV_DetailSaving.RowHeadersWidth = 62
@@ -91,7 +92,7 @@ Partial Class OP_RecordsByEmployeeMoneySaved
         ' BT_Register
         ' 
         BT_Register.Location = New Point(217, 282)
-        BT_Register.Margin = New Padding(2, 2, 2, 2)
+        BT_Register.Margin = New Padding(2)
         BT_Register.Name = "BT_Register"
         BT_Register.Size = New Size(111, 23)
         BT_Register.TabIndex = 4
@@ -183,7 +184,7 @@ Partial Class OP_RecordsByEmployeeMoneySaved
         DGV_Withdrawals.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         DGV_Withdrawals.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DGV_Withdrawals.Location = New Point(622, 315)
-        DGV_Withdrawals.Margin = New Padding(2, 2, 2, 2)
+        DGV_Withdrawals.Margin = New Padding(2)
         DGV_Withdrawals.Name = "DGV_Withdrawals"
         DGV_Withdrawals.ReadOnly = True
         DGV_Withdrawals.RowHeadersWidth = 62
@@ -193,7 +194,7 @@ Partial Class OP_RecordsByEmployeeMoneySaved
         ' BT_Withdraw
         ' 
         BT_Withdraw.Location = New Point(826, 282)
-        BT_Withdraw.Margin = New Padding(2, 2, 2, 2)
+        BT_Withdraw.Margin = New Padding(2)
         BT_Withdraw.Name = "BT_Withdraw"
         BT_Withdraw.Size = New Size(111, 23)
         BT_Withdraw.TabIndex = 7
@@ -218,17 +219,28 @@ Partial Class OP_RecordsByEmployeeMoneySaved
         LB_Withdrawals.TabIndex = 5
         LB_Withdrawals.Text = "Retiro manual:"
         ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(339, 30)
+        LB_Title.TabIndex = 114
+        LB_Title.Text = "Registro y retiro manual de ahorros"
+        ' 
         ' OP_RecordsByEmployeeMoneySaved
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1347, 630)
+        Controls.Add(LB_Title)
         Controls.Add(GB_SavingInformation)
-        Margin = New Padding(2, 2, 2, 2)
+        Margin = New Padding(2)
         Name = "OP_RecordsByEmployeeMoneySaved"
         Tag = "OP_RecordsByEmployeeMoneySaved"
-        Text = "Información sobre Ahorros"
+        Text = "Registro y retiro manual de ahorros"
         WindowState = FormWindowState.Maximized
         CType(DGV_EmployeeInfo, ComponentModel.ISupportInitialize).EndInit()
         CType(DGV_DetailSaving, ComponentModel.ISupportInitialize).EndInit()
@@ -236,6 +248,7 @@ Partial Class OP_RecordsByEmployeeMoneySaved
         GB_SavingInformation.PerformLayout()
         CType(DGV_Withdrawals, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents DGV_EmployeeInfo As DataGridView
@@ -254,4 +267,5 @@ Partial Class OP_RecordsByEmployeeMoneySaved
     Friend WithEvents TB_TotalAvailable As TextBox
     Friend WithEvents TB_TotalWithdrawn As TextBox
     Friend WithEvents TB_TotalSaved As TextBox
+    Friend WithEvents LB_Title As Label
 End Class

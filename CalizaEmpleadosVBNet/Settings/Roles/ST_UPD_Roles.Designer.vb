@@ -38,6 +38,7 @@ Partial Class ST_UPD_Roles
         Label2 = New Label()
         TB_FormDescription = New TextBox()
         DGV_Permissions = New DataGridView()
+        LB_Title = New Label()
         GroupBox1.SuspendLayout()
         GroupBox2.SuspendLayout()
         CType(DGV_Permissions, ComponentModel.ISupportInitialize).BeginInit()
@@ -198,6 +199,16 @@ Partial Class ST_UPD_Roles
         DGV_Permissions.Size = New Size(807, 191)
         DGV_Permissions.TabIndex = 16
         ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(159, 30)
+        LB_Title.TabIndex = 114
+        LB_Title.Text = "Edición de roles"
+        ' 
         ' ST_UPD_Roles
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -205,12 +216,13 @@ Partial Class ST_UPD_Roles
         AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1454, 630)
+        Controls.Add(LB_Title)
         Controls.Add(DGV_Permissions)
         Controls.Add(GroupBox2)
         Controls.Add(GroupBox1)
         Margin = New Padding(2)
         Name = "ST_UPD_Roles"
-        Text = "Actualizar Rol"
+        Text = "Edición de roles"
         WindowState = FormWindowState.Maximized
         GroupBox1.ResumeLayout(False)
         GroupBox1.PerformLayout()
@@ -218,6 +230,7 @@ Partial Class ST_UPD_Roles
         GroupBox2.PerformLayout()
         CType(DGV_Permissions, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents GroupBox1 As GroupBox
@@ -236,4 +249,5 @@ Partial Class ST_UPD_Roles
     Friend WithEvents Label2 As Label
     Friend WithEvents TB_FormDescription As TextBox
     Friend WithEvents DGV_Permissions As DataGridView
+    Friend WithEvents LB_Title As Label
 End Class

@@ -48,6 +48,8 @@ Public Class OP_INS_TIMERECORDSMANUALLY
 
     End Sub
 
+
+
     Private Sub BT_AsistanceRegister_Click(sender As Object, e As EventArgs) Handles BT_AsistanceRegister.Click
         Dim Result As Boolean = False
         Dim MovementID As Integer = 130 ' Jornada Completa - Manual

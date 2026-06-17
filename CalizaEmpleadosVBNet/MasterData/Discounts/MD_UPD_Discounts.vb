@@ -1,4 +1,6 @@
-﻿Public Class MD_UPD_Discounts
+﻿Imports Microsoft.Data.SqlClient
+
+Public Class MD_UPD_Discounts
     Private Sub MD_UPD_Discounts_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         InitializationOfFields()
     End Sub
@@ -47,43 +49,105 @@
 
     End Sub
 
+    'Private Sub BT_Update_Click(sender As Object, e As EventArgs) Handles BT_Update.Click
+    '    If TB_DiscountName.Text = "" Then
+    '        MessageBox.Show("Favor de ingresar un nombre de descuento.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+
+    '    ElseIf TB_Description.Text = "" Then
+    '        MessageBox.Show("Favor de ingresar una descripción.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+
+    '    ElseIf CB_Type.SelectedItem Is Nothing Then
+    '        MessageBox.Show("Favor de indicar el tipo de descuento.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+
+    '    ElseIf TB_AuthorizeBy.Text = "" Then
+    '        MessageBox.Show("Favor de indicar quién autoriza el descuento.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+
+    '    ElseIf TB_Ammount.Text = "" Then
+    '        MessageBox.Show("Favor de indicar el monto del descuento.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+
+    '    Else
+
+    '        Dim Type As ComboItem = CType(CB_Type.SelectedItem, ComboItem)
+    '        Dim Id_Type As Integer = Type.Id
+
+
+    '        Dim Discount As New CL_Discounts(CInt(CB_AllDiscounts.SelectedValue), TB_DiscountName.Text, TB_Description.Text, Id_Type, Date.Now, TB_Ammount.Text, AppUser, TB_AuthorizeBy.Text, DT_ValidFrom.Value, DT_ValidTo.Value, CB_Status.Checked)
+
+
+    '        Discount.DISC_STAT = CB_Status.Checked
+
+    '        If AppUser IsNot Nothing Then
+    '            If Discount.UpdateDiscount() Then
+    '                MessageBox.Show("El descuento " + TB_DiscountName.Text + " fue actualizado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    '                InitializationOfFields()
+    '            End If
+    '        Else
+    '            MessageBox.Show("No se actualizó el descuento debido a que no hay usuario logeado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Error)
+    '        End If
+
+    '    End If
+    'End Sub
+
     Private Sub BT_Update_Click(sender As Object, e As EventArgs) Handles BT_Update.Click
-        If TB_DiscountName.Text = "" Then
-            MessageBox.Show("Favor de ingresar un nombre de descuento.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-
-        ElseIf TB_Description.Text = "" Then
-            MessageBox.Show("Favor de ingresar una descripción.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-
-        ElseIf CB_Type.SelectedItem Is Nothing Then
-            MessageBox.Show("Favor de indicar el tipo de descuento.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-
-        ElseIf TB_AuthorizeBy.Text = "" Then
-            MessageBox.Show("Favor de indicar quién autoriza el descuento.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-
-        ElseIf TB_Ammount.Text = "" Then
-            MessageBox.Show("Favor de indicar el monto del descuento.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-
-        Else
-
-            Dim Type As ComboItem = CType(CB_Type.SelectedItem, ComboItem)
-            Dim Id_Type As Integer = Type.Id
-
-
-            Dim Discount As New CL_Discounts(CInt(CB_AllDiscounts.SelectedValue), TB_DiscountName.Text, TB_Description.Text, Id_Type, Date.Now, TB_Ammount.Text, AppUser, TB_AuthorizeBy.Text, DT_ValidFrom.Value, DT_ValidTo.Value, CB_Status.Checked)
-
-
-            Discount.DISC_STAT = CB_Status.Checked
-
-            If AppUser IsNot Nothing Then
-                If Discount.UpdateDiscount() Then
-                    MessageBox.Show("El descuento " + TB_DiscountName.Text + " fue actualizado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    InitializationOfFields()
-                End If
+        Try
+            If TB_DiscountName.Text.Trim() = "" Then
+                MessageBox.Show("Favor de ingresar un nombre de descuento.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            ElseIf TB_Description.Text.Trim() = "" Then
+                MessageBox.Show("Favor de ingresar una descripción.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            ElseIf CB_Type.SelectedItem Is Nothing Then
+                MessageBox.Show("Favor de indicar el tipo de descuento.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            ElseIf TB_AuthorizeBy.Text.Trim() = "" Then
+                MessageBox.Show("Favor de indicar quién autoriza el descuento.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            ElseIf TB_Ammount.Text.Trim() = "" Then
+                MessageBox.Show("Favor de indicar el monto del descuento.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Else
-                MessageBox.Show("No se actualizó el descuento debido a que no hay usuario logeado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+                Dim DiscountID As Integer = CInt(CB_AllDiscounts.SelectedValue)
+                Dim Type As ComboItem = CType(CB_Type.SelectedItem, ComboItem)
+                Dim Id_Type As Integer = Type.Id
+                Dim statusStr As String = If(CB_Status.Checked, "Activo", "Inactivo")
+
+                Dim Discount As New CL_Discounts(DiscountID, TB_DiscountName.Text, TB_Description.Text, Id_Type, Date.Now, TB_Ammount.Text, AppUser, TB_AuthorizeBy.Text, DT_ValidFrom.Value, DT_ValidTo.Value, CB_Status.Checked)
+                Discount.DISC_STAT = CB_Status.Checked
+
+                If AppUser IsNot Nothing Then
+                    If Discount.UpdateDiscount() Then
+                        'LOG 
+                        Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                            Dim descLog As String = $"ACTUALIZACIÓN DESCUENTO EXITOSA: El usuario '{GlobalSession.GlobalUserName}' modificó el Descuento ID: {DiscountID} | " &
+                                                $"Nuevo Nombre: '{TB_DiscountName.Text.Trim()}' (Tipo ID: {Id_Type}) | Nuevo Monto: {TB_Ammount.Text.Trim()} | " &
+                                                $"Autorizado Por: '{TB_AuthorizeBy.Text.Trim()}' | Estatus: {statusStr} | " &
+                                                $"Vigencia: {DT_ValidFrom.Value:dd/MM/yyyy} al {DT_ValidTo.Value:dd/MM/yyyy}."
+
+                            InsertLog(connTmp, GlobalSession.GlobalUserName, "MD_Discounts", "UPDATE_DISCOUNT_SUCCESS", descLog, DiscountID, "INFO")
+                        End Using
+
+                        MessageBox.Show("El descuento " + TB_DiscountName.Text + " fue actualizado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        InitializationOfFields()
+                    End If
+                Else
+                    'LOG DE ALERTA 
+                    Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                        Dim descAlerta As String = $"INTENTO DE ACTUALIZACIÓN RECHAZADO: El usuario intentó modificar el Descuento ID: {DiscountID} sin una sesión válida (AppUser Nulo)."
+                        InsertLog(connTmp, GlobalSession.GlobalUserName, "MD_Discounts", "UPDATE_DISCOUNT_NO_USER", descAlerta, DiscountID, "WARNING")
+                    End Using
+
+                    MessageBox.Show("No se actualizó el descuento debido a que no hay usuario logeado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End If
             End If
 
-        End If
+        Catch ex As Exception
+            'LOG DE ERROR
+            Dim fallbackID As Integer = 0
+            Try : fallbackID = CInt(CB_AllDiscounts.SelectedValue) : Catch : End Try
+
+            Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                Dim descError As String = $"ERROR CRÍTICO AL ACTUALIZAR DESCUENTO: Falló la modificación del ID: {fallbackID}. Motivo: {ex.Message} en Form_Discounts.BT_Update_Click()"
+                InsertLog(connTmp, GlobalSession.GlobalUserName, "MD_Discounts", "UPDATE_DISCOUNT_ERROR", descError, fallbackID, "ERROR", ex.StackTrace)
+            End Using
+
+            MessageBox.Show("Ocurrió un error crítico inesperado al intentar actualizar el descuento. Toda la traza técnica se ha guardado en la bitácora.", "Error Crítico del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub CB_AllDiscounts_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_AllDiscounts.SelectedIndexChanged

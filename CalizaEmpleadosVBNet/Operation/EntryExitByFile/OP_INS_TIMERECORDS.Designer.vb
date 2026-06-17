@@ -30,12 +30,13 @@ Partial Class OP_INS_TIMERECORDS
         BT_RegisterInformation = New Button()
         GB_FileContent = New GroupBox()
         TB_Comment = New TextBox()
+        BT_CleanFields = New Button()
         LB_Comment = New Label()
         GB_LoadedInformation = New GroupBox()
         DGV_Registerinformation = New DataGridView()
-        BT_CleanFields = New Button()
         GB_LastLoadedFiles = New GroupBox()
         DGV_LastFiles = New DataGridView()
+        LB_Title = New Label()
         GB_WorkTme.SuspendLayout()
         CType(DGV_FileContent, ComponentModel.ISupportInitialize).BeginInit()
         GB_FileContent.SuspendLayout()
@@ -124,6 +125,15 @@ Partial Class OP_INS_TIMERECORDS
         TB_Comment.Size = New Size(373, 23)
         TB_Comment.TabIndex = 4
         ' 
+        ' BT_CleanFields
+        ' 
+        BT_CleanFields.Location = New Point(723, 247)
+        BT_CleanFields.Name = "BT_CleanFields"
+        BT_CleanFields.Size = New Size(105, 23)
+        BT_CleanFields.TabIndex = 5
+        BT_CleanFields.Text = "Limpiar Campos"
+        BT_CleanFields.UseVisualStyleBackColor = True
+        ' 
         ' LB_Comment
         ' 
         LB_Comment.AutoSize = True
@@ -155,15 +165,6 @@ Partial Class OP_INS_TIMERECORDS
         DGV_Registerinformation.Size = New Size(1595, 204)
         DGV_Registerinformation.TabIndex = 0
         ' 
-        ' BT_CleanFields
-        ' 
-        BT_CleanFields.Location = New Point(723, 247)
-        BT_CleanFields.Name = "BT_CleanFields"
-        BT_CleanFields.Size = New Size(105, 23)
-        BT_CleanFields.TabIndex = 5
-        BT_CleanFields.Text = "Limpiar Campos"
-        BT_CleanFields.UseVisualStyleBackColor = True
-        ' 
         ' GB_LastLoadedFiles
         ' 
         GB_LastLoadedFiles.Controls.Add(DGV_LastFiles)
@@ -185,12 +186,23 @@ Partial Class OP_INS_TIMERECORDS
         DGV_LastFiles.Size = New Size(737, 320)
         DGV_LastFiles.TabIndex = 0
         ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(380, 30)
+        LB_Title.TabIndex = 108
+        LB_Title.Text = "Registrar entrada y salida desde archivo"
+        ' 
         ' OP_INS_TIMERECORDS
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1677, 694)
+        Controls.Add(LB_Title)
         Controls.Add(GB_LastLoadedFiles)
         Controls.Add(GB_LoadedInformation)
         Controls.Add(GB_FileContent)
@@ -208,6 +220,7 @@ Partial Class OP_INS_TIMERECORDS
         GB_LastLoadedFiles.ResumeLayout(False)
         CType(DGV_LastFiles, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents GB_WorkTme As GroupBox
@@ -224,4 +237,5 @@ Partial Class OP_INS_TIMERECORDS
     Friend WithEvents BT_CleanFields As Button
     Friend WithEvents GB_LastLoadedFiles As GroupBox
     Friend WithEvents DGV_LastFiles As DataGridView
+    Friend WithEvents LB_Title As Label
 End Class

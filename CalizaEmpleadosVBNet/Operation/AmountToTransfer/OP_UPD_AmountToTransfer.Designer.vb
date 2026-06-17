@@ -217,7 +217,7 @@ Partial Class OP_UPD_AmountToTransfer
         Controls.Add(DGV_Amtrans)
         Controls.Add(GroupBox1)
         Name = "OP_UPD_AmountToTransfer"
-        Text = "Actualización de monto a tranferir"
+        Text = "Edición de montos a transferir"
         WindowState = FormWindowState.Maximized
         CType(DGV_Amtrans, ComponentModel.ISupportInitialize).EndInit()
         GroupBox1.ResumeLayout(False)

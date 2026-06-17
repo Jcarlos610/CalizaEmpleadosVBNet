@@ -44,19 +44,38 @@ Public Class OP_BenefitBotonero
     Private Sub DTP_StartDate_ValueChanged(sender As Object, e As EventArgs) Handles DTP_StartDate.ValueChanged
         DTP_EndDate.Value = DTP_StartDate.Value.AddMonths(3)
     End Sub
-    Private Sub DGV_PendingBotoneros_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_PendingBotoneros.CellClick
+    'Private Sub DGV_PendingBotoneros_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_PendingBotoneros.CellClick
+    '    Try
+    '        If e.RowIndex >= 0 Then
+    '            Dim row As DataGridViewRow = DGV_PendingBotoneros.Rows(e.RowIndex)
+
+    '            TB_EmployeeId.Text = row.Cells("EMPL_ID").Value.ToString()
+    '            TB_EmployeeName.Text = row.Cells("Nombre Completo").Value.ToString()
+
+    '            BotoneroObj.REMPL_ID = Convert.ToInt32(row.Cells("EMPL_ID").Value)
+    '            BotoneroObj.BENEF_ID = Convert.ToInt32(row.Cells("BENEF_ID").Value)
+
+
+    '        End If
+    '    Catch ex As Exception
+    '        MsgBox("Error al seleccionar el empleado: " & ex.Message, MsgBoxStyle.Critical, "Error")
+    '    End Try
+    'End Sub
+
+    Private Sub DGV_PendingBotoneros_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_PendingBotoneros.MouseClick
         Try
-            If e.RowIndex >= 0 Then
-                Dim row As DataGridViewRow = DGV_PendingBotoneros.Rows(e.RowIndex)
+            Dim hit As DataGridView.HitTestInfo = DGV_PendingBotoneros.HitTest(e.X, e.Y)
+
+            If hit.RowIndex >= 0 AndAlso hit.Type = DataGridViewHitTestType.RowHeader Then
+                Dim row As DataGridViewRow = DGV_PendingBotoneros.Rows(hit.RowIndex)
 
                 TB_EmployeeId.Text = row.Cells("EMPL_ID").Value.ToString()
                 TB_EmployeeName.Text = row.Cells("Nombre Completo").Value.ToString()
 
                 BotoneroObj.REMPL_ID = Convert.ToInt32(row.Cells("EMPL_ID").Value)
                 BotoneroObj.BENEF_ID = Convert.ToInt32(row.Cells("BENEF_ID").Value)
-
-
             End If
+
         Catch ex As Exception
             MsgBox("Error al seleccionar el empleado: " & ex.Message, MsgBoxStyle.Critical, "Error")
         End Try

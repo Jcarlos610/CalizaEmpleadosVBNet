@@ -299,6 +299,7 @@ Partial Class MD_INS_Benefits
         TB_Description = New TextBox()
         TB_AuthorizeBy = New TextBox()
         DGV_BenefitsList = New DataGridView()
+        LB_Title = New Label()
         GroupBox1.SuspendLayout()
         CType(DGV_BenefitsList, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -483,6 +484,16 @@ Partial Class MD_INS_Benefits
         DGV_BenefitsList.Size = New Size(1218, 389)
         DGV_BenefitsList.TabIndex = 10
         ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(217, 30)
+        LB_Title.TabIndex = 105
+        LB_Title.Text = "Registro de beneficios"
+        ' 
         ' MD_INS_Benefits
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -490,15 +501,17 @@ Partial Class MD_INS_Benefits
         AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1242, 630)
+        Controls.Add(LB_Title)
         Controls.Add(DGV_BenefitsList)
         Controls.Add(GroupBox1)
         Name = "MD_INS_Benefits"
-        Text = "Creación de beneficios"
+        Text = "Registro de beneficios"
         WindowState = FormWindowState.Maximized
         GroupBox1.ResumeLayout(False)
         GroupBox1.PerformLayout()
         CType(DGV_BenefitsList, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents GroupBox1 As GroupBox
@@ -520,4 +533,5 @@ Partial Class MD_INS_Benefits
     Friend WithEvents LB_Type As Label
     Friend WithEvents TB_Percent As TextBox
     Friend WithEvents LB_Percent As Label
+    Friend WithEvents LB_Title As Label
 End Class

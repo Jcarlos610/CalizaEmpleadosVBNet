@@ -215,11 +215,20 @@ Public Class MD_UPD_Employees
             End If
 
 
-            If CB_Status.Checked AndAlso plantIdSelected > 0 Then
+            'If CB_Status.Checked AndAlso plantIdSelected > 0 Then
+            '    Dim empValidar As New CL_Employee()
+            '    If Not empValidar.PlantaTieneCupo(plantIdSelected, SelectedEmployeeID) Then
+            '        MessageBox.Show("No se pueden guardar los cambios. La planta seleccionada ya tiene asignados 2 empleados activos.",
+            '            "Límite de Planta Alcanzado", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            '        Exit Sub
+            '    End If
+            'End If
+
+            If CB_Status.Checked AndAlso plantIdSelected > 0 AndAlso CB_Plant.Text.Trim.ToLower() <> "sin planta" Then
                 Dim empValidar As New CL_Employee()
                 If Not empValidar.PlantaTieneCupo(plantIdSelected, SelectedEmployeeID) Then
                     MessageBox.Show("No se pueden guardar los cambios. La planta seleccionada ya tiene asignados 2 empleados activos.",
-                        "Límite de Planta Alcanzado", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            "Límite de Planta Alcanzado", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                     Exit Sub
                 End If
             End If
@@ -360,105 +369,209 @@ Public Class MD_UPD_Employees
         End Try
     End Sub
 
-    Private Sub DGV_AllEmployees_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_AllEmployees.CellClick
+    'Private Sub DGV_AllEmployees_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_AllEmployees.CellClick
 
+
+    '    TB_BaseSalary.Text = ""
+
+    '    If e.RowIndex < 0 Then Exit Sub
+
+    '    Dim row As DataGridViewRow = DGV_AllEmployees.Rows(e.RowIndex)
+
+    '    SelectedEmployeeID = CInt(row.Cells(0).Value)
+
+    '    Dim Employee As New CL_Employee
+    '    Dim EmployeeInfo As DataTable = Employee.Get_SelectedEmployeesIDInfo(SelectedEmployeeID)
+
+    '    For Each Item As DataRow In EmployeeInfo.Rows
+
+    '        TB_EmployeeName.Text = Item(1).ToString
+    '        TB_LastName1.Text = Item(2).ToString
+    '        TB_LastName2.Text = Item(3).ToString
+
+    '        DT_BornDate.Value = CDate(Item(4))
+    '        TB_BornCity.Text = Item(5).ToString
+    '        TB_PersonalAddress.Text = Item(6).ToString
+    '        TB_PhoneNumber.Text = Item(7).ToString
+    '        TB_EmailAddress.Text = Item(8).ToString
+
+    '        TB_CivilStatus.Text = Item(9).ToString
+    '        TB_Curp.Text = Item(10).ToString
+    '        TB_SocialNumber.Text = Item(11).ToString
+
+    '        TB_RFC.Text = Item(12).ToString
+    '        TB_FiscalAddress.Text = Item(13).ToString
+    '        TB_BankName.Text = Item(14).ToString
+    '        TB_BankAccount.Text = Item(15).ToString
+
+    '        CB_Company.SelectedValue = Item(16)
+
+    '        'TIPY EMPLOYEE
+    '        Dim typeEmployee As Integer = CInt(Item(18))
+    '        SelectComboById(CB_EmployeeType, typeEmployee)
+
+    '        DT_EntryDate.Value = CDate(Item(19))
+    '        DT_RegistrationDate.Value = CDate(Item(20))
+
+    '        SelectComboById(CB_Position, CInt(Item(21)))
+    '        SelectComboById(CB_Supervisor, CInt(Item(23)))
+
+    '        TB_VacationsDays.Text = Item(25).ToString
+    '        If IsDBNull(Item(36)) Then
+    '            TB_BaseSalary.Text = Item(26).ToString
+    '            CB_Confidential.Checked = False
+    '        Else
+    '            TB_BaseSalary.Text = "******"
+    '            CB_Confidential.Checked = True
+    '        End If
+
+    '        SelectComboById(CB_Department, CInt(Item(27)))
+    '        TB_EmergencyContact.Text = Item(28).ToString
+    '        TB_Relationship.Text = Item(29).ToString
+    '        TB_EmergencyPhone.Text = Item(30).ToString
+    '        TB_Baneficiary.Text = Item(31).ToString
+    '        TB_Costc.Text = Item(32).ToString
+
+    '        If Not IsDBNull(Item(34)) Then
+
+    '            Dim PhotoPath As String = Item(34).ToString
+
+    '            If File.Exists(PhotoPath) Then
+    '                Using imgTemp As Image = Image.FromFile(PhotoPath)
+    '                    PB_Picture.Image = New Bitmap(imgTemp)
+    '                End Using
+    '                PB_Picture.Tag = PhotoPath
+    '            End If
+
+    '        End If
+
+    '        CB_Status.Checked = Item(35)
+
+
+    '        If Not IsDBNull(Item(37)) Then
+    '            SelectComboById(CB_Plant, CInt(Item(37)))
+    '        Else
+    '            CB_Plant.SelectedIndex = 0
+    '        End If
+
+    '        If Not IsDBNull(Item(38)) Then
+    '            CB_InfonavitCredit.Checked = CBool(Item(38))
+    '        Else
+    '            CB_InfonavitCredit.Checked = False
+    '        End If
+
+    '        Original_Dept = CB_Department.Text
+    '        Original_Pos = CB_Position.Text
+    '        Original_Salary = TB_BaseSalary.Text.Trim
+    '        Original_Status = CB_Status.Checked
+    '        Original_Plant = CB_Plant.Text
+    '        Original_Infonavit = CB_InfonavitCredit.Checked
+
+    '    Next
+
+    'End Sub
+
+    Private Sub DGV_AllEmployees_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_AllEmployees.MouseClick
+
+        Dim hit As DataGridView.HitTestInfo = DGV_AllEmployees.HitTest(e.X, e.Y)
 
         TB_BaseSalary.Text = ""
 
-        If e.RowIndex < 0 Then Exit Sub
 
-        Dim row As DataGridViewRow = DGV_AllEmployees.Rows(e.RowIndex)
+        If hit.RowIndex >= 0 AndAlso hit.Type = DataGridViewHitTestType.RowHeader Then
 
-        SelectedEmployeeID = CInt(row.Cells(0).Value)
+            Dim row As DataGridViewRow = DGV_AllEmployees.Rows(hit.RowIndex)
+            SelectedEmployeeID = CInt(row.Cells(0).Value)
 
-        Dim Employee As New CL_Employee
-        Dim EmployeeInfo As DataTable = Employee.Get_SelectedEmployeesIDInfo(SelectedEmployeeID)
+            Dim Employee As New CL_Employee
+            Dim EmployeeInfo As DataTable = Employee.Get_SelectedEmployeesIDInfo(SelectedEmployeeID)
 
-        For Each Item As DataRow In EmployeeInfo.Rows
+            For Each Item As DataRow In EmployeeInfo.Rows
 
-            TB_EmployeeName.Text = Item(1).ToString
-            TB_LastName1.Text = Item(2).ToString
-            TB_LastName2.Text = Item(3).ToString
+                TB_EmployeeName.Text = Item(1).ToString
+                TB_LastName1.Text = Item(2).ToString
+                TB_LastName2.Text = Item(3).ToString
 
-            DT_BornDate.Value = CDate(Item(4))
-            TB_BornCity.Text = Item(5).ToString
-            TB_PersonalAddress.Text = Item(6).ToString
-            TB_PhoneNumber.Text = Item(7).ToString
-            TB_EmailAddress.Text = Item(8).ToString
+                DT_BornDate.Value = CDate(Item(4))
+                TB_BornCity.Text = Item(5).ToString
+                TB_PersonalAddress.Text = Item(6).ToString
+                TB_PhoneNumber.Text = Item(7).ToString
+                TB_EmailAddress.Text = Item(8).ToString
 
-            TB_CivilStatus.Text = Item(9).ToString
-            TB_Curp.Text = Item(10).ToString
-            TB_SocialNumber.Text = Item(11).ToString
+                TB_CivilStatus.Text = Item(9).ToString
+                TB_Curp.Text = Item(10).ToString
+                TB_SocialNumber.Text = Item(11).ToString
 
-            TB_RFC.Text = Item(12).ToString
-            TB_FiscalAddress.Text = Item(13).ToString
-            TB_BankName.Text = Item(14).ToString
-            TB_BankAccount.Text = Item(15).ToString
+                TB_RFC.Text = Item(12).ToString
+                TB_FiscalAddress.Text = Item(13).ToString
+                TB_BankName.Text = Item(14).ToString
+                TB_BankAccount.Text = Item(15).ToString
 
-            CB_Company.SelectedValue = Item(16)
+                CB_Company.SelectedValue = Item(16)
 
-            'TIPY EMPLOYEE
-            Dim typeEmployee As Integer = CInt(Item(18))
-            SelectComboById(CB_EmployeeType, typeEmployee)
+                'TIPY EMPLOYEE
+                Dim typeEmployee As Integer = CInt(Item(18))
+                SelectComboById(CB_EmployeeType, typeEmployee)
 
-            DT_EntryDate.Value = CDate(Item(19))
-            DT_RegistrationDate.Value = CDate(Item(20))
+                DT_EntryDate.Value = CDate(Item(19))
+                DT_RegistrationDate.Value = CDate(Item(20))
 
-            SelectComboById(CB_Position, CInt(Item(21)))
-            SelectComboById(CB_Supervisor, CInt(Item(23)))
+                SelectComboById(CB_Position, CInt(Item(21)))
+                SelectComboById(CB_Supervisor, CInt(Item(23)))
 
-            TB_VacationsDays.Text = Item(25).ToString
-            If IsDBNull(Item(36)) Then
-                TB_BaseSalary.Text = Item(26).ToString
-                CB_Confidential.Checked = False
-            Else
-                TB_BaseSalary.Text = "******"
-                CB_Confidential.Checked = True
-            End If
-
-            SelectComboById(CB_Department, CInt(Item(27)))
-            TB_EmergencyContact.Text = Item(28).ToString
-            TB_Relationship.Text = Item(29).ToString
-            TB_EmergencyPhone.Text = Item(30).ToString
-            TB_Baneficiary.Text = Item(31).ToString
-            TB_Costc.Text = Item(32).ToString
-
-            If Not IsDBNull(Item(34)) Then
-
-                Dim PhotoPath As String = Item(34).ToString
-
-                If File.Exists(PhotoPath) Then
-                    Using imgTemp As Image = Image.FromFile(PhotoPath)
-                        PB_Picture.Image = New Bitmap(imgTemp)
-                    End Using
-                    PB_Picture.Tag = PhotoPath
+                TB_VacationsDays.Text = Item(25).ToString
+                If IsDBNull(Item(36)) Then
+                    TB_BaseSalary.Text = Item(26).ToString
+                    CB_Confidential.Checked = False
+                Else
+                    TB_BaseSalary.Text = "******"
+                    CB_Confidential.Checked = True
                 End If
 
-            End If
+                SelectComboById(CB_Department, CInt(Item(27)))
+                TB_EmergencyContact.Text = Item(28).ToString
+                TB_Relationship.Text = Item(29).ToString
+                TB_EmergencyPhone.Text = Item(30).ToString
+                TB_Baneficiary.Text = Item(31).ToString
+                TB_Costc.Text = Item(32).ToString
 
-            CB_Status.Checked = Item(35)
+                If Not IsDBNull(Item(34)) Then
+
+                    Dim PhotoPath As String = Item(34).ToString
+
+                    If File.Exists(PhotoPath) Then
+                        Using imgTemp As Image = Image.FromFile(PhotoPath)
+                            PB_Picture.Image = New Bitmap(imgTemp)
+                        End Using
+                        PB_Picture.Tag = PhotoPath
+                    End If
+
+                End If
+
+                CB_Status.Checked = Item(35)
 
 
-            If Not IsDBNull(Item(37)) Then
-                SelectComboById(CB_Plant, CInt(Item(37)))
-            Else
-                CB_Plant.SelectedIndex = 0
-            End If
+                If Not IsDBNull(Item(37)) Then
+                    SelectComboById(CB_Plant, CInt(Item(37)))
+                Else
+                    CB_Plant.SelectedIndex = 0
+                End If
 
-            If Not IsDBNull(Item(38)) Then
-                CB_InfonavitCredit.Checked = CBool(Item(38))
-            Else
-                CB_InfonavitCredit.Checked = False
-            End If
+                If Not IsDBNull(Item(38)) Then
+                    CB_InfonavitCredit.Checked = CBool(Item(38))
+                Else
+                    CB_InfonavitCredit.Checked = False
+                End If
 
-            Original_Dept = CB_Department.Text
-            Original_Pos = CB_Position.Text
-            Original_Salary = TB_BaseSalary.Text.Trim
-            Original_Status = CB_Status.Checked
-            Original_Plant = CB_Plant.Text
-            Original_Infonavit = CB_InfonavitCredit.Checked
+                Original_Dept = CB_Department.Text
+                Original_Pos = CB_Position.Text
+                Original_Salary = TB_BaseSalary.Text.Trim
+                Original_Status = CB_Status.Checked
+                Original_Plant = CB_Plant.Text
+                Original_Infonavit = CB_InfonavitCredit.Checked
 
-        Next
+            Next
+        End If
 
     End Sub
 
@@ -522,6 +635,5 @@ Public Class MD_UPD_Employees
             End If
         End Using
     End Sub
-
 
 End Class

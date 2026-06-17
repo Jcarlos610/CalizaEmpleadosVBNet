@@ -142,40 +142,84 @@ Public Class OP_UPD_MANUALBANNS
         Historial()
     End Sub
 
-    Private Sub DGV_Banns_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Banns.CellContentClick
-        If e.RowIndex >= 0 Then
-            Dim row As DataGridViewRow = DGV_Banns.Rows(e.RowIndex)
+    'Private Sub DGV_Banns_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Banns.CellContentClick
+    '    If e.RowIndex >= 0 Then
+    '        Dim row As DataGridViewRow = DGV_Banns.Rows(e.RowIndex)
 
-            SelectedEBannID = CInt(row.Cells("ID").Value)
+    '        SelectedEBannID = CInt(row.Cells("ID").Value)
 
-            TB_EmployeeId.Text = row.Cells("ID Empleado").Value.ToString()
-            TB_EmployeeName.Text = row.Cells("Empleado").Value.ToString()
-            TB_BannName.Text = row.Cells("Amonestación").Value.ToString()
-            TB_Description.Text = row.Cells("Descripción").Value.ToString()
-            TB_BannDays.Text = row.Cells("Días").Value.ToString()
-            DTP_Valid.Value = CDate(row.Cells("Fecha").Value)
+    '        TB_EmployeeId.Text = row.Cells("ID Empleado").Value.ToString()
+    '        TB_EmployeeName.Text = row.Cells("Empleado").Value.ToString()
+    '        TB_BannName.Text = row.Cells("Amonestación").Value.ToString()
+    '        TB_Description.Text = row.Cells("Descripción").Value.ToString()
+    '        TB_BannDays.Text = row.Cells("Días").Value.ToString()
+    '        DTP_Valid.Value = CDate(row.Cells("Fecha").Value)
 
-            Decimal.TryParse(TB_BannDays.Text, Original_BannDays)
+    '        Decimal.TryParse(TB_BannDays.Text, Original_BannDays)
 
-            TB_EmployeeId.ReadOnly = True
-            TB_EmployeeName.ReadOnly = True
+    '        TB_EmployeeId.ReadOnly = True
+    '        TB_EmployeeName.ReadOnly = True
 
-            RemoveHandler CB_Status.CheckedChanged, AddressOf CB_Status_CheckedChanged
+    '        RemoveHandler CB_Status.CheckedChanged, AddressOf CB_Status_CheckedChanged
 
-            If row.Cells("Estado").Value IsNot Nothing AndAlso Not IsDBNull(row.Cells("Estado").Value) Then
-                Dim estadoTexto As String = row.Cells("Estado").Value.ToString()
-                If estadoTexto = "Activa" Then
-                    CB_Status.Checked = True
+    '        If row.Cells("Estado").Value IsNot Nothing AndAlso Not IsDBNull(row.Cells("Estado").Value) Then
+    '            Dim estadoTexto As String = row.Cells("Estado").Value.ToString()
+    '            If estadoTexto = "Activa" Then
+    '                CB_Status.Checked = True
+    '            Else
+    '                CB_Status.Checked = False
+    '            End If
+    '        Else
+    '            CB_Status.Checked = True
+    '        End If
+
+    '        AddHandler CB_Status.CheckedChanged, AddressOf CB_Status_CheckedChanged
+
+    '        JustificacionDesactivar = ""
+    '    End If
+    'End Sub
+
+    Private Sub DGV_Banns_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_Banns.MouseClick
+
+        Dim hit As DataGridView.HitTestInfo = DGV_Banns.HitTest(e.X, e.Y)
+
+        If hit.RowIndex >= 0 AndAlso hit.Type = DataGridViewHitTestType.RowHeader Then
+            Try
+                Dim row As DataGridViewRow = DGV_Banns.Rows(hit.RowIndex)
+
+                SelectedEBannID = CInt(row.Cells("ID").Value)
+                TB_EmployeeId.Text = row.Cells("ID Empleado").Value.ToString()
+                TB_EmployeeName.Text = row.Cells("Empleado").Value.ToString()
+                TB_BannName.Text = row.Cells("Amonestación").Value.ToString()
+                TB_Description.Text = row.Cells("Descripción").Value.ToString()
+                TB_BannDays.Text = row.Cells("Días").Value.ToString()
+                DTP_Valid.Value = CDate(row.Cells("Fecha").Value)
+
+                Decimal.TryParse(TB_BannDays.Text, Original_BannDays)
+
+                TB_EmployeeId.ReadOnly = True
+                TB_EmployeeName.ReadOnly = True
+
+                RemoveHandler CB_Status.CheckedChanged, AddressOf CB_Status_CheckedChanged
+
+                If row.Cells("Estado").Value IsNot Nothing AndAlso Not IsDBNull(row.Cells("Estado").Value) Then
+                    Dim estadoTexto As String = row.Cells("Estado").Value.ToString()
+                    If estadoTexto = "Activa" Then
+                        CB_Status.Checked = True
+                    Else
+                        CB_Status.Checked = False
+                    End If
                 Else
-                    CB_Status.Checked = False
+                    CB_Status.Checked = True
                 End If
-            Else
-                CB_Status.Checked = True
-            End If
 
-            AddHandler CB_Status.CheckedChanged, AddressOf CB_Status_CheckedChanged
+                AddHandler CB_Status.CheckedChanged, AddressOf CB_Status_CheckedChanged
 
-            JustificacionDesactivar = ""
+                JustificacionDesactivar = ""
+
+            Catch ex As Exception
+                MsgBox("Error al seleccionar la amonestación: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            End Try
         End If
     End Sub
 
@@ -258,7 +302,6 @@ Public Class OP_UPD_MANUALBANNS
 
             DGV_Banns.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             DGV_Banns.ReadOnly = True
-            DGV_Banns.RowHeadersVisible = False
 
             DGV_Banns.Columns("Empleado").FillWeight = 130
             DGV_Banns.Columns("Amonestación").FillWeight = 110

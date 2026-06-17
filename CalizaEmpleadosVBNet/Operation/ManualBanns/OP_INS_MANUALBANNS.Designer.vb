@@ -41,6 +41,7 @@ Partial Class OP_INS_MANUALBANNS
         LB_Employee = New Label()
         SqlCommand1 = New Microsoft.Data.SqlClient.SqlCommand()
         DGV_Banns = New DataGridView()
+        LB_Title = New Label()
         GroupBox1.SuspendLayout()
         CType(DGV_Banns, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -222,12 +223,23 @@ Partial Class OP_INS_MANUALBANNS
         DGV_Banns.Size = New Size(1218, 291)
         DGV_Banns.TabIndex = 1
         ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(348, 30)
+        LB_Title.TabIndex = 114
+        LB_Title.Text = "Registro manual de amonestaciones"
+        ' 
         ' OP_INS_MANUALBANNS
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1242, 694)
+        Controls.Add(LB_Title)
         Controls.Add(DGV_Banns)
         Controls.Add(GroupBox1)
         Name = "OP_INS_MANUALBANNS"
@@ -237,6 +249,7 @@ Partial Class OP_INS_MANUALBANNS
         GroupBox1.PerformLayout()
         CType(DGV_Banns, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents GroupBox1 As GroupBox
@@ -258,4 +271,5 @@ Partial Class OP_INS_MANUALBANNS
     Friend WithEvents TB_Description As TextBox
     Friend WithEvents TB_BannDays As TextBox
     Friend WithEvents LB_BannDays As Label
+    Friend WithEvents LB_Title As Label
 End Class

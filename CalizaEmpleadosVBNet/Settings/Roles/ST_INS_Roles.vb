@@ -155,16 +155,33 @@ Public Class ST_INS_Roles
     End Sub
 
 
-    Private Sub DGV_RoleList_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_RoleList.CellClick
+    'Private Sub DGV_RoleList_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_RoleList.CellClick
 
-        If e.RowIndex < 0 Then Exit Sub
+    '    If e.RowIndex < 0 Then Exit Sub
 
-        CurrentRoleID = CInt(DGV_RoleList.Rows(e.RowIndex).Cells("ROLE_ID").Value)
+    '    CurrentRoleID = CInt(DGV_RoleList.Rows(e.RowIndex).Cells("ROLE_ID").Value)
 
-        LoadPermissions(CurrentRoleID)
+    '    LoadPermissions(CurrentRoleID)
 
+    'End Sub
+
+    Private Sub DGV_RoleList_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_RoleList.MouseClick
+
+        Dim hit As DataGridView.HitTestInfo = DGV_RoleList.HitTest(e.X, e.Y)
+
+        If hit.RowIndex >= 0 AndAlso hit.Type = DataGridViewHitTestType.RowHeader Then
+            Try
+                Dim row As DataGridViewRow = DGV_RoleList.Rows(hit.RowIndex)
+
+                CurrentRoleID = CInt(row.Cells("ROLE_ID").Value)
+
+                LoadPermissions(CurrentRoleID)
+
+            Catch ex As Exception
+                MsgBox("Error al cargar los permisos del rol: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            End Try
+        End If
     End Sub
-
 
 
     Private Sub LoadPermissions(roleID As Integer)

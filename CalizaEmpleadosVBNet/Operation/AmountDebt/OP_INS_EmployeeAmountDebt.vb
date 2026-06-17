@@ -136,7 +136,6 @@ Public Class OP_INS_EmployeeAmountDebt
 
 
             DGV_Debt.ReadOnly = True
-            DGV_Debt.RowHeadersVisible = False
             DGV_Debt.SelectionMode = DataGridViewSelectionMode.FullRowSelect
 
             DGV_Debt.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells

@@ -200,14 +200,13 @@ Public Class MD_INS_Employees
                 End If
             End If
 
-            ' Validar cupo MÁXIMO únicamente si seleccionó una planta real (Mayor a 0)
+            ' Validar cupo MÁXIMO únicamente si seleccionó una planta real (Mayor a 0) Y NO es "Sin Planta"
             Dim empValidar As New CL_Employee()
-            If plantIdSelected > 0 AndAlso Not empValidar.PlantaTieneCupo(plantIdSelected, 0) Then
+            If plantIdSelected > 0 AndAlso plantDescription.Trim.ToLower() <> "sin planta" AndAlso Not empValidar.PlantaTieneCupo(plantIdSelected, 0) Then
                 MessageBox.Show("No se puede asignar el empleado a esta planta. La planta seleccionada ya cuenta con el límite máximo de 2 empleados activos.",
-                        "Límite de Planta Alcanzado", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    "Límite de Planta Alcanzado", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Exit Sub
             End If
-
             Dim Company As ComboItem = CType(CB_Company.SelectedItem, ComboItem)
             Dim TypeOfEmployee As ComboItem = CType(CB_EmployeeType.SelectedItem, ComboItem)
             Dim Positions As ComboItem = CType(CB_Position.SelectedItem, ComboItem)

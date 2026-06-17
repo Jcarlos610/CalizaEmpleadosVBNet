@@ -745,6 +745,7 @@ Partial Class MainScreen
         ReportesToolStripMenuItem2 = New ToolStripMenuItem()
         AnalisisSemanalToolStripMenuItem = New ToolStripMenuItem()
         AnalisisDeSalarioToolStripMenuItem = New ToolStripMenuItem()
+        InfonavitRegistrarMontosToolStripMenuItem = New ToolStripMenuItem()
         MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -1065,14 +1066,14 @@ Partial Class MainScreen
         ' ValidaciónToolStripMenuItem
         ' 
         ValidaciónToolStripMenuItem.Name = "ValidaciónToolStripMenuItem"
-        ValidaciónToolStripMenuItem.Size = New Size(180, 22)
+        ValidaciónToolStripMenuItem.Size = New Size(159, 22)
         ValidaciónToolStripMenuItem.Tag = "OP_BenefitBotonero"
         ValidaciónToolStripMenuItem.Text = "Asignar"
         ' 
         ' ValidaciónEditarToolStripMenuItem
         ' 
         ValidaciónEditarToolStripMenuItem.Name = "ValidaciónEditarToolStripMenuItem"
-        ValidaciónEditarToolStripMenuItem.Size = New Size(180, 22)
+        ValidaciónEditarToolStripMenuItem.Size = New Size(159, 22)
         ValidaciónEditarToolStripMenuItem.Tag = "OP_UPD_BenefitBotonero"
         ValidaciónEditarToolStripMenuItem.Text = "Editar aignación"
         ' 
@@ -1264,9 +1265,9 @@ Partial Class MainScreen
         ' 
         ' ReToolStripMenuItem
         ' 
-        ReToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {CargaDeMontoATransferirToolStripMenuItem, EditarExistenteToolStripMenuItem7, CargaDeMontoInfonavitToolStripMenuItem, EditarExistenteToolStripMenuItem8, AdeudoAEmpresaToolStripMenuItem, EditarExistenteToolStripMenuItem9, AdeudosRegistrarAbonoToolStripMenuItem, HorasExtraRegistrarToolStripMenuItem, HorasExtraEditarToolStripMenuItem})
+        ReToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {CargaDeMontoATransferirToolStripMenuItem, EditarExistenteToolStripMenuItem7, CargaDeMontoInfonavitToolStripMenuItem, InfonavitRegistrarMontosToolStripMenuItem, EditarExistenteToolStripMenuItem8, AdeudoAEmpresaToolStripMenuItem, EditarExistenteToolStripMenuItem9, AdeudosRegistrarAbonoToolStripMenuItem, HorasExtraRegistrarToolStripMenuItem, HorasExtraEditarToolStripMenuItem})
         ReToolStripMenuItem.Name = "ReToolStripMenuItem"
-        ReToolStripMenuItem.Size = New Size(122, 22)
+        ReToolStripMenuItem.Size = New Size(180, 22)
         ReToolStripMenuItem.Text = "Registros"
         ' 
         ' CargaDeMontoATransferirToolStripMenuItem
@@ -1352,6 +1353,13 @@ Partial Class MainScreen
         AnalisisDeSalarioToolStripMenuItem.Size = New Size(218, 22)
         AnalisisDeSalarioToolStripMenuItem.Tag = "OP_SEL_MainWeekReportSalaryCalculation"
         AnalisisDeSalarioToolStripMenuItem.Text = "Analisis de salario"
+        ' 
+        ' InfonavitRegistrarMontosToolStripMenuItem
+        ' 
+        InfonavitRegistrarMontosToolStripMenuItem.Name = "InfonavitRegistrarMontosToolStripMenuItem"
+        InfonavitRegistrarMontosToolStripMenuItem.Size = New Size(251, 22)
+        InfonavitRegistrarMontosToolStripMenuItem.Tag = "OP_INS_InfonavitAmountManually"
+        InfonavitRegistrarMontosToolStripMenuItem.Text = "Infonavit - Registrar montos"
         ' 
         ' MainScreen
         ' 
@@ -1461,4 +1469,5 @@ Partial Class MainScreen
     Friend WithEvents ValidaciónBonoDeBotoneroToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ValidaciónToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ValidaciónEditarToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents InfonavitRegistrarMontosToolStripMenuItem As ToolStripMenuItem
 End Class

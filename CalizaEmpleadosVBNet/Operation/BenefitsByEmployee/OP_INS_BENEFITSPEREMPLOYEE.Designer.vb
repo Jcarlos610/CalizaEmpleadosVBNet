@@ -33,6 +33,7 @@ Partial Class OP_INS_BENEFITSPEREMPLOYEE
         GB_BenefitPerEmployee = New GroupBox()
         DGV_UpdateSalary = New DataGridView()
         DGV_BenefitsByEmployee = New DataGridView()
+        LB_Title = New Label()
         GB_DocumentHeader.SuspendLayout()
         CType(DGV_Employees, ComponentModel.ISupportInitialize).BeginInit()
         GB_BenefitsInfo.SuspendLayout()
@@ -156,12 +157,23 @@ Partial Class OP_INS_BENEFITSPEREMPLOYEE
         DGV_BenefitsByEmployee.Size = New Size(841, 150)
         DGV_BenefitsByEmployee.TabIndex = 0
         ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(379, 30)
+        LB_Title.TabIndex = 105
+        LB_Title.Text = "Asignación de beneficios por empleado"
+        ' 
         ' OP_INS_BENEFITSPEREMPLOYEE
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1465, 783)
+        Controls.Add(LB_Title)
         Controls.Add(GB_BenefitPerEmployee)
         Controls.Add(GB_BenefitsInfo)
         Controls.Add(GB_DocumentHeader)
@@ -177,6 +189,7 @@ Partial Class OP_INS_BENEFITSPEREMPLOYEE
         CType(DGV_UpdateSalary, ComponentModel.ISupportInitialize).EndInit()
         CType(DGV_BenefitsByEmployee, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents GB_DocumentHeader As GroupBox
@@ -190,4 +203,5 @@ Partial Class OP_INS_BENEFITSPEREMPLOYEE
     Friend WithEvents DGV_BenefitsByEmployee As DataGridView
     Friend WithEvents BT_Cancel As Button
     Friend WithEvents DGV_UpdateSalary As DataGridView
+    Friend WithEvents LB_Title As Label
 End Class

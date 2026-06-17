@@ -10,6 +10,7 @@ Public Class CL_InfonavitAmount
     Private _INFONAVIT_AMOUN As Object
     Private _INFONAVIT_CREBY As Object
     Private _INFONAVIT_RDATE As Object
+    Private _INFONAVIT_TYPE As Object
 
     Public Property INFONAVIT_ID As Object
         Get
@@ -65,11 +66,20 @@ Public Class CL_InfonavitAmount
         End Set
     End Property
 
+    Public Property INFONAVIT_TYPE As Object
+        Get
+            Return _INFONAVIT_TYPE
+        End Get
+        Set(value As Object)
+            _INFONAVIT_TYPE = value
+        End Set
+    End Property
+
     Sub New()
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
     End Sub
 
-    Sub New(INFONAVIT_ID, REMPL_ID, INFONAVIT_DATE, INFONAVIT_AMOUN, INFONAVIT_CREBY, INFONAVIT_RDATE)
+    Sub New(INFONAVIT_ID, REMPL_ID, INFONAVIT_DATE, INFONAVIT_AMOUN, INFONAVIT_CREBY, INFONAVIT_RDATE, INFONAVIT_TYPE)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
         _INFONAVIT_ID = INFONAVIT_ID
@@ -78,10 +88,10 @@ Public Class CL_InfonavitAmount
         _INFONAVIT_AMOUN = INFONAVIT_AMOUN
         _INFONAVIT_CREBY = INFONAVIT_CREBY
         _INFONAVIT_RDATE = INFONAVIT_RDATE
-
+        _INFONAVIT_TYPE = INFONAVIT_TYPE
     End Sub
 
-    Sub New(REMPL_ID, INFONAVIT_DATE, INFONAVIT_AMOUN, INFONAVIT_CREBY, INFONAVIT_RDATE)
+    Sub New(REMPL_ID, INFONAVIT_DATE, INFONAVIT_AMOUN, INFONAVIT_CREBY, INFONAVIT_RDATE, INFONAVIT_TYPE)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
         _REMPL_ID = REMPL_ID
@@ -89,16 +99,16 @@ Public Class CL_InfonavitAmount
         _INFONAVIT_AMOUN = INFONAVIT_AMOUN
         _INFONAVIT_CREBY = INFONAVIT_CREBY
         _INFONAVIT_RDATE = INFONAVIT_RDATE
-
+        _INFONAVIT_TYPE = INFONAVIT_TYPE
     End Sub
 
-
+    ' --- MÉTODO 1: PARA LA CARGA AUTOMÁTICA DESDE EXCEL ---
     Public Function InsertAmountInfonavit(ByVal EMPL_ID As Object) As Object
         Try
             DB_Command = New SqlCommand With {
-                .CommandText = "INS_AMOUNT_INFONAVIT",
-                .CommandType = CommandType.StoredProcedure
-            }
+            .CommandText = "INS_AMOUNT_INFONAVIT",
+            .CommandType = CommandType.StoredProcedure
+        }
 
             DB_Connection.Open()
             DB_Command.Connection = DB_Connection
@@ -116,6 +126,33 @@ Public Class CL_InfonavitAmount
         Catch ex As Exception
             DB_Connection.Close()
             MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_InfonavitAmount.InsertAmountInfonavit()")
+            Return Nothing
+        End Try
+    End Function
+
+    Public Function InsertAmountInfonavitManually(ByVal EMPL_ID As Object) As Object
+        Try
+            DB_Command = New SqlCommand With {
+            .CommandText = "INS_AMOUNT_INFONAVIT_MANUALLY",
+            .CommandType = CommandType.StoredProcedure
+        }
+
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+
+            DB_Command.Parameters.AddWithValue("EMPL_ID", EMPL_ID)
+            DB_Command.Parameters.AddWithValue("INFONAVIT_DATE", _INFONAVIT_DATE)
+            DB_Command.Parameters.AddWithValue("INFONAVIT_AMOUN", _INFONAVIT_AMOUN)
+            DB_Command.Parameters.AddWithValue("INFONAVIT_CREBY", _INFONAVIT_CREBY)
+
+            DB_Command.ExecuteNonQuery()
+            DB_Connection.Close()
+
+            Return True
+
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_InfonavitAmount.InsertAmountInfonavitManually()")
             Return Nothing
         End Try
     End Function
@@ -203,6 +240,28 @@ Public Class CL_InfonavitAmount
             MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_InfonavitAmount.GetInfonavitAmountByWeek()")
         End Try
 
+        Return Dt
+    End Function
+
+    Public Function GetExistingWeeks() As DataTable
+        Dim Dt As New DataTable()
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "SEL_INFONAVIT_EXISTING_WEEKS",
+                .CommandType = CommandType.StoredProcedure
+            }
+
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+
+            Dim Da As New SqlDataAdapter(DB_Command)
+            Da.Fill(Dt)
+
+            DB_Connection.Close()
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Ocurrio el siguiente error al obtener semanas: " & ex.Message & " CL_InfonavitAmount.GetExistingWeeks()")
+        End Try
         Return Dt
     End Function
 

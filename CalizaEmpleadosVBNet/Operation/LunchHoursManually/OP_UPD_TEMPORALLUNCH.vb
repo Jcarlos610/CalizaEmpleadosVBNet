@@ -19,25 +19,52 @@ Public Class OP_UPD_TEMPORALLUNCH
         End If
     End Sub
 
-    Private Sub DGV_Lunch_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Lunch.CellContentClick
-        If e.RowIndex >= 0 Then
-            Dim row As DataGridViewRow = DGV_Lunch.Rows(e.RowIndex)
+    'Private Sub DGV_Lunch_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Lunch.CellContentClick
+    '    If e.RowIndex >= 0 Then
+    '        Dim row As DataGridViewRow = DGV_Lunch.Rows(e.RowIndex)
 
-            SelectedRecordID = CInt(row.Cells("ID").Value)
-            TB_EmployeeId.Text = row.Cells("ID Empleado").Value.ToString()
-            TB_EmployeeName.Text = row.Cells("Empleado").Value.ToString()
-            TB_Lunch.Text = row.Cells("Horas").Value.ToString()
+    '        SelectedRecordID = CInt(row.Cells("ID").Value)
+    '        TB_EmployeeId.Text = row.Cells("ID Empleado").Value.ToString()
+    '        TB_EmployeeName.Text = row.Cells("Empleado").Value.ToString()
+    '        TB_Lunch.Text = row.Cells("Horas").Value.ToString()
 
-            Decimal.TryParse(TB_Lunch.Text, Original_LunchHours)
+    '        Decimal.TryParse(TB_Lunch.Text, Original_LunchHours)
 
-            DTP_Valid.Value = CDate(row.Cells("Fecha Registro").Value)
+    '        DTP_Valid.Value = CDate(row.Cells("Fecha Registro").Value)
 
-            TB_EmployeeId.ReadOnly = True
-            TB_EmployeeName.ReadOnly = True
+    '        TB_EmployeeId.ReadOnly = True
+    '        TB_EmployeeName.ReadOnly = True
 
 
-            DTP_Valid.Value = CDate(row.Cells("Fecha Registro").Value)
-            DTP_Valid.Enabled = False
+    '        DTP_Valid.Value = CDate(row.Cells("Fecha Registro").Value)
+    '        DTP_Valid.Enabled = False
+    '    End If
+    'End Sub
+
+    Private Sub DGV_Lunch_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_Lunch.MouseClick
+     
+        Dim hit As DataGridView.HitTestInfo = DGV_Lunch.HitTest(e.X, e.Y)
+
+        If hit.RowIndex >= 0 AndAlso hit.Type = DataGridViewHitTestType.RowHeader Then
+            Try
+                Dim row As DataGridViewRow = DGV_Lunch.Rows(hit.RowIndex)
+
+                SelectedRecordID = CInt(row.Cells("ID").Value)
+                TB_EmployeeId.Text = row.Cells("ID Empleado").Value.ToString()
+                TB_EmployeeName.Text = row.Cells("Empleado").Value.ToString()
+                TB_Lunch.Text = row.Cells("Horas").Value.ToString()
+
+                Decimal.TryParse(TB_Lunch.Text, Original_LunchHours)
+
+                DTP_Valid.Value = CDate(row.Cells("Fecha Registro").Value)
+
+                TB_EmployeeId.ReadOnly = True
+                TB_EmployeeName.ReadOnly = True
+                DTP_Valid.Enabled = False
+
+            Catch ex As Exception
+                MsgBox("Error al seleccionar el registro de comedor: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            End Try
         End If
     End Sub
 

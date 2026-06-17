@@ -33,6 +33,7 @@ Partial Class MD_UPD_Departments
         TB_Description = New TextBox()
         TB_AuthorizeBy = New TextBox()
         DGV_DepartmentsList = New DataGridView()
+        LB_Title = New Label()
         GroupBox1.SuspendLayout()
         CType(DGV_DepartmentsList, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -48,11 +49,9 @@ Partial Class MD_UPD_Departments
         GroupBox1.Controls.Add(LB_DepartmentName)
         GroupBox1.Controls.Add(TB_Description)
         GroupBox1.Controls.Add(TB_AuthorizeBy)
-        GroupBox1.Location = New Point(17, 77)
-        GroupBox1.Margin = New Padding(4, 5, 4, 5)
+        GroupBox1.Location = New Point(12, 46)
         GroupBox1.Name = "GroupBox1"
-        GroupBox1.Padding = New Padding(4, 5, 4, 5)
-        GroupBox1.Size = New Size(1217, 304)
+        GroupBox1.Size = New Size(852, 182)
         GroupBox1.TabIndex = 12
         GroupBox1.TabStop = False
         GroupBox1.Text = "Información sobre departamentos"
@@ -60,10 +59,9 @@ Partial Class MD_UPD_Departments
         ' CB_Status
         ' 
         CB_Status.AutoSize = True
-        CB_Status.Location = New Point(1088, 41)
-        CB_Status.Margin = New Padding(4, 5, 4, 5)
+        CB_Status.Location = New Point(762, 25)
         CB_Status.Name = "CB_Status"
-        CB_Status.Size = New Size(86, 29)
+        CB_Status.Size = New Size(58, 19)
         CB_Status.TabIndex = 17
         CB_Status.Text = "Status"
         CB_Status.UseVisualStyleBackColor = True
@@ -71,18 +69,16 @@ Partial Class MD_UPD_Departments
         ' CB_AllDepartments
         ' 
         CB_AllDepartments.FormattingEnabled = True
-        CB_AllDepartments.Location = New Point(23, 37)
-        CB_AllDepartments.Margin = New Padding(4, 5, 4, 5)
+        CB_AllDepartments.Location = New Point(16, 22)
         CB_AllDepartments.Name = "CB_AllDepartments"
-        CB_AllDepartments.Size = New Size(315, 33)
+        CB_AllDepartments.Size = New Size(222, 23)
         CB_AllDepartments.TabIndex = 0
         ' 
         ' BT_Update
         ' 
-        BT_Update.Location = New Point(1088, 252)
-        BT_Update.Margin = New Padding(4, 5, 4, 5)
+        BT_Update.Location = New Point(762, 151)
         BT_Update.Name = "BT_Update"
-        BT_Update.Size = New Size(107, 38)
+        BT_Update.Size = New Size(75, 23)
         BT_Update.TabIndex = 8
         BT_Update.Text = "Actualizar"
         BT_Update.UseVisualStyleBackColor = True
@@ -90,56 +86,50 @@ Partial Class MD_UPD_Departments
         ' LB_AuthorizeBy
         ' 
         LB_AuthorizeBy.AutoSize = True
-        LB_AuthorizeBy.Location = New Point(24, 190)
-        LB_AuthorizeBy.Margin = New Padding(4, 0, 4, 0)
+        LB_AuthorizeBy.Location = New Point(17, 114)
         LB_AuthorizeBy.Name = "LB_AuthorizeBy"
-        LB_AuthorizeBy.Size = New Size(137, 25)
+        LB_AuthorizeBy.Size = New Size(89, 15)
         LB_AuthorizeBy.TabIndex = 7
         LB_AuthorizeBy.Text = "Autorizado por:"
         ' 
         ' LB_Description
         ' 
         LB_Description.AutoSize = True
-        LB_Description.Location = New Point(364, 107)
-        LB_Description.Margin = New Padding(4, 0, 4, 0)
+        LB_Description.Location = New Point(255, 64)
         LB_Description.Name = "LB_Description"
-        LB_Description.Size = New Size(104, 25)
+        LB_Description.Size = New Size(69, 15)
         LB_Description.TabIndex = 6
         LB_Description.Text = "Descripción"
         ' 
         ' TB_DepartmentName
         ' 
-        TB_DepartmentName.Location = New Point(23, 135)
-        TB_DepartmentName.Margin = New Padding(4, 5, 4, 5)
+        TB_DepartmentName.Location = New Point(16, 81)
         TB_DepartmentName.Name = "TB_DepartmentName"
-        TB_DepartmentName.Size = New Size(315, 31)
+        TB_DepartmentName.Size = New Size(222, 23)
         TB_DepartmentName.TabIndex = 1
         ' 
         ' LB_DepartmentName
         ' 
         LB_DepartmentName.AutoSize = True
-        LB_DepartmentName.Location = New Point(24, 109)
-        LB_DepartmentName.Margin = New Padding(4, 0, 4, 0)
+        LB_DepartmentName.Location = New Point(17, 65)
         LB_DepartmentName.Name = "LB_DepartmentName"
-        LB_DepartmentName.Size = New Size(225, 25)
+        LB_DepartmentName.Size = New Size(148, 15)
         LB_DepartmentName.TabIndex = 5
         LB_DepartmentName.Text = "Nombre del departamento"
         ' 
         ' TB_Description
         ' 
-        TB_Description.Location = New Point(363, 135)
-        TB_Description.Margin = New Padding(4, 5, 4, 5)
+        TB_Description.Location = New Point(254, 81)
         TB_Description.Multiline = True
         TB_Description.Name = "TB_Description"
-        TB_Description.Size = New Size(575, 114)
+        TB_Description.Size = New Size(404, 70)
         TB_Description.TabIndex = 2
         ' 
         ' TB_AuthorizeBy
         ' 
-        TB_AuthorizeBy.Location = New Point(23, 213)
-        TB_AuthorizeBy.Margin = New Padding(4, 5, 4, 5)
+        TB_AuthorizeBy.Location = New Point(16, 128)
         TB_AuthorizeBy.Name = "TB_AuthorizeBy"
-        TB_AuthorizeBy.Size = New Size(315, 31)
+        TB_AuthorizeBy.Size = New Size(222, 23)
         TB_AuthorizeBy.TabIndex = 3
         ' 
         ' DGV_DepartmentsList
@@ -147,29 +137,41 @@ Partial Class MD_UPD_Departments
         DGV_DepartmentsList.AllowUserToAddRows = False
         DGV_DepartmentsList.AllowUserToDeleteRows = False
         DGV_DepartmentsList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_DepartmentsList.Location = New Point(17, 390)
-        DGV_DepartmentsList.Margin = New Padding(4, 5, 4, 5)
+        DGV_DepartmentsList.Location = New Point(12, 234)
         DGV_DepartmentsList.Name = "DGV_DepartmentsList"
         DGV_DepartmentsList.ReadOnly = True
         DGV_DepartmentsList.RowHeadersWidth = 62
-        DGV_DepartmentsList.Size = New Size(1740, 356)
+        DGV_DepartmentsList.Size = New Size(1218, 214)
         DGV_DepartmentsList.TabIndex = 13
+        ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(255, 30)
+        LB_Title.TabIndex = 107
+        LB_Title.Text = "Edición de departamentos"
         ' 
         ' MD_UPD_Departments
         ' 
-        AutoScaleDimensions = New SizeF(10F, 25F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(1774, 1050)
+        ClientSize = New Size(1242, 630)
+        Controls.Add(LB_Title)
         Controls.Add(DGV_DepartmentsList)
         Controls.Add(GroupBox1)
+        Margin = New Padding(2, 2, 2, 2)
         Name = "MD_UPD_Departments"
-        Text = "Actualizar departamento"
+        Text = "Edición de departamentos"
         WindowState = FormWindowState.Maximized
         GroupBox1.ResumeLayout(False)
         GroupBox1.PerformLayout()
         CType(DGV_DepartmentsList, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents GroupBox1 As GroupBox
@@ -183,4 +185,5 @@ Partial Class MD_UPD_Departments
     Friend WithEvents TB_Description As TextBox
     Friend WithEvents TB_AuthorizeBy As TextBox
     Friend WithEvents DGV_DepartmentsList As DataGridView
+    Friend WithEvents LB_Title As Label
 End Class

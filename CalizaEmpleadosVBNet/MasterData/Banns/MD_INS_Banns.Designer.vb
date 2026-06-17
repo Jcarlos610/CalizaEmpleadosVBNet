@@ -37,6 +37,7 @@ Partial Class MD_INS_Banns
         TB_Description = New TextBox()
         TB_AuthorizeBy = New TextBox()
         DGV_BannsList = New DataGridView()
+        LB_Title = New Label()
         GroupBox1.SuspendLayout()
         CType(DGV_BannsList, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -181,21 +182,33 @@ Partial Class MD_INS_Banns
         DGV_BannsList.Size = New Size(1218, 434)
         DGV_BannsList.TabIndex = 11
         ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 9)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(273, 30)
+        LB_Title.TabIndex = 105
+        LB_Title.Text = "Registro de amonestaciones"
+        ' 
         ' MD_INS_Banns
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1242, 694)
+        Controls.Add(LB_Title)
         Controls.Add(DGV_BannsList)
         Controls.Add(GroupBox1)
         Name = "MD_INS_Banns"
-        Text = "Creación de amonestaciones"
+        Text = "Registro de amonestaciones"
         WindowState = FormWindowState.Maximized
         GroupBox1.ResumeLayout(False)
         GroupBox1.PerformLayout()
         CType(DGV_BannsList, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents GroupBox1 As GroupBox
@@ -213,4 +226,5 @@ Partial Class MD_INS_Banns
     Friend WithEvents TB_Description As TextBox
     Friend WithEvents TB_AuthorizeBy As TextBox
     Friend WithEvents DGV_BannsList As DataGridView
+    Friend WithEvents LB_Title As Label
 End Class

@@ -74,10 +74,32 @@ Public Class OP_UPD_AmountToTransfer
         End Try
     End Sub
 
-    Private Sub DGV_Amtrans_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Amtrans.CellClick
-        If e.RowIndex >= 0 Then
+    'Private Sub DGV_Amtrans_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Amtrans.CellClick
+    '    If e.RowIndex >= 0 Then
+    '        Try
+    '            Dim Fila As DataGridViewRow = DGV_Amtrans.Rows(e.RowIndex)
+
+    '            TB_EmployeeId.Text = Fila.Cells("No. Emp").Value.ToString()
+    '            TB_EmployeeName.Text = Fila.Cells("Nombre Completo").Value.ToString()
+    '            TB_Amount.Text = Convert.ToDecimal(Fila.Cells("Monto a Depositar").Value).ToString("0.00")
+
+    '            AmtransIdSeleccionado = Convert.ToInt32(Fila.Cells("AMTRANS_ID").Value)
+
+    '            BT_Upd.Enabled = True
+
+    '        Catch ex As Exception
+    '            BT_Upd.Enabled = False
+    '        End Try
+    '    End If
+    'End Sub
+
+    Private Sub DGV_Amtrans_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_Amtrans.MouseClick
+
+        Dim hit As DataGridView.HitTestInfo = DGV_Amtrans.HitTest(e.X, e.Y)
+
+        If hit.RowIndex >= 0 AndAlso hit.Type = DataGridViewHitTestType.RowHeader Then
             Try
-                Dim Fila As DataGridViewRow = DGV_Amtrans.Rows(e.RowIndex)
+                Dim Fila As DataGridViewRow = DGV_Amtrans.Rows(hit.RowIndex)
 
                 TB_EmployeeId.Text = Fila.Cells("No. Emp").Value.ToString()
                 TB_EmployeeName.Text = Fila.Cells("Nombre Completo").Value.ToString()
@@ -88,6 +110,7 @@ Public Class OP_UPD_AmountToTransfer
                 BT_Upd.Enabled = True
 
             Catch ex As Exception
+
                 BT_Upd.Enabled = False
             End Try
         End If

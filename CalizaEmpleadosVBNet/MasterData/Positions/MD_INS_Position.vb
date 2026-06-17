@@ -78,8 +78,6 @@ Public Class MD_INS_Position
                 1
             )
 
-            '' PRUEBA PARA COMPROBAR EL CATCH:
-            'Throw New Exception("Falla simulada de conexión.")
 
             If Position.InsertPosition() Then
                 Dim connTmp As New SqlConnection(My.Settings.ConnectionString)

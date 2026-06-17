@@ -1,45 +1,86 @@
 ﻿Imports Microsoft.Data.SqlClient
 
 Public Class OP_UPD_RECORDSBYEMPLOYEECREDITS
-    Private Sub DGV_Loans_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Loans.CellContentClick
-        If DGV_Loans.CurrentRow Is Nothing Then Exit Sub
+    'Private Sub DGV_Loans_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Loans.CellContentClick
+    '    If DGV_Loans.CurrentRow Is Nothing Then Exit Sub
 
 
-        TB_Ammount.Text = DGV_Loans.CurrentRow.Cells("Monto").Value.ToString()
+    '    TB_Ammount.Text = DGV_Loans.CurrentRow.Cells("Monto").Value.ToString()
 
-        TB_Comment.Text = DGV_Loans.CurrentRow.Cells("Comentario").Value.ToString()
+    '    TB_Comment.Text = DGV_Loans.CurrentRow.Cells("Comentario").Value.ToString()
 
-        Dim tipo As String = DGV_Loans.CurrentRow.Cells("TipoCredito").Value.ToString()
+    '    Dim tipo As String = DGV_Loans.CurrentRow.Cells("TipoCredito").Value.ToString()
 
-        If tipo = "Crédito Manual" Then
-            CB_Credits.SelectedItem = "Crédito Manual"
-        ElseIf tipo = "Adelanto de sueldo" Then
-            CB_Credits.SelectedItem = "Adelanto de sueldo"
+    '    If tipo = "Crédito Manual" Then
+    '        CB_Credits.SelectedItem = "Crédito Manual"
+    '    ElseIf tipo = "Adelanto de sueldo" Then
+    '        CB_Credits.SelectedItem = "Adelanto de sueldo"
+    '    End If
+
+
+    '    If DGV_Loans.Columns.Contains("AutorizadoPor") AndAlso
+    '         Not IsDBNull(DGV_Loans.CurrentRow.Cells("AutorizadoPor").Value) Then
+
+    '        TB_AuthorizeBy.Text = DGV_Loans.CurrentRow.Cells("AutorizadoPor").Value.ToString()
+    '    End If
+
+    '    If DGV_Loans.Columns.Contains("DISC_ID") Then
+
+    '        Dim valor = DGV_Loans.CurrentRow.Cells("DISC_ID").Value
+
+    '        If valor IsNot Nothing AndAlso Not IsDBNull(valor) Then
+    '            Try
+    '                CB_Discounts.SelectedValue = Convert.ToInt32(valor)
+    '            Catch
+    '                CB_Discounts.SelectedIndex = -1
+    '            End Try
+    '        Else
+    '            CB_Discounts.SelectedIndex = -1
+    '        End If
+
+    '    End If
+
+    'End Sub
+
+    Private Sub DGV_Loans_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_Loans.MouseClick
+
+        Dim hit As DataGridView.HitTestInfo = DGV_Loans.HitTest(e.X, e.Y)
+
+        If hit.RowIndex >= 0 AndAlso hit.Type = DataGridViewHitTestType.RowHeader Then
+            Try
+                Dim row As DataGridViewRow = DGV_Loans.Rows(hit.RowIndex)
+
+                TB_Ammount.Text = row.Cells("Monto").Value.ToString()
+                TB_Comment.Text = row.Cells("Comentario").Value.ToString()
+                Dim tipo As String = row.Cells("TipoCredito").Value.ToString()
+                If tipo = "Crédito Manual" Then
+                    CB_Credits.SelectedItem = "Crédito Manual"
+                ElseIf tipo = "Adelanto de sueldo" Then
+                    CB_Credits.SelectedItem = "Adelanto de sueldo"
+                End If
+
+                If DGV_Loans.Columns.Contains("AutorizadoPor") AndAlso Not IsDBNull(row.Cells("AutorizadoPor").Value) Then
+                    TB_AuthorizeBy.Text = row.Cells("AutorizadoPor").Value.ToString()
+                End If
+
+                If DGV_Loans.Columns.Contains("DISC_ID") Then
+                    Dim valor = row.Cells("DISC_ID").Value
+
+                    If valor IsNot Nothing AndAlso Not IsDBNull(valor) Then
+                        Try
+                            CB_Discounts.SelectedValue = Convert.ToInt32(valor)
+                        Catch
+                            CB_Discounts.SelectedIndex = -1
+                        End Try
+                    Else
+                        CB_Discounts.SelectedIndex = -1
+                    End If
+                End If
+
+            Catch ex As Exception
+                MsgBox("Error al seleccionar el préstamo: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            End Try
         End If
-
-
-        If DGV_Loans.Columns.Contains("AutorizadoPor") AndAlso
-             Not IsDBNull(DGV_Loans.CurrentRow.Cells("AutorizadoPor").Value) Then
-
-            TB_AuthorizeBy.Text = DGV_Loans.CurrentRow.Cells("AutorizadoPor").Value.ToString()
-        End If
-
-        If DGV_Loans.Columns.Contains("DISC_ID") Then
-
-            Dim valor = DGV_Loans.CurrentRow.Cells("DISC_ID").Value
-
-            If valor IsNot Nothing AndAlso Not IsDBNull(valor) Then
-                Try
-                    CB_Discounts.SelectedValue = Convert.ToInt32(valor)
-                Catch
-                    CB_Discounts.SelectedIndex = -1
-                End Try
-            Else
-                CB_Discounts.SelectedIndex = -1
-            End If
-
-        End If
-
     End Sub
 
 

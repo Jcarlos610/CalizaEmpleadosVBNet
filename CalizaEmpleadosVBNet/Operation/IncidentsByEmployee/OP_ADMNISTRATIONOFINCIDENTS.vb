@@ -407,20 +407,41 @@ Public Class OP_ADMNISTRATIONOFINCIDENTS
         DGV_Employees.DataSource = report.Get_AllEmployeesAllDepartments()
     End Sub
 
-    Private Sub DGV_Employees_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Employees.CellClick
-        If e.RowIndex < 0 Then Exit Sub
+    'Private Sub DGV_Employees_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Employees.CellClick
+    '    If e.RowIndex < 0 Then Exit Sub
 
-        Dim row = DGV_Employees.Rows(e.RowIndex)
+    '    Dim row = DGV_Employees.Rows(e.RowIndex)
 
-        SelectedEmployeeID = CInt(row.Cells(0).Value)
+    '    SelectedEmployeeID = CInt(row.Cells(0).Value)
 
 
-        TB_EmployeeId.Text = SelectedEmployeeID.ToString()
+    '    TB_EmployeeId.Text = SelectedEmployeeID.ToString()
 
-        TB_EmployeeName.Text = row.Cells("Nombre Completo").Value.ToString()
+    '    TB_EmployeeName.Text = row.Cells("Nombre Completo").Value.ToString()
 
-        LoadIncidents()
-        LoadEmployeeSummary()
+    '    LoadIncidents()
+    '    LoadEmployeeSummary()
+    'End Sub
+
+    Private Sub DGV_Employees_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_Employees.MouseClick
+
+        Dim hit As DataGridView.HitTestInfo = DGV_Employees.HitTest(e.X, e.Y)
+
+        If hit.RowIndex >= 0 AndAlso hit.Type = DataGridViewHitTestType.RowHeader Then
+            Try
+                Dim row As DataGridViewRow = DGV_Employees.Rows(hit.RowIndex)
+
+                SelectedEmployeeID = CInt(row.Cells(0).Value)
+                TB_EmployeeId.Text = SelectedEmployeeID.ToString()
+                TB_EmployeeName.Text = row.Cells("Nombre Completo").Value.ToString()
+
+                LoadIncidents()
+                LoadEmployeeSummary()
+
+            Catch ex As Exception
+                MsgBox("Error al seleccionar el empleado: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            End Try
+        End If
     End Sub
 
     Sub LoadEmployeeSummary()
@@ -443,37 +464,73 @@ Public Class OP_ADMNISTRATIONOFINCIDENTS
 
     End Sub
 
-    Private Sub DGV_Incidents_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Incidents.CellClick
+    'Private Sub DGV_Incidents_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Incidents.CellClick
 
-        If e.RowIndex < 0 Or e.ColumnIndex < 0 Then Exit Sub
+    '    If e.RowIndex < 0 Or e.ColumnIndex < 0 Then Exit Sub
 
-        If DGV_Incidents.Columns(e.ColumnIndex).Name = "Cancelar" Then
+    '    If DGV_Incidents.Columns(e.ColumnIndex).Name = "Cancelar" Then
 
-            Dim estado As String = DGV_Incidents.Rows(e.RowIndex).Cells("Estado").Value.ToString()
+    '        Dim estado As String = DGV_Incidents.Rows(e.RowIndex).Cells("Estado").Value.ToString()
 
-            If estado = "Cancelado" Then
-                MessageBox.Show("Este registro ya está cancelado", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Exit Sub
-            End If
+    '        If estado = "Cancelado" Then
+    '            MessageBox.Show("Este registro ya está cancelado", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    '            Exit Sub
+    '        End If
 
-            Dim id As Integer = CInt(DGV_Incidents.Rows(e.RowIndex).Cells("REMPL_ID").Value)
+    '        Dim id As Integer = CInt(DGV_Incidents.Rows(e.RowIndex).Cells("REMPL_ID").Value)
 
-            Dim confirm = MessageBox.Show("¿Deseas cancelar este registro?", "Confirmar",
-                                         MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+    '        Dim confirm = MessageBox.Show("¿Deseas cancelar este registro?", "Confirmar",
+    '                                     MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
-            If confirm = DialogResult.Yes Then
+    '        If confirm = DialogResult.Yes Then
 
-                Dim obj As New CL_Incidents
+    '            Dim obj As New CL_Incidents
 
-                If obj.CancelIncident(id) Then
-                    MessageBox.Show("Registro cancelado correctamente")
-                    LoadIncidents()
+    '            If obj.CancelIncident(id) Then
+    '                MessageBox.Show("Registro cancelado correctamente")
+    '                LoadIncidents()
+    '            End If
+
+    '        End If
+
+    '    End If
+
+    'End Sub
+
+    Private Sub DGV_Incidents_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_Incidents.MouseClick
+
+        Dim hit As DataGridView.HitTestInfo = DGV_Incidents.HitTest(e.X, e.Y)
+
+        If hit.RowIndex >= 0 AndAlso hit.ColumnIndex >= 0 AndAlso hit.Type = DataGridViewHitTestType.Cell Then
+            Try
+                If DGV_Incidents.Columns(hit.ColumnIndex).Name = "Cancelar" Then
+                    Dim row As DataGridViewRow = DGV_Incidents.Rows(hit.RowIndex)
+                    Dim estado As String = row.Cells("Estado").Value.ToString()
+
+                    If estado = "Cancelado" Then
+                        MessageBox.Show("Este registro ya está cancelado", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Exit Sub
+                    End If
+
+                    Dim id As Integer = CInt(row.Cells("REMPL_ID").Value)
+
+                    Dim confirm = MessageBox.Show("¿Deseas cancelar este registro?", "Confirmar",
+                                             MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+                    If confirm = DialogResult.Yes Then
+                        Dim obj As New CL_Incidents
+
+                        If obj.CancelIncident(id) Then
+                            MessageBox.Show("Registro cancelado correctamente", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            LoadIncidents()
+                        End If
+                    End If
                 End If
 
-            End If
-
+            Catch ex As Exception
+                MsgBox("Error al procesar la acción: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            End Try
         End If
-
     End Sub
 
     Private Sub CHK_LastOnly_CheckedChanged(sender As Object, e As EventArgs) Handles CHK_LastOnly.CheckedChanged

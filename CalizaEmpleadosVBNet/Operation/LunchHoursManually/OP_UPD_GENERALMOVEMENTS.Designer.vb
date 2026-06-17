@@ -29,6 +29,7 @@ Partial Class OP_UPD_GENERALMOVEMENTS
         LB_StartDate = New Label()
         BT_Update = New Button()
         DGV_ActiveEmployeesInfo = New DataGridView()
+        LB_Title = New Label()
         GB_EmployeesList.SuspendLayout()
         CType(DGV_ActiveEmployeesInfo, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -102,6 +103,16 @@ Partial Class OP_UPD_GENERALMOVEMENTS
         DGV_ActiveEmployeesInfo.Size = New Size(1793, 785)
         DGV_ActiveEmployeesInfo.TabIndex = 2
         ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(155, 30)
+        LB_Title.TabIndex = 114
+        LB_Title.Text = "Edición general"
+        ' 
         ' OP_UPD_GENERALMOVEMENTS
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -109,14 +120,16 @@ Partial Class OP_UPD_GENERALMOVEMENTS
         AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1361, 630)
+        Controls.Add(LB_Title)
         Controls.Add(GB_EmployeesList)
         Name = "OP_UPD_GENERALMOVEMENTS"
-        Text = "Edición General"
+        Text = "Edición general"
         WindowState = FormWindowState.Maximized
         GB_EmployeesList.ResumeLayout(False)
         GB_EmployeesList.PerformLayout()
         CType(DGV_ActiveEmployeesInfo, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents GB_EmployeesList As GroupBox
@@ -126,4 +139,5 @@ Partial Class OP_UPD_GENERALMOVEMENTS
     Friend WithEvents LB_EndDate As Label
     Friend WithEvents DTP_StartDate As DateTimePicker
     Friend WithEvents LB_StartDate As Label
+    Friend WithEvents LB_Title As Label
 End Class

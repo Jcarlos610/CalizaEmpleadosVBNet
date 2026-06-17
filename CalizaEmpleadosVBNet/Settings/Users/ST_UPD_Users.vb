@@ -142,21 +142,48 @@ Public Class ST_UPD_Users
 
     End Sub
 
-    Private Sub DGV_Roles_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Roles.CellContentClick
-        If e.RowIndex < 0 Then Exit Sub
+    'Private Sub DGV_Roles_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Roles.CellContentClick
+    '    If e.RowIndex < 0 Then Exit Sub
 
-        SelectedUserID = CInt(DGV_Roles.Rows(e.RowIndex).Cells("USER_ID").Value)
+    '    SelectedUserID = CInt(DGV_Roles.Rows(e.RowIndex).Cells("USER_ID").Value)
 
-        Dim user As New CL_Users()
-        user.USER_ID = SelectedUserID
+    '    Dim user As New CL_Users()
+    '    user.USER_ID = SelectedUserID
 
-        Dim dt = user.GetUserData()
+    '    Dim dt = user.GetUserData()
 
-        If dt.Rows.Count > 0 Then
-            TB_UserName.Text = dt.Rows(0)("USER_NAME").ToString()
+    '    If dt.Rows.Count > 0 Then
+    '        TB_UserName.Text = dt.Rows(0)("USER_NAME").ToString()
 
+    '    End If
+
+    '    LoadUserRoles(SelectedUserID)
+    'End Sub
+
+    Private Sub DGV_Roles_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_Roles.MouseClick
+
+        Dim hit As DataGridView.HitTestInfo = DGV_Roles.HitTest(e.X, e.Y)
+
+        If hit.RowIndex >= 0 AndAlso hit.Type = DataGridViewHitTestType.RowHeader Then
+            Try
+                Dim row As DataGridViewRow = DGV_Roles.Rows(hit.RowIndex)
+
+                SelectedUserID = CInt(row.Cells("USER_ID").Value)
+
+                Dim user As New CL_Users()
+                user.USER_ID = SelectedUserID
+
+                Dim dt As DataTable = user.GetUserData()
+
+                If dt.Rows.Count > 0 Then
+                    TB_UserName.Text = dt.Rows(0)("USER_NAME").ToString()
+                End If
+
+                LoadUserRoles(SelectedUserID)
+
+            Catch ex As Exception
+                MsgBox("Error al cargar la información del usuario: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            End Try
         End If
-
-        LoadUserRoles(SelectedUserID)
     End Sub
 End Class

@@ -70,6 +70,7 @@ Partial Class OP_UP_ADMNISTRATIONOFINCIDENTS
         BT_VacUpd = New Button()
         DTP_VacDateFrom = New DateTimePicker()
         LB_VacDateFrom = New Label()
+        LB_Title = New Label()
         GB_EmployeeInfo.SuspendLayout()
         CType(DGV_Employees, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox1.SuspendLayout()
@@ -87,42 +88,44 @@ Partial Class OP_UP_ADMNISTRATIONOFINCIDENTS
         GB_EmployeeInfo.Controls.Add(TB_EmployeeName)
         GB_EmployeeInfo.Controls.Add(LB_EmployeeName)
         GB_EmployeeInfo.Controls.Add(DGV_Employees)
-        GB_EmployeeInfo.Location = New Point(17, 77)
-        GB_EmployeeInfo.Margin = New Padding(4, 5, 4, 5)
+        GB_EmployeeInfo.Location = New Point(12, 46)
         GB_EmployeeInfo.Name = "GB_EmployeeInfo"
-        GB_EmployeeInfo.Padding = New Padding(4, 5, 4, 5)
-        GB_EmployeeInfo.Size = New Size(1944, 401)
+        GB_EmployeeInfo.Size = New Size(1361, 241)
         GB_EmployeeInfo.TabIndex = 6
         GB_EmployeeInfo.TabStop = False
         GB_EmployeeInfo.Text = "Información de empleado"
         ' 
         ' TB_TotalPermissions
         ' 
-        TB_TotalPermissions.Location = New Point(17, 353)
+        TB_TotalPermissions.Location = New Point(12, 212)
+        TB_TotalPermissions.Margin = New Padding(2, 2, 2, 2)
         TB_TotalPermissions.Name = "TB_TotalPermissions"
-        TB_TotalPermissions.Size = New Size(201, 31)
+        TB_TotalPermissions.Size = New Size(142, 23)
         TB_TotalPermissions.TabIndex = 10
         ' 
         ' TB_TotalVacations
         ' 
-        TB_TotalVacations.Location = New Point(17, 312)
+        TB_TotalVacations.Location = New Point(12, 187)
+        TB_TotalVacations.Margin = New Padding(2, 2, 2, 2)
         TB_TotalVacations.Name = "TB_TotalVacations"
-        TB_TotalVacations.Size = New Size(201, 31)
+        TB_TotalVacations.Size = New Size(142, 23)
         TB_TotalVacations.TabIndex = 8
         ' 
         ' TB_EmployeeName
         ' 
-        TB_EmployeeName.Location = New Point(119, 265)
+        TB_EmployeeName.Location = New Point(83, 159)
+        TB_EmployeeName.Margin = New Padding(2, 2, 2, 2)
         TB_EmployeeName.Name = "TB_EmployeeName"
-        TB_EmployeeName.Size = New Size(333, 31)
+        TB_EmployeeName.Size = New Size(234, 23)
         TB_EmployeeName.TabIndex = 6
         ' 
         ' LB_EmployeeName
         ' 
         LB_EmployeeName.AutoSize = True
-        LB_EmployeeName.Location = New Point(17, 265)
+        LB_EmployeeName.Location = New Point(12, 159)
+        LB_EmployeeName.Margin = New Padding(2, 0, 2, 0)
         LB_EmployeeName.Name = "LB_EmployeeName"
-        LB_EmployeeName.Size = New Size(96, 25)
+        LB_EmployeeName.Size = New Size(63, 15)
         LB_EmployeeName.TabIndex = 5
         LB_EmployeeName.Text = "Empleado:"
         ' 
@@ -132,21 +135,22 @@ Partial Class OP_UP_ADMNISTRATIONOFINCIDENTS
         DGV_Employees.AllowUserToDeleteRows = False
         DGV_Employees.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         DGV_Employees.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_Employees.Location = New Point(17, 34)
-        DGV_Employees.Margin = New Padding(4, 5, 4, 5)
+        DGV_Employees.Location = New Point(12, 20)
         DGV_Employees.Name = "DGV_Employees"
         DGV_Employees.ReadOnly = True
         DGV_Employees.RowHeadersWidth = 62
-        DGV_Employees.Size = New Size(1899, 213)
+        DGV_Employees.Size = New Size(1329, 128)
         DGV_Employees.TabIndex = 1
         ' 
         ' GroupBox1
         ' 
         GroupBox1.Controls.Add(DGV_Incidents)
         GroupBox1.Controls.Add(TB_Incidents)
-        GroupBox1.Location = New Point(17, 486)
+        GroupBox1.Location = New Point(12, 292)
+        GroupBox1.Margin = New Padding(2, 2, 2, 2)
         GroupBox1.Name = "GroupBox1"
-        GroupBox1.Size = New Size(1903, 528)
+        GroupBox1.Padding = New Padding(2, 2, 2, 2)
+        GroupBox1.Size = New Size(1332, 317)
         GroupBox1.TabIndex = 7
         GroupBox1.TabStop = False
         GroupBox1.Text = "Información de permisos"
@@ -158,12 +162,11 @@ Partial Class OP_UP_ADMNISTRATIONOFINCIDENTS
         DGV_Incidents.AllowUserToOrderColumns = True
         DGV_Incidents.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         DGV_Incidents.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_Incidents.Location = New Point(21, 293)
-        DGV_Incidents.Margin = New Padding(4, 5, 4, 5)
+        DGV_Incidents.Location = New Point(15, 176)
         DGV_Incidents.Name = "DGV_Incidents"
         DGV_Incidents.ReadOnly = True
         DGV_Incidents.RowHeadersWidth = 62
-        DGV_Incidents.Size = New Size(1899, 213)
+        DGV_Incidents.Size = New Size(1329, 128)
         DGV_Incidents.TabIndex = 5
         ' 
         ' TB_Incidents
@@ -171,11 +174,10 @@ Partial Class OP_UP_ADMNISTRATIONOFINCIDENTS
         TB_Incidents.Controls.Add(TabPaidLeave)
         TB_Incidents.Controls.Add(TabUnpaidLeave)
         TB_Incidents.Controls.Add(TabVacations)
-        TB_Incidents.Location = New Point(17, 32)
-        TB_Incidents.Margin = New Padding(4, 5, 4, 5)
+        TB_Incidents.Location = New Point(12, 19)
         TB_Incidents.Name = "TB_Incidents"
         TB_Incidents.SelectedIndex = 0
-        TB_Incidents.Size = New Size(1781, 255)
+        TB_Incidents.Size = New Size(1247, 153)
         TB_Incidents.TabIndex = 3
         ' 
         ' TabPaidLeave
@@ -194,11 +196,10 @@ Partial Class OP_UP_ADMNISTRATIONOFINCIDENTS
         TabPaidLeave.Controls.Add(DTP_DateFrom)
         TabPaidLeave.Controls.Add(LB_DateFrom)
         TabPaidLeave.ForeColor = SystemColors.ControlLightLight
-        TabPaidLeave.Location = New Point(4, 34)
-        TabPaidLeave.Margin = New Padding(4, 5, 4, 5)
+        TabPaidLeave.Location = New Point(4, 24)
         TabPaidLeave.Name = "TabPaidLeave"
-        TabPaidLeave.Padding = New Padding(4, 5, 4, 5)
-        TabPaidLeave.Size = New Size(1773, 217)
+        TabPaidLeave.Padding = New Padding(3, 3, 3, 3)
+        TabPaidLeave.Size = New Size(1239, 125)
         TabPaidLeave.TabIndex = 0
         TabPaidLeave.Text = "Permiso con goce"
         ' 
@@ -208,68 +209,61 @@ Partial Class OP_UP_ADMNISTRATIONOFINCIDENTS
         LB_PermissionWithSalary.BackColor = Color.Transparent
         LB_PermissionWithSalary.Font = New Font("Segoe UI", 11F, FontStyle.Bold)
         LB_PermissionWithSalary.ForeColor = SystemColors.ActiveCaptionText
-        LB_PermissionWithSalary.Location = New Point(1480, 10)
-        LB_PermissionWithSalary.Margin = New Padding(4, 0, 4, 0)
+        LB_PermissionWithSalary.Location = New Point(1036, 6)
         LB_PermissionWithSalary.Name = "LB_PermissionWithSalary"
-        LB_PermissionWithSalary.Size = New Size(301, 30)
+        LB_PermissionWithSalary.Size = New Size(203, 20)
         LB_PermissionWithSalary.TabIndex = 34
         LB_PermissionWithSalary.Text = "Permiso con goce de sueldo"
         ' 
         ' TB_Days
         ' 
-        TB_Days.Location = New Point(766, 45)
-        TB_Days.Margin = New Padding(4, 5, 4, 5)
+        TB_Days.Location = New Point(536, 27)
         TB_Days.Name = "TB_Days"
-        TB_Days.Size = New Size(108, 31)
+        TB_Days.Size = New Size(77, 23)
         TB_Days.TabIndex = 33
         ' 
         ' LB_Days
         ' 
         LB_Days.AutoSize = True
         LB_Days.ForeColor = SystemColors.ActiveCaptionText
-        LB_Days.Location = New Point(770, 20)
-        LB_Days.Margin = New Padding(4, 0, 4, 0)
+        LB_Days.Location = New Point(539, 12)
         LB_Days.Name = "LB_Days"
-        LB_Days.Size = New Size(46, 25)
+        LB_Days.Size = New Size(29, 15)
         LB_Days.TabIndex = 32
         LB_Days.Text = "Días"
         ' 
         ' TB_Comment
         ' 
-        TB_Comment.Location = New Point(159, 142)
-        TB_Comment.Margin = New Padding(4, 5, 4, 5)
+        TB_Comment.Location = New Point(111, 85)
         TB_Comment.Multiline = True
         TB_Comment.Name = "TB_Comment"
-        TB_Comment.Size = New Size(504, 57)
+        TB_Comment.Size = New Size(354, 36)
         TB_Comment.TabIndex = 11
         ' 
         ' LB_Comment
         ' 
         LB_Comment.AutoSize = True
         LB_Comment.ForeColor = SystemColors.ActiveCaptionText
-        LB_Comment.Location = New Point(18, 163)
-        LB_Comment.Margin = New Padding(4, 0, 4, 0)
+        LB_Comment.Location = New Point(13, 98)
         LB_Comment.Name = "LB_Comment"
-        LB_Comment.Size = New Size(114, 25)
+        LB_Comment.Size = New Size(76, 15)
         LB_Comment.TabIndex = 10
         LB_Comment.Text = "Comentario: "
         ' 
         ' DTP_DateTo
         ' 
-        DTP_DateTo.Location = New Point(394, 47)
-        DTP_DateTo.Margin = New Padding(4, 5, 4, 5)
+        DTP_DateTo.Location = New Point(276, 28)
         DTP_DateTo.Name = "DTP_DateTo"
-        DTP_DateTo.Size = New Size(335, 31)
+        DTP_DateTo.Size = New Size(236, 23)
         DTP_DateTo.TabIndex = 9
         ' 
         ' LB_DateTo
         ' 
         LB_DateTo.AutoSize = True
         LB_DateTo.ForeColor = SystemColors.ActiveCaptionText
-        LB_DateTo.Location = New Point(398, 20)
-        LB_DateTo.Margin = New Padding(4, 0, 4, 0)
+        LB_DateTo.Location = New Point(279, 12)
         LB_DateTo.Name = "LB_DateTo"
-        LB_DateTo.Size = New Size(113, 25)
+        LB_DateTo.Size = New Size(75, 15)
         LB_DateTo.TabIndex = 8
         LB_DateTo.Text = "Fecha hasta: "
         ' 
@@ -277,48 +271,43 @@ Partial Class OP_UP_ADMNISTRATIONOFINCIDENTS
         ' 
         LB_AuthorizeBy.AutoSize = True
         LB_AuthorizeBy.ForeColor = SystemColors.ActiveCaptionText
-        LB_AuthorizeBy.Location = New Point(18, 100)
-        LB_AuthorizeBy.Margin = New Padding(4, 0, 4, 0)
+        LB_AuthorizeBy.Location = New Point(13, 60)
         LB_AuthorizeBy.Name = "LB_AuthorizeBy"
-        LB_AuthorizeBy.Size = New Size(137, 25)
+        LB_AuthorizeBy.Size = New Size(89, 15)
         LB_AuthorizeBy.TabIndex = 7
         LB_AuthorizeBy.Text = "Autorizado por:"
         ' 
         ' TB_AuthorizeBy
         ' 
-        TB_AuthorizeBy.Location = New Point(159, 95)
-        TB_AuthorizeBy.Margin = New Padding(4, 5, 4, 5)
+        TB_AuthorizeBy.Location = New Point(111, 57)
         TB_AuthorizeBy.Name = "TB_AuthorizeBy"
-        TB_AuthorizeBy.Size = New Size(353, 31)
+        TB_AuthorizeBy.Size = New Size(248, 23)
         TB_AuthorizeBy.TabIndex = 5
         ' 
         ' BT_Upd
         ' 
         BT_Upd.ForeColor = SystemColors.ActiveCaptionText
-        BT_Upd.Location = New Point(1579, 160)
-        BT_Upd.Margin = New Padding(4, 5, 4, 5)
+        BT_Upd.Location = New Point(1105, 96)
         BT_Upd.Name = "BT_Upd"
-        BT_Upd.Size = New Size(183, 38)
+        BT_Upd.Size = New Size(128, 23)
         BT_Upd.TabIndex = 6
         BT_Upd.Text = "Actualizar permiso"
         BT_Upd.UseVisualStyleBackColor = True
         ' 
         ' DTP_DateFrom
         ' 
-        DTP_DateFrom.Location = New Point(14, 47)
-        DTP_DateFrom.Margin = New Padding(4, 5, 4, 5)
+        DTP_DateFrom.Location = New Point(10, 28)
         DTP_DateFrom.Name = "DTP_DateFrom"
-        DTP_DateFrom.Size = New Size(335, 31)
+        DTP_DateFrom.Size = New Size(236, 23)
         DTP_DateFrom.TabIndex = 4
         ' 
         ' LB_DateFrom
         ' 
         LB_DateFrom.AutoSize = True
         LB_DateFrom.ForeColor = SystemColors.ActiveCaptionText
-        LB_DateFrom.Location = New Point(18, 20)
-        LB_DateFrom.Margin = New Padding(4, 0, 4, 0)
+        LB_DateFrom.Location = New Point(13, 12)
         LB_DateFrom.Name = "LB_DateFrom"
-        LB_DateFrom.Size = New Size(119, 25)
+        LB_DateFrom.Size = New Size(78, 15)
         LB_DateFrom.TabIndex = 3
         LB_DateFrom.Text = "Fecha desde: "
         ' 
@@ -338,11 +327,10 @@ Partial Class OP_UP_ADMNISTRATIONOFINCIDENTS
         TabUnpaidLeave.Controls.Add(DTP_InDateFrom)
         TabUnpaidLeave.Controls.Add(LB_InDateFrom)
         TabUnpaidLeave.ForeColor = Color.White
-        TabUnpaidLeave.Location = New Point(4, 34)
-        TabUnpaidLeave.Margin = New Padding(4, 5, 4, 5)
+        TabUnpaidLeave.Location = New Point(4, 24)
         TabUnpaidLeave.Name = "TabUnpaidLeave"
-        TabUnpaidLeave.Padding = New Padding(4, 5, 4, 5)
-        TabUnpaidLeave.Size = New Size(1773, 217)
+        TabUnpaidLeave.Padding = New Padding(3, 3, 3, 3)
+        TabUnpaidLeave.Size = New Size(1239, 125)
         TabUnpaidLeave.TabIndex = 1
         TabUnpaidLeave.Text = "Permiso sin goce"
         ' 
@@ -351,68 +339,61 @@ Partial Class OP_UP_ADMNISTRATIONOFINCIDENTS
         LB_PermissionWithoutSalary.AutoSize = True
         LB_PermissionWithoutSalary.Font = New Font("Segoe UI", 11F, FontStyle.Bold)
         LB_PermissionWithoutSalary.ForeColor = Color.Black
-        LB_PermissionWithoutSalary.Location = New Point(1487, 10)
-        LB_PermissionWithoutSalary.Margin = New Padding(4, 0, 4, 0)
+        LB_PermissionWithoutSalary.Location = New Point(1041, 6)
         LB_PermissionWithoutSalary.Name = "LB_PermissionWithoutSalary"
-        LB_PermissionWithoutSalary.Size = New Size(293, 30)
+        LB_PermissionWithoutSalary.Size = New Size(198, 20)
         LB_PermissionWithoutSalary.TabIndex = 34
         LB_PermissionWithoutSalary.Text = "Permiso sin goce de sueldo"
         ' 
         ' TB_InDays
         ' 
-        TB_InDays.Location = New Point(751, 43)
-        TB_InDays.Margin = New Padding(4, 5, 4, 5)
+        TB_InDays.Location = New Point(526, 26)
         TB_InDays.Name = "TB_InDays"
-        TB_InDays.Size = New Size(108, 31)
+        TB_InDays.Size = New Size(77, 23)
         TB_InDays.TabIndex = 33
         ' 
         ' LB_InDays
         ' 
         LB_InDays.AutoSize = True
         LB_InDays.ForeColor = SystemColors.ActiveCaptionText
-        LB_InDays.Location = New Point(755, 18)
-        LB_InDays.Margin = New Padding(4, 0, 4, 0)
+        LB_InDays.Location = New Point(528, 11)
         LB_InDays.Name = "LB_InDays"
-        LB_InDays.Size = New Size(46, 25)
+        LB_InDays.Size = New Size(29, 15)
         LB_InDays.TabIndex = 32
         LB_InDays.Text = "Días"
         ' 
         ' TB_InComment
         ' 
-        TB_InComment.Location = New Point(159, 140)
-        TB_InComment.Margin = New Padding(4, 5, 4, 5)
+        TB_InComment.Location = New Point(111, 84)
         TB_InComment.Multiline = True
         TB_InComment.Name = "TB_InComment"
-        TB_InComment.Size = New Size(504, 57)
+        TB_InComment.Size = New Size(354, 36)
         TB_InComment.TabIndex = 20
         ' 
         ' LB_InComment
         ' 
         LB_InComment.AutoSize = True
         LB_InComment.ForeColor = SystemColors.ActiveCaptionText
-        LB_InComment.Location = New Point(18, 163)
-        LB_InComment.Margin = New Padding(4, 0, 4, 0)
+        LB_InComment.Location = New Point(13, 98)
         LB_InComment.Name = "LB_InComment"
-        LB_InComment.Size = New Size(114, 25)
+        LB_InComment.Size = New Size(76, 15)
         LB_InComment.TabIndex = 19
         LB_InComment.Text = "Comentario: "
         ' 
         ' DTP_InDateTo
         ' 
-        DTP_InDateTo.Location = New Point(394, 47)
-        DTP_InDateTo.Margin = New Padding(4, 5, 4, 5)
+        DTP_InDateTo.Location = New Point(276, 28)
         DTP_InDateTo.Name = "DTP_InDateTo"
-        DTP_InDateTo.Size = New Size(335, 31)
+        DTP_InDateTo.Size = New Size(236, 23)
         DTP_InDateTo.TabIndex = 18
         ' 
         ' LB_InDateTo
         ' 
         LB_InDateTo.AutoSize = True
         LB_InDateTo.ForeColor = SystemColors.ActiveCaptionText
-        LB_InDateTo.Location = New Point(398, 18)
-        LB_InDateTo.Margin = New Padding(4, 0, 4, 0)
+        LB_InDateTo.Location = New Point(279, 11)
         LB_InDateTo.Name = "LB_InDateTo"
-        LB_InDateTo.Size = New Size(113, 25)
+        LB_InDateTo.Size = New Size(75, 15)
         LB_InDateTo.TabIndex = 17
         LB_InDateTo.Text = "Fecha hasta: "
         ' 
@@ -420,48 +401,43 @@ Partial Class OP_UP_ADMNISTRATIONOFINCIDENTS
         ' 
         LB_InAuthorizeBy.AutoSize = True
         LB_InAuthorizeBy.ForeColor = SystemColors.ActiveCaptionText
-        LB_InAuthorizeBy.Location = New Point(18, 98)
-        LB_InAuthorizeBy.Margin = New Padding(4, 0, 4, 0)
+        LB_InAuthorizeBy.Location = New Point(13, 59)
         LB_InAuthorizeBy.Name = "LB_InAuthorizeBy"
-        LB_InAuthorizeBy.Size = New Size(137, 25)
+        LB_InAuthorizeBy.Size = New Size(89, 15)
         LB_InAuthorizeBy.TabIndex = 16
         LB_InAuthorizeBy.Text = "Autorizado por:"
         ' 
         ' TB_InAuthorizeBy
         ' 
-        TB_InAuthorizeBy.Location = New Point(159, 93)
-        TB_InAuthorizeBy.Margin = New Padding(4, 5, 4, 5)
+        TB_InAuthorizeBy.Location = New Point(111, 56)
         TB_InAuthorizeBy.Name = "TB_InAuthorizeBy"
-        TB_InAuthorizeBy.Size = New Size(353, 31)
+        TB_InAuthorizeBy.Size = New Size(248, 23)
         TB_InAuthorizeBy.TabIndex = 14
         ' 
         ' BT_InUpd
         ' 
         BT_InUpd.ForeColor = SystemColors.ActiveCaptionText
-        BT_InUpd.Location = New Point(1579, 160)
-        BT_InUpd.Margin = New Padding(4, 5, 4, 5)
+        BT_InUpd.Location = New Point(1105, 96)
         BT_InUpd.Name = "BT_InUpd"
-        BT_InUpd.Size = New Size(183, 38)
+        BT_InUpd.Size = New Size(128, 23)
         BT_InUpd.TabIndex = 15
         BT_InUpd.Text = "Actualizar permiso"
         BT_InUpd.UseVisualStyleBackColor = True
         ' 
         ' DTP_InDateFrom
         ' 
-        DTP_InDateFrom.Location = New Point(14, 47)
-        DTP_InDateFrom.Margin = New Padding(4, 5, 4, 5)
+        DTP_InDateFrom.Location = New Point(10, 28)
         DTP_InDateFrom.Name = "DTP_InDateFrom"
-        DTP_InDateFrom.Size = New Size(335, 31)
+        DTP_InDateFrom.Size = New Size(236, 23)
         DTP_InDateFrom.TabIndex = 13
         ' 
         ' LB_InDateFrom
         ' 
         LB_InDateFrom.AutoSize = True
         LB_InDateFrom.ForeColor = SystemColors.ActiveCaptionText
-        LB_InDateFrom.Location = New Point(18, 18)
-        LB_InDateFrom.Margin = New Padding(4, 0, 4, 0)
+        LB_InDateFrom.Location = New Point(13, 11)
         LB_InDateFrom.Name = "LB_InDateFrom"
-        LB_InDateFrom.Size = New Size(119, 25)
+        LB_InDateFrom.Size = New Size(78, 15)
         LB_InDateFrom.TabIndex = 12
         LB_InDateFrom.Text = "Fecha desde: "
         ' 
@@ -480,10 +456,11 @@ Partial Class OP_UP_ADMNISTRATIONOFINCIDENTS
         TabVacations.Controls.Add(BT_VacUpd)
         TabVacations.Controls.Add(DTP_VacDateFrom)
         TabVacations.Controls.Add(LB_VacDateFrom)
-        TabVacations.Location = New Point(4, 34)
+        TabVacations.Location = New Point(4, 24)
+        TabVacations.Margin = New Padding(2, 2, 2, 2)
         TabVacations.Name = "TabVacations"
-        TabVacations.Padding = New Padding(3)
-        TabVacations.Size = New Size(1773, 217)
+        TabVacations.Padding = New Padding(2, 2, 2, 2)
+        TabVacations.Size = New Size(1239, 125)
         TabVacations.TabIndex = 2
         TabVacations.Text = "Vacaciones"
         ' 
@@ -491,68 +468,61 @@ Partial Class OP_UP_ADMNISTRATIONOFINCIDENTS
         ' 
         LB_VacationsRequest.AutoSize = True
         LB_VacationsRequest.Font = New Font("Segoe UI", 11F, FontStyle.Bold)
-        LB_VacationsRequest.Location = New Point(1527, 8)
-        LB_VacationsRequest.Margin = New Padding(4, 0, 4, 0)
+        LB_VacationsRequest.Location = New Point(1069, 5)
         LB_VacationsRequest.Name = "LB_VacationsRequest"
-        LB_VacationsRequest.Size = New Size(253, 30)
+        LB_VacationsRequest.Size = New Size(169, 20)
         LB_VacationsRequest.TabIndex = 32
         LB_VacationsRequest.Text = "Solicitud de vacaciones"
         ' 
         ' TB_VacDays
         ' 
-        TB_VacDays.Location = New Point(759, 43)
-        TB_VacDays.Margin = New Padding(4, 5, 4, 5)
+        TB_VacDays.Location = New Point(531, 26)
         TB_VacDays.Name = "TB_VacDays"
-        TB_VacDays.Size = New Size(108, 31)
+        TB_VacDays.Size = New Size(77, 23)
         TB_VacDays.TabIndex = 31
         ' 
         ' LB_VacDays
         ' 
         LB_VacDays.AutoSize = True
         LB_VacDays.ForeColor = SystemColors.ActiveCaptionText
-        LB_VacDays.Location = New Point(762, 16)
-        LB_VacDays.Margin = New Padding(4, 0, 4, 0)
+        LB_VacDays.Location = New Point(533, 10)
         LB_VacDays.Name = "LB_VacDays"
-        LB_VacDays.Size = New Size(46, 25)
+        LB_VacDays.Size = New Size(29, 15)
         LB_VacDays.TabIndex = 30
         LB_VacDays.Text = "Días"
         ' 
         ' TB_VacComment
         ' 
-        TB_VacComment.Location = New Point(159, 140)
-        TB_VacComment.Margin = New Padding(4, 5, 4, 5)
+        TB_VacComment.Location = New Point(111, 84)
         TB_VacComment.Multiline = True
         TB_VacComment.Name = "TB_VacComment"
-        TB_VacComment.Size = New Size(504, 57)
+        TB_VacComment.Size = New Size(354, 36)
         TB_VacComment.TabIndex = 29
         ' 
         ' LB_VacComment
         ' 
         LB_VacComment.AutoSize = True
         LB_VacComment.ForeColor = SystemColors.ActiveCaptionText
-        LB_VacComment.Location = New Point(17, 161)
-        LB_VacComment.Margin = New Padding(4, 0, 4, 0)
+        LB_VacComment.Location = New Point(12, 97)
         LB_VacComment.Name = "LB_VacComment"
-        LB_VacComment.Size = New Size(114, 25)
+        LB_VacComment.Size = New Size(76, 15)
         LB_VacComment.TabIndex = 28
         LB_VacComment.Text = "Comentario: "
         ' 
         ' DTP_VacDateTo
         ' 
-        DTP_VacDateTo.Location = New Point(394, 47)
-        DTP_VacDateTo.Margin = New Padding(4, 5, 4, 5)
+        DTP_VacDateTo.Location = New Point(276, 28)
         DTP_VacDateTo.Name = "DTP_VacDateTo"
-        DTP_VacDateTo.Size = New Size(335, 31)
+        DTP_VacDateTo.Size = New Size(236, 23)
         DTP_VacDateTo.TabIndex = 27
         ' 
         ' LB_VacDateTo
         ' 
         LB_VacDateTo.AutoSize = True
         LB_VacDateTo.ForeColor = SystemColors.ActiveCaptionText
-        LB_VacDateTo.Location = New Point(397, 16)
-        LB_VacDateTo.Margin = New Padding(4, 0, 4, 0)
+        LB_VacDateTo.Location = New Point(278, 10)
         LB_VacDateTo.Name = "LB_VacDateTo"
-        LB_VacDateTo.Size = New Size(113, 25)
+        LB_VacDateTo.Size = New Size(75, 15)
         LB_VacDateTo.TabIndex = 26
         LB_VacDateTo.Text = "Fecha hasta: "
         ' 
@@ -560,60 +530,67 @@ Partial Class OP_UP_ADMNISTRATIONOFINCIDENTS
         ' 
         LB_VacAuthorizeBy.AutoSize = True
         LB_VacAuthorizeBy.ForeColor = SystemColors.ActiveCaptionText
-        LB_VacAuthorizeBy.Location = New Point(17, 96)
-        LB_VacAuthorizeBy.Margin = New Padding(4, 0, 4, 0)
+        LB_VacAuthorizeBy.Location = New Point(12, 58)
         LB_VacAuthorizeBy.Name = "LB_VacAuthorizeBy"
-        LB_VacAuthorizeBy.Size = New Size(137, 25)
+        LB_VacAuthorizeBy.Size = New Size(89, 15)
         LB_VacAuthorizeBy.TabIndex = 25
         LB_VacAuthorizeBy.Text = "Autorizado por:"
         ' 
         ' TB_VacAuthorizeBy
         ' 
-        TB_VacAuthorizeBy.Location = New Point(159, 93)
-        TB_VacAuthorizeBy.Margin = New Padding(4, 5, 4, 5)
+        TB_VacAuthorizeBy.Location = New Point(111, 56)
         TB_VacAuthorizeBy.Name = "TB_VacAuthorizeBy"
-        TB_VacAuthorizeBy.Size = New Size(353, 31)
+        TB_VacAuthorizeBy.Size = New Size(248, 23)
         TB_VacAuthorizeBy.TabIndex = 23
         ' 
         ' BT_VacUpd
         ' 
         BT_VacUpd.ForeColor = SystemColors.ActiveCaptionText
-        BT_VacUpd.Location = New Point(1579, 160)
-        BT_VacUpd.Margin = New Padding(4, 5, 4, 5)
+        BT_VacUpd.Location = New Point(1105, 96)
         BT_VacUpd.Name = "BT_VacUpd"
-        BT_VacUpd.Size = New Size(183, 38)
+        BT_VacUpd.Size = New Size(128, 23)
         BT_VacUpd.TabIndex = 24
         BT_VacUpd.Text = "Actualizar permiso"
         BT_VacUpd.UseVisualStyleBackColor = True
         ' 
         ' DTP_VacDateFrom
         ' 
-        DTP_VacDateFrom.Location = New Point(14, 47)
-        DTP_VacDateFrom.Margin = New Padding(4, 5, 4, 5)
+        DTP_VacDateFrom.Location = New Point(10, 28)
         DTP_VacDateFrom.Name = "DTP_VacDateFrom"
-        DTP_VacDateFrom.Size = New Size(335, 31)
+        DTP_VacDateFrom.Size = New Size(236, 23)
         DTP_VacDateFrom.TabIndex = 22
         ' 
         ' LB_VacDateFrom
         ' 
         LB_VacDateFrom.AutoSize = True
         LB_VacDateFrom.ForeColor = SystemColors.ActiveCaptionText
-        LB_VacDateFrom.Location = New Point(17, 16)
-        LB_VacDateFrom.Margin = New Padding(4, 0, 4, 0)
+        LB_VacDateFrom.Location = New Point(12, 10)
         LB_VacDateFrom.Name = "LB_VacDateFrom"
-        LB_VacDateFrom.Size = New Size(119, 25)
+        LB_VacDateFrom.Size = New Size(78, 15)
         LB_VacDateFrom.TabIndex = 21
         LB_VacDateFrom.Text = "Fecha desde: "
         ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(198, 30)
+        LB_Title.TabIndex = 112
+        LB_Title.Text = "Edición de permisos"
+        ' 
         ' OP_UP_ADMNISTRATIONOFINCIDENTS
         ' 
-        AutoScaleDimensions = New SizeF(10F, 25F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(1924, 1050)
+        ClientSize = New Size(1347, 630)
+        Controls.Add(LB_Title)
         Controls.Add(GroupBox1)
         Controls.Add(GB_EmployeeInfo)
+        Margin = New Padding(2, 2, 2, 2)
         Name = "OP_UP_ADMNISTRATIONOFINCIDENTS"
         Text = "Edición de permisos"
         WindowState = FormWindowState.Maximized
@@ -630,6 +607,7 @@ Partial Class OP_UP_ADMNISTRATIONOFINCIDENTS
         TabVacations.ResumeLayout(False)
         TabVacations.PerformLayout()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents GB_EmployeeInfo As GroupBox
@@ -680,4 +658,5 @@ Partial Class OP_UP_ADMNISTRATIONOFINCIDENTS
     Friend WithEvents DTP_VacDateFrom As DateTimePicker
     Friend WithEvents LB_VacDateFrom As Label
     Friend WithEvents DGV_Incidents As DataGridView
+    Friend WithEvents LB_Title As Label
 End Class
