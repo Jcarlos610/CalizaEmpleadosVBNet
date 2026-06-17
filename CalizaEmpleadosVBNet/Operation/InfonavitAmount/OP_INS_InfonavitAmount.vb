@@ -174,11 +174,34 @@ Public Class OP_INS_InfonavitAmount
         BT_Register.Enabled = False
     End Sub
 
-    Private Sub DGV_Infonavit_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Infonavit.CellClick
-        If e.RowIndex >= 0 Then
-            Try
-                Dim FilaSeleccionada As DataGridViewRow = DGV_Infonavit.Rows(e.RowIndex)
+    'Private Sub DGV_Infonavit_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Infonavit.CellClick
+    '    If e.RowIndex >= 0 Then
+    '        Try
+    '            Dim FilaSeleccionada As DataGridViewRow = DGV_Infonavit.Rows(e.RowIndex)
 
+    '            Dim IdEmp As Object = FilaSeleccionada.Cells(0).Value
+    '            Dim NombreEmp As Object = FilaSeleccionada.Cells(1).Value
+    '            Dim MontoEmp As Object = FilaSeleccionada.Cells(2).Value
+
+    '            TB_EmployeeId.Text = If(IdEmp IsNot Nothing, IdEmp.ToString(), "")
+    '            TB_EmployeeName.Text = If(NombreEmp IsNot Nothing, NombreEmp.ToString(), "")
+    '            TB_Amount.Text = If(MontoEmp IsNot Nothing, String.Format("{0:C2}", Convert.ToDecimal(MontoEmp)), "")
+
+    '        Catch ex As Exception
+    '            TB_EmployeeId.Text = ""
+    '            TB_EmployeeName.Text = ""
+    '            TB_Amount.Text = ""
+    '        End Try
+    '    End If
+    'End Sub
+
+    Private Sub DGV_Infonavit_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_Infonavit.MouseClick
+
+        Dim hit As DataGridView.HitTestInfo = DGV_Infonavit.HitTest(e.X, e.Y)
+
+        If hit.RowIndex >= 0 AndAlso hit.Type = DataGridViewHitTestType.RowHeader Then
+            Try
+                Dim FilaSeleccionada As DataGridViewRow = DGV_Infonavit.Rows(hit.RowIndex)
                 Dim IdEmp As Object = FilaSeleccionada.Cells(0).Value
                 Dim NombreEmp As Object = FilaSeleccionada.Cells(1).Value
                 Dim MontoEmp As Object = FilaSeleccionada.Cells(2).Value

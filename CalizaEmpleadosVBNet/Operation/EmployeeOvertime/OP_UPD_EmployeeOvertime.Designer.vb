@@ -41,6 +41,8 @@ Partial Class OP_UPD_EmployeeOvertime
         TB_EmployeeId = New TextBox()
         LB_EmplyeeId = New Label()
         DGV_Overtime = New DataGridView()
+        Label2 = New Label()
+        CB_OvertimeType = New ComboBox()
         GroupBox1.SuspendLayout()
         CType(DGV_Overtime, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -57,6 +59,8 @@ Partial Class OP_UPD_EmployeeOvertime
         ' 
         ' GroupBox1
         ' 
+        GroupBox1.Controls.Add(Label2)
+        GroupBox1.Controls.Add(CB_OvertimeType)
         GroupBox1.Controls.Add(TB_OvertimeHours)
         GroupBox1.Controls.Add(LB_OvertimeHours)
         GroupBox1.Controls.Add(CB_Stat)
@@ -83,7 +87,7 @@ Partial Class OP_UPD_EmployeeOvertime
         ' TB_OvertimeHours
         ' 
         TB_OvertimeHours.BackColor = SystemColors.Menu
-        TB_OvertimeHours.Location = New Point(446, 248)
+        TB_OvertimeHours.Location = New Point(674, 245)
         TB_OvertimeHours.Name = "TB_OvertimeHours"
         TB_OvertimeHours.Size = New Size(120, 23)
         TB_OvertimeHours.TabIndex = 26
@@ -91,7 +95,7 @@ Partial Class OP_UPD_EmployeeOvertime
         ' LB_OvertimeHours
         ' 
         LB_OvertimeHours.AutoSize = True
-        LB_OvertimeHours.Location = New Point(446, 225)
+        LB_OvertimeHours.Location = New Point(674, 222)
         LB_OvertimeHours.Name = "LB_OvertimeHours"
         LB_OvertimeHours.Size = New Size(69, 15)
         LB_OvertimeHours.TabIndex = 25
@@ -167,7 +171,7 @@ Partial Class OP_UPD_EmployeeOvertime
         ' 
         ' DTP_Valid
         ' 
-        DTP_Valid.Location = New Point(587, 245)
+        DTP_Valid.Location = New Point(431, 242)
         DTP_Valid.Name = "DTP_Valid"
         DTP_Valid.Size = New Size(232, 23)
         DTP_Valid.TabIndex = 7
@@ -175,7 +179,7 @@ Partial Class OP_UPD_EmployeeOvertime
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Location = New Point(587, 225)
+        Label1.Location = New Point(431, 222)
         Label1.Name = "Label1"
         Label1.Size = New Size(114, 15)
         Label1.TabIndex = 6
@@ -226,6 +230,24 @@ Partial Class OP_UPD_EmployeeOvertime
         DGV_Overtime.Size = New Size(1218, 400)
         DGV_Overtime.TabIndex = 107
         ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Location = New Point(804, 222)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(34, 15)
+        Label2.TabIndex = 28
+        Label2.Text = "Tipo:"
+        ' 
+        ' CB_OvertimeType
+        ' 
+        CB_OvertimeType.DropDownStyle = ComboBoxStyle.DropDownList
+        CB_OvertimeType.FormattingEnabled = True
+        CB_OvertimeType.Location = New Point(804, 244)
+        CB_OvertimeType.Name = "CB_OvertimeType"
+        CB_OvertimeType.Size = New Size(127, 23)
+        CB_OvertimeType.TabIndex = 27
+        ' 
         ' OP_UPD_EmployeeOvertime
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -236,7 +258,7 @@ Partial Class OP_UPD_EmployeeOvertime
         Controls.Add(GroupBox1)
         Controls.Add(DGV_Overtime)
         Name = "OP_UPD_EmployeeOvertime"
-        Text = "Actualización de horas extra"
+        Text = "Edición de horas extra"
         WindowState = FormWindowState.Maximized
         GroupBox1.ResumeLayout(False)
         GroupBox1.PerformLayout()
@@ -264,4 +286,6 @@ Partial Class OP_UPD_EmployeeOvertime
     Friend WithEvents DGV_Overtime As DataGridView
     Friend WithEvents TB_OvertimeHours As TextBox
     Friend WithEvents LB_OvertimeHours As Label
+    Friend WithEvents Label2 As Label
+    Friend WithEvents CB_OvertimeType As ComboBox
 End Class

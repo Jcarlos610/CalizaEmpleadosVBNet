@@ -198,7 +198,7 @@ Public Class MD_UPD_Departments
             Dim connTmp As New SqlConnection(My.Settings.ConnectionString)
 
             If Department.UpdateDepartment() Then
-                'LOG DE ACTUALIZACIÓN 
+                'LOG 
                 Dim descUpdate As String = $"MODIFICACIÓN DE DEPARTAMENTO: Se actualizaron los datos del DEPT_ID: {targetDeptID} ('{TB_DepartmentName.Text.Trim}'). Estado actual: [{textoEstado}]. Cambios autorizados por: {TB_AuthorizeBy.Text.Trim}."
                 InsertLog(connTmp, GlobalSession.GlobalUserName, "MD_Departments", "UPDATE_DEPARTMENT_SUCCESS", descUpdate, targetDeptID, "INFO")
 

@@ -36,6 +36,7 @@ Partial Class ST_INS_Users
         LB_OptionsByRole = New Label()
         LB_AvailableRoles = New Label()
         BT_SaveRoles = New Button()
+        LB_Title = New Label()
         GroupBox1.SuspendLayout()
         CType(DGV_Roles, ComponentModel.ISupportInitialize).BeginInit()
         CType(DGV_RolesSelection, ComponentModel.ISupportInitialize).BeginInit()
@@ -188,12 +189,23 @@ Partial Class ST_INS_Users
         BT_SaveRoles.Text = "Registrar"
         BT_SaveRoles.UseVisualStyleBackColor = True
         ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(241, 30)
+        LB_Title.TabIndex = 114
+        LB_Title.Text = "Crear usuario de sistema"
+        ' 
         ' ST_INS_Users
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1501, 667)
+        Controls.Add(LB_Title)
         Controls.Add(GroupBox2)
         Controls.Add(DGV_Employees)
         Controls.Add(GroupBox1)
@@ -209,6 +221,7 @@ Partial Class ST_INS_Users
         GroupBox2.ResumeLayout(False)
         GroupBox2.PerformLayout()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents GroupBox1 As GroupBox
@@ -225,4 +238,5 @@ Partial Class ST_INS_Users
     Friend WithEvents BT_SaveRoles As Button
     Friend WithEvents LB_OptionsByRole As Label
     Friend WithEvents LB_AvailableRoles As Label
+    Friend WithEvents LB_Title As Label
 End Class

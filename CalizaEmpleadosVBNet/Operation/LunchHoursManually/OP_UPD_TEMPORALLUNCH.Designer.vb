@@ -33,6 +33,7 @@ Partial Class OP_UPD_TEMPORALLUNCH
         LB_EmployeeName = New Label()
         TB_EmployeeId = New TextBox()
         LB_EmplyeeId = New Label()
+        LB_Title = New Label()
         CType(DGV_Lunch, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox1.SuspendLayout()
         SuspendLayout()
@@ -143,12 +144,23 @@ Partial Class OP_UPD_TEMPORALLUNCH
         LB_EmplyeeId.TabIndex = 2
         LB_EmplyeeId.Text = "Número de empleado: "
         ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(269, 30)
+        LB_Title.TabIndex = 114
+        LB_Title.Text = "Edición de horas de comida"
+        ' 
         ' OP_UPD_TEMPORALLUNCH
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1242, 694)
+        Controls.Add(LB_Title)
         Controls.Add(GroupBox1)
         Controls.Add(DGV_Lunch)
         Name = "OP_UPD_TEMPORALLUNCH"
@@ -158,6 +170,7 @@ Partial Class OP_UPD_TEMPORALLUNCH
         GroupBox1.ResumeLayout(False)
         GroupBox1.PerformLayout()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents DGV_Lunch As DataGridView
@@ -171,4 +184,5 @@ Partial Class OP_UPD_TEMPORALLUNCH
     Friend WithEvents LB_EmployeeName As Label
     Friend WithEvents TB_EmployeeId As TextBox
     Friend WithEvents LB_EmplyeeId As Label
+    Friend WithEvents LB_Title As Label
 End Class

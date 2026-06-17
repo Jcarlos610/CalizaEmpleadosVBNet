@@ -24,13 +24,14 @@ Partial Class MD_UPD_Plants
     Private Sub InitializeComponent()
         DGV_PlantsList = New DataGridView()
         GroupBox1 = New GroupBox()
+        CB_Status = New CheckBox()
         CB_Plants = New ComboBox()
         LB_Description = New Label()
         TB_Description = New TextBox()
         BT_Upd = New Button()
         TB_PlantName = New TextBox()
         LB_PlantName = New Label()
-        CB_Status = New CheckBox()
+        LB_Title = New Label()
         CType(DGV_PlantsList, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox1.SuspendLayout()
         SuspendLayout()
@@ -62,6 +63,16 @@ Partial Class MD_UPD_Plants
         GroupBox1.TabIndex = 17
         GroupBox1.TabStop = False
         GroupBox1.Text = "Datos de planta"
+        ' 
+        ' CB_Status
+        ' 
+        CB_Status.AutoSize = True
+        CB_Status.Location = New Point(650, 31)
+        CB_Status.Name = "CB_Status"
+        CB_Status.Size = New Size(58, 19)
+        CB_Status.TabIndex = 18
+        CB_Status.Text = "Status"
+        CB_Status.UseVisualStyleBackColor = True
         ' 
         ' CB_Plants
         ' 
@@ -113,15 +124,15 @@ Partial Class MD_UPD_Plants
         LB_PlantName.TabIndex = 5
         LB_PlantName.Text = "Nombre de planta"
         ' 
-        ' CB_Status
+        ' LB_Title
         ' 
-        CB_Status.AutoSize = True
-        CB_Status.Location = New Point(650, 31)
-        CB_Status.Name = "CB_Status"
-        CB_Status.Size = New Size(58, 19)
-        CB_Status.TabIndex = 18
-        CB_Status.Text = "Status"
-        CB_Status.UseVisualStyleBackColor = True
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(182, 30)
+        LB_Title.TabIndex = 111
+        LB_Title.Text = "Edición de plantas"
         ' 
         ' MD_UPD_Plants
         ' 
@@ -129,15 +140,17 @@ Partial Class MD_UPD_Plants
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(858, 486)
+        Controls.Add(LB_Title)
         Controls.Add(DGV_PlantsList)
         Controls.Add(GroupBox1)
         Name = "MD_UPD_Plants"
-        Text = "Actualizar planta"
+        Text = "Edición de plantas"
         WindowState = FormWindowState.Maximized
         CType(DGV_PlantsList, ComponentModel.ISupportInitialize).EndInit()
         GroupBox1.ResumeLayout(False)
         GroupBox1.PerformLayout()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents DGV_PlantsList As DataGridView
@@ -149,4 +162,5 @@ Partial Class MD_UPD_Plants
     Friend WithEvents LB_PlantName As Label
     Friend WithEvents CB_Plants As ComboBox
     Friend WithEvents CB_Status As CheckBox
+    Friend WithEvents LB_Title As Label
 End Class

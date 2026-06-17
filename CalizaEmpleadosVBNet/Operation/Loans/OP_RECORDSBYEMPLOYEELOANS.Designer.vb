@@ -36,6 +36,7 @@ Partial Class OP_RECORDSBYEMPLOYEELOANS
         Label2 = New Label()
         Label1 = New Label()
         LB_SelectEmployee = New Label()
+        LB_Title = New Label()
         CType(DGV_DetailInstalment, ComponentModel.ISupportInitialize).BeginInit()
         CType(DGV_EmployeeInfo, ComponentModel.ISupportInitialize).BeginInit()
         CType(DGV_Loans, ComponentModel.ISupportInitialize).BeginInit()
@@ -199,6 +200,16 @@ Partial Class OP_RECORDSBYEMPLOYEELOANS
         LB_SelectEmployee.TabIndex = 14
         LB_SelectEmployee.Text = "Saldos pendientes por empleado"
         ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(287, 30)
+        LB_Title.TabIndex = 114
+        LB_Title.Text = "Registro de abonos a créditos"
+        ' 
         ' OP_RECORDSBYEMPLOYEELOANS
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -206,6 +217,7 @@ Partial Class OP_RECORDSBYEMPLOYEELOANS
         AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1347, 658)
+        Controls.Add(LB_Title)
         Controls.Add(GB_SavingInformation)
         Margin = New Padding(2)
         Name = "OP_RECORDSBYEMPLOYEELOANS"
@@ -217,6 +229,7 @@ Partial Class OP_RECORDSBYEMPLOYEELOANS
         GB_SavingInformation.ResumeLayout(False)
         GB_SavingInformation.PerformLayout()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents LB_ManualInstalment As Label
@@ -233,4 +246,5 @@ Partial Class OP_RECORDSBYEMPLOYEELOANS
     Friend WithEvents LB_SelectEmployee As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents Label1 As Label
+    Friend WithEvents LB_Title As Label
 End Class

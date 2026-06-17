@@ -143,11 +143,27 @@ Public Class OP_RecordsByEmployeeMoneySaved
 
     End Function
 
-    Private Sub DGV_EmployeeInfo_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_EmployeeInfo.CellClick
+    'Private Sub DGV_EmployeeInfo_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_EmployeeInfo.CellClick
 
-        LoadSavings()
-        LoadWithdrawals()
-        CalcularTotales()
+    '    LoadSavings()
+    '    LoadWithdrawals()
+    '    CalcularTotales()
+    'End Sub
+
+    Private Sub DGV_EmployeeInfo_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_EmployeeInfo.MouseClick
+
+        Dim hit As DataGridView.HitTestInfo = DGV_EmployeeInfo.HitTest(e.X, e.Y)
+
+        If hit.RowIndex >= 0 AndAlso hit.Type = DataGridViewHitTestType.RowHeader Then
+            Try
+                LoadSavings()
+                LoadWithdrawals()
+                CalcularTotales()
+
+            Catch ex As Exception
+                MsgBox("Error al cargar la información financiera del empleado: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            End Try
+        End If
     End Sub
 
     Sub LoadWithdrawals()

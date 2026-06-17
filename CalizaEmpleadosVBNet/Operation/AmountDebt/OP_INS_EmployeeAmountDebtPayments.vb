@@ -44,10 +44,55 @@ Public Class OP_INS_EmployeeAmountDebtPayments
         End Try
     End Sub
 
-    Private Sub DGV_GlobalDebts_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_GlobalDebts.CellClick
-        If e.RowIndex >= 0 Then
+    'Private Sub DGV_GlobalDebts_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_GlobalDebts.CellClick
+    '    If e.RowIndex >= 0 Then
+    '        Try
+    '            Dim row As DataGridViewRow = DGV_GlobalDebts.Rows(e.RowIndex)
+
+    '            If DGV_GlobalDebts.Columns.Contains("ID") Then
+    '                SelectedEmployeeID = Convert.ToInt32(row.Cells("ID").Value)
+    '            ElseIf DGV_GlobalDebts.Columns.Contains("EMPL_ID") Then
+    '                SelectedEmployeeID = Convert.ToInt32(row.Cells("EMPL_ID").Value)
+    '            Else
+    '                MsgBox("Error de configuración: No se encontró la columna de ID del empleado en la tabla principal.", MsgBoxStyle.Critical, "Error")
+    '                Return
+    '            End If
+
+    '            SelectedDebtID = 0
+    '            SelectedDebtBalance = 0
+    '            DGV_EmployeeDebts.DataSource = Nothing
+    '            DGV_DetailPayments.DataSource = Nothing
+    '            LB_Accumulated.Text = "Acumulado por abonos: $0.00"
+    '            LB_Balnce.Text = "Saldo: $0.00"
+
+    '            Dim debtObj As New CL_EmployeeAmountDebt()
+    '            Dim dtDebts As DataTable = debtObj.GetDebtsHistory(SelectedEmployeeID)
+
+    '            If dtDebts Is Nothing OrElse dtDebts.Rows.Count = 0 Then
+    '                MsgBox("El empleado seleccionado no cuenta con adeudos activos o su cuenta está desactivada.", MsgBoxStyle.Information, "Aviso del Sistema")
+    '                Return
+    '            End If
+
+    '            DGV_EmployeeDebts.DataSource = dtDebts
+
+    '            If DGV_EmployeeDebts.Columns.Contains("ID") Then
+    '                DGV_EmployeeDebts.Columns("ID").Visible = False
+    '            End If
+
+    '            DGV_EmployeeDebts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells
+
+    '        Catch ex As Exception
+    '            MsgBox("Error al seleccionar empleado: " & ex.Message, MsgBoxStyle.Critical)
+    '        End Try
+    '    End If
+    'End Sub
+
+    Private Sub DGV_GlobalDebts_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_GlobalDebts.MouseClick
+        Dim hit As DataGridView.HitTestInfo = DGV_GlobalDebts.HitTest(e.X, e.Y)
+
+        If hit.RowIndex >= 0 AndAlso hit.Type = DataGridViewHitTestType.RowHeader Then
             Try
-                Dim row As DataGridViewRow = DGV_GlobalDebts.Rows(e.RowIndex)
+                Dim row As DataGridViewRow = DGV_GlobalDebts.Rows(hit.RowIndex)
 
                 If DGV_GlobalDebts.Columns.Contains("ID") Then
                     SelectedEmployeeID = Convert.ToInt32(row.Cells("ID").Value)
@@ -87,11 +132,42 @@ Public Class OP_INS_EmployeeAmountDebtPayments
         End If
     End Sub
 
-    Private Sub DGV_EmployeeDebts_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_EmployeeDebts.CellClick
-        If e.RowIndex >= 0 Then
+    'Private Sub DGV_EmployeeDebts_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_EmployeeDebts.CellClick
+    '    If e.RowIndex >= 0 Then
+    '        Try
+    '            Dim row As DataGridViewRow = DGV_EmployeeDebts.Rows(e.RowIndex)
+    '            If row.Cells("ID").Value Is DBNull.Value Then Return
+    '            If DGV_EmployeeDebts.Columns.Contains("Estado") AndAlso row.Cells("Estado").Value.ToString() <> "Activo" Then
+    '                MsgBox("Este adeudo no se encuentra Activo (Estatus: " & row.Cells("Estado").Value.ToString() & "). No se pueden registrar abonos.", MsgBoxStyle.Exclamation, "Adeudo Inactivo")
+    '            End If
+
+    '            SelectedDebtID = Convert.ToInt32(row.Cells("ID").Value)
+    '            SelectedDebtBalance = Convert.ToDecimal(row.Cells("Saldo Pendiente").Value)
+    '            Dim totalAmount As Decimal = Convert.ToDecimal(row.Cells("Monto Total").Value)
+
+    '            LB_Accumulated.Text = "Acumulado por abonos: " & FormatCurrency(totalAmount - SelectedDebtBalance)
+    '            LB_Balnce.Text = "Saldo: " & FormatCurrency(SelectedDebtBalance)
+
+    '            LoadPaymentItemsGrid(SelectedDebtID)
+
+    '        Catch ex As Exception
+    '            MsgBox("Error al seleccionar el adeudo: " & ex.Message, MsgBoxStyle.Critical)
+    '        End Try
+    '    End If
+    'End Sub
+
+    Private Sub DGV_EmployeeDebts_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_EmployeeDebts.MouseClick
+
+        Dim hit As DataGridView.HitTestInfo = DGV_EmployeeDebts.HitTest(e.X, e.Y)
+
+
+        If hit.RowIndex >= 0 AndAlso hit.Type = DataGridViewHitTestType.RowHeader Then
             Try
-                Dim row As DataGridViewRow = DGV_EmployeeDebts.Rows(e.RowIndex)
+                Dim row As DataGridViewRow = DGV_EmployeeDebts.Rows(hit.RowIndex)
+
                 If row.Cells("ID").Value Is DBNull.Value Then Return
+
+
                 If DGV_EmployeeDebts.Columns.Contains("Estado") AndAlso row.Cells("Estado").Value.ToString() <> "Activo" Then
                     MsgBox("Este adeudo no se encuentra Activo (Estatus: " & row.Cells("Estado").Value.ToString() & "). No se pueden registrar abonos.", MsgBoxStyle.Exclamation, "Adeudo Inactivo")
                 End If

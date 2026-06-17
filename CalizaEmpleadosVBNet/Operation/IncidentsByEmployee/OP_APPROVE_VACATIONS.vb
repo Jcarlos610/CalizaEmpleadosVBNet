@@ -72,62 +72,120 @@ Public Class OP_APPROVE_VACATIONS
 
     End Sub
 
-    Private Sub DGV_Vacations_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Vacations.CellClick
+    'Private Sub DGV_Vacations_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Vacations.CellClick
 
-        If e.RowIndex < 0 Then Exit Sub
+    '    If e.RowIndex < 0 Then Exit Sub
 
-        If DGV_Vacations.Columns(e.ColumnIndex).Name = "Aprobar" Then
+    '    If DGV_Vacations.Columns(e.ColumnIndex).Name = "Aprobar" Then
 
+    '        Dim id As Integer = CInt(DGV_Vacations.Rows(e.RowIndex).Cells("DREMPL_ID").Value)
 
+    '        Dim empId As Integer = CInt(DGV_Vacations.Rows(e.RowIndex).Cells("EMPL_ID").Value)
+    '        Dim empName As String = DGV_Vacations.Rows(e.RowIndex).Cells("Empleado").Value.ToString()
+    '        Dim daysReq As String = DGV_Vacations.Rows(e.RowIndex).Cells("Dias").Value.ToString()
 
-            Dim id As Integer = CInt(DGV_Vacations.Rows(e.RowIndex).Cells("DREMPL_ID").Value)
+    '        Dim confirm = MessageBox.Show($"¿Está seguro que desea aprobar la solicitud de vacaciones para el empleado {empName} por un total de {daysReq} días?",
+    '                                      "Confirmar Aprobación",
+    '                                      MessageBoxButtons.YesNo,
+    '                                      MessageBoxIcon.Question)
 
-            Dim empId As Integer = CInt(DGV_Vacations.Rows(e.RowIndex).Cells("EMPL_ID").Value)
-            Dim empName As String = DGV_Vacations.Rows(e.RowIndex).Cells("Empleado").Value.ToString()
-            Dim daysReq As String = DGV_Vacations.Rows(e.RowIndex).Cells("Dias").Value.ToString()
+    '        If confirm = DialogResult.Yes Then
+    '            Try
 
-            Dim confirm = MessageBox.Show($"¿Está seguro que desea aprobar la solicitud de vacaciones para el empleado {empName} por un total de {daysReq} días?",
-                                          "Confirmar Aprobación",
-                                          MessageBoxButtons.YesNo,
-                                          MessageBoxIcon.Question)
+    '                Dim obj As New CL_Incidents
 
-            If confirm = DialogResult.Yes Then
-                Try
+    '                If obj.ApproveVacation(id) Then
+    '                    'log
+    '                    Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+    '                        Dim desc As String = $"APROBACIÓN DE VACACIONES EXITOSA: El usuario '{GlobalSession.GlobalUserName}' aprobó la solicitud con Reg_ID: {id} correspondiente al Empleado ID: {empId} ({empName}) por {daysReq} días."
+    '                        InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_AprobarVacaciones", "APPROVE_VACATION_SUCCESS", desc, empId, "INFO")
+    '                    End Using
 
-                    Dim obj As New CL_Incidents
+    '                    MessageBox.Show($"¡Las vacaciones para el empleado {empName} han sido aprobadas de manera exitosa!",
+    '                                    "Aprobación Confirmada",
+    '                                    MessageBoxButtons.OK,
+    '                                    MessageBoxIcon.Information)
+    '                    LoadVacations()
+    '                End If
 
-                    If obj.ApproveVacation(id) Then
-                        'log
-                        Using connTmp As New SqlConnection(My.Settings.ConnectionString)
-                            Dim desc As String = $"APROBACIÓN DE VACACIONES EXITOSA: El usuario '{GlobalSession.GlobalUserName}' aprobó la solicitud con Reg_ID: {id} correspondiente al Empleado ID: {empId} ({empName}) por {daysReq} días."
-                            InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_AprobarVacaciones", "APPROVE_VACATION_SUCCESS", desc, empId, "INFO")
-                        End Using
+    '            Catch ex As Exception
+    '                'LOG
+    '                Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+    '                    Dim descError As String = $"ERROR CRÍTICO: Falló la aprobación de vacaciones (Reg_ID: {id}) para el Empleado ID: {empId}. Motivo: {ex.Message}"
+    '                    InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_AprobarVacaciones", "ERROR_APPROVE_VACATION", descError, empId, "ERROR", ex.StackTrace)
+    '                End Using
 
-                        MessageBox.Show($"¡Las vacaciones para el empleado {empName} han sido aprobadas de manera exitosa!",
-                                        "Aprobación Confirmada",
-                                        MessageBoxButtons.OK,
-                                        MessageBoxIcon.Information)
-                        LoadVacations()
+    '                MessageBox.Show("Ocurrió un error inesperado al intentar procesar la aprobación en el servidor: " & ex.Message,
+    '                                "Error Crítico del Sistema",
+    '                                MessageBoxButtons.OK,
+    '                                MessageBoxIcon.Error)
+    '            End Try
+
+    '        End If
+
+    '    End If
+
+    'End Sub
+
+    Private Sub DGV_Vacations_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_Vacations.MouseClick
+
+        Dim hit As DataGridView.HitTestInfo = DGV_Vacations.HitTest(e.X, e.Y)
+
+        If hit.RowIndex >= 0 AndAlso hit.ColumnIndex >= 0 AndAlso hit.Type = DataGridViewHitTestType.Cell Then
+            Try
+
+                If DGV_Vacations.Columns(hit.ColumnIndex).Name = "Aprobar" Then
+
+                    Dim row As DataGridViewRow = DGV_Vacations.Rows(hit.RowIndex)
+
+                    Dim id As Integer = CInt(row.Cells("DREMPL_ID").Value)
+                    Dim empId As Integer = CInt(row.Cells("EMPL_ID").Value)
+                    Dim empName As String = row.Cells("Empleado").Value.ToString()
+                    Dim daysReq As String = row.Cells("Dias").Value.ToString()
+
+                    Dim confirm = MessageBox.Show($"¿Está seguro que desea aprobar la solicitud de vacaciones para el empleado {empName} por un total de {daysReq} días?",
+                                                   "Confirmar Aprobación",
+                                                   MessageBoxButtons.YesNo,
+                                                   MessageBoxIcon.Question)
+
+                    If confirm = DialogResult.Yes Then
+                        Try
+                            Dim obj As New CL_Incidents
+
+                            If obj.ApproveVacation(id) Then
+                                ' LOG DE ÉXITO
+                                Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                                    Dim desc As String = $"APROBACIÓN DE VACACIONES EXITOSA: El usuario '{GlobalSession.GlobalUserName}' aprobó la solicitud con Reg_ID: {id} correspondiente al Empleado ID: {empId} ({empName}) por {daysReq} días."
+                                    InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_AprobarVacaciones", "APPROVE_VACATION_SUCCESS", desc, empId, "INFO")
+                                End Using
+
+                                MessageBox.Show($"¡Las vacaciones para el empleado {empName} han sido aprobadas de manera exitosa!",
+                                                "Aprobación Confirmada",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Information)
+
+                                LoadVacations()
+                            End If
+
+                        Catch ex As Exception
+                            ' LOG DE ERROR 
+                            Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                                Dim descError As String = $"ERROR CRÍTICO: Falló la aprobación de vacaciones (Reg_ID: {id}) para el Empleado ID: {empId}. Motivo: {ex.Message}"
+                                InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_AprobarVacaciones", "ERROR_APPROVE_VACATION", descError, empId, "ERROR", ex.StackTrace)
+                            End Using
+
+                            MessageBox.Show("Ocurrió un error inesperado al intentar procesar la aprobación en el servidor: " & ex.Message,
+                                            "Error Crítico del Sistema",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Error)
+                        End Try
                     End If
+                End If
 
-                Catch ex As Exception
-                    'LOG
-                    Using connTmp As New SqlConnection(My.Settings.ConnectionString)
-                        Dim descError As String = $"ERROR CRÍTICO: Falló la aprobación de vacaciones (Reg_ID: {id}) para el Empleado ID: {empId}. Motivo: {ex.Message}"
-                        InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_AprobarVacaciones", "ERROR_APPROVE_VACATION", descError, empId, "ERROR", ex.StackTrace)
-                    End Using
-
-                    MessageBox.Show("Ocurrió un error inesperado al intentar procesar la aprobación en el servidor: " & ex.Message,
-                                    "Error Crítico del Sistema",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error)
-                End Try
-
-            End If
-
+            Catch ex As Exception
+                MessageBox.Show("Error al leer los datos de la fila seleccionada: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End Try
         End If
-
     End Sub
-
 
 End Class

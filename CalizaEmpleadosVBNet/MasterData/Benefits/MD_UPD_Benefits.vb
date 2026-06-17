@@ -1,4 +1,5 @@
 ﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports Microsoft.Data.SqlClient
 
 Public Class MD_UPD_Benefits
 
@@ -8,6 +9,70 @@ Public Class MD_UPD_Benefits
 
 
 
+
+    'Private Sub BT_Update_Click(sender As Object, e As EventArgs) Handles BT_Update.Click
+    '    Try
+    '        If AppUser Is Nothing OrElse AppUser.Trim() = "" Then
+    '            MsgBox("No se puede actualizar el beneficio debido a que no hay un usuario con sesión activa.", MsgBoxStyle.Critical, "Acceso Denegado")
+    '            Exit Sub
+    '        End If
+
+    '        If TB_BenefitName.Text.Trim() = "" Then
+    '            MsgBox("Por favor, ingrese el nombre del beneficio.", MsgBoxStyle.Exclamation, "Falta Información")
+    '            TB_BenefitName.Focus()
+    '            Exit Sub
+    '        ElseIf TB_Description.Text.Trim() = "" Then
+    '            MsgBox("Por favor, ingrese una descripción para el beneficio.", MsgBoxStyle.Exclamation, "Falta Información")
+    '            TB_Description.Focus()
+    '            Exit Sub
+    '        ElseIf CB_Type.SelectedItem Is Nothing Then
+    '            MsgBox("Por favor, seleccione el tipo de beneficio de la lista.", MsgBoxStyle.Exclamation, "Falta Información")
+    '            CB_Type.Focus()
+    '            Exit Sub
+    '        ElseIf TB_AuthorizeBy.Text.Trim() = "" Then
+    '            MsgBox("Por favor, indique quién autoriza este beneficio.", MsgBoxStyle.Exclamation, "Falta Información")
+    '            TB_AuthorizeBy.Focus()
+    '            Exit Sub
+    '        ElseIf TB_Ammount.Text.Trim() <> "" AndAlso TB_Percent.Text.Trim() <> "" Then
+    '            MsgBox("Operación inválida: Solo puede ingresar un Monto fijo o un Porcentaje, no ambos.", MsgBoxStyle.Critical, "Error de Configuración")
+    '            Return
+    '        ElseIf TB_Ammount.Text.Trim() = "" AndAlso TB_Percent.Text.Trim() = "" Then
+    '            MsgBox("Por favor, debe ingresar un Monto monetario o un Porcentaje de beneficio.", MsgBoxStyle.Exclamation, "Falta Información")
+    '            Return
+    '        ElseIf DT_ValidTo.Value.Date < DT_ValidFrom.Value.Date Then
+    '            MsgBox("La fecha de término del beneficio no puede ser menor a la fecha de inicio.", MsgBoxStyle.Exclamation, "Fechas Inválidas")
+    '            Return
+    '        End If
+
+    '        Dim Type As ComboItem = CType(CB_Type.SelectedItem, ComboItem)
+    '        Dim Id_Type As Integer = Type.Id
+
+    '        Dim Benefit = New CL_Benefits(CInt(CB_AllBenefits.SelectedValue),
+    '                                      TB_BenefitName.Text,
+    '                                      TB_Description.Text,
+    '                                      Id_Type,
+    '                                      Date.Now,
+    '                                      AppUser,
+    '                                      TB_AuthorizeBy.Text,
+    '                                      TB_Ammount.Text,
+    '                                      1,
+    '                                      DT_ValidFrom.Value,
+    '                                      DT_ValidTo.Value,
+    '                                      TB_Percent.Text)
+
+    '        Benefit.BENEF_STAT = CB_Status.Checked
+
+    '        If Benefit.UpdateBenefit() Then
+    '            MsgBox("¡El beneficio '" & TB_BenefitName.Text.Trim() & "' ha sido actualizado correctamente!", MsgBoxStyle.Information, "Actualización Exitosa")
+    '            InitializationOfFields()
+    '        Else
+    '            MsgBox("El beneficio no pudo ser actualizado. Verifique las reglas o restricciones de la base de datos.", MsgBoxStyle.Critical, "Error al Actualizar")
+    '        End If
+
+    '    Catch ex As Exception
+    '        MsgBox("Ocurrió un error crítico inesperado al intentar actualizar el beneficio: " & vbCrLf & ex.Message, MsgBoxStyle.Critical, "Error del Sistema")
+    '    End Try
+    'End Sub
 
     Private Sub BT_Update_Click(sender As Object, e As EventArgs) Handles BT_Update.Click
         Try
@@ -43,32 +108,62 @@ Public Class MD_UPD_Benefits
                 Return
             End If
 
+            Dim BenefitID As Integer = CInt(CB_AllBenefits.SelectedValue)
             Dim Type As ComboItem = CType(CB_Type.SelectedItem, ComboItem)
             Dim Id_Type As Integer = Type.Id
+            Dim statusStr As String = If(CB_Status.Checked, "Activo", "Inactivo")
+            Dim valorDetalle As String = If(TB_Ammount.Text.Trim() <> "", $"Nuevo Monto: {TB_Ammount.Text.Trim()}", $"Nuevo Porcentaje: {TB_Percent.Text.Trim()}%")
 
-            Dim Benefit = New CL_Benefits(CInt(CB_AllBenefits.SelectedValue),
-                                          TB_BenefitName.Text,
-                                          TB_Description.Text,
-                                          Id_Type,
-                                          Date.Now,
-                                          AppUser,
-                                          TB_AuthorizeBy.Text,
-                                          TB_Ammount.Text,
-                                          1,
-                                          DT_ValidFrom.Value,
-                                          DT_ValidTo.Value,
-                                          TB_Percent.Text)
+            Dim Benefit = New CL_Benefits(
+            BenefitID,
+            TB_BenefitName.Text,
+            TB_Description.Text,
+            Id_Type,
+            Date.Now,
+            AppUser,
+            TB_AuthorizeBy.Text,
+            TB_Ammount.Text,
+            1,
+            DT_ValidFrom.Value,
+            DT_ValidTo.Value,
+            TB_Percent.Text
+        )
 
             Benefit.BENEF_STAT = CB_Status.Checked
 
             If Benefit.UpdateBenefit() Then
+                'LOG 
+                Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                    Dim descLog As String = $"ACTUALIZACIÓN BENEFICIO EXITOSA: El usuario '{GlobalSession.GlobalUserName}' modificó el ID: {BenefitID} ({TB_BenefitName.Text.Trim()}) | " &
+                                        $"Tipo ID: {Id_Type} | {valorDetalle} | Autorizado Por: '{TB_AuthorizeBy.Text.Trim()}' | " &
+                                        $"Estatus: {statusStr} | Vigencia: {DT_ValidFrom.Value:dd/MM/yyyy} al {DT_ValidTo.Value:dd/MM/yyyy} | " &
+                                        $"Nueva Descripción: '{TB_Description.Text.Trim()}'."
+
+                    InsertLog(connTmp, GlobalSession.GlobalUserName, "MD_Benefits", "UPDATE_BENEFIT_SUCCESS", descLog, BenefitID, "INFO")
+                End Using
+
                 MsgBox("¡El beneficio '" & TB_BenefitName.Text.Trim() & "' ha sido actualizado correctamente!", MsgBoxStyle.Information, "Actualización Exitosa")
                 InitializationOfFields()
             Else
+                'LOG DE RECHAZO 
+                Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                    Dim descFallo As String = $"ACTUALIZACIÓN BENEFICIO RECHAZADA: Base de datos denegó los cambios en ID: {BenefitID}."
+                    InsertLog(connTmp, GlobalSession.GlobalUserName, "MD_Benefits", "UPDATE_BENEFIT_REJECTED", descFallo, BenefitID, "WARNING")
+                End Using
+
                 MsgBox("El beneficio no pudo ser actualizado. Verifique las reglas o restricciones de la base de datos.", MsgBoxStyle.Critical, "Error al Actualizar")
             End If
 
         Catch ex As Exception
+            'LOG DE ERROR
+            Dim fallbackID As Integer = 0
+            Try : fallbackID = CInt(CB_AllBenefits.SelectedValue) : Catch : End Try
+
+            Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                Dim descError As String = $"ERROR AL ACTUALIZAR BENEFICIO: Falló la modificación del ID: {fallbackID}. Motivo: {ex.Message} en Form_Benefits.BT_Update_Click()"
+                InsertLog(connTmp, GlobalSession.GlobalUserName, "MD_Benefits", "UPDATE_BENEFIT_ERROR", descError, fallbackID, "ERROR", ex.StackTrace)
+            End Using
+
             MsgBox("Ocurrió un error crítico inesperado al intentar actualizar el beneficio: " & vbCrLf & ex.Message, MsgBoxStyle.Critical, "Error del Sistema")
         End Try
     End Sub
@@ -109,10 +204,10 @@ Public Class MD_UPD_Benefits
 
         TB_AuthorizeBy.Text = Item(6).ToString()
 
-        If IsDBNull(Item(8)) Then
+        If IsDBNull(Item(9)) Then
             CB_Status.Checked = False
         Else
-            CB_Status.Checked = Convert.ToBoolean(Item(8))
+            CB_Status.Checked = Convert.ToBoolean(Item(9))
         End If
 
         If IsDBNull(Item(10)) Then

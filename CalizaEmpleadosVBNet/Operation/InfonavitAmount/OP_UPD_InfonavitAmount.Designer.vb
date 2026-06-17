@@ -217,7 +217,7 @@ Partial Class OP_UPD_InfonavitAmount
         Controls.Add(DGV_Infonavit)
         Controls.Add(GroupBox1)
         Name = "OP_UPD_InfonavitAmount"
-        Text = "Actualización de monto infonavit"
+        Text = "Edición de monto infonavit"
         WindowState = FormWindowState.Maximized
         CType(DGV_Infonavit, ComponentModel.ISupportInitialize).EndInit()
         GroupBox1.ResumeLayout(False)

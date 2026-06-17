@@ -37,6 +37,7 @@ Partial Class ST_INS_Roles
         Label2 = New Label()
         TB_FormDescription = New TextBox()
         DGV_Permissions = New DataGridView()
+        LB_Title = New Label()
         GroupBox1.SuspendLayout()
         CType(DGV_RoleList, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox2.SuspendLayout()
@@ -147,7 +148,7 @@ Partial Class ST_INS_Roles
         CB_Forms.DropDownStyle = ComboBoxStyle.DropDownList
         CB_Forms.FormattingEnabled = True
         CB_Forms.Location = New Point(16, 29)
-        CB_Forms.Margin = New Padding(2, 2, 2, 2)
+        CB_Forms.Margin = New Padding(2)
         CB_Forms.Name = "CB_Forms"
         CB_Forms.Size = New Size(288, 23)
         CB_Forms.TabIndex = 18
@@ -190,6 +191,16 @@ Partial Class ST_INS_Roles
         DGV_Permissions.Size = New Size(315, 201)
         DGV_Permissions.TabIndex = 15
         ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(167, 30)
+        LB_Title.TabIndex = 114
+        LB_Title.Text = "Registro de roles"
+        ' 
         ' ST_INS_Roles
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -197,13 +208,14 @@ Partial Class ST_INS_Roles
         AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1242, 630)
+        Controls.Add(LB_Title)
         Controls.Add(DGV_Permissions)
         Controls.Add(GroupBox2)
         Controls.Add(DGV_RoleList)
         Controls.Add(GroupBox1)
-        Margin = New Padding(2, 2, 2, 2)
+        Margin = New Padding(2)
         Name = "ST_INS_Roles"
-        Text = "Creación de roles"
+        Text = "Registro de roles"
         WindowState = FormWindowState.Maximized
         GroupBox1.ResumeLayout(False)
         GroupBox1.PerformLayout()
@@ -212,6 +224,7 @@ Partial Class ST_INS_Roles
         GroupBox2.PerformLayout()
         CType(DGV_Permissions, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents GroupBox1 As GroupBox
@@ -233,4 +246,5 @@ Partial Class ST_INS_Roles
     Friend WithEvents TextBox3 As TextBox
     Friend WithEvents BT_Assing As Button
     Friend WithEvents CB_Forms As ComboBox
+    Friend WithEvents LB_Title As Label
 End Class

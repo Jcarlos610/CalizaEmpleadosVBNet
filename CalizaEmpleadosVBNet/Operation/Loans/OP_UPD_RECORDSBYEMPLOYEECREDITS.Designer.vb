@@ -35,6 +35,7 @@ Partial Class OP_UPD_RECORDSBYEMPLOYEECREDITS
         CB_Credits = New ComboBox()
         LB_Type = New Label()
         DGV_Loans = New DataGridView()
+        LB_Title = New Label()
         GroupBox1.SuspendLayout()
         CType(DGV_Loans, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -175,21 +176,33 @@ Partial Class OP_UPD_RECORDSBYEMPLOYEECREDITS
         DGV_Loans.Size = New Size(1153, 233)
         DGV_Loans.TabIndex = 1
         ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(188, 30)
+        LB_Title.TabIndex = 114
+        LB_Title.Text = "Edición de créditos"
+        ' 
         ' OP_UPD_RECORDSBYEMPLOYEECREDITS
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1609, 630)
+        Controls.Add(LB_Title)
         Controls.Add(GroupBox1)
         Margin = New Padding(2)
         Name = "OP_UPD_RECORDSBYEMPLOYEECREDITS"
-        Text = "Actualizar crédito"
+        Text = "Edición de créditos"
         WindowState = FormWindowState.Maximized
         GroupBox1.ResumeLayout(False)
         GroupBox1.PerformLayout()
         CType(DGV_Loans, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents GroupBox1 As GroupBox
@@ -205,4 +218,5 @@ Partial Class OP_UPD_RECORDSBYEMPLOYEECREDITS
     Friend WithEvents CB_Credits As ComboBox
     Friend WithEvents LB_Type As Label
     Friend WithEvents DGV_Loans As DataGridView
+    Friend WithEvents LB_Title As Label
 End Class

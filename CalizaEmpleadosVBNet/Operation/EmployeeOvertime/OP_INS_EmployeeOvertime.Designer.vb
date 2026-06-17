@@ -23,6 +23,8 @@ Partial Class OP_INS_EmployeeOvertime
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         GroupBox1 = New GroupBox()
+        Label2 = New Label()
+        CB_OvertimeType = New ComboBox()
         LB_AuthorizeBy = New Label()
         TB_AuthorizeBy = New TextBox()
         TB_OvertimeHours = New TextBox()
@@ -49,6 +51,8 @@ Partial Class OP_INS_EmployeeOvertime
         ' 
         ' GroupBox1
         ' 
+        GroupBox1.Controls.Add(Label2)
+        GroupBox1.Controls.Add(CB_OvertimeType)
         GroupBox1.Controls.Add(LB_AuthorizeBy)
         GroupBox1.Controls.Add(TB_AuthorizeBy)
         GroupBox1.Controls.Add(TB_OvertimeHours)
@@ -74,6 +78,24 @@ Partial Class OP_INS_EmployeeOvertime
         GroupBox1.TabStop = False
         GroupBox1.Text = "Información sobre horas extra"
         ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Location = New Point(808, 269)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(34, 15)
+        Label2.TabIndex = 25
+        Label2.Text = "Tipo:"
+        ' 
+        ' CB_OvertimeType
+        ' 
+        CB_OvertimeType.DropDownStyle = ComboBoxStyle.DropDownList
+        CB_OvertimeType.FormattingEnabled = True
+        CB_OvertimeType.Location = New Point(808, 291)
+        CB_OvertimeType.Name = "CB_OvertimeType"
+        CB_OvertimeType.Size = New Size(127, 23)
+        CB_OvertimeType.TabIndex = 24
+        ' 
         ' LB_AuthorizeBy
         ' 
         LB_AuthorizeBy.AutoSize = True
@@ -93,7 +115,7 @@ Partial Class OP_INS_EmployeeOvertime
         ' TB_OvertimeHours
         ' 
         TB_OvertimeHours.BackColor = SystemColors.Menu
-        TB_OvertimeHours.Location = New Point(441, 290)
+        TB_OvertimeHours.Location = New Point(676, 292)
         TB_OvertimeHours.Name = "TB_OvertimeHours"
         TB_OvertimeHours.Size = New Size(120, 23)
         TB_OvertimeHours.TabIndex = 19
@@ -101,7 +123,7 @@ Partial Class OP_INS_EmployeeOvertime
         ' LB_OvertimeHours
         ' 
         LB_OvertimeHours.AutoSize = True
-        LB_OvertimeHours.Location = New Point(441, 267)
+        LB_OvertimeHours.Location = New Point(676, 269)
         LB_OvertimeHours.Name = "LB_OvertimeHours"
         LB_OvertimeHours.Size = New Size(69, 15)
         LB_OvertimeHours.TabIndex = 18
@@ -162,7 +184,7 @@ Partial Class OP_INS_EmployeeOvertime
         ' 
         ' DTP_Valid
         ' 
-        DTP_Valid.Location = New Point(582, 290)
+        DTP_Valid.Location = New Point(432, 292)
         DTP_Valid.Name = "DTP_Valid"
         DTP_Valid.Size = New Size(232, 23)
         DTP_Valid.TabIndex = 7
@@ -170,7 +192,7 @@ Partial Class OP_INS_EmployeeOvertime
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Location = New Point(582, 267)
+        Label1.Location = New Point(432, 269)
         Label1.Name = "Label1"
         Label1.Size = New Size(114, 15)
         Label1.TabIndex = 6
@@ -287,4 +309,6 @@ Partial Class OP_INS_EmployeeOvertime
     Friend WithEvents TB_AuthorizeBy As TextBox
     Friend WithEvents DGV_OverTime As DataGridView
     Friend WithEvents LB_Title As Label
+    Friend WithEvents CB_OvertimeType As ComboBox
+    Friend WithEvents Label2 As Label
 End Class

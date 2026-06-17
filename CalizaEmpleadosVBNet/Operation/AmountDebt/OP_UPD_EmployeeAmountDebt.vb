@@ -17,7 +17,6 @@ Public Class OP_UPD_EmployeeAmountDebt
                 If DGV_Debt.Columns.Contains("ID") Then DGV_Debt.Columns("ID").Visible = False
 
                 DGV_Debt.ReadOnly = True
-                DGV_Debt.RowHeadersVisible = False
                 DGV_Debt.SelectionMode = DataGridViewSelectionMode.FullRowSelect
                 DGV_Debt.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
 
@@ -30,10 +29,40 @@ Public Class OP_UPD_EmployeeAmountDebt
         End Try
     End Sub
 
-    Private Sub DGV_Debt_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Debt.CellClick
-        If e.RowIndex >= 0 Then
+    'Private Sub DGV_Debt_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Debt.CellClick
+    '    If e.RowIndex >= 0 Then
+    '        Try
+    '            Dim row As DataGridViewRow = DGV_Debt.Rows(e.RowIndex)
+
+    '            SelectedDebtID = Convert.ToInt32(row.Cells("ID").Value)
+
+    '            TB_EmployeeId.Text = row.Cells("Núm. Empleado").Value.ToString()
+    '            TB_EmployeeName.Text = row.Cells("Nombre Completo").Value.ToString()
+    '            TB_DebtCause.Text = row.Cells("Causa Adeudo").Value.ToString()
+    '            TB_Comment.Text = row.Cells("Descripción").Value.ToString()
+    '            TB_TotalAmount.Text = row.Cells("Monto Total").Value.ToString()
+    '            TB_PeriodicDiscount.Text = row.Cells("Descuento Periódico").Value.ToString()
+    '            TB_AuthorizeBy.Text = row.Cells("Autorizado Por").Value.ToString()
+
+    '            If IsDate(row.Cells("Fecha Aplicación").Value) Then
+    '                DTP_Valid.Value = Convert.ToDateTime(row.Cells("Fecha Aplicación").Value)
+    '            End If
+    '            Dim estadoStr As String = row.Cells("Estado").Value.ToString()
+    '            CB_Stat.Checked = (estadoStr = "Activo")
+
+    '        Catch ex As Exception
+    '            MsgBox("Error al seleccionar el registro del Grid: " & ex.Message, MsgBoxStyle.Exclamation, "Aviso")
+    '        End Try
+    '    End If
+    'End Sub
+
+    Private Sub DGV_Debt_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_Debt.MouseClick
+
+        Dim hit As DataGridView.HitTestInfo = DGV_Debt.HitTest(e.X, e.Y)
+
+        If hit.RowIndex >= 0 AndAlso hit.Type = DataGridViewHitTestType.RowHeader Then
             Try
-                Dim row As DataGridViewRow = DGV_Debt.Rows(e.RowIndex)
+                Dim row As DataGridViewRow = DGV_Debt.Rows(hit.RowIndex)
 
                 SelectedDebtID = Convert.ToInt32(row.Cells("ID").Value)
 
@@ -48,6 +77,7 @@ Public Class OP_UPD_EmployeeAmountDebt
                 If IsDate(row.Cells("Fecha Aplicación").Value) Then
                     DTP_Valid.Value = Convert.ToDateTime(row.Cells("Fecha Aplicación").Value)
                 End If
+
                 Dim estadoStr As String = row.Cells("Estado").Value.ToString()
                 CB_Stat.Checked = (estadoStr = "Activo")
 

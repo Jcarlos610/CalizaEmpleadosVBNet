@@ -227,9 +227,9 @@ Partial Class OP_UPD_BenefitBotonero
         LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         LB_Title.Location = New Point(12, 11)
         LB_Title.Name = "LB_Title"
-        LB_Title.Size = New Size(177, 30)
+        LB_Title.Size = New Size(220, 30)
         LB_Title.TabIndex = 115
-        LB_Title.Text = "Editar asignación "
+        LB_Title.Text = "Edición de asignación "
         ' 
         ' OP_UPD_BenefitBotonero
         ' 
@@ -241,7 +241,7 @@ Partial Class OP_UPD_BenefitBotonero
         Controls.Add(GB_DebtInformation)
         Controls.Add(LB_Title)
         Name = "OP_UPD_BenefitBotonero"
-        Text = "Editar asignación"
+        Text = "Edición de asignación"
         WindowState = FormWindowState.Maximized
         GroupBox1.ResumeLayout(False)
         GroupBox1.PerformLayout()

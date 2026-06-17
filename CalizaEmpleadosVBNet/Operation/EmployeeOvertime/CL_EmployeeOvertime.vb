@@ -15,6 +15,7 @@ Public Class CL_EmployeeOvertime
     Private _OVERT_CREBY As Object
     Private _OVERT_CREDATE As Object
     Private _OVERT_STATUS As Object
+    Private _OVERT_TYPE As Object
 
     Public Property OVERT_ID As Object
         Get
@@ -106,12 +107,20 @@ Public Class CL_EmployeeOvertime
         End Set
     End Property
 
+    Public Property OVERT_TYPE As Object
+        Get
+            Return _OVERT_TYPE
+        End Get
+        Set(value As Object)
+            _OVERT_TYPE = value
+        End Set
+    End Property
 
     Sub New()
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
     End Sub
 
-    Sub New(OVERT_ID, REMPL_ID, OVERT_DATE, OVERT_HOURS, OVERT_CAUSE, OVERT_DESCR, OVERT_AUTH, OVERT_CREBY, OVERT_CREDATE, OVERT_STATUS)
+    Sub New(OVERT_ID, REMPL_ID, OVERT_DATE, OVERT_HOURS, OVERT_CAUSE, OVERT_DESCR, OVERT_AUTH, OVERT_CREBY, OVERT_CREDATE, OVERT_STATUS, OVERT_TYPE)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
         _OVERT_ID = OVERT_ID
@@ -124,9 +133,10 @@ Public Class CL_EmployeeOvertime
         _OVERT_CREBY = OVERT_CREBY
         _OVERT_CREDATE = OVERT_CREDATE
         _OVERT_STATUS = OVERT_STATUS
+        _OVERT_TYPE = OVERT_TYPE
     End Sub
 
-    Sub New(REMPL_ID, OVERT_DATE, OVERT_HOURS, OVERT_CAUSE, OVERT_DESCR, OVERT_AUTH, OVERT_CREBY, OVERT_CREDATE, OVERT_STATUS)
+    Sub New(REMPL_ID, OVERT_DATE, OVERT_HOURS, OVERT_CAUSE, OVERT_DESCR, OVERT_AUTH, OVERT_CREBY, OVERT_CREDATE, OVERT_STATUS, OVERT_TYPE)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
         _REMPL_ID = REMPL_ID
@@ -138,6 +148,7 @@ Public Class CL_EmployeeOvertime
         _OVERT_CREBY = OVERT_CREBY
         _OVERT_CREDATE = OVERT_CREDATE
         _OVERT_STATUS = OVERT_STATUS
+        _OVERT_TYPE = OVERT_TYPE
     End Sub
 
     Public Function InsertEmployeeOvertime() As Boolean
@@ -158,6 +169,7 @@ Public Class CL_EmployeeOvertime
             DB_Command.Parameters.AddWithValue("@OVERT_AUTH", OVERT_AUTH)
             DB_Command.Parameters.AddWithValue("@OVERT_CREBY", OVERT_CREBY)
             DB_Command.Parameters.AddWithValue("@OVERT_STATUS", OVERT_STATUS)
+            DB_Command.Parameters.AddWithValue("@OVERT_TYPE", OVERT_TYPE)
 
             DB_Command.ExecuteNonQuery()
             DB_Connection.Close()
@@ -237,6 +249,7 @@ Public Class CL_EmployeeOvertime
             DB_Command.Parameters.AddWithValue("@OVERT_AUTH", OVERT_AUTH)
             DB_Command.Parameters.AddWithValue("@OVERT_STATUS", OVERT_STATUS)
             DB_Command.Parameters.AddWithValue("@OVERT_CREBY", OVERT_CREBY)
+            DB_Command.Parameters.AddWithValue("@OVERT_TYPE", OVERT_TYPE)
 
             DB_Command.ExecuteNonQuery()
             DB_Connection.Close()

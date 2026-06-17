@@ -93,16 +93,34 @@ Public Class ST_INS_Users
     End Sub
 
 
-    Private Sub DGV_Roles_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Roles.CellClick
+    'Private Sub DGV_Roles_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Roles.CellClick
 
-        If e.RowIndex < 0 Then Exit Sub
+    '    If e.RowIndex < 0 Then Exit Sub
 
-        SelectedUserID = CInt(DGV_Roles.Rows(e.RowIndex).Cells("USER_ID").Value)
+    '    SelectedUserID = CInt(DGV_Roles.Rows(e.RowIndex).Cells("USER_ID").Value)
 
-        LoadUserRoles(SelectedUserID)
+    '    LoadUserRoles(SelectedUserID)
 
+    'End Sub
+
+
+    Private Sub DGV_Roles_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_Roles.MouseClick
+
+        Dim hit As DataGridView.HitTestInfo = DGV_Roles.HitTest(e.X, e.Y)
+
+        If hit.RowIndex >= 0 AndAlso hit.Type = DataGridViewHitTestType.RowHeader Then
+            Try
+                Dim row As DataGridViewRow = DGV_Roles.Rows(hit.RowIndex)
+
+                SelectedUserID = CInt(row.Cells("USER_ID").Value)
+
+                LoadUserRoles(SelectedUserID)
+
+            Catch ex As Exception
+                MsgBox("Error al cargar los roles del usuario: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            End Try
+        End If
     End Sub
-
 
     Private Sub LoadUserRoles(USER_ID As Integer)
 

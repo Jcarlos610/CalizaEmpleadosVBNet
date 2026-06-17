@@ -46,10 +46,36 @@ Public Class OP_UPD_BenefitBotonero
         DTP_EndDate.Value = DTP_StartDate.Value.AddMonths(3)
     End Sub
 
-    Private Sub DGV_PendingBotoneros_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_PendingBotoneros.CellClick
+    'Private Sub DGV_PendingBotoneros_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_PendingBotoneros.CellClick
+    '    Try
+    '        If e.RowIndex >= 0 Then
+    '            Dim row As DataGridViewRow = DGV_PendingBotoneros.Rows(e.RowIndex)
+    '            If row.Cells("Estatus").Value IsNot Nothing Then
+    '                Dim estatusTexto As String = row.Cells("Estatus").Value.ToString()
+    '                CB_Status.Checked = (estatusTexto = "Activo")
+    '            End If
+
+    '            TB_EmployeeId.Text = row.Cells("EMPL_ID").Value.ToString()
+    '            TB_EmployeeName.Text = row.Cells("Nombre Completo").Value.ToString()
+    '            DTP_StartDate.Value = Convert.ToDateTime(row.Cells("Fecha Inicio").Value)
+    '            DTP_EndDate.Value = Convert.ToDateTime(row.Cells("Fecha Fin").Value)
+    '            TB_Comment.Text = row.Cells("Comentario").Value.ToString()
+    '            TB_AuthorizeBy.Text = row.Cells("Autorizado Por").Value.ToString()
+
+    '            BotoneroObj.BOTON_ID = Convert.ToInt32(row.Cells("BOTON_ID").Value)
+    '        End If
+    '    Catch ex As Exception
+    '        MsgBox("Error al seleccionar la validación: " & ex.Message, MsgBoxStyle.Critical, "Error")
+    '    End Try
+    'End Sub
+
+    Private Sub DGV_PendingBotoneros_MouseClick(sender As Object, e As MouseEventArgs) Handles DGV_PendingBotoneros.MouseClick
         Try
-            If e.RowIndex >= 0 Then
-                Dim row As DataGridViewRow = DGV_PendingBotoneros.Rows(e.RowIndex)
+            Dim hit As DataGridView.HitTestInfo = DGV_PendingBotoneros.HitTest(e.X, e.Y)
+
+            If hit.RowIndex >= 0 AndAlso hit.Type = DataGridViewHitTestType.RowHeader Then
+                Dim row As DataGridViewRow = DGV_PendingBotoneros.Rows(hit.RowIndex)
+
                 If row.Cells("Estatus").Value IsNot Nothing Then
                     Dim estatusTexto As String = row.Cells("Estatus").Value.ToString()
                     CB_Status.Checked = (estatusTexto = "Activo")
@@ -61,9 +87,9 @@ Public Class OP_UPD_BenefitBotonero
                 DTP_EndDate.Value = Convert.ToDateTime(row.Cells("Fecha Fin").Value)
                 TB_Comment.Text = row.Cells("Comentario").Value.ToString()
                 TB_AuthorizeBy.Text = row.Cells("Autorizado Por").Value.ToString()
-
                 BotoneroObj.BOTON_ID = Convert.ToInt32(row.Cells("BOTON_ID").Value)
             End If
+
         Catch ex As Exception
             MsgBox("Error al seleccionar la validación: " & ex.Message, MsgBoxStyle.Critical, "Error")
         End Try

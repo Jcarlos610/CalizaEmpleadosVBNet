@@ -38,6 +38,7 @@ Partial Class OP_UPD_MANUALBANNS
         TB_EmployeeId = New TextBox()
         LB_EmplyeeId = New Label()
         CB_Status = New CheckBox()
+        LB_Title = New Label()
         CType(DGV_Banns, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox1.SuspendLayout()
         SuspendLayout()
@@ -195,12 +196,23 @@ Partial Class OP_UPD_MANUALBANNS
         CB_Status.Text = "Status"
         CB_Status.UseVisualStyleBackColor = True
         ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(265, 30)
+        LB_Title.TabIndex = 114
+        LB_Title.Text = "Edición de amonestaciones"
+        ' 
         ' OP_UPD_MANUALBANNS
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1242, 824)
+        Controls.Add(LB_Title)
         Controls.Add(GroupBox1)
         Controls.Add(DGV_Banns)
         Name = "OP_UPD_MANUALBANNS"
@@ -210,6 +222,7 @@ Partial Class OP_UPD_MANUALBANNS
         GroupBox1.ResumeLayout(False)
         GroupBox1.PerformLayout()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents DGV_Banns As DataGridView
@@ -228,4 +241,5 @@ Partial Class OP_UPD_MANUALBANNS
     Friend WithEvents LB_EmployeeName As Label
     Friend WithEvents TB_EmployeeId As TextBox
     Friend WithEvents LB_EmplyeeId As Label
+    Friend WithEvents LB_Title As Label
 End Class

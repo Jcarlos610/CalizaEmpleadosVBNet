@@ -37,6 +37,7 @@ Partial Class OP_RECORDSBYEMPLOYEECREDITS
         DGV_EmployeeInfo = New DataGridView()
         DGV_Loans = New DataGridView()
         LB_EmployeesWithCredit = New Label()
+        LB_Title = New Label()
         GroupBox1.SuspendLayout()
         CType(DGV_EmployeeInfo, ComponentModel.ISupportInitialize).BeginInit()
         CType(DGV_Loans, ComponentModel.ISupportInitialize).BeginInit()
@@ -201,6 +202,16 @@ Partial Class OP_RECORDSBYEMPLOYEECREDITS
         LB_EmployeesWithCredit.TabIndex = 10
         LB_EmployeesWithCredit.Text = "Empleados con crédito asignado"
         ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(268, 30)
+        LB_Title.TabIndex = 113
+        LB_Title.Text = "Registro de nuevos créditos"
+        ' 
         ' OP_RECORDSBYEMPLOYEECREDITS
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -208,6 +219,7 @@ Partial Class OP_RECORDSBYEMPLOYEECREDITS
         AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1536, 681)
+        Controls.Add(LB_Title)
         Controls.Add(LB_EmployeesWithCredit)
         Controls.Add(DGV_Loans)
         Controls.Add(GroupBox1)
@@ -239,4 +251,5 @@ Partial Class OP_RECORDSBYEMPLOYEECREDITS
     Friend WithEvents DGV_Loans As DataGridView
     Friend WithEvents BT_Register As Button
     Friend WithEvents LB_EmployeesWithCredit As Label
+    Friend WithEvents LB_Title As Label
 End Class

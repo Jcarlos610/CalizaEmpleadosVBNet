@@ -95,6 +95,7 @@ Partial Class MD_INS_Employees
         PB_Picture = New PictureBox()
         GroupBox1 = New GroupBox()
         DGV_AllEmployees = New DataGridView()
+        LB_Title = New Label()
         GB_PersonalInformation.SuspendLayout()
         GB_EmergencyInfo.SuspendLayout()
         GB_EmployeeInformation.SuspendLayout()
@@ -784,12 +785,23 @@ Partial Class MD_INS_Employees
         DGV_AllEmployees.Size = New Size(1307, 150)
         DGV_AllEmployees.TabIndex = 0
         ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(224, 30)
+        LB_Title.TabIndex = 109
+        LB_Title.Text = "Registro de empleados"
+        ' 
         ' MD_INS_Employees
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1425, 630)
+        Controls.Add(LB_Title)
         Controls.Add(GroupBox1)
         Controls.Add(GB_PersonalInformation)
         Name = "MD_INS_Employees"
@@ -807,6 +819,7 @@ Partial Class MD_INS_Employees
         GroupBox1.ResumeLayout(False)
         CType(DGV_AllEmployees, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents PictureBox1 As PictureBox
@@ -882,4 +895,5 @@ Partial Class MD_INS_Employees
     Friend WithEvents CB_Plant As ComboBox
     Friend WithEvents LB_Plant As Label
     Friend WithEvents CB_InfonavitCredit As CheckBox
+    Friend WithEvents LB_Title As Label
 End Class

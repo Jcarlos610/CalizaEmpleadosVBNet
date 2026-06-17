@@ -6,7 +6,22 @@ Public Class OP_INS_EmployeeOvertime
 
     Private Sub OP_INS_EmployeeOvertime_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LBX_Suggesting.Visible = False
+
+        CB_OvertimeType.Items.Clear()
+        CB_OvertimeType.Items.Add("Seleccione una opción...")
+        CB_OvertimeType.Items.Add("Doble")
+        CB_OvertimeType.Items.Add("Triple")
+
+        CB_OvertimeType.SelectedIndex = 0
         CargarGridGeneral()
+    End Sub
+
+    Private Sub DTP_Valid_ValueChanged(sender As Object, e As EventArgs) Handles DTP_Valid.ValueChanged
+        If DTP_Valid.Value.DayOfWeek = DayOfWeek.Sunday Then
+            CB_OvertimeType.SelectedItem = "Triple"
+        Else
+            CB_OvertimeType.SelectedItem = "Doble"
+        End If
     End Sub
 
     Private Sub TB_Employee_TextChanged(sender As Object, e As EventArgs) Handles TB_Employee.TextChanged
@@ -75,6 +90,11 @@ Public Class OP_INS_EmployeeOvertime
                 Return
             End If
 
+            If CB_OvertimeType.SelectedIndex <= 0 Then
+                MsgBox("Debe seleccionar si las horas extras son Dobles o Triples.", MsgBoxStyle.Exclamation, "Aviso")
+                Return
+            End If
+
             Dim overtHours As Decimal = 0
             If Not Decimal.TryParse(TB_OvertimeHours.Text, overtHours) OrElse overtHours <= 0 Then
                 MsgBox("Ingrese una cantidad de horas válida y mayor a 0.00.", MsgBoxStyle.Exclamation, "Aviso")
@@ -90,15 +110,16 @@ Public Class OP_INS_EmployeeOvertime
             CL.OVERT_AUTH = TB_AuthorizeBy.Text.Trim()
             CL.OVERT_CREBY = GlobalSession.GlobalUserName
             CL.OVERT_STATUS = True
+            CL.OVERT_TYPE = CB_OvertimeType.SelectedItem.ToString()
 
             If CL.InsertEmployeeOvertime() Then
                 ' LOG 
                 Using connTmp As New SqlConnection(My.Settings.ConnectionString)
-                    Dim descLog As String = $"NUEVAS HORAS EXTRAS: Se cargaron {overtHours} hrs. al empleado ID {TB_EmployeeId.Text} por motivo: {CL.OVERT_CAUSE}."
+                    Dim descLog As String = $"NUEVAS HORAS EXTRAS ({CL.OVERT_TYPE}): Se cargaron {overtHours} hrs. al empleado ID {TB_EmployeeId.Text}. Tipo: {CL.OVERT_TYPE} | Motivo: {CL.OVERT_CAUSE} | Autorizó: {CL.OVERT_AUTH}."
                     InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_HorasExtras", "INSERT_SUCCESS", descLog, CInt(TB_EmployeeId.Text), "INFO")
                 End Using
 
-                MsgBox("¡Las horas extras han sido registradas exitosamente!", MsgBoxStyle.Information, "Registro Completo")
+                MsgBox($"¡Las horas extras ({CL.OVERT_TYPE}) han sido registradas exitosamente!", MsgBoxStyle.Information, "Registro Completo")
 
                 CargarGridGeneral()
                 ResetFormFields()
@@ -134,7 +155,6 @@ Public Class OP_INS_EmployeeOvertime
             If DGV_OverTime.Columns.Contains("ID") Then DGV_OverTime.Columns("ID").Visible = False
 
             DGV_OverTime.ReadOnly = True
-            DGV_OverTime.RowHeadersVisible = False
             DGV_OverTime.SelectionMode = DataGridViewSelectionMode.FullRowSelect
             DGV_OverTime.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
 
@@ -153,6 +173,7 @@ Public Class OP_INS_EmployeeOvertime
         TB_OvertimeHours.Clear()
         TB_AuthorizeBy.Clear()
         DTP_Valid.Value = DateTime.Now
+        CB_OvertimeType.SelectedIndex = 0
         CargarGridGeneral()
         TB_Employee.Focus()
     End Sub

@@ -75,6 +75,7 @@ Partial Class OP_ADMNISTRATIONOFINCIDENTS
         LB_VacDateFrom = New Label()
         DGV_Incidents = New DataGridView()
         GroupBox1 = New GroupBox()
+        LB_Title = New Label()
         GB_EmployeeInfo.SuspendLayout()
         CType(DGV_Employees, ComponentModel.ISupportInitialize).BeginInit()
         TB_Incidents.SuspendLayout()
@@ -108,7 +109,7 @@ Partial Class OP_ADMNISTRATIONOFINCIDENTS
         ' 
         CHK_LastOnly.AutoSize = True
         CHK_LastOnly.Location = New Point(335, 188)
-        CHK_LastOnly.Margin = New Padding(2, 2, 2, 2)
+        CHK_LastOnly.Margin = New Padding(2)
         CHK_LastOnly.Name = "CHK_LastOnly"
         CHK_LastOnly.Size = New Size(173, 19)
         CHK_LastOnly.TabIndex = 11
@@ -118,7 +119,7 @@ Partial Class OP_ADMNISTRATIONOFINCIDENTS
         ' TB_TotalPermissions
         ' 
         TB_TotalPermissions.Location = New Point(15, 237)
-        TB_TotalPermissions.Margin = New Padding(2, 2, 2, 2)
+        TB_TotalPermissions.Margin = New Padding(2)
         TB_TotalPermissions.Name = "TB_TotalPermissions"
         TB_TotalPermissions.Size = New Size(142, 23)
         TB_TotalPermissions.TabIndex = 10
@@ -135,7 +136,7 @@ Partial Class OP_ADMNISTRATIONOFINCIDENTS
         ' TB_TotalVacations
         ' 
         TB_TotalVacations.Location = New Point(15, 212)
-        TB_TotalVacations.Margin = New Padding(2, 2, 2, 2)
+        TB_TotalVacations.Margin = New Padding(2)
         TB_TotalVacations.Name = "TB_TotalVacations"
         TB_TotalVacations.Size = New Size(142, 23)
         TB_TotalVacations.TabIndex = 8
@@ -152,7 +153,7 @@ Partial Class OP_ADMNISTRATIONOFINCIDENTS
         ' TB_EmployeeName
         ' 
         TB_EmployeeName.Location = New Point(78, 187)
-        TB_EmployeeName.Margin = New Padding(2, 2, 2, 2)
+        TB_EmployeeName.Margin = New Padding(2)
         TB_EmployeeName.Name = "TB_EmployeeName"
         TB_EmployeeName.Size = New Size(234, 23)
         TB_EmployeeName.TabIndex = 6
@@ -225,7 +226,7 @@ Partial Class OP_ADMNISTRATIONOFINCIDENTS
         PaidLeave.ForeColor = SystemColors.ControlLightLight
         PaidLeave.Location = New Point(4, 24)
         PaidLeave.Name = "PaidLeave"
-        PaidLeave.Padding = New Padding(3, 3, 3, 3)
+        PaidLeave.Padding = New Padding(3)
         PaidLeave.Size = New Size(1239, 125)
         PaidLeave.TabIndex = 0
         PaidLeave.Text = "Permiso con goce"
@@ -356,7 +357,7 @@ Partial Class OP_ADMNISTRATIONOFINCIDENTS
         UnpaidLeave.ForeColor = Color.White
         UnpaidLeave.Location = New Point(4, 24)
         UnpaidLeave.Name = "UnpaidLeave"
-        UnpaidLeave.Padding = New Padding(3, 3, 3, 3)
+        UnpaidLeave.Padding = New Padding(3)
         UnpaidLeave.Size = New Size(1239, 125)
         UnpaidLeave.TabIndex = 1
         UnpaidLeave.Text = "Permiso sin goce"
@@ -484,9 +485,9 @@ Partial Class OP_ADMNISTRATIONOFINCIDENTS
         Vacations.Controls.Add(DTP_VacDateFrom)
         Vacations.Controls.Add(LB_VacDateFrom)
         Vacations.Location = New Point(4, 24)
-        Vacations.Margin = New Padding(2, 2, 2, 2)
+        Vacations.Margin = New Padding(2)
         Vacations.Name = "Vacations"
-        Vacations.Padding = New Padding(2, 2, 2, 2)
+        Vacations.Padding = New Padding(2)
         Vacations.Size = New Size(1239, 125)
         Vacations.TabIndex = 2
         Vacations.Text = "Vacaciones"
@@ -616,13 +617,23 @@ Partial Class OP_ADMNISTRATIONOFINCIDENTS
         GroupBox1.Controls.Add(DGV_Incidents)
         GroupBox1.Controls.Add(TB_Incidents)
         GroupBox1.Location = New Point(12, 315)
-        GroupBox1.Margin = New Padding(2, 2, 2, 2)
+        GroupBox1.Margin = New Padding(2)
         GroupBox1.Name = "GroupBox1"
-        GroupBox1.Padding = New Padding(2, 2, 2, 2)
+        GroupBox1.Padding = New Padding(2)
         GroupBox1.Size = New Size(1361, 317)
         GroupBox1.TabIndex = 5
         GroupBox1.TabStop = False
         GroupBox1.Text = "Información de permisos"
+        ' 
+        ' LB_Title
+        ' 
+        LB_Title.AutoSize = True
+        LB_Title.Font = New Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        LB_Title.Location = New Point(12, 11)
+        LB_Title.Name = "LB_Title"
+        LB_Title.Size = New Size(206, 30)
+        LB_Title.TabIndex = 110
+        LB_Title.Text = "Registro de permisos"
         ' 
         ' OP_ADMNISTRATIONOFINCIDENTS
         ' 
@@ -631,9 +642,10 @@ Partial Class OP_ADMNISTRATIONOFINCIDENTS
         AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1545, 630)
+        Controls.Add(LB_Title)
         Controls.Add(GB_EmployeeInfo)
         Controls.Add(GroupBox1)
-        Margin = New Padding(2, 2, 2, 2)
+        Margin = New Padding(2)
         Name = "OP_ADMNISTRATIONOFINCIDENTS"
         Text = "Registro de permisos"
         WindowState = FormWindowState.Maximized
@@ -650,6 +662,7 @@ Partial Class OP_ADMNISTRATIONOFINCIDENTS
         CType(DGV_Incidents, ComponentModel.ISupportInitialize).EndInit()
         GroupBox1.ResumeLayout(False)
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents GB_EmployeeInfo As GroupBox
@@ -705,4 +718,5 @@ Partial Class OP_ADMNISTRATIONOFINCIDENTS
     Friend WithEvents LB_PermissionWithSalary As Label
     Friend WithEvents LB_PermissionWithoutSalary As Label
     Friend WithEvents LB_VacationsRequest As Label
+    Friend WithEvents LB_Title As Label
 End Class
