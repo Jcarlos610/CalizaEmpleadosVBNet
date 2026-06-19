@@ -215,20 +215,45 @@ Public Class CL_EmployeeBanns
         Return dt
     End Function
 
-    Public Function UpdateEmployeeBanns(ByVal recordId As Integer, ByVal justificacion As String) As Boolean
+    'Public Function UpdateEmployeeBanns(ByVal recordId As Integer, ByVal justificacion As String) As Boolean
+    '    Try
+    '        DB_Command = New SqlCommand("UPD_EMPLOYEEBANNS", DB_Connection)
+    '        DB_Command.CommandType = CommandType.StoredProcedure
+
+    '        DB_Command.Parameters.AddWithValue("@DREMPL_ID", recordId)
+    '        DB_Command.Parameters.AddWithValue("@DREMPL_JUSTI", justificacion)
+    '        DB_Command.Parameters.AddWithValue("@DREMPL_CREBY", _DREMPL_CREBY)
+
+    '        DB_Command.Parameters.AddWithValue("@DREMPL_DATE", _DREMPL_DATE)
+    '        DB_Command.Parameters.AddWithValue("@DREMPL_DQUANTITY", _DREMPL_DQUANTITY)
+    '        DB_Command.Parameters.AddWithValue("@DREMPL_BNAME", _DREMPL_BNAME)
+    '        DB_Command.Parameters.AddWithValue("@DREMPL_DESCR", _DREMPL_DESCR)
+    '        DB_Command.Parameters.AddWithValue("@DREMPL_STATUS", _DREMPL_STATUS)
+
+    '        DB_Connection.Open()
+    '        DB_Command.ExecuteNonQuery()
+    '        DB_Connection.Close()
+    '        Return True
+    '    Catch ex As Exception
+    '        If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
+    '        MsgBox("Error al actualizar la amonestación: " & ex.Message, MsgBoxStyle.Critical)
+    '        Return False
+    '    End Try
+    'End Function
+
+    Public Function UpdateEmployeeBanns(ByVal recordId As Integer, ByVal justificacion As String, ByVal diasAsignados As Decimal) As Boolean
         Try
             DB_Command = New SqlCommand("UPD_EMPLOYEEBANNS", DB_Connection)
             DB_Command.CommandType = CommandType.StoredProcedure
 
             DB_Command.Parameters.AddWithValue("@DREMPL_ID", recordId)
-            DB_Command.Parameters.AddWithValue("@DREMPL_JUSTI", justificacion)
-            DB_Command.Parameters.AddWithValue("@DREMPL_CREBY", _DREMPL_CREBY)
-
             DB_Command.Parameters.AddWithValue("@DREMPL_DATE", _DREMPL_DATE)
-            DB_Command.Parameters.AddWithValue("@DREMPL_DQUANTITY", _DREMPL_DQUANTITY)
+            DB_Command.Parameters.AddWithValue("@DREMPL_DQUANTITY", diasAsignados)
             DB_Command.Parameters.AddWithValue("@DREMPL_BNAME", _DREMPL_BNAME)
             DB_Command.Parameters.AddWithValue("@DREMPL_DESCR", _DREMPL_DESCR)
             DB_Command.Parameters.AddWithValue("@DREMPL_STATUS", _DREMPL_STATUS)
+            DB_Command.Parameters.AddWithValue("@DREMPL_JUSTI", justificacion)
+            DB_Command.Parameters.AddWithValue("@DREMPL_CREBY", _DREMPL_CREBY)
 
             DB_Connection.Open()
             DB_Command.ExecuteNonQuery()
@@ -259,5 +284,27 @@ Public Class CL_EmployeeBanns
         Return dt
     End Function
 
+    Public Function GetEmployeeBannsBalance(ByVal employeeID As Integer) As Decimal
+        Dim totalBalance As Decimal = 0D
+        Try
+
+            Dim query As String = "SELECT ISNULL(SUM(D.DREMPL_BALANCE), 0) " &
+                              "FROM OP_RecordsByEmployeeBannsDetails D " &
+                              "INNER JOIN OP_RecordsByEmployee E ON D.REMPL_ID = E.REMPL_ID " &
+                              "WHERE E.EMPL_ID = @EMPL_ID AND D.DREMPL_STATUS = 1"
+
+            Using cmd As New SqlCommand(query, DB_Connection)
+                cmd.Parameters.AddWithValue("@EMPL_ID", employeeID)
+
+                If DB_Connection.State = ConnectionState.Closed Then DB_Connection.Open()
+                totalBalance = Convert.ToDecimal(cmd.ExecuteScalar())
+                DB_Connection.Close()
+            End Using
+        Catch ex As Exception
+            If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
+            Console.WriteLine("Error al obtener saldo de amonestaciones: " & ex.Message)
+        End Try
+        Return totalBalance
+    End Function
 
 End Class

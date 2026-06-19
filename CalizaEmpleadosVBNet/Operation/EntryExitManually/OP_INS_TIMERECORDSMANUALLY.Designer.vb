@@ -35,14 +35,25 @@ Partial Class OP_INS_TIMERECORDSMANUALLY
         BT_UpdateDateTime = New Button()
         DTP_ManualDelay = New DateTimePicker()
         LB_DateTime = New Label()
+        TP_EarlyExit = New TabPage()
+        DTP_EarlyExit = New DateTimePicker()
+        Label1 = New Label()
+        TB_EarlyExitComment = New TextBox()
+        BT_EarlyExitRegister = New Button()
+        Label2 = New Label()
         DGV_AllEmployees = New DataGridView()
         GB_EmployeeInfo = New GroupBox()
         LB_SelectEmployee = New Label()
         DGV_DisplayInformation = New DataGridView()
         LB_Title = New Label()
+        TB_EmployeeName = New TextBox()
+        LB_EmployeeName = New Label()
+        TB_EmployeeId = New TextBox()
+        LB_EmplyeeId = New Label()
         TB_Asistance.SuspendLayout()
         ManualAsistance.SuspendLayout()
         ManualDelay.SuspendLayout()
+        TP_EarlyExit.SuspendLayout()
         CType(DGV_AllEmployees, ComponentModel.ISupportInitialize).BeginInit()
         GB_EmployeeInfo.SuspendLayout()
         CType(DGV_DisplayInformation, ComponentModel.ISupportInitialize).BeginInit()
@@ -52,7 +63,8 @@ Partial Class OP_INS_TIMERECORDSMANUALLY
         ' 
         TB_Asistance.Controls.Add(ManualAsistance)
         TB_Asistance.Controls.Add(ManualDelay)
-        TB_Asistance.Location = New Point(12, 282)
+        TB_Asistance.Controls.Add(TP_EarlyExit)
+        TB_Asistance.Location = New Point(12, 356)
         TB_Asistance.Name = "TB_Asistance"
         TB_Asistance.SelectedIndex = 0
         TB_Asistance.Size = New Size(1247, 153)
@@ -178,6 +190,66 @@ Partial Class OP_INS_TIMERECORDSMANUALLY
         LB_DateTime.TabIndex = 0
         LB_DateTime.Text = "Indique la hora de entrada"
         ' 
+        ' TP_EarlyExit
+        ' 
+        TP_EarlyExit.BackColor = Color.White
+        TP_EarlyExit.Controls.Add(DTP_EarlyExit)
+        TP_EarlyExit.Controls.Add(Label1)
+        TP_EarlyExit.Controls.Add(TB_EarlyExitComment)
+        TP_EarlyExit.Controls.Add(BT_EarlyExitRegister)
+        TP_EarlyExit.Controls.Add(Label2)
+        TP_EarlyExit.ForeColor = Color.White
+        TP_EarlyExit.Location = New Point(4, 24)
+        TP_EarlyExit.Name = "TP_EarlyExit"
+        TP_EarlyExit.Padding = New Padding(3)
+        TP_EarlyExit.Size = New Size(1239, 125)
+        TP_EarlyExit.TabIndex = 2
+        TP_EarlyExit.Text = "Permiso Salida Anticipada"
+        ' 
+        ' DTP_EarlyExit
+        ' 
+        DTP_EarlyExit.Location = New Point(15, 33)
+        DTP_EarlyExit.Name = "DTP_EarlyExit"
+        DTP_EarlyExit.Size = New Size(278, 23)
+        DTP_EarlyExit.TabIndex = 13
+        ' 
+        ' Label1
+        ' 
+        Label1.AutoSize = True
+        Label1.ForeColor = SystemColors.ActiveCaptionText
+        Label1.Location = New Point(307, 11)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(210, 15)
+        Label1.TabIndex = 12
+        Label1.Text = "Indiqué la razón de la salida anticipada"
+        ' 
+        ' TB_EarlyExitComment
+        ' 
+        TB_EarlyExitComment.Location = New Point(307, 33)
+        TB_EarlyExitComment.Name = "TB_EarlyExitComment"
+        TB_EarlyExitComment.Size = New Size(485, 23)
+        TB_EarlyExitComment.TabIndex = 10
+        ' 
+        ' BT_EarlyExitRegister
+        ' 
+        BT_EarlyExitRegister.ForeColor = SystemColors.ActiveCaptionText
+        BT_EarlyExitRegister.Location = New Point(811, 32)
+        BT_EarlyExitRegister.Name = "BT_EarlyExitRegister"
+        BT_EarlyExitRegister.Size = New Size(128, 23)
+        BT_EarlyExitRegister.TabIndex = 11
+        BT_EarlyExitRegister.Text = "Registrar Salida"
+        BT_EarlyExitRegister.UseVisualStyleBackColor = True
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.ForeColor = SystemColors.ActiveCaptionText
+        Label2.Location = New Point(15, 11)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(115, 15)
+        Label2.TabIndex = 8
+        Label2.Text = "Indique fecha y hora"
+        ' 
         ' DGV_AllEmployees
         ' 
         DGV_AllEmployees.AllowUserToAddRows = False
@@ -217,7 +289,7 @@ Partial Class OP_INS_TIMERECORDSMANUALLY
         DGV_DisplayInformation.AllowUserToAddRows = False
         DGV_DisplayInformation.AllowUserToDeleteRows = False
         DGV_DisplayInformation.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_DisplayInformation.Location = New Point(12, 452)
+        DGV_DisplayInformation.Location = New Point(12, 526)
         DGV_DisplayInformation.Name = "DGV_DisplayInformation"
         DGV_DisplayInformation.ReadOnly = True
         DGV_DisplayInformation.Size = New Size(1247, 150)
@@ -233,12 +305,50 @@ Partial Class OP_INS_TIMERECORDSMANUALLY
         LB_Title.TabIndex = 109
         LB_Title.Text = "Registrar manualmente entradas"
         ' 
+        ' TB_EmployeeName
+        ' 
+        TB_EmployeeName.Location = New Point(148, 320)
+        TB_EmployeeName.Name = "TB_EmployeeName"
+        TB_EmployeeName.ReadOnly = True
+        TB_EmployeeName.Size = New Size(253, 23)
+        TB_EmployeeName.TabIndex = 113
+        ' 
+        ' LB_EmployeeName
+        ' 
+        LB_EmployeeName.AutoSize = True
+        LB_EmployeeName.Location = New Point(16, 328)
+        LB_EmployeeName.Name = "LB_EmployeeName"
+        LB_EmployeeName.Size = New Size(123, 15)
+        LB_EmployeeName.TabIndex = 112
+        LB_EmployeeName.Text = "Nombre de empleado"
+        ' 
+        ' TB_EmployeeId
+        ' 
+        TB_EmployeeId.Location = New Point(148, 282)
+        TB_EmployeeId.Name = "TB_EmployeeId"
+        TB_EmployeeId.ReadOnly = True
+        TB_EmployeeId.Size = New Size(61, 23)
+        TB_EmployeeId.TabIndex = 111
+        ' 
+        ' LB_EmplyeeId
+        ' 
+        LB_EmplyeeId.AutoSize = True
+        LB_EmplyeeId.Location = New Point(16, 290)
+        LB_EmplyeeId.Name = "LB_EmplyeeId"
+        LB_EmplyeeId.Size = New Size(129, 15)
+        LB_EmplyeeId.TabIndex = 110
+        LB_EmplyeeId.Text = "Número de empleado: "
+        ' 
         ' OP_INS_TIMERECORDSMANUALLY
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(1408, 694)
+        Controls.Add(TB_EmployeeName)
+        Controls.Add(LB_EmployeeName)
+        Controls.Add(TB_EmployeeId)
+        Controls.Add(LB_EmplyeeId)
         Controls.Add(LB_Title)
         Controls.Add(DGV_DisplayInformation)
         Controls.Add(GB_EmployeeInfo)
@@ -252,6 +362,8 @@ Partial Class OP_INS_TIMERECORDSMANUALLY
         ManualAsistance.PerformLayout()
         ManualDelay.ResumeLayout(False)
         ManualDelay.PerformLayout()
+        TP_EarlyExit.ResumeLayout(False)
+        TP_EarlyExit.PerformLayout()
         CType(DGV_AllEmployees, ComponentModel.ISupportInitialize).EndInit()
         GB_EmployeeInfo.ResumeLayout(False)
         GB_EmployeeInfo.PerformLayout()
@@ -277,4 +389,14 @@ Partial Class OP_INS_TIMERECORDSMANUALLY
     Friend WithEvents LB_AbsenceReason As Label
     Friend WithEvents TB_AbsenceReason As TextBox
     Friend WithEvents LB_Title As Label
+    Friend WithEvents TB_EmployeeName As TextBox
+    Friend WithEvents LB_EmployeeName As Label
+    Friend WithEvents TB_EmployeeId As TextBox
+    Friend WithEvents LB_EmplyeeId As Label
+    Friend WithEvents TP_EarlyExit As TabPage
+    Friend WithEvents Label1 As Label
+    Friend WithEvents TB_EarlyExitComment As TextBox
+    Friend WithEvents BT_EarlyExitRegister As Button
+    Friend WithEvents Label2 As Label
+    Friend WithEvents DTP_EarlyExit As DateTimePicker
 End Class

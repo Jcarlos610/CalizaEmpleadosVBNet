@@ -24,6 +24,9 @@ Partial Class OP_INS_InfonavitAmountManually
     Private Sub InitializeComponent()
         LB_Title = New Label()
         GroupBox1 = New GroupBox()
+        LBX_Suggesting = New ListBox()
+        TB_Employee = New TextBox()
+        LB_Employee = New Label()
         CB_AllDates = New ComboBox()
         TB_Amount = New TextBox()
         LB_Amount = New Label()
@@ -52,6 +55,9 @@ Partial Class OP_INS_InfonavitAmountManually
         ' 
         ' GroupBox1
         ' 
+        GroupBox1.Controls.Add(LBX_Suggesting)
+        GroupBox1.Controls.Add(TB_Employee)
+        GroupBox1.Controls.Add(LB_Employee)
         GroupBox1.Controls.Add(CB_AllDates)
         GroupBox1.Controls.Add(TB_Amount)
         GroupBox1.Controls.Add(LB_Amount)
@@ -63,10 +69,37 @@ Partial Class OP_INS_InfonavitAmountManually
         GroupBox1.Controls.Add(LB_EmplyeeId)
         GroupBox1.Location = New Point(12, 46)
         GroupBox1.Name = "GroupBox1"
-        GroupBox1.Size = New Size(1218, 185)
+        GroupBox1.Size = New Size(1218, 210)
         GroupBox1.TabIndex = 109
         GroupBox1.TabStop = False
         GroupBox1.Text = "Información sobre monto de infonavit"
+        ' 
+        ' LBX_Suggesting
+        ' 
+        LBX_Suggesting.FormattingEnabled = True
+        LBX_Suggesting.IntegralHeight = False
+        LBX_Suggesting.ItemHeight = 15
+        LBX_Suggesting.Location = New Point(582, 78)
+        LBX_Suggesting.Name = "LBX_Suggesting"
+        LBX_Suggesting.Size = New Size(420, 34)
+        LBX_Suggesting.TabIndex = 19
+        LBX_Suggesting.Visible = False
+        ' 
+        ' TB_Employee
+        ' 
+        TB_Employee.Location = New Point(120, 89)
+        TB_Employee.Name = "TB_Employee"
+        TB_Employee.Size = New Size(435, 23)
+        TB_Employee.TabIndex = 18
+        ' 
+        ' LB_Employee
+        ' 
+        LB_Employee.AutoSize = True
+        LB_Employee.Location = New Point(15, 97)
+        LB_Employee.Name = "LB_Employee"
+        LB_Employee.Size = New Size(104, 15)
+        LB_Employee.TabIndex = 17
+        LB_Employee.Text = "Buscar empleado: "
         ' 
         ' CB_AllDates
         ' 
@@ -80,7 +113,7 @@ Partial Class OP_INS_InfonavitAmountManually
         ' TB_Amount
         ' 
         TB_Amount.BackColor = SystemColors.Info
-        TB_Amount.Location = New Point(472, 132)
+        TB_Amount.Location = New Point(472, 165)
         TB_Amount.Name = "TB_Amount"
         TB_Amount.Size = New Size(79, 23)
         TB_Amount.TabIndex = 15
@@ -88,7 +121,7 @@ Partial Class OP_INS_InfonavitAmountManually
         ' LB_Amount
         ' 
         LB_Amount.AutoSize = True
-        LB_Amount.Location = New Point(420, 135)
+        LB_Amount.Location = New Point(420, 168)
         LB_Amount.Name = "LB_Amount"
         LB_Amount.Size = New Size(46, 15)
         LB_Amount.TabIndex = 14
@@ -96,7 +129,7 @@ Partial Class OP_INS_InfonavitAmountManually
         ' 
         ' BT_Register
         ' 
-        BT_Register.Location = New Point(1122, 135)
+        BT_Register.Location = New Point(1124, 168)
         BT_Register.Name = "BT_Register"
         BT_Register.Size = New Size(75, 23)
         BT_Register.TabIndex = 10
@@ -114,15 +147,16 @@ Partial Class OP_INS_InfonavitAmountManually
         ' 
         ' TB_EmployeeName
         ' 
-        TB_EmployeeName.Location = New Point(147, 127)
+        TB_EmployeeName.Location = New Point(147, 160)
         TB_EmployeeName.Name = "TB_EmployeeName"
+        TB_EmployeeName.ReadOnly = True
         TB_EmployeeName.Size = New Size(253, 23)
         TB_EmployeeName.TabIndex = 5
         ' 
         ' LB_EmployeeName
         ' 
         LB_EmployeeName.AutoSize = True
-        LB_EmployeeName.Location = New Point(15, 135)
+        LB_EmployeeName.Location = New Point(15, 168)
         LB_EmployeeName.Name = "LB_EmployeeName"
         LB_EmployeeName.Size = New Size(123, 15)
         LB_EmployeeName.TabIndex = 4
@@ -130,15 +164,16 @@ Partial Class OP_INS_InfonavitAmountManually
         ' 
         ' TB_EmployeeId
         ' 
-        TB_EmployeeId.Location = New Point(147, 90)
+        TB_EmployeeId.Location = New Point(147, 123)
         TB_EmployeeId.Name = "TB_EmployeeId"
+        TB_EmployeeId.ReadOnly = True
         TB_EmployeeId.Size = New Size(61, 23)
         TB_EmployeeId.TabIndex = 3
         ' 
         ' LB_EmplyeeId
         ' 
         LB_EmplyeeId.AutoSize = True
-        LB_EmplyeeId.Location = New Point(15, 98)
+        LB_EmplyeeId.Location = New Point(15, 131)
         LB_EmplyeeId.Name = "LB_EmplyeeId"
         LB_EmplyeeId.Size = New Size(129, 15)
         LB_EmplyeeId.TabIndex = 2
@@ -149,10 +184,10 @@ Partial Class OP_INS_InfonavitAmountManually
         DGV_Infonavit.AllowUserToAddRows = False
         DGV_Infonavit.AllowUserToDeleteRows = False
         DGV_Infonavit.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_Infonavit.Location = New Point(12, 249)
+        DGV_Infonavit.Location = New Point(12, 262)
         DGV_Infonavit.Name = "DGV_Infonavit"
         DGV_Infonavit.ReadOnly = True
-        DGV_Infonavit.Size = New Size(1218, 414)
+        DGV_Infonavit.Size = New Size(1218, 401)
         DGV_Infonavit.TabIndex = 110
         ' 
         ' LB_TotalAmount
@@ -208,4 +243,7 @@ Partial Class OP_INS_InfonavitAmountManually
     Friend WithEvents DGV_Infonavit As DataGridView
     Friend WithEvents LB_TotalAmount As Label
     Friend WithEvents LB_TotalEmployees As Label
+    Friend WithEvents LBX_Suggesting As ListBox
+    Friend WithEvents TB_Employee As TextBox
+    Friend WithEvents LB_Employee As Label
 End Class

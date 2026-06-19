@@ -462,7 +462,32 @@ Public Class CL_RecordsByEmployee
         End Try
     End Function
 
+    Public Function InsertEarlyExitRecordByEmployee() As Boolean
+        Try
+            DB_Command = New SqlCommand With {
+            .CommandText = "INS_MANUALASISTANCERECORDBYEMPLOYEE",
+            .CommandType = CommandType.StoredProcedure
+        }
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+            DB_Command.Parameters.AddWithValue("EMPL_ID", _EMPL_ID)
+            DB_Command.Parameters.AddWithValue("MOVE_ID", _MOVE_ID)
+            DB_Command.Parameters.AddWithValue("REMPL_CREBY", _REMPL_CREBY)
+            DB_Command.Parameters.AddWithValue("REMPL_RDATE", _REMPL_RDATE)
+            DB_Command.Parameters.AddWithValue("DREMPL_DATE", _DREMPL_DATE)
+            DB_Command.Parameters.Add("DREMPL_ENDATI", SqlDbType.DateTime).Value = DBNull.Value
+            DB_Command.Parameters.AddWithValue("DREMPL_EXDATI", _DREMPL_EXDATI)
+            DB_Command.Parameters.AddWithValue("DREMPL_COME", _DREMPL_COME)
+            DB_Command.ExecuteNonQuery()
 
+            DB_Connection.Close()
+            Return True
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_RecordByEmployee.InsertEarlyExitRecordByEmployee()")
+            Return False
+        End Try
+    End Function
 
 
     Public Function InsertBannsQuantityRecordByEmployee()

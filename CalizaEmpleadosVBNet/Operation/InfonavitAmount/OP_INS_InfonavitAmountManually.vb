@@ -4,6 +4,7 @@ Imports Microsoft.Data.SqlClient
 Public Class OP_INS_InfonavitAmountManually
 
     Dim ObjInfonavit As New CL_InfonavitAmount
+    Dim SelectedEmplID As Integer = 0
 
     Private Structure SemanaPeriodo
         Dim FechaInicio As Date
@@ -41,6 +42,7 @@ Public Class OP_INS_InfonavitAmountManually
         End If
 
         DGV_Infonavit.DataSource = Nothing
+        LBX_Suggesting.Visible = False
     End Sub
 
     Private Sub CargarSemanasExistentes()
@@ -130,8 +132,60 @@ Public Class OP_INS_InfonavitAmountManually
     End Sub
 
     Private Sub CB_AllDates_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_AllDates.SelectedIndexChanged
-        
+
         ConsultarRegistrosSemanales()
+    End Sub
+
+    Private Sub TB_Employee_TextChanged(sender As Object, e As EventArgs) Handles TB_Employee.TextChanged
+        If TB_Employee.Text.Trim().Length >= 2 Then
+
+            Dim Dt As DataTable = ObjInfonavit.SearchEmployeesByArea(TB_Employee.Text.Trim(), True, True)
+
+            If Dt IsNot Nothing AndAlso Dt.Rows.Count > 0 Then
+                LBX_Suggesting.DataSource = Dt
+                LBX_Suggesting.DisplayMember = "FullName"
+                LBX_Suggesting.ValueMember = "EMPL_ID"
+                LBX_Suggesting.Visible = True
+                LBX_Suggesting.BringToFront()
+            Else
+                LBX_Suggesting.Visible = False
+            End If
+        Else
+            LBX_Suggesting.Visible = False
+        End If
+    End Sub
+
+    Private Sub LBX_Suggesting_SelectedIndexChanged(sender As Object, e As EventArgs) Handles LBX_Suggesting.SelectedIndexChanged
+        If LBX_Suggesting.SelectedValue IsNot Nothing AndAlso Not TypeOf LBX_Suggesting.SelectedValue Is DataRowView Then
+            Try
+                SelectedEmplID = Convert.ToInt32(LBX_Suggesting.SelectedValue)
+                TB_EmployeeId.Text = SelectedEmplID.ToString()
+
+                Dim selectedText As String = ""
+                If TypeOf LBX_Suggesting.SelectedItem Is DataRowView Then
+                    Dim row As DataRowView = CType(LBX_Suggesting.SelectedItem, DataRowView)
+                    selectedText = row("FullName").ToString()
+                Else
+                    selectedText = LBX_Suggesting.Text
+                End If
+
+                Dim values As String() = selectedText.Split("-")
+                If values.Length > 1 Then
+                    Dim nombreLimpio As String = values(1).Replace("[CON BONO]", "").Trim()
+                    TB_EmployeeName.Text = nombreLimpio
+                Else
+                    TB_EmployeeName.Text = selectedText.Trim()
+                End If
+
+                LBX_Suggesting.Visible = False
+                TB_Employee.Clear()
+
+                TB_Amount.Focus()
+
+            Catch ex As Exception
+                Console.WriteLine("Error temporal de casteo en sugerencias: " & ex.Message)
+            End Try
+        End If
     End Sub
 
     Private Sub BT_Register_Click(sender As Object, e As EventArgs) Handles BT_Register.Click
@@ -142,20 +196,23 @@ Public Class OP_INS_InfonavitAmountManually
 
         Dim PeriodoSeleccionado As SemanaPeriodo = CType(CB_AllDates.SelectedItem, SemanaPeriodo)
 
-        If PeriodoSeleccionado.EsComodin Then
-            MsgBox("Por favor, seleccione un periodo semanal válido de la lista.", MsgBoxStyle.Exclamation, "Atención")
-            Exit Sub
-        End If
-
-        If String.IsNullOrWhiteSpace(TB_EmployeeId.Text) Then
-            MsgBox("Debe ingresar un número de empleado.", MsgBoxStyle.Exclamation, "Atención")
-            Exit Sub
-        End If
-
         If String.IsNullOrWhiteSpace(TB_Amount.Text) OrElse Not IsNumeric(TB_Amount.Text) Then
             MsgBox("Debe ingresar un monto válido.", MsgBoxStyle.Exclamation, "Atención")
             Exit Sub
         End If
+
+        Dim IdAInsertar As String = TB_EmployeeId.Text.Trim()
+
+        For Each row As DataGridViewRow In DGV_Infonavit.Rows
+            If row.Cells("No. Emp") IsNot Nothing AndAlso row.Cells("No. Emp").Value IsNot Nothing Then
+                If row.Cells("No. Emp").Value.ToString().Trim() = IdAInsertar Then
+                    MsgBox("El empleado ya cuenta con un monto de Infonavit registrado para esta semana." & vbCrLf & vbCrLf &
+                           "Por favor, use el módulo de edición si requiere modificar la cantidad actual.",
+                           MsgBoxStyle.Exclamation, "Registro Duplicado")
+                    Exit Sub
+                End If
+            End If
+        Next
 
         Try
             ObjInfonavit.INFONAVIT_DATE = PeriodoSeleccionado.FechaInicio
@@ -165,6 +222,16 @@ Public Class OP_INS_InfonavitAmountManually
             Dim ResultadoAsignacion As Object = ObjInfonavit.InsertAmountInfonavitManually(Convert.ToInt32(TB_EmployeeId.Text))
 
             If ResultadoAsignacion IsNot Nothing AndAlso Equals(ResultadoAsignacion, True) Then
+
+                Try
+                    Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                        Dim descLog As String = $"NUEVO REGISTRO INFONAVIT MANUAL: Se cargó un monto de ${Convert.ToDecimal(TB_Amount.Text).ToString("N2")} al empleado ID {TB_EmployeeId.Text} para la semana del {PeriodoSeleccionado.FechaInicio.ToString("dd/MM/yyyy")}."
+                        InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_InfonavitManual", "INSERT_SUCCESS", descLog, CInt(TB_EmployeeId.Text), "INFO")
+                    End Using
+                Catch logEx As Exception
+                    Console.WriteLine("No se pudo escribir el log de éxito: " & logEx.Message)
+                End Try
+
                 MsgBox("El registro manual de Infonavit se guardó correctamente.", MsgBoxStyle.Information, "Éxito")
 
                 TB_EmployeeId.Clear()
@@ -177,7 +244,17 @@ Public Class OP_INS_InfonavitAmountManually
             End If
 
         Catch ex As Exception
+            Try
+                Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+                    Dim descError As String = $"ERROR AL INSERTAR INFONAVIT MANUAL: {ex.Message}. Empleado ID intentado: {TB_EmployeeId.Text}"
+                    InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_InfonavitManual", "INSERT_EXCEPTION", descError, CInt(If(String.IsNullOrEmpty(TB_EmployeeId.Text), 0, TB_EmployeeId.Text)), "ERROR")
+                End Using
+            Catch logEx As Exception
+                Console.WriteLine("No se pudo escribir en la bitácora de errores: " & logEx.Message)
+            End Try
+
             MsgBox("Ocurrió un error inesperado al procesar el registro: " & ex.Message, MsgBoxStyle.Critical, "Error Fatal en Interfaz")
         End Try
     End Sub
+
 End Class

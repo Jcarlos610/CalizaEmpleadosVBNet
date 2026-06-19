@@ -23,6 +23,7 @@ Partial Class OP_INS_MANUALBANNS
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         GroupBox1 = New GroupBox()
+        LB_BannsBalance = New Label()
         TB_BannDays = New TextBox()
         LB_BannDays = New Label()
         LB_Description = New Label()
@@ -48,6 +49,7 @@ Partial Class OP_INS_MANUALBANNS
         ' 
         ' GroupBox1
         ' 
+        GroupBox1.Controls.Add(LB_BannsBalance)
         GroupBox1.Controls.Add(TB_BannDays)
         GroupBox1.Controls.Add(LB_BannDays)
         GroupBox1.Controls.Add(LB_Description)
@@ -70,6 +72,16 @@ Partial Class OP_INS_MANUALBANNS
         GroupBox1.TabIndex = 0
         GroupBox1.TabStop = False
         GroupBox1.Text = "Información sobre amonestaciones"
+        ' 
+        ' LB_BannsBalance
+        ' 
+        LB_BannsBalance.AutoSize = True
+        LB_BannsBalance.ForeColor = Color.Red
+        LB_BannsBalance.Location = New Point(441, 86)
+        LB_BannsBalance.Name = "LB_BannsBalance"
+        LB_BannsBalance.Size = New Size(244, 15)
+        LB_BannsBalance.TabIndex = 20
+        LB_BannsBalance.Text = "Saldo de amonestaciones por descontar: 0.00"
         ' 
         ' TB_BannDays
         ' 
@@ -272,4 +284,5 @@ Partial Class OP_INS_MANUALBANNS
     Friend WithEvents TB_BannDays As TextBox
     Friend WithEvents LB_BannDays As Label
     Friend WithEvents LB_Title As Label
+    Friend WithEvents LB_BannsBalance As Label
 End Class

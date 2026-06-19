@@ -39,6 +39,7 @@ Partial Class OP_UPD_MANUALBANNS
         LB_EmplyeeId = New Label()
         CB_Status = New CheckBox()
         LB_Title = New Label()
+        LB_BannsBalance = New Label()
         CType(DGV_Banns, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox1.SuspendLayout()
         SuspendLayout()
@@ -56,6 +57,7 @@ Partial Class OP_UPD_MANUALBANNS
         ' 
         ' GroupBox1
         ' 
+        GroupBox1.Controls.Add(LB_BannsBalance)
         GroupBox1.Controls.Add(TB_BannDays)
         GroupBox1.Controls.Add(LB_BannDays)
         GroupBox1.Controls.Add(LB_Description)
@@ -206,6 +208,16 @@ Partial Class OP_UPD_MANUALBANNS
         LB_Title.TabIndex = 114
         LB_Title.Text = "Edición de amonestaciones"
         ' 
+        ' LB_BannsBalance
+        ' 
+        LB_BannsBalance.AutoSize = True
+        LB_BannsBalance.ForeColor = Color.Red
+        LB_BannsBalance.Location = New Point(441, 32)
+        LB_BannsBalance.Name = "LB_BannsBalance"
+        LB_BannsBalance.Size = New Size(244, 15)
+        LB_BannsBalance.TabIndex = 34
+        LB_BannsBalance.Text = "Saldo de amonestaciones por descontar: 0.00"
+        ' 
         ' OP_UPD_MANUALBANNS
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -242,4 +254,5 @@ Partial Class OP_UPD_MANUALBANNS
     Friend WithEvents TB_EmployeeId As TextBox
     Friend WithEvents LB_EmplyeeId As Label
     Friend WithEvents LB_Title As Label
+    Friend WithEvents LB_BannsBalance As Label
 End Class

@@ -37,6 +37,10 @@ Public Class OP_INS_MANUALBANNS
             LBX_Suggesting.Visible = False
 
             Historial(SelectedEmplID)
+
+            Dim CL As New CL_EmployeeBanns
+            Dim saldoActual As Decimal = CL.GetEmployeeBannsBalance(SelectedEmplID)
+            LB_BannsBalance.Text = $"Saldo de amonestaciones por descontar: {saldoActual.ToString("N2")} días"
         End If
     End Sub
 
@@ -116,7 +120,7 @@ Public Class OP_INS_MANUALBANNS
         TB_BannName.Clear()
         TB_Description.Clear()
         TB_BannDays.Clear()
-
+        LB_BannsBalance.Text = "Saldo de amonestaciones por descontar: 0.00 días"
         SelectedEmplID = 0
         TB_Employee.Focus()
     End Sub

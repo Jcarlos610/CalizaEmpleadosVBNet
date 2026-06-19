@@ -102,7 +102,6 @@ Public Class CL_InfonavitAmount
         _INFONAVIT_TYPE = INFONAVIT_TYPE
     End Sub
 
-    ' --- MÉTODO 1: PARA LA CARGA AUTOMÁTICA DESDE EXCEL ---
     Public Function InsertAmountInfonavit(ByVal EMPL_ID As Object) As Object
         Try
             DB_Command = New SqlCommand With {
@@ -261,6 +260,33 @@ Public Class CL_InfonavitAmount
         Catch ex As Exception
             DB_Connection.Close()
             MsgBox("Ocurrio el siguiente error al obtener semanas: " & ex.Message & " CL_InfonavitAmount.GetExistingWeeks()")
+        End Try
+        Return Dt
+    End Function
+
+    Public Function SearchEmployeesByArea(ByVal SearchText As String, Optional ByVal IgnoreDept As Boolean = False, Optional ByVal OnlyInfonavit As Boolean = False) As DataTable
+        Dim Dt As New DataTable()
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "SEL_EMPLOYEESEARCHBYAREA",
+                .CommandType = CommandType.StoredProcedure
+            }
+
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+
+            DB_Command.Parameters.AddWithValue("AppUser", GlobalSession.GlobalUserName)
+            DB_Command.Parameters.AddWithValue("SearchText", SearchText)
+            DB_Command.Parameters.AddWithValue("IgnoreDept", If(IgnoreDept, 1, 0))
+            DB_Command.Parameters.AddWithValue("OnlyInfonavit", If(OnlyInfonavit, 1, 0))
+
+            Dim Da As New SqlDataAdapter(DB_Command)
+            Da.Fill(Dt)
+            DB_Connection.Close()
+
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Error al buscar empleados en Infonavit: " & ex.Message)
         End Try
         Return Dt
     End Function
