@@ -73,7 +73,7 @@ Partial Class OP_UPD_TEMPORALLUNCH
         ' 
         TB_Lunch.Location = New Point(150, 88)
         TB_Lunch.Name = "TB_Lunch"
-        TB_Lunch.Size = New Size(253, 23)
+        TB_Lunch.Size = New Size(61, 23)
         TB_Lunch.TabIndex = 12
         ' 
         ' BT_Upd

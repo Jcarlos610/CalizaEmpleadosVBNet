@@ -76,6 +76,7 @@ Partial Class OP_INS_TIMERECORDS
         ' 
         ' CB_Options
         ' 
+        CB_Options.DropDownStyle = ComboBoxStyle.DropDownList
         CB_Options.FormattingEnabled = True
         CB_Options.Location = New Point(16, 29)
         CB_Options.Name = "CB_Options"

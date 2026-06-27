@@ -80,7 +80,7 @@ Partial Class OP_INS_MANUALBANNS
         LB_BannsBalance.Location = New Point(441, 86)
         LB_BannsBalance.Name = "LB_BannsBalance"
         LB_BannsBalance.Size = New Size(244, 15)
-        LB_BannsBalance.TabIndex = 20
+        LB_BannsBalance.TabIndex = 34
         LB_BannsBalance.Text = "Saldo de amonestaciones por descontar: 0.00"
         ' 
         ' TB_BannDays

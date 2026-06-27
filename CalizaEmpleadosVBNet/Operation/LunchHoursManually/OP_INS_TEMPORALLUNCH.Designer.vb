@@ -66,7 +66,7 @@ Partial Class OP_INS_TEMPORALLUNCH
         ' 
         TB_Lunch.Location = New Point(147, 151)
         TB_Lunch.Name = "TB_Lunch"
-        TB_Lunch.Size = New Size(253, 23)
+        TB_Lunch.Size = New Size(61, 23)
         TB_Lunch.TabIndex = 12
         ' 
         ' LBX_Suggesting

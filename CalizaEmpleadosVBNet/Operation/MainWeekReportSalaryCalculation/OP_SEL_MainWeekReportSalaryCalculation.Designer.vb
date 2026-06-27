@@ -99,6 +99,7 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         ' 
         ' CB_Plants
         ' 
+        CB_Plants.DropDownStyle = ComboBoxStyle.DropDownList
         CB_Plants.FormattingEnabled = True
         CB_Plants.Location = New Point(8, 24)
         CB_Plants.Name = "CB_Plants"
@@ -489,7 +490,7 @@ Partial Class OP_SEL_MainWeekReportSalaryCalculation
         AutoScaleMode = AutoScaleMode.Font
         AutoScroll = True
         BackColor = SystemColors.ButtonHighlight
-        ClientSize = New Size(2019, 878)
+        ClientSize = New Size(1924, 878)
         Controls.Add(LB_Progress)
         Controls.Add(BT_ExportExcel)
         Controls.Add(PB_Progress)

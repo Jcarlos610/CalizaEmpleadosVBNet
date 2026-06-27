@@ -103,7 +103,7 @@ Public Class OP_INS_MANUALBANNS
         If DGV_Banns.Columns.Count > 0 Then
             DGV_Banns.Columns("ID").Visible = False
 
-            DGV_Banns.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            DGV_Banns.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
             DGV_Banns.ReadOnly = True
             DGV_Banns.RowHeadersVisible = False
 

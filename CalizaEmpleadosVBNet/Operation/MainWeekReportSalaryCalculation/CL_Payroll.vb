@@ -26,6 +26,7 @@ Public Class CL_Payroll
     Private _TransportDays As Object
     Private _TransportBonus As Object
     Private _LoanDiscount As Object
+    Private _Amonest As Object
     Private _TotalNeto As Object
     Private _CreatedBy As Object
     Private _WorkDate As Object
@@ -253,6 +254,15 @@ Public Class CL_Payroll
         End Get
         Set(value As Object)
             _Status = value
+        End Set
+    End Property
+
+    Public Property Amonest As Object
+        Get
+            Return _Amonest
+        End Get
+        Set(value As Object)
+            _Amonest = value
         End Set
     End Property
 
