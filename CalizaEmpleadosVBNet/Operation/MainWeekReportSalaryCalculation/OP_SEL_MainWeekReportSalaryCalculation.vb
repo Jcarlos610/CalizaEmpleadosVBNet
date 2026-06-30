@@ -664,8 +664,11 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
             Dim PaymentAmmount As Decimal = 0.0
             Dim PropPlantAmmount_1 As Decimal = 0.0
             Dim PropPlantAmmount_2 As Decimal = 0.0
+            Dim ProdPlantTotalAmmount As Decimal = 0.0
             Dim BotoneroAmmount As Decimal = 0.0
             Dim TransportAmmount As Decimal = 0.0
+            Dim BonoProdNeto As Decimal = 0.0
+
 
             Dim CounterOfDays As Integer = 0
             Dim EmployeeID As Integer = CInt(EmployeeCum(0))
@@ -877,6 +880,9 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 DGV_CompleteWeekInfo.Item("Saldo adeudo", CounterLine).Value = BalanceAmountValue.ToString("C2")
             Next
 
+            If EmployeeID = 520 Then
+                MsgBox(EmployeeID)
+            End If
 
             Dim Benefits As New CL_Benefits
             Dim ListOfBenefits As DataTable = Benefits.Get_AllActiveManualAutomaticBenefits
@@ -919,8 +925,8 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                         Dim TBenefitDetails As DataTable = BenefDetail.Get_BenefitIDDetailsByEmployee()
 
                         If TBenefitDetails.Rows.Count > 0 Then
-                            DGV_CompleteWeekInfo.Item("Bono Prod.", CounterLine).Value = BenefitAmmount.ToString("C2")
                             ProductivityAmmount = BenefitAmmount
+                            DGV_CompleteWeekInfo.Item("Bono Prod.", CounterLine).Value = BenefitAmmount.ToString("C2")
                         Else
                             DGV_CompleteWeekInfo.Item("Bono Prod.", CounterLine).Value = (0).ToString("C2")
                         End If
@@ -1015,6 +1021,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
                         If TBenefitDetails.Rows.Count > 0 Then
                             PropPlantAmmount_1 = BenefitAmmount
+                            ProdPlantTotalAmmount = BaseSalary * 0.2
                         End If
 
                     Case 210 'Bono de productividad de planta 90%
@@ -1026,6 +1033,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
                         If TBenefitDetails.Rows.Count > 0 Then
                             PropPlantAmmount_2 = BenefitAmmount
+                            ProdPlantTotalAmmount = BaseSalary * 0.3
                         End If
 
                     'Case 220 'Bono de Botonero temporal
@@ -1157,24 +1165,33 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 'End If
 
 
+
                 'Cálculo ya se muestra lo que se quedará
                 If DiasADescontar > 0 Then
                     BannDiscount = (ProductivityAmmount / 7) * DiasADescontar
 
-                    Dim BonoProdNeto As Decimal = ProductivityAmmount - BannDiscount
+                    BonoProdNeto = ProductivityAmmount - BannDiscount
                     If BonoProdNeto < 0 Then BonoProdNeto = 0
                     DGV_CompleteWeekInfo.Item("Bono Prod. Neto", CounterLine).Value = BonoProdNeto.ToString("C2")  ' <-- aquí, no en "Bono Prod."
                 Else
+                    'If DiasADescontar = 0 Then
+                    '    BonoProdNeto = 0
+                    'End If
                     ' Si no hay amonestaciones, el neto es igual al original
-                    DGV_CompleteWeekInfo.Item("Bono Prod. Neto", CounterLine).Value = ProductivityAmmount.ToString("C2")
+                    'DGV_CompleteWeekInfo.Item("Bono Prod. Neto", CounterLine).Value = ProductivityAmmount.ToString("C2")
+                    DGV_CompleteWeekInfo.Item("Bono Prod. Neto", CounterLine).Value = 0
+                    BonoProdNeto = 0
                 End If
             End If
+
+
 
             'Hice cambio
             'Check salary by employee
             NewSalary = MainSalaryCalculation(CounterA, CounterF, CounterFJ, CounterR, CounterPG, CounterPSG, CounterV, BaseSalary,
                                               SundaySalary, DailySalary, LunchHourAmmount, ProductivityAmmount, AttitudeGoodPract,
-                                              SavingAmmount, PaymentAmmount, LunchHours, BannDiscount, BotoneroAmmount, TransportAmmount, TEmployeesAmount)
+                                              SavingAmmount, PaymentAmmount, LunchHours, BannDiscount, BotoneroAmmount, TransportAmmount,
+                                              TEmployeesAmount, BonoProdNeto, ProdPlantTotalAmmount, DiscountAmountValue)
 
             'Calculado
             ' 34 - "Calculado"
@@ -1291,7 +1308,8 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                                                 ByVal BaseSalary As Decimal, ByVal SundaySalary As Decimal, ByVal DailySalary As Decimal,
                                                 ByVal LunchHourAmmount As Decimal, ByVal ProductivityAmmount As Decimal, ByVal AttitudeGoodPract As Decimal,
                                                 ByVal SavingAmmount As Decimal, ByVal PaymentAmmount As Decimal, ByVal LunchHours As Decimal, ByVal BannDiscount As Decimal,
-                                                ByVal BotoneroAmmount As Decimal, ByVal TransportAmmount As Decimal, ByVal TransportBetweenAmmount As Decimal) As Decimal
+                                                ByVal BotoneroAmmount As Decimal, ByVal TransportAmmount As Decimal, ByVal TransportBetweenAmmount As Decimal,
+                                                ByVal BonoProdNeto As Decimal, ByVal ProdPlantTotalAmmount As Decimal, ByVal DiscountAmountValue As Decimal) As Decimal
         Dim NewSalary As Decimal = 0.0
 
         Select Case counterA ' Number of assistance
@@ -1303,6 +1321,11 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 NewSalary = NewSalary + (LunchHourAmmount * LunchHours)
                 NewSalary = NewSalary - SavingAmmount                ' Menos la cantidad a ahorrar
                 NewSalary = NewSalary - PaymentAmmount               ' Menos el pago por créditos
+                NewSalary = NewSalary + BonoProdNeto                 ' agregamos el monto despues de amonestaciones 
+                NewSalary = NewSalary + ProdPlantTotalAmmount        ' agregamos el monto por productividad de la planta
+                NewSalary = NewSalary - DiscountAmountValue          ' descontamos el monto por adeudo
+                NewSalary = NewSalary + BotoneroAmmount              ' agregamos el biono de botonero
+                'falta lo de los transportes
             Case Else
 
                 '----------------------------------- FALTAS INJUSTIFICADAS
