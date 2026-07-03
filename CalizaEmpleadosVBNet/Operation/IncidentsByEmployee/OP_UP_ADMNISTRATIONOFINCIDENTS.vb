@@ -413,23 +413,38 @@ Public Class OP_UP_ADMNISTRATIONOFINCIDENTS
         End If
     End Sub
 
-    Function CalcularDiasSinFines(ByVal fechaInicio As Date, ByVal fechaFin As Date) As Integer
+    'Function CalcularDiasSinFines(ByVal fechaInicio As Date, ByVal fechaFin As Date) As Integer
 
+    '    Dim dias As Integer = 0
+    '    Dim fecha As Date = fechaInicio
+
+    '    While fecha <= fechaFin
+
+
+    '        If fecha.DayOfWeek <> DayOfWeek.Saturday AndAlso fecha.DayOfWeek <> DayOfWeek.Sunday Then
+    '            dias += 1
+    '        End If
+
+    '        fecha = fecha.AddDays(1)
+    '    End While
+
+    '    Return dias
+
+    'End Function
+
+    Function CalcularDiasSinFines(ByVal fechaInicio As Date, ByVal fechaFin As Date) As Integer
         Dim dias As Integer = 0
         Dim fecha As Date = fechaInicio
 
         While fecha <= fechaFin
 
-
-            If fecha.DayOfWeek <> DayOfWeek.Saturday AndAlso fecha.DayOfWeek <> DayOfWeek.Sunday Then
+            If fecha.DayOfWeek <> DayOfWeek.Sunday Then
                 dias += 1
             End If
-
             fecha = fecha.AddDays(1)
         End While
 
         Return dias
-
     End Function
 
     Sub CalcularDias(ByVal fechaInicio As Date, ByVal fechaFin As Date, ByVal txt As TextBox)

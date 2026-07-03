@@ -408,6 +408,16 @@ Public Class CL_RecordsByEmployee
     Public Function ManualAsistanceRecordByEmployee() As Boolean
 
         Try
+            Dim tempConn As New CL_RecordsByEmployee
+            Dim actualizados As Integer = tempConn.UpdateAbsenceToJustified(
+            CInt(_EMPL_ID), CInt(_MOVE_ID), CDate(_DREMPL_DATE), CDate(_DREMPL_DATE),
+            CStr(_REMPL_CREBY), CStr(_DREMPL_COME), _DREMPL_ENDATI, _DREMPL_EXDATI)
+
+
+            If actualizados > 0 Then
+                Return True
+            End If
+
             DB_Command = New SqlCommand With {
                 .CommandText = "INS_MANUALASISTANCERECORDBYEMPLOYEE",
                 .CommandType = CommandType.StoredProcedure
@@ -437,6 +447,15 @@ Public Class CL_RecordsByEmployee
     Public Function InsertDelayRecordByEmployee()
 
         Try
+            Dim tempConn As New CL_RecordsByEmployee
+            Dim actualizados As Integer = tempConn.UpdateAbsenceToJustified(
+            CInt(_EMPL_ID), CInt(_MOVE_ID), CDate(_DREMPL_DATE), CDate(_DREMPL_DATE),
+            CStr(_REMPL_CREBY), CStr(_DREMPL_COME), _DREMPL_ENDATI, Nothing)
+
+            If actualizados > 0 Then
+                Return True
+            End If
+
             DB_Command = New SqlCommand With {
                 .CommandText = "INS_DELAYRECORDBYEMPLOYEE",
                 .CommandType = CommandType.StoredProcedure
@@ -464,6 +483,15 @@ Public Class CL_RecordsByEmployee
 
     Public Function InsertEarlyExitRecordByEmployee() As Boolean
         Try
+            Dim tempConn As New CL_RecordsByEmployee
+            Dim actualizados As Integer = tempConn.UpdateAbsenceToJustified(
+            CInt(_EMPL_ID), CInt(_MOVE_ID), CDate(_DREMPL_DATE), CDate(_DREMPL_DATE),
+            CStr(_REMPL_CREBY), CStr(_DREMPL_COME), Nothing, _DREMPL_EXDATI)
+
+            If actualizados > 0 Then
+                Return True
+            End If
+
             DB_Command = New SqlCommand With {
             .CommandText = "INS_MANUALASISTANCERECORDBYEMPLOYEE",
             .CommandType = CommandType.StoredProcedure
@@ -1408,6 +1436,43 @@ Public Class CL_RecordsByEmployee
         Catch ex As Exception
             If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
             Return False
+        End Try
+    End Function
+
+    Public Function UpdateAbsenceToJustified(ByVal EMPL_ID As Integer, ByVal NewMoveID As Integer,
+                                      ByVal FechaInicio As Date, ByVal FechaFin As Date,
+                                      ByVal CreatedBy As String,
+                                      Optional ByVal Comentario As String = Nothing,
+                                      Optional ByVal EntradaDateTime As Object = Nothing,
+                                      Optional ByVal SalidaDateTime As Object = Nothing) As Integer
+        Try
+            DB_Command = New SqlCommand With {
+            .CommandText = "UPD_ABSENCETOJUSTIFIED",
+            .CommandType = CommandType.StoredProcedure
+        }
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+            DB_Command.Parameters.AddWithValue("EMPL_ID", EMPL_ID)
+            DB_Command.Parameters.AddWithValue("MOVE_ID", NewMoveID)
+            DB_Command.Parameters.AddWithValue("FECHA_INI", FechaInicio)
+            DB_Command.Parameters.AddWithValue("FECHA_FIN", FechaFin)
+            DB_Command.Parameters.AddWithValue("REMPL_CREBY", CreatedBy)
+            DB_Command.Parameters.AddWithValue("DREMPL_COME", If(String.IsNullOrEmpty(Comentario), CType(DBNull.Value, Object), Comentario))
+            DB_Command.Parameters.AddWithValue("DREMPL_ENDATI", If(EntradaDateTime Is Nothing, CType(DBNull.Value, Object), EntradaDateTime))
+            DB_Command.Parameters.AddWithValue("DREMPL_EXDATI", If(SalidaDateTime Is Nothing, CType(DBNull.Value, Object), SalidaDateTime))
+
+            Dim outputParam As New SqlParameter("@RowsAffected", SqlDbType.Int)
+            outputParam.Direction = ParameterDirection.Output
+            DB_Command.Parameters.Add(outputParam)
+
+            DB_Command.ExecuteNonQuery()
+            DB_Connection.Close()
+
+            Return CInt(outputParam.Value)
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_RecordsByEmployee.UpdateAbsenceToJustified()")
+            Return -1
         End Try
     End Function
 

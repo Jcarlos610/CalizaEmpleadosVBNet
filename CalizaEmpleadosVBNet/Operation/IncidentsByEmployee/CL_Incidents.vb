@@ -166,6 +166,10 @@ Public Class CL_Incidents
         Dim Result As Boolean = False
 
         Try
+            Dim recObj As New CL_RecordsByEmployee
+            recObj.UpdateAbsenceToJustified(CInt(_EMPL_ID), CInt(_MOVE_ID), CDate(_INC_DATEFR), CDate(_INC_DATETO),
+                                         CStr(_REMPL_CREBY), CStr(_INC_DESCR))
+
             DB_Connection.Open()
 
             DB_Command = New SqlCommand("INS_EMPLOYEEBYINCIDENT", DB_Connection)

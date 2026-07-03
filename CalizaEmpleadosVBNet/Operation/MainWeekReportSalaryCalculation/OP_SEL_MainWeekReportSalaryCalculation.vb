@@ -185,7 +185,13 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
                 'If there are records then check for delay justification
                 If found.Length > 0 Then
-                    Dim moveID As Integer = CInt(found(0)("MOVE_ID"))
+                    ' Priorizar PG (500), PSG (510), Vacaciones (520), FJ (130) sobre otros registros
+                    Dim priorityMoves() As Integer = {500, 510, 520, 130}
+                    Dim priorityRecord As DataRow = found.FirstOrDefault(Function(r) priorityMoves.Contains(CInt(r("MOVE_ID"))))
+                    Dim selectedRecord As DataRow = If(priorityRecord IsNot Nothing, priorityRecord, found(0))
+                    Dim moveID As Integer = CInt(selectedRecord("MOVE_ID"))
+
+                    'Dim moveID As Integer = CInt(found(0)("MOVE_ID"))
 
                     If moveID = 100 Or moveID = 110 Then ' tuvo Asistencia
                         Dim EmployeeRecord As New CL_RecordsByEmployee
@@ -260,6 +266,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         EmployeesInfo.Columns.Add("Ext. S", GetType(String))
         EmployeesInfo.Columns.Add("Ext. D", GetType(String))
         EmployeesInfo.Columns.Add("Ext. T", GetType(String))
+        EmployeesInfo.Columns.Add("Monto por Asistencias", GetType(String))
         'EmployeesInfo.Columns.Add("No. H. Extra", GetType(Decimal))
         'EmployeesInfo.Columns.Add("Tipo P. Extra", GetType(String))
         EmployeesInfo.Columns.Add("No. H. D", GetType(Decimal))
@@ -270,12 +277,16 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         EmployeesInfo.Columns.Add("Monto H. T", GetType(String))
         EmployeesInfo.Columns.Add("H. Comida", GetType(Decimal))
         EmployeesInfo.Columns.Add("B. Comida", GetType(String))
+        EmployeesInfo.Columns.Add("Monto Total Comida", GetType(String))
         EmployeesInfo.Columns.Add("Bono BP", GetType(String))
         EmployeesInfo.Columns.Add("Bono Prod.", GetType(String))
-        EmployeesInfo.Columns.Add("Bono Prod. Neto", GetType(String))
         EmployeesInfo.Columns.Add("Amonest..", GetType(Decimal))
+        EmployeesInfo.Columns.Add("Bono Prod. Neto", GetType(String))
+        EmployeesInfo.Columns.Add("Amonest. por Falta", GetType(String))
+        EmployeesInfo.Columns.Add("Bono Prod. Final", GetType(String))
         EmployeesInfo.Columns.Add("Ahorro", GetType(String))
         EmployeesInfo.Columns.Add("Bono P. P.", GetType(String))
+        EmployeesInfo.Columns.Add("Monto Bono P. P.", GetType(String))
         EmployeesInfo.Columns.Add("D. Transporte", GetType(Decimal))
         EmployeesInfo.Columns.Add("Transporte", GetType(String))
         EmployeesInfo.Columns.Add("Transporte entre Empleados", GetType(String))
@@ -327,8 +338,11 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         DGV_CompleteWeekInfo.Columns("Faltas en el Mes").DefaultCellStyle.Font = New System.Drawing.Font(DGV_CompleteWeekInfo.Font, FontStyle.Bold)
 
         DGV_CompleteWeekInfo.Columns("S. Diario").Width = 65
-        DGV_CompleteWeekInfo.Columns("S. Diario").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+        DGV_CompleteWeekInfo.Columns("S. Diario").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
 
+        DGV_CompleteWeekInfo.Columns("Monto por Asistencias").Width = 90
+        DGV_CompleteWeekInfo.Columns("Monto por Asistencias").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Monto por Asistencias").ToolTipText = "Monto ganado por los días que sí asistió"
         'DGV_CompleteWeekInfo.Columns("No. H. Extra").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         'DGV_CompleteWeekInfo.Columns("No. H. Extra").Width = 50
         'DGV_CompleteWeekInfo.Columns("No. H. Extra").ToolTipText = "Número de horas extras"
@@ -381,6 +395,10 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         DGV_CompleteWeekInfo.Columns("B. Comida").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("B. Comida").ToolTipText = "Bono de comida"
 
+        DGV_CompleteWeekInfo.Columns("Monto Total Comida").Width = 90
+        DGV_CompleteWeekInfo.Columns("Monto Total Comida").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Monto Total Comida").ToolTipText = "Horas de comida, costo por hora"
+
         DGV_CompleteWeekInfo.Columns("Bono BP").Width = 70
         DGV_CompleteWeekInfo.Columns("Bono BP").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Bono BP").ToolTipText = "Bono de actitud y buenas practicas"
@@ -397,6 +415,14 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         DGV_CompleteWeekInfo.Columns("Amonest..").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Amonest..").ToolTipText = "Número de amonestaciones"
 
+        DGV_CompleteWeekInfo.Columns("Amonest. por Falta").Width = 100
+        DGV_CompleteWeekInfo.Columns("Amonest. por Falta").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Amonest. por Falta").ToolTipText = "Días de amonestación que se generarán automáticamente al confirmar la nómina, por las faltas injustificadas de esta semana"
+
+        DGV_CompleteWeekInfo.Columns("Bono Prod. Final").Width = 110
+        DGV_CompleteWeekInfo.Columns("Bono Prod. Final").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+        DGV_CompleteWeekInfo.Columns("Bono Prod. Final").ToolTipText = "Monto real del bono de productividad que se está pagando esta semana, ya descontando faltas y amonestaciones pendientes"
+
         DGV_CompleteWeekInfo.Columns("Ahorro").Width = 50
         DGV_CompleteWeekInfo.Columns("Ahorro").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Ahorro").ToolTipText = "Cantidad a Ahorrar"
@@ -404,6 +430,10 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         DGV_CompleteWeekInfo.Columns("Bono P. P.").Width = 70
         DGV_CompleteWeekInfo.Columns("Bono P. P.").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Bono P. P.").ToolTipText = "Bono de productividad de planta"
+
+        DGV_CompleteWeekInfo.Columns("Monto Bono P. P.").Width = 90
+        DGV_CompleteWeekInfo.Columns("Monto Bono P. P.").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+        DGV_CompleteWeekInfo.Columns("Monto Bono P. P.").ToolTipText = "Monto real del 80%/90% de productividad de planta"
 
         DGV_CompleteWeekInfo.Columns("D. Transporte").Width = 90
         DGV_CompleteWeekInfo.Columns("D. Transporte").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
@@ -653,6 +683,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         Dim CounterLine As Integer = 0
 
         'Scroll trough the list of employees into the DGV
+        Dim EmpleadosAlerta As New List(Of String)
         For Each EmployeeCum As DataRow In CumulativesEmployees.Rows
             LB_Progress.Text = "Descargando y analizando información del empleado: " & DGV_CompleteWeekInfo.Item("Nombre Completo", CounterLine).Value
             LB_Progress.Refresh()
@@ -718,7 +749,8 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
             'Obtain sunday salary
             SundaySalary = (BaseSalary / 7)
             DailySalary = (BaseSalary / 7)
-            BaseSalary = (DailySalary * 6)
+            Dim BaseSalaryFor6Days As Decimal = (DailySalary * 6) '7 días, incluyendo el domingo
+            'BaseSalary = (DailySalary * 6)
 
             '----- 3.- asign value 
 
@@ -733,8 +765,17 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 DGV_CompleteWeekInfo.Item("Faltas en el Mes", CounterLine).Value = AbscenceNumber
             End If
 
+            ' Alerta: 4 o más faltas injustificadas ESTA semana
+            If CounterF >= 4 Then
+                DGV_CompleteWeekInfo.Item("Nombre Completo", CounterLine).ToolTipText = "⚠️ " & CounterF & " faltas injustificadas esta semana. Se recomienda hablar con el empleado."
+                EmpleadosAlerta.Add("ID " & EmployeeID & " - " & DGV_CompleteWeekInfo.Item("Nombre Completo", CounterLine).Value.ToString() & " (" & CounterF & " faltas)")
+            End If
+
             DGV_CompleteWeekInfo.Item("S. Diario", CounterLine).Value = DailySalary.ToString("C2")
             ExtraS = DailySalary / 48
+
+            Dim MontoPorAsistencias As Decimal = DailySalary * CounterA
+            DGV_CompleteWeekInfo.Item("Monto por Asistencias", CounterLine).Value = MontoPorAsistencias.ToString("C2")
 
             DGV_CompleteWeekInfo.Item("Ext. S", CounterLine).Value = ExtraS.ToString("C2")
             ExtraD = ExtraS * 2
@@ -769,6 +810,13 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 DGV_CompleteWeekInfo.Item("Amonest..", CounterLine).Value = totalAmonestacionesPendientes
             Else
                 DGV_CompleteWeekInfo.Item("Amonest..", CounterLine).Value = 0
+            End If
+
+            ' muestra cuántos días de amonestación se generarán por las faltas de esta semana
+            If CounterF > 0 Then
+                DGV_CompleteWeekInfo.Item("Amonest. por Falta", CounterLine).Value = CounterF & " día(s)"
+            Else
+                DGV_CompleteWeekInfo.Item("Amonest. por Falta", CounterLine).Value = "0"
             End If
 
             'Transport Days by employee
@@ -961,6 +1009,8 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                         'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(21).Value = LunchHourAmmount.ToString("C2")
                         DGV_CompleteWeekInfo.Item("B. Comida", CounterLine).Value = LunchHourAmmount.ToString("C2")
 
+                        DGV_CompleteWeekInfo.Item("Monto Total Comida", CounterLine).Value = (LunchHours * LunchHourAmmount).ToString("C2")
+
                     Case 60 ' Bono de transporte autobus empresarial
 
                         'Lets verify if employee has the benefitID
@@ -1038,7 +1088,8 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
                         If TBenefitDetails.Rows.Count > 0 Then
                             PropPlantAmmount_1 = BenefitAmmount
-                            ProdPlantTotalAmmount = BaseSalary * 0.2
+                            ProdPlantTotalAmmount = (BaseSalary * 0.2 / 6) * CounterA
+                            'ProdPlantTotalAmmount = BaseSalary * 0.2
                         End If
 
                     Case 210 'Bono de productividad de planta 90%
@@ -1050,7 +1101,8 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
                         If TBenefitDetails.Rows.Count > 0 Then
                             PropPlantAmmount_2 = BenefitAmmount
-                            ProdPlantTotalAmmount = BaseSalary * 0.3
+                            ProdPlantTotalAmmount = (BaseSalary * 0.3 / 6) * CounterA
+                            'ProdPlantTotalAmmount = BaseSalary * 0.3
                         End If
 
                     'Case 220 'Bono de Botonero temporal
@@ -1152,11 +1204,13 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 ' 26 - "Bono P. P." 
                 'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(26).Value = PropPlantAmmount_1.ToString() & "%"
                 DGV_CompleteWeekInfo.Item("Bono P. P.", CounterLine).Value = PropPlantAmmount_1.ToString() & "%"
+                DGV_CompleteWeekInfo.Item("Monto Bono P. P.", CounterLine).Value = ProdPlantTotalAmmount.ToString("C2")
 
             ElseIf TB_ProdPlant.Text = "90" Then
                 ' 26 - "Bono P. P." 
                 'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(26).Value = PropPlantAmmount_2.ToString() & "%"
                 DGV_CompleteWeekInfo.Item("Bono P. P.", CounterLine).Value = PropPlantAmmount_2.ToString() & "%"
+                DGV_CompleteWeekInfo.Item("Monto Bono P. P.", CounterLine).Value = ProdPlantTotalAmmount.ToString("C2")
             End If
 
             'Hice cambio
@@ -1189,7 +1243,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
                     BonoProdNeto = ProductivityAmmount - BannDiscount
                     If BonoProdNeto < 0 Then BonoProdNeto = 0
-                    DGV_CompleteWeekInfo.Item("Bono Prod. Neto", CounterLine).Value = BonoProdNeto.ToString("C2")  ' <-- aquí, no en "Bono Prod."
+                    DGV_CompleteWeekInfo.Item("Bono Prod. Neto", CounterLine).Value = BonoProdNeto.ToString("C2")
                 Else
                     'If DiasADescontar = 0 Then
                     '    BonoProdNeto = 0
@@ -1205,6 +1259,11 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 End If
             End If
 
+            ' monto final del bono de productividad, ya con faltas + amonestaciones descontadas
+            Dim DiasTotalesADescontar As Decimal = CounterF + DiasADescontar
+            Dim BonoProdFinal As Decimal = ProductivityAmmount - ((ProductivityAmmount / 7) * DiasTotalesADescontar)
+            If BonoProdFinal < 0 Then BonoProdFinal = 0
+            DGV_CompleteWeekInfo.Item("Bono Prod. Final", CounterLine).Value = BonoProdFinal.ToString("C2")
 
 
             'Hice cambio
@@ -1213,7 +1272,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                                               SundaySalary, DailySalary, LunchHourAmmount, ProductivityAmmount, AttitudeGoodPract,
                                               SavingAmmount, PaymentAmmount, LunchHours, BannDiscount, BotoneroAmmount, TransportAmmount,
                                               TEmployeesAmount, BonoProdNeto, ProdPlantTotalAmmount, DiscountAmountValue,
-                                              MontoExtraDoble, MontoExtraTriple, infonavitAmountValue)
+                                              MontoExtraDoble, MontoExtraTriple, infonavitAmountValue, BaseSalaryFor6Days)
 
             'Calculado
             ' 34 - "Calculado"
@@ -1231,6 +1290,16 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
             SEL_MainWeekReportSalaryCalculation_PG_Progress(PB_Progress, CumulativesEmployees.Rows.Count, CounterLine)
             infonavit = False
         Next
+
+        If EmpleadosAlerta.Count > 0 Then
+            Dim mensaje As String = "Los siguientes empleados tienen 4 o más faltas injustificadas esta semana:" & vbCrLf & vbCrLf
+            For Each item In EmpleadosAlerta
+                mensaje &= "• " & item & vbCrLf
+            Next
+            mensaje &= vbCrLf & "Se recomienda hablar con ellos."
+            MessageBox.Show(mensaje, "Aviso de asistencia", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End If
+
         LB_Progress.Text = "La información de " & CounterLine & " empleados fue analizada."
 
 
@@ -1332,7 +1401,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                                                 ByVal SavingAmmount As Decimal, ByVal PaymentAmmount As Decimal, ByVal LunchHours As Decimal, ByVal BannDiscount As Decimal,
                                                 ByVal BotoneroAmmount As Decimal, ByVal TransportAmmount As Decimal, ByVal TransportBetweenAmmount As Decimal,
                                                 ByVal BonoProdNeto As Decimal, ByVal ProdPlantTotalAmmount As Decimal, ByVal DiscountAmountValue As Decimal,
-                                                ByVal MontoExtraDoble As Decimal, ByVal MontoExtraTriple As Decimal, ByVal infonavitAmountValue As Decimal) As Decimal
+                                                ByVal MontoExtraDoble As Decimal, ByVal MontoExtraTriple As Decimal, ByVal infonavitAmountValue As Decimal, ByVal BaseSalaryFor6Days As Decimal) As Decimal
         Dim NewSalary As Decimal = 0.0
 
         Select Case counterA ' Number of assistance
@@ -1340,7 +1409,8 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 '6 asistencias
                 'Si tiene 6 asistencias sin retardos
                 'salario base + bono de productividad + proporcional de domingo 
-                NewSalary = BaseSalary + ProductivityAmmount + AttitudeGoodPract + SundaySalary
+                NewSalary = BaseSalaryFor6Days + ProductivityAmmount + AttitudeGoodPract + SundaySalary
+                'NewSalary = BaseSalary + ProductivityAmmount + AttitudeGoodPract + SundaySalary
                 NewSalary = NewSalary + (LunchHourAmmount * LunchHours)
                 NewSalary = NewSalary - SavingAmmount                ' Menos la cantidad a ahorrar
                 NewSalary = NewSalary - PaymentAmmount               ' Menos el pago por créditos
@@ -1350,7 +1420,10 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 NewSalary = NewSalary + BotoneroAmmount              ' agregamos el biono de botonero
                 NewSalary = NewSalary + MontoExtraDoble              ' Horas extra dobñe
                 NewSalary = NewSalary + MontoExtraTriple             ' Horas extra Triple 
-                'falta lo de los transportes
+
+                NewSalary = NewSalary + TransportAmmount
+                NewSalary = NewSalary + TransportBetweenAmmount
+                NewSalary = NewSalary - infonavitAmountValue
             Case Else
 
                 '----------------------------------- FALTAS INJUSTIFICADAS
@@ -1371,6 +1444,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                     NewSalary = NewSalary + MontoExtraDoble                            ' Horas extra dobñe
                     NewSalary = NewSalary + MontoExtraTriple                           ' Horas extra Triple
                     NewSalary = NewSalary + BonoProdNeto                               ' agregamos el monto despues de amonestaciones 
+                    NewSalary = NewSalary + ProdPlantTotalAmmount                      ' agregamos el monto por productividad de la planta
                 End If
 
                 'Si hay dos faltas injustificadas
@@ -1389,6 +1463,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                     NewSalary = NewSalary + MontoExtraDoble                         ' Horas extra dobñe
                     NewSalary = NewSalary + MontoExtraTriple                        ' Horas extra Triple
                     NewSalary = NewSalary + BonoProdNeto                            ' agregamos el monto despues de amonestaciones
+                    NewSalary = NewSalary + ProdPlantTotalAmmount                   ' agregamos el monto por productividad de la planta
                 End If
 
                 'Si hay tres faltas injustificadas
@@ -1407,6 +1482,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                     NewSalary = NewSalary + MontoExtraDoble                         ' Horas extra dobñe
                     NewSalary = NewSalary + MontoExtraTriple                        ' Horas extra triple
                     NewSalary = NewSalary + BonoProdNeto                            ' agregamos el monto despues de amonestaciones
+                    NewSalary = NewSalary + ProdPlantTotalAmmount                   ' agregamos el monto por productividad de la planta
                 End If
 
                 'Si hay cuatro faltas injustificadas
@@ -1425,6 +1501,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                     NewSalary = NewSalary + MontoExtraDoble                                     ' Horas extra dobñe
                     NewSalary = NewSalary + MontoExtraTriple                                    ' Horas extra Triple
                     NewSalary = NewSalary + BonoProdNeto                                        ' agregamos el monto despues de amonestaciones
+                    NewSalary = NewSalary + ProdPlantTotalAmmount                               ' agregamos el monto por productividad de la planta
                 End If
 
                 'Si hay cinco faltas injustificadas
@@ -1443,6 +1520,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                     NewSalary = NewSalary + MontoExtraDoble                                     ' Horas extra dobñe
                     NewSalary = NewSalary + MontoExtraTriple                                    ' Horas extra triple
                     NewSalary = NewSalary + BonoProdNeto                                        ' agregamos el monto despues de amonestaciones
+                    NewSalary = NewSalary + ProdPlantTotalAmmount                               ' agregamos el monto por productividad de la planta
                 End If
 
                 'Si hay seis faltas injustificadas
@@ -1788,7 +1866,20 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                         Next
                     End If
 
+                    ' Generar amonestación automática por cada falta injustificada de la semana
+                    Dim CounterFaltas As Integer = CountLetterByEmployee(CInt(row.Cells("No.").Value), "F")
+                    If CounterFaltas > 0 Then
+                        Dim CLBannInsert As New CL_EmployeeBanns
+                        CLBannInsert.REMPL_ID = CInt(row.Cells("No.").Value)
+                        CLBannInsert.DREMPL_DATE = DTP_StartDate.Value.Date
+                        CLBannInsert.DREMPL_DQUANTITY = CounterFaltas
+                        CLBannInsert.DREMPL_BNAME = "Falta injustificada"
+                        CLBannInsert.DREMPL_DESCR = $"Amonestación automática por {CounterFaltas} falta(s) injustificada(s) en la semana {DTP_StartDate.Value:dd/MM/yyyy} - {DTP_EndDate.Value:dd/MM/yyyy}."
+                        CLBannInsert.DREMPL_CREBY = AppUser
+                        CLBannInsert.DREMPL_STATUS = True
 
+                        CLBannInsert.InsertEmployeeBann()
+                    End If
 
                     savedCount += 1
                 End If
