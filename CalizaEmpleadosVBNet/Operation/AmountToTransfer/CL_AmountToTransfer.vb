@@ -120,6 +120,7 @@ Public Class CL_AmountToTransfer
         End Try
     End Function
 
+
     Public Function ValidarRegistroSemanal(ByVal fechaSeleccionada As Date) As Boolean
         Dim yaExiste As Boolean = False
 
@@ -130,7 +131,7 @@ Public Class CL_AmountToTransfer
         Dim fechaMiercoles As Date = fechaJueves.AddDays(6).Date
 
         Dim Query As String = "SELECT COUNT(*) FROM dbo.OP_RecordsByEmployeeAmountToTransfer " &
-                              "WHERE AMTRANS_RDATE >= @FechaInicio AND AMTRANS_RDATE <= @FechaFin"
+                          "WHERE DREMPL_DATE >= @FechaInicio AND DREMPL_DATE <= @FechaFin"
 
         Try
             Using Conn As New SqlConnection(My.Settings.ConnectionString)
@@ -203,6 +204,53 @@ Public Class CL_AmountToTransfer
             MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_AmountToTransfer.GetAmountToTransferByWeek()")
         End Try
 
+        Return Dt
+    End Function
+
+    Public Function GetExistingWeeks() As DataTable
+        Dim Dt As New DataTable()
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "SEL_AMOUNTTOTRANSFER_EXISTING_WEEKS",
+                .CommandType = CommandType.StoredProcedure
+            }
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+
+            Dim Da As New SqlDataAdapter(DB_Command)
+            Da.Fill(Dt)
+
+            DB_Connection.Close()
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Ocurrio el siguiente error al obtener semanas: " & ex.Message & " CL_AmountToTransfer.GetExistingWeeks()")
+        End Try
+        Return Dt
+    End Function
+
+    Public Function SearchEmployeesByArea(ByVal SearchText As String, Optional ByVal IgnoreDept As Boolean = False, Optional ByVal OnlyInfonavit As Boolean = False) As DataTable
+        Dim Dt As New DataTable()
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "SEL_EMPLOYEESEARCHBYAREA",
+                .CommandType = CommandType.StoredProcedure
+            }
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+
+            DB_Command.Parameters.AddWithValue("AppUser", GlobalSession.GlobalUserName)
+            DB_Command.Parameters.AddWithValue("SearchText", SearchText)
+            DB_Command.Parameters.AddWithValue("IgnoreDept", If(IgnoreDept, 1, 0))
+            DB_Command.Parameters.AddWithValue("OnlyInfonavit", If(OnlyInfonavit, 1, 0))
+
+            Dim Da As New SqlDataAdapter(DB_Command)
+            Da.Fill(Dt)
+            DB_Connection.Close()
+
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Error al buscar empleados: " & ex.Message)
+        End Try
         Return Dt
     End Function
 

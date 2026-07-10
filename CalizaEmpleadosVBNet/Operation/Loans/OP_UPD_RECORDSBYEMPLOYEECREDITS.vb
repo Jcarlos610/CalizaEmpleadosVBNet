@@ -63,17 +63,21 @@ Public Class OP_UPD_RECORDSBYEMPLOYEECREDITS
                     TB_AuthorizeBy.Text = row.Cells("AutorizadoPor").Value.ToString()
                 End If
 
-                If DGV_Loans.Columns.Contains("DISC_ID") Then
-                    Dim valor = row.Cells("DISC_ID").Value
+                If DGV_Loans.Columns.Contains("Nombre de descuento") Then
+                    Dim nombreDescuento As String = ""
+                    If row.Cells("Nombre de descuento").Value IsNot Nothing AndAlso
+                    Not IsDBNull(row.Cells("Nombre de descuento").Value) Then
+                        nombreDescuento = row.Cells("Nombre de descuento").Value.ToString().Trim()
+                    End If
 
-                    If valor IsNot Nothing AndAlso Not IsDBNull(valor) Then
-                        Try
-                            CB_Discounts.SelectedValue = Convert.ToInt32(valor)
-                        Catch
-                            CB_Discounts.SelectedIndex = -1
-                        End Try
-                    Else
-                        CB_Discounts.SelectedIndex = -1
+                    CB_Discounts.SelectedIndex = -1
+                    If Not String.IsNullOrEmpty(nombreDescuento) Then
+                        For i As Integer = 0 To CB_Discounts.Items.Count - 1
+                            CB_Discounts.SelectedIndex = i
+                            If CB_Discounts.Text.Trim() = nombreDescuento Then
+                                Exit For
+                            End If
+                        Next
                     End If
                 End If
 

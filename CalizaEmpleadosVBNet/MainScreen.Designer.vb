@@ -746,6 +746,7 @@ Partial Class MainScreen
         ReportesToolStripMenuItem2 = New ToolStripMenuItem()
         AnalisisSemanalToolStripMenuItem = New ToolStripMenuItem()
         AnalisisDeSalarioToolStripMenuItem = New ToolStripMenuItem()
+        TransferenciaRegistrarToolStripMenuItem = New ToolStripMenuItem()
         MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -1265,7 +1266,7 @@ Partial Class MainScreen
         ' 
         ' ReToolStripMenuItem
         ' 
-        ReToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {CargaDeMontoATransferirToolStripMenuItem, EditarExistenteToolStripMenuItem7, CargaDeMontoInfonavitToolStripMenuItem, InfonavitRegistrarMontosToolStripMenuItem, EditarExistenteToolStripMenuItem8, AdeudoAEmpresaToolStripMenuItem, EditarExistenteToolStripMenuItem9, AdeudosRegistrarAbonoToolStripMenuItem, HorasExtraRegistrarToolStripMenuItem, HorasExtraEditarToolStripMenuItem})
+        ReToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {CargaDeMontoATransferirToolStripMenuItem, TransferenciaRegistrarToolStripMenuItem, EditarExistenteToolStripMenuItem7, CargaDeMontoInfonavitToolStripMenuItem, InfonavitRegistrarMontosToolStripMenuItem, EditarExistenteToolStripMenuItem8, AdeudoAEmpresaToolStripMenuItem, EditarExistenteToolStripMenuItem9, AdeudosRegistrarAbonoToolStripMenuItem, HorasExtraRegistrarToolStripMenuItem, HorasExtraEditarToolStripMenuItem})
         ReToolStripMenuItem.Name = "ReToolStripMenuItem"
         ReToolStripMenuItem.Size = New Size(180, 22)
         ReToolStripMenuItem.Text = "Registros"
@@ -1360,6 +1361,13 @@ Partial Class MainScreen
         AnalisisDeSalarioToolStripMenuItem.Size = New Size(218, 22)
         AnalisisDeSalarioToolStripMenuItem.Tag = "OP_SEL_MainWeekReportSalaryCalculation"
         AnalisisDeSalarioToolStripMenuItem.Text = "Analisis de salario"
+        ' 
+        ' TransferenciaRegistrarToolStripMenuItem
+        ' 
+        TransferenciaRegistrarToolStripMenuItem.Name = "TransferenciaRegistrarToolStripMenuItem"
+        TransferenciaRegistrarToolStripMenuItem.Size = New Size(291, 22)
+        TransferenciaRegistrarToolStripMenuItem.Tag = "OP_INS_AmountToTransferManually"
+        TransferenciaRegistrarToolStripMenuItem.Text = "Transferencia - Registrar manual montos "
         ' 
         ' MainScreen
         ' 
@@ -1470,4 +1478,5 @@ Partial Class MainScreen
     Friend WithEvents ValidaciónToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ValidaciónEditarToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents InfonavitRegistrarMontosToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TransferenciaRegistrarToolStripMenuItem As ToolStripMenuItem
 End Class

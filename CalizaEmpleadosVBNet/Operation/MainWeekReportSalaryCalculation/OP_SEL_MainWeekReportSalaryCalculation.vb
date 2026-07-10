@@ -266,6 +266,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         EmployeesInfo.Columns.Add("Ext. S", GetType(String))
         EmployeesInfo.Columns.Add("Ext. D", GetType(String))
         EmployeesInfo.Columns.Add("Ext. T", GetType(String))
+        EmployeesInfo.Columns.Add("Desc. Domingo", GetType(String))
         EmployeesInfo.Columns.Add("Monto por Asistencias", GetType(String))
         'EmployeesInfo.Columns.Add("No. H. Extra", GetType(Decimal))
         'EmployeesInfo.Columns.Add("Tipo P. Extra", GetType(String))
@@ -278,20 +279,33 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         EmployeesInfo.Columns.Add("H. Comida", GetType(Decimal))
         EmployeesInfo.Columns.Add("B. Comida", GetType(String))
         EmployeesInfo.Columns.Add("Monto Total Comida", GetType(String))
+        EmployeesInfo.Columns.Add("B. Comida Final", GetType(String))
         EmployeesInfo.Columns.Add("Bono BP", GetType(String))
-        EmployeesInfo.Columns.Add("Bono Prod.", GetType(String))
         EmployeesInfo.Columns.Add("Amonest..", GetType(Decimal))
-        EmployeesInfo.Columns.Add("Bono Prod. Neto", GetType(String))
-        EmployeesInfo.Columns.Add("Amonest. por Falta", GetType(String))
+        EmployeesInfo.Columns.Add("Desc. Amonest. BP", GetType(String))
+        EmployeesInfo.Columns.Add("Bono BP Final", GetType(String))
+        EmployeesInfo.Columns.Add("Bono Prod.", GetType(String))
+        'EmployeesInfo.Columns.Add("Amonest..", GetType(Decimal))
+        'EmployeesInfo.Columns.Add("Bono Prod. Neto", GetType(String))
+        'EmployeesInfo.Columns.Add("Amonest. por Falta", GetType(String))
         EmployeesInfo.Columns.Add("Bono Prod. Final", GetType(String))
         EmployeesInfo.Columns.Add("Ahorro", GetType(String))
         EmployeesInfo.Columns.Add("Bono P. P.", GetType(String))
         EmployeesInfo.Columns.Add("Monto Bono P. P.", GetType(String))
+        EmployeesInfo.Columns.Add("Monto D. Transporte", GetType(String))
         EmployeesInfo.Columns.Add("D. Transporte", GetType(Decimal))
         EmployeesInfo.Columns.Add("Transporte", GetType(String))
+        EmployeesInfo.Columns.Add("Desc. Transporte", GetType(String))
+        EmployeesInfo.Columns.Add("Transporte Final", GetType(String))
         EmployeesInfo.Columns.Add("Transporte entre Empleados", GetType(String))
+        EmployeesInfo.Columns.Add("Desc. Transporte entre Empleados", GetType(String))
+        EmployeesInfo.Columns.Add("Transporte entre Empleados Final", GetType(String))
         EmployeesInfo.Columns.Add("Monto B. Botonero Temp", GetType(String))
+        EmployeesInfo.Columns.Add("Desc. Botonero Temp", GetType(String))
+        EmployeesInfo.Columns.Add("Botonero Temp Final", GetType(String))
         EmployeesInfo.Columns.Add("Monto B. Botonero Fijo", GetType(String))
+        EmployeesInfo.Columns.Add("Desc. Botonero Fijo", GetType(String))
+        EmployeesInfo.Columns.Add("Botonero Fijo Final", GetType(String))
         EmployeesInfo.Columns.Add("Fecha inicio", GetType(Date))
         EmployeesInfo.Columns.Add("Fecha Fin", GetType(Date))
         EmployeesInfo.Columns.Add("Prestado", GetType(String))
@@ -303,8 +317,8 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         EmployeesInfo.Columns.Add("Monto adeudo", GetType(String))
         EmployeesInfo.Columns.Add("Desc. por adeudo", GetType(String))
         EmployeesInfo.Columns.Add("Saldo adeudo", GetType(String))
-        EmployeesInfo.Columns.Add("Monto a transferir", GetType(String))
         EmployeesInfo.Columns.Add("Calculado", GetType(String))
+        EmployeesInfo.Columns.Add("Monto a transferir", GetType(String))
         EmployeesInfo.Columns.Add("Monto en efectivo", GetType(String))
 
         DGV_CompleteWeekInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
@@ -343,6 +357,11 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         DGV_CompleteWeekInfo.Columns("Monto por Asistencias").Width = 90
         DGV_CompleteWeekInfo.Columns("Monto por Asistencias").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Monto por Asistencias").ToolTipText = "Monto ganado por los días que sí asistió"
+
+        DGV_CompleteWeekInfo.Columns("Desc. Domingo").Width = 100
+        DGV_CompleteWeekInfo.Columns("Desc. Domingo").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+        DGV_CompleteWeekInfo.Columns("Desc. Domingo").ToolTipText = "Descuento del proporcional de domingo por faltas"
+
         'DGV_CompleteWeekInfo.Columns("No. H. Extra").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         'DGV_CompleteWeekInfo.Columns("No. H. Extra").Width = 50
         'DGV_CompleteWeekInfo.Columns("No. H. Extra").ToolTipText = "Número de horas extras"
@@ -399,25 +418,37 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         DGV_CompleteWeekInfo.Columns("Monto Total Comida").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Monto Total Comida").ToolTipText = "Horas de comida, costo por hora"
 
+        DGV_CompleteWeekInfo.Columns("B. Comida Final").Width = 100
+        DGV_CompleteWeekInfo.Columns("B. Comida Final").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+        DGV_CompleteWeekInfo.Columns("B. Comida Final").ToolTipText = "Monto de bono de comida descontando días de falta"
+
         DGV_CompleteWeekInfo.Columns("Bono BP").Width = 70
         DGV_CompleteWeekInfo.Columns("Bono BP").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Bono BP").ToolTipText = "Bono de actitud y buenas practicas"
+
+        DGV_CompleteWeekInfo.Columns("Bono BP Final").Width = 100
+        DGV_CompleteWeekInfo.Columns("Bono BP Final").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+        DGV_CompleteWeekInfo.Columns("Bono BP Final").ToolTipText = "Monto real del bono de buenas prácticas que se paga esta semana"
 
         DGV_CompleteWeekInfo.Columns("Bono Prod.").Width = 80
         DGV_CompleteWeekInfo.Columns("Bono Prod.").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Bono Prod.").ToolTipText = "Bono de Productividad"
 
-        DGV_CompleteWeekInfo.Columns("Bono Prod. Neto").Width = 90
-        DGV_CompleteWeekInfo.Columns("Bono Prod. Neto").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-        DGV_CompleteWeekInfo.Columns("Bono Prod. Neto").ToolTipText = "Bono de Productividad después de descuento por amonestaciones"
+        'DGV_CompleteWeekInfo.Columns("Bono Prod. Neto").Width = 90
+        'DGV_CompleteWeekInfo.Columns("Bono Prod. Neto").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        'DGV_CompleteWeekInfo.Columns("Bono Prod. Neto").ToolTipText = "Bono de Productividad después de descuento por amonestaciones"
 
         DGV_CompleteWeekInfo.Columns("Amonest..").Width = 70
         DGV_CompleteWeekInfo.Columns("Amonest..").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Amonest..").ToolTipText = "Número de amonestaciones"
 
-        DGV_CompleteWeekInfo.Columns("Amonest. por Falta").Width = 100
-        DGV_CompleteWeekInfo.Columns("Amonest. por Falta").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-        DGV_CompleteWeekInfo.Columns("Amonest. por Falta").ToolTipText = "Días de amonestación que se generarán automáticamente al confirmar la nómina, por las faltas injustificadas de esta semana"
+        DGV_CompleteWeekInfo.Columns("Desc. Amonest. BP").Width = 100
+        DGV_CompleteWeekInfo.Columns("Desc. Amonest. BP").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+        DGV_CompleteWeekInfo.Columns("Desc. Amonest. BP").ToolTipText = "Descuento al Bono BP por amonestaciones"
+
+        'DGV_CompleteWeekInfo.Columns("Amonest. por Falta").Width = 100
+        'DGV_CompleteWeekInfo.Columns("Amonest. por Falta").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        'DGV_CompleteWeekInfo.Columns("Amonest. por Falta").ToolTipText = "Días de amonestación por faltas"
 
         DGV_CompleteWeekInfo.Columns("Bono Prod. Final").Width = 110
         DGV_CompleteWeekInfo.Columns("Bono Prod. Final").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
@@ -435,6 +466,10 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         DGV_CompleteWeekInfo.Columns("Monto Bono P. P.").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         DGV_CompleteWeekInfo.Columns("Monto Bono P. P.").ToolTipText = "Monto real del 80%/90% de productividad de planta"
 
+        DGV_CompleteWeekInfo.Columns("Monto D. Transporte").Width = 90
+        DGV_CompleteWeekInfo.Columns("Monto D. Transporte").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Monto D. Transporte").ToolTipText = "Monto pagado por cada día de transporte"
+
         DGV_CompleteWeekInfo.Columns("D. Transporte").Width = 90
         DGV_CompleteWeekInfo.Columns("D. Transporte").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("D. Transporte").ToolTipText = "Días de transporte"
@@ -443,17 +478,49 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         DGV_CompleteWeekInfo.Columns("Transporte").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Transporte").ToolTipText = "Monto de bono de transporte"
 
+        DGV_CompleteWeekInfo.Columns("Desc. Transporte").Width = 80
+        DGV_CompleteWeekInfo.Columns("Desc. Transporte").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Desc. Transporte").ToolTipText = "Monto descontado de transporte por faltas injustificadas"
+
+        DGV_CompleteWeekInfo.Columns("Transporte Final").Width = 80
+        DGV_CompleteWeekInfo.Columns("Transporte Final").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Transporte Final").ToolTipText = "Monto final de transporte ya con descuento aplicado"
+
         DGV_CompleteWeekInfo.Columns("Transporte entre Empleados").Width = 80
         DGV_CompleteWeekInfo.Columns("Transporte entre Empleados").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Transporte entre Empleados").ToolTipText = "Transporte entre Empleados"
+
+        DGV_CompleteWeekInfo.Columns("Desc. Transporte entre Empleados").Width = 90
+        DGV_CompleteWeekInfo.Columns("Desc. Transporte entre Empleados").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Desc. Transporte entre Empleados").ToolTipText = "Monto descontado de transporte entre empleados por faltas injustificadas"
+
+        DGV_CompleteWeekInfo.Columns("Transporte entre Empleados Final").Width = 90
+        DGV_CompleteWeekInfo.Columns("Transporte entre Empleados Final").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Transporte entre Empleados Final").ToolTipText = "Monto final de transporte entre empleados ya con descuento aplicado"
 
         DGV_CompleteWeekInfo.Columns("Monto B. Botonero Temp").Width = 80
         DGV_CompleteWeekInfo.Columns("Monto B. Botonero Temp").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Monto B. Botonero Temp").ToolTipText = "Monto temnporal de bono botonero."
 
+        DGV_CompleteWeekInfo.Columns("Desc. Botonero Temp").Width = 80
+        DGV_CompleteWeekInfo.Columns("Desc. Botonero Temp").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Desc. Botonero Temp").ToolTipText = "Monto descontado de botonero temporal por faltas injustificadas"
+
+        DGV_CompleteWeekInfo.Columns("Botonero Temp Final").Width = 80
+        DGV_CompleteWeekInfo.Columns("Botonero Temp Final").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Botonero Temp Final").ToolTipText = "Monto neto de botonero temporal ya con descuento aplicado"
+
         DGV_CompleteWeekInfo.Columns("Monto B. Botonero Fijo").Width = 80
         DGV_CompleteWeekInfo.Columns("Monto B. Botonero Fijo").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Monto B. Botonero Fijo").ToolTipText = "Monto fijo de bono botonero."
+
+        DGV_CompleteWeekInfo.Columns("Desc. Botonero Fijo").Width = 80
+        DGV_CompleteWeekInfo.Columns("Desc. Botonero Fijo").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Desc. Botonero Fijo").ToolTipText = "Monto descontado de botonero fijo por faltas injustificadas"
+
+        DGV_CompleteWeekInfo.Columns("Botonero Fijo Final").Width = 80
+        DGV_CompleteWeekInfo.Columns("Botonero Fijo Final").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        DGV_CompleteWeekInfo.Columns("Botonero Fijo Final").ToolTipText = "Monto final de botonero fijo ya con descuento aplicado"
 
         DGV_CompleteWeekInfo.Columns("Fecha inicio").Width = 80
         DGV_CompleteWeekInfo.Columns("Fecha inicio").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
@@ -510,6 +577,40 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         DGV_CompleteWeekInfo.Columns("Saldo adeudo").Width = 100
         DGV_CompleteWeekInfo.Columns("Saldo adeudo").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Saldo adeudo").ToolTipText = "saldo por adeudos"
+
+
+        'Columnas en negrita que son parte del cálculo
+        Dim columnasCalculo As String() = {
+                                "S. Base",
+                                "S. Diario",
+                                "Monto por Asistencias",
+                                "Desc. Domingo",
+                                "Monto H. D",
+                                "Monto H. T",
+                                "B. Comida Final",
+                                "Bono BP Final",
+                                "Desc. Amonest. BP",
+                                "Bono Prod. Final",
+                                "Ahorro",
+                                "Monto Bono P. P.",
+                                "Transporte Final",
+                                "Transporte entre Empleados Final",
+                                "Botonero Temp Final",
+                                "Botonero Fijo Final",
+                                "Desc. Prest.",
+                                "Calculado",
+                                "Monto a transferir",
+                                "Monto en efectivo",
+                                "Monto infonavit",
+                                "Desc. por adeudo"
+}
+
+        For Each colName As String In columnasCalculo
+            If DGV_CompleteWeekInfo.Columns.Contains(colName) Then
+                DGV_CompleteWeekInfo.Columns(colName).HeaderCell.Style.Font =
+            New System.Drawing.Font(DGV_CompleteWeekInfo.Font, FontStyle.Bold)
+            End If
+        Next
 
         PaintCells()
         GetAdditionalValues()
@@ -696,7 +797,9 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
             Dim PropPlantAmmount_1 As Decimal = 0.0
             Dim PropPlantAmmount_2 As Decimal = 0.0
             Dim ProdPlantTotalAmmount As Decimal = 0.0
-            Dim BotoneroAmmount As Decimal = 0.0
+            'Dim BotoneroAmmount As Decimal = 0.0
+            Dim BotoneroTempAmmount As Decimal = 0.0
+            Dim BotoneroFijoAmmount As Decimal = 0.0
             Dim TransportAmmount As Decimal = 0.0
             Dim BonoProdNeto As Decimal = 0.0
 
@@ -772,9 +875,21 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
             End If
 
             DGV_CompleteWeekInfo.Item("S. Diario", CounterLine).Value = DailySalary.ToString("C2")
-            ExtraS = DailySalary / 48
+            'ExtraS = DailySalary / 48
+            ExtraS = BaseSalary / 48
 
-            Dim MontoPorAsistencias As Decimal = DailySalary * CounterA
+            'Dim MontoPorAsistencias As Decimal = DailySalary * CounterA
+            'DGV_CompleteWeekInfo.Item("Monto por Asistencias", CounterLine).Value = MontoPorAsistencias.ToString("C2")
+
+            ' Descuento de domingo por faltas
+            Dim DescDomingo As Decimal = (SundaySalary / 7) * CounterF
+            If DescDomingo > 0 Then
+                DGV_CompleteWeekInfo.Item("Desc. Domingo", CounterLine).Value = DescDomingo.ToString("C2")
+            End If
+
+
+            'Dim MontoPorAsistencias As Decimal = If(CounterA = 6, BaseSalary, DailySalary * CounterA)
+            Dim MontoPorAsistencias As Decimal = If(CounterA = 6, BaseSalary, (DailySalary * (CounterA + 1)) - DescDomingo)
             DGV_CompleteWeekInfo.Item("Monto por Asistencias", CounterLine).Value = MontoPorAsistencias.ToString("C2")
 
             DGV_CompleteWeekInfo.Item("Ext. S", CounterLine).Value = ExtraS.ToString("C2")
@@ -812,12 +927,12 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 DGV_CompleteWeekInfo.Item("Amonest..", CounterLine).Value = 0
             End If
 
-            ' muestra cuántos días de amonestación se generarán por las faltas de esta semana
-            If CounterF > 0 Then
-                DGV_CompleteWeekInfo.Item("Amonest. por Falta", CounterLine).Value = CounterF & " día(s)"
-            Else
-                DGV_CompleteWeekInfo.Item("Amonest. por Falta", CounterLine).Value = "0"
-            End If
+            '' muestra cuántos días de amonestación se generarán por las faltas de esta semana
+            'If CounterF > 0 Then
+            '    DGV_CompleteWeekInfo.Item("Amonest. por Falta", CounterLine).Value = CounterF & " día(s)"
+            'Else
+            '    DGV_CompleteWeekInfo.Item("Amonest. por Falta", CounterLine).Value = "0"
+            'End If
 
             'Transport Days by employee
             Dim TDaysRecords As DataTable = RecordsbyEmployee.Get_TDaysQuantityByEmployee(DTP_StartDate.Value, DTP_EndDate.Value, EmployeeID, 285)
@@ -889,6 +1004,8 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 TEmployeesAmount = CDec(Item(7))
             Next
 
+            Dim TransporteEntreEmpFinal As Decimal = 0.0
+
             ' Bonus Botonero
             Dim BotoneroRecords As DataTable = RecordsbyEmployee.Get_BotoneroDetailsByEmployee(DTP_StartDate.Value, DTP_EndDate.Value, EmployeeID, 900)
             Dim BotoneroAmount As Decimal = 0.0
@@ -934,18 +1051,42 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 DGV_CompleteWeekInfo.Item("Monto adeudo", CounterLine).ToolTipText = Item(8).ToString
             Next
 
+            '' Adeudos - Descuento
+            'Dim DiscountAmount As DataTable = RecordsbyEmployee.Get_DiscountOwedByEmployee(DTP_StartDate.Value, DTP_EndDate.Value, EmployeeID, 800)
+            'Dim DiscountAmountValue As Decimal = 0.0
+            'Dim BalanceAmountValue As Decimal = 0.0
+            'For Each Item As DataRow In DiscountAmount.Rows
+            '    DiscountAmountValue = CDec(Item(7))
+            '    BalanceAmountValue = CDec(Item(9))
+            '    DGV_CompleteWeekInfo.Item("Desc. por adeudo", CounterLine).Value = DiscountAmountValue.ToString("C2")
+            '    DGV_CompleteWeekInfo.Item("Saldo adeudo", CounterLine).Value = BalanceAmountValue.ToString("C2")
+            'Next
+
             ' Adeudos - Descuento
-            Dim DiscountAmount As DataTable = RecordsbyEmployee.Get_DiscountOwedByEmployee(DTP_StartDate.Value, DTP_EndDate.Value, EmployeeID, 800)
+            ' respetr abonos manuales
+            Dim CLDebt As New CL_EmployeeAmountDebt
+            Dim DebtRecords As DataTable = CLDebt.GetDebtsHistory(EmployeeID)
             Dim DiscountAmountValue As Decimal = 0.0
             Dim BalanceAmountValue As Decimal = 0.0
-            For Each Item As DataRow In DiscountAmount.Rows
-                DiscountAmountValue = CDec(Item(7))
-                BalanceAmountValue = CDec(Item(9))
-                DGV_CompleteWeekInfo.Item("Desc. por adeudo", CounterLine).Value = DiscountAmountValue.ToString("C2")
-                DGV_CompleteWeekInfo.Item("Saldo adeudo", CounterLine).Value = BalanceAmountValue.ToString("C2")
+
+            For Each DebtRow As DataRow In DebtRecords.Rows
+                ' Solo considerar adeudos activos
+                If DebtRow("Estado").ToString() = "Activo" Then
+                    Dim saldoActual As Decimal = CDec(DebtRow("Saldo Pendiente"))
+                    Dim descuentoPeriodico As Decimal = CDec(DebtRow("Descuento Periódico"))
+
+                    If saldoActual > 0 Then
+                        ' Si el saldo es menor que el descuento periódico, solo descontar lo que queda
+                        DiscountAmountValue += Math.Min(saldoActual, descuentoPeriodico)
+                        BalanceAmountValue += saldoActual
+                    End If
+                End If
             Next
 
-            'If EmployeeID = 520 Then
+            DGV_CompleteWeekInfo.Item("Desc. por adeudo", CounterLine).Value = DiscountAmountValue.ToString("C2")
+            DGV_CompleteWeekInfo.Item("Saldo adeudo", CounterLine).Value = BalanceAmountValue.ToString("C2")
+
+            'If EmployeeID = 720 Then
             '    MsgBox(EmployeeID)
             'End If
 
@@ -1011,6 +1152,10 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
                         DGV_CompleteWeekInfo.Item("Monto Total Comida", CounterLine).Value = (LunchHours * LunchHourAmmount).ToString("C2")
 
+                        ' Bono de comida final descontando días de falta injustificada
+                        Dim MontoComidaFinal As Decimal = Math.Max(0, LunchHourAmmount * (LunchHours - CounterF))
+                        DGV_CompleteWeekInfo.Item("B. Comida Final", CounterLine).Value = MontoComidaFinal.ToString("C2")
+
                     Case 60 ' Bono de transporte autobus empresarial
 
                         'Lets verify if employee has the benefitID
@@ -1019,18 +1164,38 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                         BenefDetail.EMPL_ID = EmployeeID
                         Dim TBenefitDetails As DataTable = BenefDetail.Get_BenefitIDDetailsByEmployee()
 
-                        If TBenefitDetails.Rows.Count > 0 Then
+                        'If TBenefitDetails.Rows.Count > 0 Then
 
-                            'Bono de productividad de planta
-                            ' 27 - "D. Transporte"
-                            'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(27).Value = TDaysQuantity
+                        '    'Bono de productividad de planta
+                        '    ' 27 - "D. Transporte"
+                        '    'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(27).Value = TDaysQuantity
+                        '    DGV_CompleteWeekInfo.Item("D. Transporte", CounterLine).Value = TDaysQuantity
+
+                        '    ' 28 - "Transporte"
+                        '    'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(28).Value = BenefitAmmount.ToString("C2")
+                        '    DGV_CompleteWeekInfo.Item("Transporte", CounterLine).Value = BenefitAmmount.ToString("C2")
+                        '    'Seguarda el monto en la variable TransportAmmount
+                        '    TransportAmmount = BenefitAmmount
+                        'End If
+
+                        'If TBenefitDetails.Rows.Count > 0 Then
+                        '    DGV_CompleteWeekInfo.Item("Monto D. Transporte", CounterLine).Value = BenefitAmmount.ToString("C2")
+                        '    DGV_CompleteWeekInfo.Item("D. Transporte", CounterLine).Value = TDaysQuantity
+                        '    TransportAmmount = BenefitAmmount * TDaysQuantity
+                        '    DGV_CompleteWeekInfo.Item("Transporte", CounterLine).Value = TransportAmmount.ToString("C2")
+                        'End If
+
+                        If TBenefitDetails.Rows.Count > 0 Then
+                            DGV_CompleteWeekInfo.Item("Monto D. Transporte", CounterLine).Value = BenefitAmmount.ToString("C2")
                             DGV_CompleteWeekInfo.Item("D. Transporte", CounterLine).Value = TDaysQuantity
 
-                            ' 28 - "Transporte"
-                            'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(28).Value = BenefitAmmount.ToString("C2")
-                            DGV_CompleteWeekInfo.Item("Transporte", CounterLine).Value = BenefitAmmount.ToString("C2")
-                            'Seguarda el monto en la variable TransportAmmount
-                            TransportAmmount = BenefitAmmount
+                            Dim TransporteBruto As Decimal = BenefitAmmount * TDaysQuantity
+                            Dim DescTransporte As Decimal = (TransporteBruto / 6) * CounterF
+                            TransportAmmount = Math.Max(0, TransporteBruto - DescTransporte)
+
+                            DGV_CompleteWeekInfo.Item("Transporte", CounterLine).Value = TransporteBruto.ToString("C2")
+                            DGV_CompleteWeekInfo.Item("Desc. Transporte", CounterLine).Value = DescTransporte.ToString("C2")
+                            DGV_CompleteWeekInfo.Item("Transporte Final", CounterLine).Value = TransportAmmount.ToString("C2")
                         End If
 
                     Case 70 ' Bono de transporte entre empleados
@@ -1044,10 +1209,17 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                         If TBenefitDetails.Rows.Count > 0 Then
                             ' 29 - "Transporte entre Empleados"
                             'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(29).Value = TEmployeesAmount
-                            DGV_CompleteWeekInfo.Item("Transporte entre Empleados", CounterLine).Value = TEmployeesAmount
+
+                            Dim DescTransporteEntreEmp As Decimal = (TEmployeesAmount / 6) * CounterF
+                            TransporteEntreEmpFinal = Math.Max(0, TEmployeesAmount - DescTransporteEntreEmp)
+
+                            DGV_CompleteWeekInfo.Item("Transporte entre Empleados", CounterLine).Value = TEmployeesAmount.ToString("C2")
+                            DGV_CompleteWeekInfo.Item("Desc. Transporte entre Empleados", CounterLine).Value = DescTransporteEntreEmp.ToString("C2")
+                            DGV_CompleteWeekInfo.Item("Transporte entre Empleados Final", CounterLine).Value = TransporteEntreEmpFinal.ToString("C2")
+
                         End If
 
-                    Case 90, 100, 110, 120, 130, 140, 150, 160, 170 ' Bono de buenas practicas o actitud
+                    Case 90, 100, 110, 120, 130, 140, 150, 160, 170, 240 ' Bono de buenas practicas o actitud
 
                         'Lets verify if employee has the benefitID
                         Dim BenefDetail As New CL_Benefits
@@ -1125,8 +1297,11 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                         BenefDetail.EMPL_ID = EmployeeID
                         Dim TBenefitDetails As DataTable = BenefDetail.Get_BenefitIDDetailsByEmployee()
                         If TBenefitDetails.Rows.Count > 0 Then
-                            BotoneroAmmount = BenefitAmmount
-                            DGV_CompleteWeekInfo.Item("Monto B. Botonero Temp", CounterLine).Value = BotoneroAmmount
+                            Dim DescBotoneroTemp As Decimal = (BenefitAmmount / 6) * CounterF
+                            BotoneroTempAmmount = (BenefitAmmount / 6) * CounterA
+                            DGV_CompleteWeekInfo.Item("Monto B. Botonero Temp", CounterLine).Value = BenefitAmmount.ToString("C2")
+                            DGV_CompleteWeekInfo.Item("Desc. Botonero Temp", CounterLine).Value = DescBotoneroTemp.ToString("C2")
+                            DGV_CompleteWeekInfo.Item("Botonero Temp Final", CounterLine).Value = BotoneroTempAmmount.ToString("C2")
 
                             ' Verificara que las fechas no sean nulas antes de convertir
                             Dim fechaInicioVal As Object = DGV_CompleteWeekInfo.Item("Fecha inicio", CounterLine).Value
@@ -1159,8 +1334,11 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                         Dim TBenefitDetails As DataTable = BenefDetail.Get_BenefitIDDetailsByEmployee()
 
                         If TBenefitDetails.Rows.Count > 0 Then
-                            BotoneroAmmount = BenefitAmmount
-                            DGV_CompleteWeekInfo.Item("Monto B. botonero Fijo", CounterLine).Value = BotoneroAmmount
+                            Dim DescBotoneroFijo As Decimal = (BenefitAmmount / 6) * CounterF
+                            BotoneroFijoAmmount = (BenefitAmmount / 6) * CounterA
+                            DGV_CompleteWeekInfo.Item("Monto B. Botonero Fijo", CounterLine).Value = BenefitAmmount.ToString("C2")
+                            DGV_CompleteWeekInfo.Item("Desc. Botonero Fijo", CounterLine).Value = DescBotoneroFijo.ToString("C2")
+                            DGV_CompleteWeekInfo.Item("Botonero Fijo Final", CounterLine).Value = BotoneroFijoAmmount.ToString("C2")
                         End If
                     Case Else
                         'let's check if employee has loans - prestamos
@@ -1192,7 +1370,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
                         ' 23 - "Bono BP"
                         'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(23).Value = BenefitAmmount.ToString("C2")
-                        DGV_CompleteWeekInfo.Item("Bono BP", CounterLine).Value = BenefitAmmount.ToString("C2")
+                        'DGV_CompleteWeekInfo.Item("Bono BP", CounterLine).Value = BenefitAmmount.ToString("C2")
 
                 End Select
 
@@ -1213,66 +1391,58 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 DGV_CompleteWeekInfo.Item("Monto Bono P. P.", CounterLine).Value = ProdPlantTotalAmmount.ToString("C2")
             End If
 
-            'Hice cambio
-            'AMONESTACIONES
-            'Descuento de amonestaciones, Se descuenta del Bono de Productividad
-            Dim BannDiscount As Decimal = 0.0D
+            ''Hice cambio
+            'AMONESTACIONES - Ahora afectan solo el Bono BP, NO el de productividad
+            'Dim BannDiscount As Decimal = 0.0D
             Dim DiasADescontar As Decimal = 0.0D
 
-            If ProductivityAmmount > 0 Then
-                Dim CLBanns As New CL_EmployeeBanns
-                Dim PendingBanns As DataTable = CLBanns.GetPendingBannsDetails(EmployeeID)
+            Dim CLBanns As New CL_EmployeeBanns
+            Dim PendingBanns As DataTable = CLBanns.GetPendingBannsDetails(EmployeeID)
+            Dim DiasPendientes As Decimal = 0.0D
+            For Each bannRow As DataRow In PendingBanns.Rows
+                DiasPendientes += CDec(bannRow("DREMPL_BALANCE"))
+            Next
+            DiasADescontar = Math.Min(DiasPendientes, 6)
 
-                Dim DiasPendientes As Decimal = 0.0D
-                For Each bannRow As DataRow In PendingBanns.Rows
-                    DiasPendientes += CDec(bannRow("DREMPL_BALANCE"))
-                Next
+            ' Bono Productividad — siempre completo, solo afectan las faltas injustificadas
+            BonoProdNeto = ProductivityAmmount
 
-                DiasADescontar = Math.Min(DiasPendientes, 6)
-
-                'If DiasADescontar > 0 Then
-                '    BannDiscount = (ProductivityAmmount / 7) * DiasADescontar
-                '    'DGV_CompleteWeekInfo.Item("Amonest..", CounterLine).Value = DiasADescontar
-                'End If
-
-
-
-                'Cálculo ya se muestra lo que se quedará
-                If DiasADescontar > 0 Then
-                    BannDiscount = (ProductivityAmmount / 7) * DiasADescontar
-
-                    BonoProdNeto = ProductivityAmmount - BannDiscount
-                    If BonoProdNeto < 0 Then BonoProdNeto = 0
-                    DGV_CompleteWeekInfo.Item("Bono Prod. Neto", CounterLine).Value = BonoProdNeto.ToString("C2")
-                Else
-                    'If DiasADescontar = 0 Then
-                    '    BonoProdNeto = 0
-                    'End If
-                    ' Si no hay amonestaciones, el neto es igual al original
-                    'DGV_CompleteWeekInfo.Item("Bono Prod. Neto", CounterLine).Value = ProductivityAmmount.ToString("C2")
-                    'DGV_CompleteWeekInfo.Item("Bono Prod. Neto", CounterLine).Value = 0
-                    'BonoProdNeto = 0
-
-                    DGV_CompleteWeekInfo.Item("Bono Prod. Neto", CounterLine).Value = ProductivityAmmount.ToString("C2")
-                    BonoProdNeto = ProductivityAmmount    'sin amonestaciones, se paga completo
-
-                End If
-            End If
-
-            ' monto final del bono de productividad, ya con faltas + amonestaciones descontadas
-            Dim DiasTotalesADescontar As Decimal = CounterF + DiasADescontar
-            Dim BonoProdFinal As Decimal = ProductivityAmmount - ((ProductivityAmmount / 7) * DiasTotalesADescontar)
+            ' Bono Prod Final — descuenta solo días de falta injustificada
+            'Dim BonoProdFinal As Decimal = ProductivityAmmount - ((ProductivityAmmount / 7) * CounterF)
+            Dim BonoProdFinal As Decimal = ProductivityAmmount - ((ProductivityAmmount / 6) * CounterF)
             If BonoProdFinal < 0 Then BonoProdFinal = 0
             DGV_CompleteWeekInfo.Item("Bono Prod. Final", CounterLine).Value = BonoProdFinal.ToString("C2")
 
+            ' Bono BP Final — pierde todo si hay faltas, y descuenta amonestaciones (÷6)
+            Dim BannDiscountBP As Decimal = 0.0D
+            If AttitudeGoodPract > 0 AndAlso DiasADescontar > 0 Then
+                BannDiscountBP = (AttitudeGoodPract / 6) * DiasADescontar
+            End If
+            Dim BonoBPFinal As Decimal = If(CounterF > 0, 0, AttitudeGoodPract - BannDiscountBP)
+            If BonoBPFinal < 0 Then BonoBPFinal = 0
+            DGV_CompleteWeekInfo.Item("Bono BP Final", CounterLine).Value = BonoBPFinal.ToString("C2")
+
+            ' Descuento de amonestaciones en BP
+            If BannDiscountBP > 0 Then
+                DGV_CompleteWeekInfo.Item("Desc. Amonest. BP", CounterLine).Value = BannDiscountBP.ToString("C2")
+            End If
+
+            '' Descuento de domingo por faltas
+            'Dim DescDomingo As Decimal = (SundaySalary / 7) * CounterF
+            'If DescDomingo > 0 Then
+            '    DGV_CompleteWeekInfo.Item("Desc. Domingo", CounterLine).Value = DescDomingo.ToString("C2")
+            'End If
+
+            Dim BotoneroTotalAmmount As Decimal = BotoneroTempAmmount + BotoneroFijoAmmount
 
             'Hice cambio
             'Check salary by employee
             NewSalary = MainSalaryCalculation(CounterA, CounterF, CounterFJ, CounterR, CounterPG, CounterPSG, CounterV, BaseSalary,
                                               SundaySalary, DailySalary, LunchHourAmmount, ProductivityAmmount, AttitudeGoodPract,
-                                              SavingAmmount, PaymentAmmount, LunchHours, BannDiscount, BotoneroAmmount, TransportAmmount,
-                                              TEmployeesAmount, BonoProdNeto, ProdPlantTotalAmmount, DiscountAmountValue,
-                                              MontoExtraDoble, MontoExtraTriple, infonavitAmountValue, BaseSalaryFor6Days)
+                                              SavingAmmount, PaymentAmmount, LunchHours, BotoneroTotalAmmount, TransportAmmount,
+                                              TransporteEntreEmpFinal, BonoProdNeto, ProdPlantTotalAmmount, DiscountAmountValue,
+                                              MontoExtraDoble, MontoExtraTriple, infonavitAmountValue, BaseSalaryFor6Days,
+                                              BonoProdFinal, BonoBPFinal)
 
             'Calculado
             ' 34 - "Calculado"
@@ -1391,17 +1561,21 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         Next
 
         Return CumulatesByEmployee
+
+
     End Function
+
 
     'Hice cambio
     Private Function MainSalaryCalculation(ByVal counterA As Integer, ByVal counterF As Integer, ByVal counterFJ As Integer, ByVal counterR As Integer,
                                                 ByVal counterPG As Integer, ByVal counterPSG As Integer, ByVal counterV As Integer,
                                                 ByVal BaseSalary As Decimal, ByVal SundaySalary As Decimal, ByVal DailySalary As Decimal,
                                                 ByVal LunchHourAmmount As Decimal, ByVal ProductivityAmmount As Decimal, ByVal AttitudeGoodPract As Decimal,
-                                                ByVal SavingAmmount As Decimal, ByVal PaymentAmmount As Decimal, ByVal LunchHours As Decimal, ByVal BannDiscount As Decimal,
-                                                ByVal BotoneroAmmount As Decimal, ByVal TransportAmmount As Decimal, ByVal TransportBetweenAmmount As Decimal,
+                                                ByVal SavingAmmount As Decimal, ByVal PaymentAmmount As Decimal, ByVal LunchHours As Decimal,
+                                                ByVal BotoneroTotalAmmount As Decimal, ByVal TransportAmmount As Decimal, ByVal TransportBetweenAmmount As Decimal,
                                                 ByVal BonoProdNeto As Decimal, ByVal ProdPlantTotalAmmount As Decimal, ByVal DiscountAmountValue As Decimal,
-                                                ByVal MontoExtraDoble As Decimal, ByVal MontoExtraTriple As Decimal, ByVal infonavitAmountValue As Decimal, ByVal BaseSalaryFor6Days As Decimal) As Decimal
+                                                ByVal MontoExtraDoble As Decimal, ByVal MontoExtraTriple As Decimal, ByVal infonavitAmountValue As Decimal,
+                                                ByVal BaseSalaryFor6Days As Decimal, ByVal BonoProdFinal As Decimal, ByVal BonoBPFinal As Decimal) As Decimal
         Dim NewSalary As Decimal = 0.0
 
         Select Case counterA ' Number of assistance
@@ -1409,21 +1583,22 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 '6 asistencias
                 'Si tiene 6 asistencias sin retardos
                 'salario base + bono de productividad + proporcional de domingo 
-                NewSalary = BaseSalaryFor6Days + ProductivityAmmount + AttitudeGoodPract + SundaySalary
-                'NewSalary = BaseSalary + ProductivityAmmount + AttitudeGoodPract + SundaySalary
+                'NewSalary = BaseSalaryFor6Days + AttitudeGoodPract + SundaySalary
+                ''NewSalary = BaseSalary + ProductivityAmmount + AttitudeGoodPract + SundaySalary
+                NewSalary = BaseSalaryFor6Days + SundaySalary
                 NewSalary = NewSalary + (LunchHourAmmount * LunchHours)
-                NewSalary = NewSalary - SavingAmmount                ' Menos la cantidad a ahorrar
-                NewSalary = NewSalary - PaymentAmmount               ' Menos el pago por créditos
-                NewSalary = NewSalary + BonoProdNeto                 ' agregamos el monto despues de amonestaciones 
-                NewSalary = NewSalary + ProdPlantTotalAmmount        ' agregamos el monto por productividad de la planta
-                NewSalary = NewSalary - DiscountAmountValue          ' descontamos el monto por adeudo
-                NewSalary = NewSalary + BotoneroAmmount              ' agregamos el biono de botonero
-                NewSalary = NewSalary + MontoExtraDoble              ' Horas extra dobñe
-                NewSalary = NewSalary + MontoExtraTriple             ' Horas extra Triple 
-
-                NewSalary = NewSalary + TransportAmmount
-                NewSalary = NewSalary + TransportBetweenAmmount
-                NewSalary = NewSalary - infonavitAmountValue
+                NewSalary = NewSalary + BonoProdNeto                    ' Bono de productividad completo
+                NewSalary = NewSalary + BonoBPFinal                     ' BP - amonestaciones
+                NewSalary = NewSalary + ProdPlantTotalAmmount           ' agregamos el monto por productividad de la planta
+                NewSalary = NewSalary + BotoneroTotalAmmount                ' agregamos el biono de botonero
+                NewSalary = NewSalary + MontoExtraDoble                 ' Horas extra dobñe
+                NewSalary = NewSalary + MontoExtraTriple                ' Horas extra Triple 
+                NewSalary = NewSalary + TransportAmmount                ' Agregamos bono de transporte
+                NewSalary = NewSalary + TransportBetweenAmmount         ' Transporte
+                NewSalary = NewSalary - SavingAmmount                   ' Menos la cantidad a ahorrar
+                NewSalary = NewSalary - PaymentAmmount                  ' Menos el pago por créditos
+                NewSalary = NewSalary - DiscountAmountValue             ' descontamos el monto por adeudo
+                NewSalary = NewSalary - infonavitAmountValue            ' Descontamos el monto de infonavit
             Case Else
 
                 '----------------------------------- FALTAS INJUSTIFICADAS
@@ -1432,57 +1607,54 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 'Si tiene 5 asistencias y 1 falta injustificada
                 'salario base de 5 dias-1/7 del proporcional de domingo-1 dia bonos de comida- 1 dia de bono de productividad-se le descuenta el bono de todas la semana del bono de buens practicas  
                 If counterA = 5 And counterF = 1 Then
-                    NewSalary = DailySalary * 5                                        ' salario base de 5 dias
-                    NewSalary = NewSalary - (SundaySalary / 7)                         ' -1/7 del proporcional de domingo
-                    NewSalary = NewSalary + Math.Max(0, LunchHourAmmount * (LunchHours - 1))
-                    'NewSalary = NewSalary + (LunchHourAmmount * (LunchHours - 1))      ' -1 dia bonos de comida (-50)
-                    NewSalary = NewSalary - (ProductivityAmmount / 7)                  ' -1 dia de bono de productividad
-                    NewSalary = NewSalary + 0                                         ' se le descuenta el bono de todas la semana del bono de buens practicas (+ 0)
-                    NewSalary = NewSalary - SavingAmmount                              ' Menos la cantidad a ahorrar
-                    NewSalary = NewSalary - PaymentAmmount                             ' Menos el pago por créditos
-                    NewSalary = NewSalary - DiscountAmountValue                        ' Descuento por adeudo
-                    NewSalary = NewSalary + MontoExtraDoble                            ' Horas extra dobñe
-                    NewSalary = NewSalary + MontoExtraTriple                           ' Horas extra Triple
-                    NewSalary = NewSalary + BonoProdNeto                               ' agregamos el monto despues de amonestaciones 
-                    NewSalary = NewSalary + ProdPlantTotalAmmount                      ' agregamos el monto por productividad de la planta
+                    'NewSalary = DailySalary * 5                                                 ' salario base de 5 dias
+                    NewSalary = DailySalary * 6
+                    NewSalary = NewSalary - (SundaySalary / 7)                                  ' -1/7 del proporcional de domingo
+                    NewSalary = NewSalary + Math.Max(0, LunchHourAmmount * (LunchHours - 1))    ' Horas de comida 
+                    NewSalary = NewSalary + 0                                                   ' se le descuenta el bono de todas la semana del bono de buens practicas (+ 0)
+                    NewSalary = NewSalary - SavingAmmount                                       ' Menos la cantidad a ahorrar
+                    NewSalary = NewSalary - PaymentAmmount                                      ' Menos el pago por créditos
+                    NewSalary = NewSalary - DiscountAmountValue                                 ' Descuento por adeudo
+                    NewSalary = NewSalary + MontoExtraDoble                                     ' Horas extra dobñe
+                    NewSalary = NewSalary + MontoExtraTriple                                    ' Horas extra Triple
+                    NewSalary = NewSalary + BonoProdFinal
+                    NewSalary = NewSalary + ProdPlantTotalAmmount                               ' agregamos el monto por productividad de la planta
                 End If
 
                 'Si hay dos faltas injustificadas
                 'Si tiene 4 asistencias y 2 faltas injustificadas	
                 'Salario base de 4 dias-2/7 del proporcional del domingo- 2 dias de bono de comida y productividad- se le descuenta el bono completo de toda la semana de buenas practicas 
                 If counterA = 4 And counterF = 2 Then
-                    NewSalary = DailySalary * 4                                     ' salario base de 4 dias
-                    NewSalary = NewSalary - ((SundaySalary / 7) * 2)                ' -2/7 del proporcional de domingo
-                    NewSalary = NewSalary + Math.Max(0, LunchHourAmmount * (LunchHours - 2))
-                    'NewSalary = NewSalary + (LunchHourAmmount * (LunchHours - 2))   ' -2 dia bonos de comida (-50)
-                    NewSalary = NewSalary - ((ProductivityAmmount / 7) * 2)         ' -2 dia de bono de productividad
-                    NewSalary = NewSalary + 0                                      ' se le descuenta el bono de todas la semana del bono de buens practicas (+ 0)
-                    NewSalary = NewSalary - SavingAmmount                           ' Menos la cantidad a ahorrar
-                    NewSalary = NewSalary - PaymentAmmount                          ' Menos el pago por créditos
-                    NewSalary = NewSalary - DiscountAmountValue                     ' Descuento por adeudo
-                    NewSalary = NewSalary + MontoExtraDoble                         ' Horas extra dobñe
-                    NewSalary = NewSalary + MontoExtraTriple                        ' Horas extra Triple
-                    NewSalary = NewSalary + BonoProdNeto                            ' agregamos el monto despues de amonestaciones
-                    NewSalary = NewSalary + ProdPlantTotalAmmount                   ' agregamos el monto por productividad de la planta
+                    'NewSalary = DailySalary * 4                                                 ' salario base de 4 dias
+                    NewSalary = DailySalary * 5
+                    NewSalary = NewSalary - ((SundaySalary / 7) * 2)                            ' -2/7 del proporcional de domingo
+                    NewSalary = NewSalary + Math.Max(0, LunchHourAmmount * (LunchHours - 2))    ' Horas de comida
+                    NewSalary = NewSalary + 0                                                   ' se le descuenta el bono de todas la semana del bono de buens practicas (+ 0)
+                    NewSalary = NewSalary - SavingAmmount                                       ' Menos la cantidad a ahorrar
+                    NewSalary = NewSalary - PaymentAmmount                                      ' Menos el pago por créditos
+                    NewSalary = NewSalary - DiscountAmountValue                                 ' Descuento por adeudo
+                    NewSalary = NewSalary + MontoExtraDoble                                     ' Horas extra dobñe
+                    NewSalary = NewSalary + MontoExtraTriple                                    ' Horas extra Triple
+                    NewSalary = NewSalary + BonoProdFinal                                       ' Bono de BP ya con los días descontados de sus faltas
+                    NewSalary = NewSalary + ProdPlantTotalAmmount                               ' agregamos el monto por productividad de la planta
                 End If
 
                 'Si hay tres faltas injustificadas
                 'Si tiene 3 asistencias y 3 faltas injustificadas	
                 'salario base de 3 dias- 3/7 del proporcional del domingo-3 dias del bono de productividad- se le descuenta bono completo de toda la semana de buenas practicas
                 If counterA = 3 And counterF = 3 Then
-                    NewSalary = DailySalary * 3                                     ' salario base de 3 dias
-                    NewSalary = NewSalary - ((SundaySalary / 7) * 3)                ' -3/7 del proporcional de domingo
+                    'NewSalary = DailySalary * 3                                                 ' salario base de 3 dias
+                    NewSalary = DailySalary * 4
+                    NewSalary = NewSalary - ((SundaySalary / 7) * 3)                            ' -3/7 del proporcional de domingo
                     NewSalary = NewSalary + Math.Max(0, LunchHourAmmount * (LunchHours - 3))
-                    'NewSalary = NewSalary + (LunchHourAmmount * (LunchHours - 3))   ' -3 dia bonos de comida (-50)
-                    NewSalary = NewSalary - ((ProductivityAmmount / 7) * 3)         ' -3 dia de bono de productividad
-                    NewSalary = NewSalary + 0                                       ' se le descuenta el bono de todas la semana del bono de buens practicas (+ 0)
-                    NewSalary = NewSalary - SavingAmmount                           ' Menos la cantidad a ahorrar
-                    NewSalary = NewSalary - PaymentAmmount                          ' Menos el pago por créditos
-                    NewSalary = NewSalary - DiscountAmountValue                     ' Descuento por adeudo
-                    NewSalary = NewSalary + MontoExtraDoble                         ' Horas extra dobñe
-                    NewSalary = NewSalary + MontoExtraTriple                        ' Horas extra triple
-                    NewSalary = NewSalary + BonoProdNeto                            ' agregamos el monto despues de amonestaciones
-                    NewSalary = NewSalary + ProdPlantTotalAmmount                   ' agregamos el monto por productividad de la planta
+                    NewSalary = NewSalary + 0                                                   ' se le descuenta el bono de todas la semana del bono de buens practicas (+ 0)
+                    NewSalary = NewSalary - SavingAmmount                                       ' Menos la cantidad a ahorrar
+                    NewSalary = NewSalary - PaymentAmmount                                      ' Menos el pago por créditos
+                    NewSalary = NewSalary - DiscountAmountValue                                 ' Descuento por adeudo
+                    NewSalary = NewSalary + MontoExtraDoble                                     ' Horas extra dobñe
+                    NewSalary = NewSalary + MontoExtraTriple                                    ' Horas extra triple
+                    NewSalary = NewSalary + BonoProdFinal                                       ' ya incluye descuento de 3 faltas                                    
+                    NewSalary = NewSalary + ProdPlantTotalAmmount                               ' agregamos el monto por productividad de la planta
                 End If
 
                 'Si hay cuatro faltas injustificadas
@@ -1490,17 +1662,17 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 'salario base de 2 dias- 4/7 del proporcional del domingo-4 dias del bono de productividad- se le descuenta bono completo de toda la semana de buenas practicas
 
                 If counterA = 2 And counterF = 4 Then
-                    NewSalary = DailySalary * 2                                                 ' salario base de 2 dias
+                    'NewSalary = DailySalary * 2                                                 ' salario base de 2 dias
+                    NewSalary = DailySalary * 3
                     NewSalary = NewSalary - ((SundaySalary / 7) * 4)                            ' -4/7 del proporcional de domingo
                     NewSalary = NewSalary + Math.Max(0, LunchHourAmmount * (LunchHours - 4))
-                    NewSalary = NewSalary - ((ProductivityAmmount / 7) * 4)                     ' -4 dia de bono de productividad
                     NewSalary = NewSalary + 0                                                   ' se le descuenta el bono de todas la semana del bono de buens practicas (+ 0)
                     NewSalary = NewSalary - SavingAmmount                                       ' Menos la cantidad a ahorrar
                     NewSalary = NewSalary - PaymentAmmount                                      ' Menos el pago por créditos
                     NewSalary = NewSalary - DiscountAmountValue                                 ' Descuento por adeudo
                     NewSalary = NewSalary + MontoExtraDoble                                     ' Horas extra dobñe
                     NewSalary = NewSalary + MontoExtraTriple                                    ' Horas extra Triple
-                    NewSalary = NewSalary + BonoProdNeto                                        ' agregamos el monto despues de amonestaciones
+                    NewSalary = NewSalary + BonoProdFinal                                       ' ya incluye descuento de 4 faltas                                     
                     NewSalary = NewSalary + ProdPlantTotalAmmount                               ' agregamos el monto por productividad de la planta
                 End If
 
@@ -1509,17 +1681,17 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 'salario base de 1 dias- 5/7 del proporcional del domingo-5 dias del bono de productividad- se le descuenta bono completo de toda la semana de buenas practicas
 
                 If counterA = 1 And counterF = 5 Then
-                    NewSalary = DailySalary * 1                                                 ' salario base de 2 dias
+                    'NewSalary = DailySalary * 1                                                 ' salario base de 2 dias
+                    NewSalary = DailySalary * 2
                     NewSalary = NewSalary - ((SundaySalary / 7) * 5)                            ' -5/7 del proporcional de domingo
                     NewSalary = NewSalary + Math.Max(0, LunchHourAmmount * (LunchHours - 5))
-                    NewSalary = NewSalary - ((ProductivityAmmount / 7) * 5)                     ' -5 dia de bono de productividad
                     NewSalary = NewSalary + 0                                                   ' se le descuenta el bono de todas la semana del bono de buens practicas (+ 0)
                     NewSalary = NewSalary - SavingAmmount                                       ' Menos la cantidad a ahorrar
                     NewSalary = NewSalary - PaymentAmmount                                      ' Menos el pago por créditos
                     NewSalary = NewSalary - DiscountAmountValue                                 ' Descuento por adeudo
                     NewSalary = NewSalary + MontoExtraDoble                                     ' Horas extra dobñe
                     NewSalary = NewSalary + MontoExtraTriple                                    ' Horas extra triple
-                    NewSalary = NewSalary + BonoProdNeto                                        ' agregamos el monto despues de amonestaciones
+                    NewSalary = NewSalary + BonoProdFinal                                       ' ya incluye descuento de 5 faltas                                       
                     NewSalary = NewSalary + ProdPlantTotalAmmount                               ' agregamos el monto por productividad de la planta
                 End If
 
@@ -1537,7 +1709,8 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                 'End If
 
                 If counterA = 0 And counterF = 6 Then
-                    NewSalary = 0
+                    NewSalary = DailySalary * 1
+                    NewSalary = NewSalary - ((SundaySalary / 7) * 6)
                 End If
 
                 '----------------------------------- FALTAS JUSTIFICADAS
@@ -1668,10 +1841,12 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
 
                 ' Bonos adicionales
-                NewSalary = NewSalary + BotoneroAmmount
+                NewSalary = NewSalary + BotoneroTotalAmmount
                 NewSalary = NewSalary + TransportAmmount
                 NewSalary = NewSalary + TransportBetweenAmmount
                 NewSalary = NewSalary - infonavitAmountValue
+
+
         End Select
 
         Return NewSalary

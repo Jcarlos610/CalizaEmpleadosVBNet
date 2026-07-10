@@ -140,6 +140,10 @@ Public Class MD_INS_Benefits
                 End Using
 
                 MsgBox("¡El beneficio '" & TB_BenefitName.Text.Trim() & "' ha sido registrado exitosamente en el sistema!", MsgBoxStyle.Information, "Registro Completo")
+
+                MsgBox("Recuerde notificar al administrador del sistema para que este beneficio sea habilitado en el cálculo de nómina.",
+                MsgBoxStyle.Exclamation, "⚠️ Acción Requerida")
+
                 InitializationOfFields()
             Else
                 'LOG DE RECHAZO
