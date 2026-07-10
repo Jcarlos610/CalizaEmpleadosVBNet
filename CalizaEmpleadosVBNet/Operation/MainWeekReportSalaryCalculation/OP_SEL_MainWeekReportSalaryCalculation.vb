@@ -7,6 +7,7 @@ Imports ClosedXML.Excel
 Imports DocumentFormat.OpenXml.Bibliography
 Imports DocumentFormat.OpenXml.Drawing
 Imports DocumentFormat.OpenXml.Math
+Imports DocumentFormat.OpenXml.Office2016.Excel
 Imports DocumentFormat.OpenXml.Wordprocessing
 Imports Microsoft.Identity.Client
 
@@ -1265,6 +1266,9 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
             If BonoProdFinal < 0 Then BonoProdFinal = 0
             DGV_CompleteWeekInfo.Item("Bono Prod. Final", CounterLine).Value = BonoProdFinal.ToString("C2")
 
+            If EmployeeID = 410 Then
+                MsgBox("RefTest")
+            End If
 
             'Hice cambio
             'Check salary by employee
