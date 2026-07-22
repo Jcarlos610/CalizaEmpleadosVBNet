@@ -520,7 +520,7 @@ Public Class MD_UPD_Employees
                 SelectComboById(CB_Supervisor, CInt(Item(23)))
 
                 TB_VacationsDays.Text = Item(25).ToString
-                If IsDBNull(Item(36)) Then
+                If IsDBNull(Item(36)) Or AppUser = "ADMINCALIZA" Or AppUser = "ELISA" Then
                     TB_BaseSalary.Text = Item(26).ToString
                     CB_Confidential.Checked = False
                 Else
