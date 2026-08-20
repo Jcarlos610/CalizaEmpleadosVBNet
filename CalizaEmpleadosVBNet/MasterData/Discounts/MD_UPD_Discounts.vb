@@ -195,7 +195,7 @@ Public Class MD_UPD_Discounts
             Dim id As Integer = item.Id
 
             If id = 30 Then
-                MessageBox.Show("Este descuento se asignará automáticamente.")
+                MessageBox.Show("Este descuento se asignará automáticamente a los empleados.", "Asignación automática", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
 
         End If

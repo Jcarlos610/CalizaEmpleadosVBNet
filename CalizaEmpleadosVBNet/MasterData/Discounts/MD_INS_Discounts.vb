@@ -118,7 +118,9 @@ Public Class MD_INS_Discounts
                         InsertLog(connTmp, GlobalSession.GlobalUserName, "MD_Discounts", "INSERT_DISCOUNT_SUCCESS", descLog, 0, "INFO")
                     End Using
 
-                    MessageBox.Show("El descuento " + TB_DiscountName.Text + " fue ingresado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    'MessageBox.Show("El descuento " + TB_DiscountName.Text + " fue ingresado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show($"El descuento '{TB_DiscountName.Text}' fue registrado correctamente.", "Descuento registrado", MessageBoxButtons.OK, MessageBoxIcon.Information
+)
                     InitializationOfFields()
                 End If
             End If
@@ -141,7 +143,7 @@ Public Class MD_INS_Discounts
             Dim id As Integer = item.Id
 
             If id = 30 Then
-                MessageBox.Show("Este descuento se asignará automáticamente.")
+                MessageBox.Show("Este descuento se asignará automáticamente a los empleados.", "Asignación automática", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
 
         End If

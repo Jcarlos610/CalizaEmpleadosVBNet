@@ -710,6 +710,8 @@ Partial Class MainScreen
         PorArchivoToolStripMenuItem = New ToolStripMenuItem()
         RegistroManualToolStripMenuItem = New ToolStripMenuItem()
         RegistroDeAdministrativosToolStripMenuItem = New ToolStripMenuItem()
+        RegistroPermisoDeHorasToolStripMenuItem = New ToolStripMenuItem()
+        EditarPermisoDeHorasToolStripMenuItem = New ToolStripMenuItem()
         RegistroDeHorasDeComidaToolStripMenuItem = New ToolStripMenuItem()
         RegistroGeneralToolStripMenuItem = New ToolStripMenuItem()
         RegistroManualDeAmonestacionesToolStripMenuItem = New ToolStripMenuItem()
@@ -734,6 +736,7 @@ Partial Class MainScreen
         AdicionalesToolStripMenuItem = New ToolStripMenuItem()
         ReToolStripMenuItem = New ToolStripMenuItem()
         CargaDeMontoATransferirToolStripMenuItem = New ToolStripMenuItem()
+        TransferenciaRegistrarToolStripMenuItem = New ToolStripMenuItem()
         EditarExistenteToolStripMenuItem7 = New ToolStripMenuItem()
         CargaDeMontoInfonavitToolStripMenuItem = New ToolStripMenuItem()
         InfonavitRegistrarMontosToolStripMenuItem = New ToolStripMenuItem()
@@ -746,7 +749,7 @@ Partial Class MainScreen
         ReportesToolStripMenuItem2 = New ToolStripMenuItem()
         AnalisisSemanalToolStripMenuItem = New ToolStripMenuItem()
         AnalisisDeSalarioToolStripMenuItem = New ToolStripMenuItem()
-        TransferenciaRegistrarToolStripMenuItem = New ToolStripMenuItem()
+        AprobaciónDeNominaToolStripMenuItem = New ToolStripMenuItem()
         MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -1087,7 +1090,7 @@ Partial Class MainScreen
         ' 
         ' IncidenciasToolStripMenuItem1
         ' 
-        IncidenciasToolStripMenuItem1.DropDownItems.AddRange(New ToolStripItem() {PorArchivoToolStripMenuItem, RegistroManualToolStripMenuItem, RegistroDeAdministrativosToolStripMenuItem})
+        IncidenciasToolStripMenuItem1.DropDownItems.AddRange(New ToolStripItem() {PorArchivoToolStripMenuItem, RegistroManualToolStripMenuItem, RegistroDeAdministrativosToolStripMenuItem, RegistroPermisoDeHorasToolStripMenuItem, EditarPermisoDeHorasToolStripMenuItem})
         IncidenciasToolStripMenuItem1.Name = "IncidenciasToolStripMenuItem1"
         IncidenciasToolStripMenuItem1.Size = New Size(324, 22)
         IncidenciasToolStripMenuItem1.Text = "Registro de entradas/salidas"
@@ -1095,23 +1098,37 @@ Partial Class MainScreen
         ' PorArchivoToolStripMenuItem
         ' 
         PorArchivoToolStripMenuItem.Name = "PorArchivoToolStripMenuItem"
-        PorArchivoToolStripMenuItem.Size = New Size(217, 22)
+        PorArchivoToolStripMenuItem.Size = New Size(219, 22)
         PorArchivoToolStripMenuItem.Tag = "OP_INS_TIMERECORDS"
         PorArchivoToolStripMenuItem.Text = "Carga por archivo"
         ' 
         ' RegistroManualToolStripMenuItem
         ' 
         RegistroManualToolStripMenuItem.Name = "RegistroManualToolStripMenuItem"
-        RegistroManualToolStripMenuItem.Size = New Size(217, 22)
+        RegistroManualToolStripMenuItem.Size = New Size(219, 22)
         RegistroManualToolStripMenuItem.Tag = "OP_INS_TIMERECORDSMANUALLY"
         RegistroManualToolStripMenuItem.Text = "Registro manual"
         ' 
         ' RegistroDeAdministrativosToolStripMenuItem
         ' 
         RegistroDeAdministrativosToolStripMenuItem.Name = "RegistroDeAdministrativosToolStripMenuItem"
-        RegistroDeAdministrativosToolStripMenuItem.Size = New Size(217, 22)
+        RegistroDeAdministrativosToolStripMenuItem.Size = New Size(219, 22)
         RegistroDeAdministrativosToolStripMenuItem.Tag = "OP_INS_ADMINTIMERECORDS"
         RegistroDeAdministrativosToolStripMenuItem.Text = "Registro de administrativos"
+        ' 
+        ' RegistroPermisoDeHorasToolStripMenuItem
+        ' 
+        RegistroPermisoDeHorasToolStripMenuItem.Name = "RegistroPermisoDeHorasToolStripMenuItem"
+        RegistroPermisoDeHorasToolStripMenuItem.Size = New Size(219, 22)
+        RegistroPermisoDeHorasToolStripMenuItem.Tag = "OP_INS_EmployeeHoursAbsence"
+        RegistroPermisoDeHorasToolStripMenuItem.Text = "Registro - permiso de horas"
+        ' 
+        ' EditarPermisoDeHorasToolStripMenuItem
+        ' 
+        EditarPermisoDeHorasToolStripMenuItem.Name = "EditarPermisoDeHorasToolStripMenuItem"
+        EditarPermisoDeHorasToolStripMenuItem.Size = New Size(219, 22)
+        EditarPermisoDeHorasToolStripMenuItem.Tag = "OP_UPD_EmployeeHoursAbsence"
+        EditarPermisoDeHorasToolStripMenuItem.Text = "Editar - Permiso de horas"
         ' 
         ' RegistroDeHorasDeComidaToolStripMenuItem
         ' 
@@ -1268,82 +1285,89 @@ Partial Class MainScreen
         ' 
         ReToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {CargaDeMontoATransferirToolStripMenuItem, TransferenciaRegistrarToolStripMenuItem, EditarExistenteToolStripMenuItem7, CargaDeMontoInfonavitToolStripMenuItem, InfonavitRegistrarMontosToolStripMenuItem, EditarExistenteToolStripMenuItem8, AdeudoAEmpresaToolStripMenuItem, EditarExistenteToolStripMenuItem9, AdeudosRegistrarAbonoToolStripMenuItem, HorasExtraRegistrarToolStripMenuItem, HorasExtraEditarToolStripMenuItem})
         ReToolStripMenuItem.Name = "ReToolStripMenuItem"
-        ReToolStripMenuItem.Size = New Size(180, 22)
+        ReToolStripMenuItem.Size = New Size(122, 22)
         ReToolStripMenuItem.Text = "Registros"
         ' 
         ' CargaDeMontoATransferirToolStripMenuItem
         ' 
         CargaDeMontoATransferirToolStripMenuItem.Name = "CargaDeMontoATransferirToolStripMenuItem"
-        CargaDeMontoATransferirToolStripMenuItem.Size = New Size(265, 22)
+        CargaDeMontoATransferirToolStripMenuItem.Size = New Size(291, 22)
         CargaDeMontoATransferirToolStripMenuItem.Tag = "OP_INS_AmountToTransfer"
         CargaDeMontoATransferirToolStripMenuItem.Text = "Transferencias - Carga de montos"
+        ' 
+        ' TransferenciaRegistrarToolStripMenuItem
+        ' 
+        TransferenciaRegistrarToolStripMenuItem.Name = "TransferenciaRegistrarToolStripMenuItem"
+        TransferenciaRegistrarToolStripMenuItem.Size = New Size(291, 22)
+        TransferenciaRegistrarToolStripMenuItem.Tag = "OP_INS_AmountToTransferManually"
+        TransferenciaRegistrarToolStripMenuItem.Text = "Transferencia - Registrar manual montos "
         ' 
         ' EditarExistenteToolStripMenuItem7
         ' 
         EditarExistenteToolStripMenuItem7.Name = "EditarExistenteToolStripMenuItem7"
-        EditarExistenteToolStripMenuItem7.Size = New Size(265, 22)
+        EditarExistenteToolStripMenuItem7.Size = New Size(291, 22)
         EditarExistenteToolStripMenuItem7.Tag = "OP_UPD_AmountToTransfer"
         EditarExistenteToolStripMenuItem7.Text = "Transferencias - Editar montos"
         ' 
         ' CargaDeMontoInfonavitToolStripMenuItem
         ' 
         CargaDeMontoInfonavitToolStripMenuItem.Name = "CargaDeMontoInfonavitToolStripMenuItem"
-        CargaDeMontoInfonavitToolStripMenuItem.Size = New Size(265, 22)
+        CargaDeMontoInfonavitToolStripMenuItem.Size = New Size(291, 22)
         CargaDeMontoInfonavitToolStripMenuItem.Tag = "OP_INS_InfonavitAmount"
         CargaDeMontoInfonavitToolStripMenuItem.Text = "Infonavit - Carga de montos"
         ' 
         ' InfonavitRegistrarMontosToolStripMenuItem
         ' 
         InfonavitRegistrarMontosToolStripMenuItem.Name = "InfonavitRegistrarMontosToolStripMenuItem"
-        InfonavitRegistrarMontosToolStripMenuItem.Size = New Size(265, 22)
+        InfonavitRegistrarMontosToolStripMenuItem.Size = New Size(291, 22)
         InfonavitRegistrarMontosToolStripMenuItem.Tag = "OP_INS_InfonavitAmountManually"
         InfonavitRegistrarMontosToolStripMenuItem.Text = "Infonavit - Registrar manual montos"
         ' 
         ' EditarExistenteToolStripMenuItem8
         ' 
         EditarExistenteToolStripMenuItem8.Name = "EditarExistenteToolStripMenuItem8"
-        EditarExistenteToolStripMenuItem8.Size = New Size(265, 22)
+        EditarExistenteToolStripMenuItem8.Size = New Size(291, 22)
         EditarExistenteToolStripMenuItem8.Tag = "OP_UPD_InfonavitAmount"
         EditarExistenteToolStripMenuItem8.Text = "Infonavit - Editar montos"
         ' 
         ' AdeudoAEmpresaToolStripMenuItem
         ' 
         AdeudoAEmpresaToolStripMenuItem.Name = "AdeudoAEmpresaToolStripMenuItem"
-        AdeudoAEmpresaToolStripMenuItem.Size = New Size(265, 22)
+        AdeudoAEmpresaToolStripMenuItem.Size = New Size(291, 22)
         AdeudoAEmpresaToolStripMenuItem.Tag = "OP_INS_EmployeeAmountDebt"
         AdeudoAEmpresaToolStripMenuItem.Text = "Adeudos - Registrar"
         ' 
         ' EditarExistenteToolStripMenuItem9
         ' 
         EditarExistenteToolStripMenuItem9.Name = "EditarExistenteToolStripMenuItem9"
-        EditarExistenteToolStripMenuItem9.Size = New Size(265, 22)
+        EditarExistenteToolStripMenuItem9.Size = New Size(291, 22)
         EditarExistenteToolStripMenuItem9.Tag = "OP_UPD_EmployeeAmountDebt"
         EditarExistenteToolStripMenuItem9.Text = "Adeudos - Editar"
         ' 
         ' AdeudosRegistrarAbonoToolStripMenuItem
         ' 
         AdeudosRegistrarAbonoToolStripMenuItem.Name = "AdeudosRegistrarAbonoToolStripMenuItem"
-        AdeudosRegistrarAbonoToolStripMenuItem.Size = New Size(265, 22)
+        AdeudosRegistrarAbonoToolStripMenuItem.Size = New Size(291, 22)
         AdeudosRegistrarAbonoToolStripMenuItem.Tag = "OP_INS_EmployeeAmountDebtPayments"
         AdeudosRegistrarAbonoToolStripMenuItem.Text = "Adeudos - Registrar abono"
         ' 
         ' HorasExtraRegistrarToolStripMenuItem
         ' 
         HorasExtraRegistrarToolStripMenuItem.Name = "HorasExtraRegistrarToolStripMenuItem"
-        HorasExtraRegistrarToolStripMenuItem.Size = New Size(265, 22)
+        HorasExtraRegistrarToolStripMenuItem.Size = New Size(291, 22)
         HorasExtraRegistrarToolStripMenuItem.Tag = "OP_INS_EmployeeOvertime"
         HorasExtraRegistrarToolStripMenuItem.Text = "Horas extra - Registrar"
         ' 
         ' HorasExtraEditarToolStripMenuItem
         ' 
         HorasExtraEditarToolStripMenuItem.Name = "HorasExtraEditarToolStripMenuItem"
-        HorasExtraEditarToolStripMenuItem.Size = New Size(265, 22)
+        HorasExtraEditarToolStripMenuItem.Size = New Size(291, 22)
         HorasExtraEditarToolStripMenuItem.Tag = "OP_UPD_EmployeeOvertime"
         HorasExtraEditarToolStripMenuItem.Text = "Horas extra - Editar"
         ' 
         ' ReportesToolStripMenuItem2
         ' 
-        ReportesToolStripMenuItem2.DropDownItems.AddRange(New ToolStripItem() {AnalisisSemanalToolStripMenuItem, AnalisisDeSalarioToolStripMenuItem})
+        ReportesToolStripMenuItem2.DropDownItems.AddRange(New ToolStripItem() {AnalisisSemanalToolStripMenuItem, AnalisisDeSalarioToolStripMenuItem, AprobaciónDeNominaToolStripMenuItem})
         ReportesToolStripMenuItem2.Name = "ReportesToolStripMenuItem2"
         ReportesToolStripMenuItem2.Size = New Size(65, 19)
         ReportesToolStripMenuItem2.Text = "Reportes"
@@ -1362,12 +1386,12 @@ Partial Class MainScreen
         AnalisisDeSalarioToolStripMenuItem.Tag = "OP_SEL_MainWeekReportSalaryCalculation"
         AnalisisDeSalarioToolStripMenuItem.Text = "Analisis de salario"
         ' 
-        ' TransferenciaRegistrarToolStripMenuItem
+        ' AprobaciónDeNominaToolStripMenuItem
         ' 
-        TransferenciaRegistrarToolStripMenuItem.Name = "TransferenciaRegistrarToolStripMenuItem"
-        TransferenciaRegistrarToolStripMenuItem.Size = New Size(291, 22)
-        TransferenciaRegistrarToolStripMenuItem.Tag = "OP_INS_AmountToTransferManually"
-        TransferenciaRegistrarToolStripMenuItem.Text = "Transferencia - Registrar manual montos "
+        AprobaciónDeNominaToolStripMenuItem.Name = "AprobaciónDeNominaToolStripMenuItem"
+        AprobaciónDeNominaToolStripMenuItem.Size = New Size(218, 22)
+        AprobaciónDeNominaToolStripMenuItem.Tag = "OP_PayrollApproval"
+        AprobaciónDeNominaToolStripMenuItem.Text = "Aprobación de nomina"
         ' 
         ' MainScreen
         ' 
@@ -1479,4 +1503,7 @@ Partial Class MainScreen
     Friend WithEvents ValidaciónEditarToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents InfonavitRegistrarMontosToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents TransferenciaRegistrarToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RegistroPermisoDeHorasToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents EditarPermisoDeHorasToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents AprobaciónDeNominaToolStripMenuItem As ToolStripMenuItem
 End Class

@@ -70,6 +70,7 @@ Partial Class MD_INS_Discounts
         ' 
         ' CB_Type
         ' 
+        CB_Type.DropDownStyle = ComboBoxStyle.DropDownList
         CB_Type.FormattingEnabled = True
         CB_Type.Location = New Point(675, 45)
         CB_Type.Name = "CB_Type"

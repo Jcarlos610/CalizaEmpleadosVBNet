@@ -74,6 +74,7 @@ Partial Class MD_UPD_Discounts
         ' 
         ' CB_Type
         ' 
+        CB_Type.DropDownStyle = ComboBoxStyle.DropDownList
         CB_Type.FormattingEnabled = True
         CB_Type.Location = New Point(687, 80)
         CB_Type.Name = "CB_Type"
@@ -118,6 +119,7 @@ Partial Class MD_UPD_Discounts
         ' 
         ' CB_AllDiscounts
         ' 
+        CB_AllDiscounts.DropDownStyle = ComboBoxStyle.DropDownList
         CB_AllDiscounts.FormattingEnabled = True
         CB_AllDiscounts.Location = New Point(16, 22)
         CB_AllDiscounts.Name = "CB_AllDiscounts"
