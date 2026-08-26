@@ -129,7 +129,7 @@ Public Class CL_Companies
         dt.Columns.Add("COMP_ONAME", GetType(String))
         dt.Columns.Add("COMP_TCODE", GetType(String))
 
-        dt.Rows.Add(0, "Seleccione una")
+        'dt.Rows.Add(0, "Seleccione una")
 
         Try
             DB_Command = New SqlCommand With {

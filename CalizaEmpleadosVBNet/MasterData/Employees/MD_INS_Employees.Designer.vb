@@ -96,6 +96,8 @@ Partial Class MD_INS_Employees
         GroupBox1 = New GroupBox()
         DGV_AllEmployees = New DataGridView()
         LB_Title = New Label()
+        CB_Gender = New ComboBox()
+        LB_Gender = New Label()
         GB_PersonalInformation.SuspendLayout()
         GB_EmergencyInfo.SuspendLayout()
         GB_EmployeeInformation.SuspendLayout()
@@ -107,6 +109,8 @@ Partial Class MD_INS_Employees
         ' 
         ' GB_PersonalInformation
         ' 
+        GB_PersonalInformation.Controls.Add(LB_Gender)
+        GB_PersonalInformation.Controls.Add(CB_Gender)
         GB_PersonalInformation.Controls.Add(CB_InfonavitCredit)
         GB_PersonalInformation.Controls.Add(BT_EmployeeRegister)
         GB_PersonalInformation.Controls.Add(TB_SocialNumber)
@@ -147,7 +151,7 @@ Partial Class MD_INS_Employees
         ' CB_InfonavitCredit
         ' 
         CB_InfonavitCredit.AutoSize = True
-        CB_InfonavitCredit.Location = New Point(845, 152)
+        CB_InfonavitCredit.Location = New Point(997, 152)
         CB_InfonavitCredit.Name = "CB_InfonavitCredit"
         CB_InfonavitCredit.Size = New Size(170, 19)
         CB_InfonavitCredit.TabIndex = 408
@@ -795,6 +799,24 @@ Partial Class MD_INS_Employees
         LB_Title.TabIndex = 109
         LB_Title.Text = "Registro de empleados"
         ' 
+        ' CB_Gender
+        ' 
+        CB_Gender.DropDownStyle = ComboBoxStyle.DropDownList
+        CB_Gender.FormattingEnabled = True
+        CB_Gender.Location = New Point(837, 148)
+        CB_Gender.Name = "CB_Gender"
+        CB_Gender.Size = New Size(148, 23)
+        CB_Gender.TabIndex = 409
+        ' 
+        ' LB_Gender
+        ' 
+        LB_Gender.AutoSize = True
+        LB_Gender.Location = New Point(837, 130)
+        LB_Gender.Name = "LB_Gender"
+        LB_Gender.Size = New Size(48, 15)
+        LB_Gender.TabIndex = 410
+        LB_Gender.Text = "Genero:"
+        ' 
         ' MD_INS_Employees
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -896,4 +918,6 @@ Partial Class MD_INS_Employees
     Friend WithEvents LB_Plant As Label
     Friend WithEvents CB_InfonavitCredit As CheckBox
     Friend WithEvents LB_Title As Label
+    Friend WithEvents CB_Gender As ComboBox
+    Friend WithEvents LB_Gender As Label
 End Class

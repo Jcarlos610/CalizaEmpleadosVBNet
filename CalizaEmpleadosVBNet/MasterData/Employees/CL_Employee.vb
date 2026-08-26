@@ -42,6 +42,7 @@ Public Class CL_Employee
     Private _EMPL_CONF As Object
     Private _PLANT_ID As Object
     Private _EMPL_INFONAVIT As Object
+    Private _EMPL_GENDER As Object
 
 
     Public Property EMPL_ID As Object
@@ -368,11 +369,20 @@ Public Class CL_Employee
         End Set
     End Property
 
+    Public Property EMPL_GENDER As Object
+        Get
+            Return _EMPL_GENDER
+        End Get
+        Set(value As Object)
+            _EMPL_GENDER = value
+        End Set
+    End Property
+
     Sub New()
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
     End Sub
 
-    Sub New(EMPL_ID, EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, DEPT_ID, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_COSTC, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT, EMPL_CONF, PLANT_ID, EMPL_INFONAVIT)
+    Sub New(EMPL_ID, EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, DEPT_ID, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_COSTC, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT, EMPL_CONF, PLANT_ID, EMPL_INFONAVIT, EMPL_GENDER)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
         _EMPL_ID = EMPL_ID
@@ -411,9 +421,10 @@ Public Class CL_Employee
         _EMPL_CONF = EMPL_CONF
         _PLANT_ID = PLANT_ID
         _EMPL_INFONAVIT = EMPL_INFONAVIT
+        _EMPL_GENDER = EMPL_GENDER
 
     End Sub
-    Sub New(EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, DEPT_ID, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_COSTC, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT, EMPL_CONF, PLANT_ID, EMPL_INFONAVIT)
+    Sub New(EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, DEPT_ID, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_COSTC, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT, EMPL_CONF, PLANT_ID, EMPL_INFONAVIT, EMPL_GENDER)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
         _EMPL_NAME = EMPL_NAME
@@ -451,6 +462,7 @@ Public Class CL_Employee
         _EMPL_CONF = EMPL_CONF
         _PLANT_ID = PLANT_ID
         _EMPL_INFONAVIT = EMPL_INFONAVIT
+        _EMPL_GENDER = EMPL_GENDER
 
     End Sub
 
@@ -502,6 +514,7 @@ Public Class CL_Employee
             DB_Command.Parameters.AddWithValue("EMPL_CONF", _EMPL_CONF)
             DB_Command.Parameters.AddWithValue("PLANT_ID", _PLANT_ID)
             DB_Command.Parameters.AddWithValue("EMPL_INFONAVIT", _EMPL_INFONAVIT)
+            DB_Command.Parameters.AddWithValue("EMPL_GENDER", _EMPL_GENDER)
 
             DB_Command.ExecuteNonQuery()
 
@@ -640,6 +653,31 @@ Public Class CL_Employee
         End Try
     End Function
 
+    Public Function Get_EmployeeFullInfoForContract(ByVal EMPL_ID As Integer) As DataTable
+        Try
+            DB_Command = New SqlCommand With {
+            .CommandText = "SEL_GETEMPLOYEEFULLINFOFORCONTRACT",
+            .CommandType = CommandType.StoredProcedure
+        }
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+            DB_Command.Parameters.AddWithValue("@EMPL_ID", EMPL_ID)
+            DB_Reader = DB_Command.ExecuteReader()
+            DB_Command.Connection = DB_Connection
+            Dim LocalTable As New DataTable
+
+            LocalTable.Load(DB_Reader)
+            DB_Reader.Close()
+            DB_Connection.Close()
+            Return LocalTable
+        Catch ex As Exception
+            DB_Connection.Close()
+            MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_Employee.Get_EmployeeFullInfoForContract()")
+
+            Return Nothing
+        End Try
+    End Function
+
     Public Function UpdateEmployee()
 
         Try
@@ -685,6 +723,8 @@ Public Class CL_Employee
             DB_Command.Parameters.AddWithValue("EMPL_STAT", _EMPL_STAT)
             DB_Command.Parameters.AddWithValue("PLANT_ID", _PLANT_ID)
             DB_Command.Parameters.AddWithValue("EMPL_INFONAVIT", _EMPL_INFONAVIT)
+            DB_Command.Parameters.AddWithValue("EMPL_GENDER", _EMPL_GENDER)
+
             For Each p As SqlParameter In DB_Command.Parameters
                 Debug.WriteLine(p.ParameterName & " = " & p.Value.ToString())
             Next
@@ -774,6 +814,8 @@ Public Class CL_Employee
             DB_Command.Parameters.AddWithValue("EMPL_STAT", _EMPL_STAT)
             DB_Command.Parameters.AddWithValue("PLANT_ID", _PLANT_ID)
             DB_Command.Parameters.AddWithValue("EMPL_INFONAVIT", _EMPL_INFONAVIT)
+            DB_Command.Parameters.AddWithValue("EMPL_GENDER", _EMPL_GENDER)
+
             For Each p As SqlParameter In DB_Command.Parameters
                 Debug.WriteLine(p.ParameterName & " = " & p.Value.ToString())
             Next

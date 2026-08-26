@@ -18,6 +18,10 @@ Public Class OP_RECORDSBYEMPLOYEECREDITS
 
         DGV_EmployeeInfo.Columns("No. Empleado").HeaderText = "No. Empleado"
         DGV_EmployeeInfo.Columns("Nombre Completo").HeaderText = "Empleado"
+
+        If DGV_EmployeeInfo.Columns.Contains("Salario Inicial") Then
+            DGV_EmployeeInfo.Columns("Salario Inicial").Visible = False
+        End If
     End Sub
 
 
