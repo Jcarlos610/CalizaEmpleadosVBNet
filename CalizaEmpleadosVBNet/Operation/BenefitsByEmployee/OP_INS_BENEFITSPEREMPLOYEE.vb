@@ -16,6 +16,10 @@ Public Class OP_INS_BENEFITSPEREMPLOYEE
         DGV_Employees.AutoResizeColumns()
         DGV_Employees.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         DGV_Employees.DataSource = report.Get_EmployeesInfo
+
+        If DGV_Employees.Columns.Contains("Salario Inicial") Then
+            DGV_Employees.Columns("Salario Inicial").Visible = False
+        End If
     End Sub
 
     Private Sub Display_BenefitsRecords()
@@ -300,6 +304,10 @@ Public Class OP_INS_BENEFITSPEREMPLOYEE
         DGV_Employees.AutoResizeColumns()
         DGV_Employees.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         DGV_Employees.DataSource = report.Get_EmployeesInfoByID(TB_EmployeeId.Text)
+
+        If DGV_Employees.Columns.Contains("Salario Inicial") Then
+            DGV_Employees.Columns("Salario Inicial").Visible = False
+        End If
     End Sub
 
     Private Sub BT_Cancel_Click(sender As Object, e As EventArgs) Handles BT_Cancel.Click

@@ -746,6 +746,9 @@ Partial Class MainScreen
         AdeudosRegistrarAbonoToolStripMenuItem = New ToolStripMenuItem()
         HorasExtraRegistrarToolStripMenuItem = New ToolStripMenuItem()
         HorasExtraEditarToolStripMenuItem = New ToolStripMenuItem()
+        DocumentosToolStripMenuItem = New ToolStripMenuItem()
+        ContratosToolStripMenuItem = New ToolStripMenuItem()
+        ToolStripMenuItem1 = New ToolStripMenuItem()
         ReportesToolStripMenuItem2 = New ToolStripMenuItem()
         AnalisisSemanalToolStripMenuItem = New ToolStripMenuItem()
         AnalisisDeSalarioToolStripMenuItem = New ToolStripMenuItem()
@@ -756,7 +759,7 @@ Partial Class MainScreen
         ' MenuStrip1
         ' 
         MenuStrip1.ImageScalingSize = New Size(24, 24)
-        MenuStrip1.Items.AddRange(New ToolStripItem() {SistemaToolStripMenuItem, DatosMaestrosToolStripMenuItem, EmpleadosToolStripMenuItem, IncidenciasToolStripMenuItem, BeneficiosToolStripMenuItem1, AdicionalesToolStripMenuItem, ReportesToolStripMenuItem2})
+        MenuStrip1.Items.AddRange(New ToolStripItem() {SistemaToolStripMenuItem, DatosMaestrosToolStripMenuItem, EmpleadosToolStripMenuItem, IncidenciasToolStripMenuItem, BeneficiosToolStripMenuItem1, AdicionalesToolStripMenuItem, DocumentosToolStripMenuItem, ReportesToolStripMenuItem2})
         MenuStrip1.Location = New Point(0, 0)
         MenuStrip1.Name = "MenuStrip1"
         MenuStrip1.Padding = New Padding(9, 3, 0, 3)
@@ -1365,6 +1368,27 @@ Partial Class MainScreen
         HorasExtraEditarToolStripMenuItem.Tag = "OP_UPD_EmployeeOvertime"
         HorasExtraEditarToolStripMenuItem.Text = "Horas extra - Editar"
         ' 
+        ' DocumentosToolStripMenuItem
+        ' 
+        DocumentosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {ContratosToolStripMenuItem})
+        DocumentosToolStripMenuItem.Name = "DocumentosToolStripMenuItem"
+        DocumentosToolStripMenuItem.Size = New Size(87, 19)
+        DocumentosToolStripMenuItem.Text = "Documentos"
+        ' 
+        ' ContratosToolStripMenuItem
+        ' 
+        ContratosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {ToolStripMenuItem1})
+        ContratosToolStripMenuItem.Name = "ContratosToolStripMenuItem"
+        ContratosToolStripMenuItem.Size = New Size(180, 22)
+        ContratosToolStripMenuItem.Text = "Contratos"
+        ' 
+        ' ToolStripMenuItem1
+        ' 
+        ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        ToolStripMenuItem1.Size = New Size(198, 22)
+        ToolStripMenuItem1.Tag = "OP_INS_Contract"
+        ToolStripMenuItem1.Text = "Generación de contrato"
+        ' 
         ' ReportesToolStripMenuItem2
         ' 
         ReportesToolStripMenuItem2.DropDownItems.AddRange(New ToolStripItem() {AnalisisSemanalToolStripMenuItem, AnalisisDeSalarioToolStripMenuItem, AprobaciónDeNominaToolStripMenuItem})
@@ -1506,4 +1530,7 @@ Partial Class MainScreen
     Friend WithEvents RegistroPermisoDeHorasToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents EditarPermisoDeHorasToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents AprobaciónDeNominaToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents DocumentosToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ContratosToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem1 As ToolStripMenuItem
 End Class

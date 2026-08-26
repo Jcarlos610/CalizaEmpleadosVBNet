@@ -55,6 +55,11 @@ Public Class MD_UPD_Employees
 
         CB_InfonavitCredit.Checked = False
 
+        CB_Gender.Items.Clear()
+        CB_Gender.Items.Add("Seleccione un género")
+        CB_Gender.Items.Add("Masculino")
+        CB_Gender.Items.Add("Femenino")
+
         Dim imagePath As String = Path.Combine(Application.StartupPath, "System_Images", "default_user.png")
 
         If File.Exists(imagePath) Then
@@ -322,7 +327,8 @@ Public Class MD_UPD_Employees
                 CB_Confidential.Checked,
                 CB_Status.Checked,
                 plantIdSelected,
-                CB_InfonavitCredit.Checked
+                CB_InfonavitCredit.Checked,
+                CB_Gender.SelectedItem.ToString()
             )
 
 
@@ -562,6 +568,8 @@ Public Class MD_UPD_Employees
                 Else
                     CB_InfonavitCredit.Checked = False
                 End If
+
+                CB_Gender.SelectedItem = Item(39).ToString()
 
                 Original_Dept = CB_Department.Text
                 Original_Pos = CB_Position.Text

@@ -43,6 +43,11 @@ Public Class MD_INS_Employees
 
         CB_Company.Items.Clear()
         CB_EmployeeType.Items.Clear()
+        CB_Gender.Items.Clear()
+        CB_Gender.Items.Add("Seleccione un género")
+        CB_Gender.Items.Add("Masculino")
+        CB_Gender.Items.Add("Femenino")
+        CB_Gender.SelectedIndex = 0
         DT_EntryDate.Value = Date.Today()
         DT_RegistrationDate.Value = Date.Today()
         CB_Position.Items.Clear()
@@ -185,6 +190,10 @@ Public Class MD_INS_Employees
                 MessageBox.Show("Favor de seleccionar un departamento.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Exit Sub
             End If
+            If CB_Gender.SelectedItem Is Nothing OrElse CB_Gender.SelectedItem.ToString() = "Seleccione un género" Then
+                MessageBox.Show("Favor de seleccionar el género.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
 
             Dim plantIdSelected As Integer = 0
             Dim plantDescription As String = "Sin Planta"
@@ -262,7 +271,8 @@ Public Class MD_INS_Employees
             1,
             CB_Confidential.Checked,
             plantIdSelected,
-            CB_InfonavitCredit.Checked
+            CB_InfonavitCredit.Checked,
+            CB_Gender.SelectedItem.ToString()
         )
 
 

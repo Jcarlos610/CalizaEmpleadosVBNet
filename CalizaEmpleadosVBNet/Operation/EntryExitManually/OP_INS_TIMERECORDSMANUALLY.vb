@@ -42,6 +42,11 @@ Public Class OP_INS_TIMERECORDSMANUALLY
 
 
         DGV_AllEmployees.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+
+        If DGV_AllEmployees.Columns.Contains("Salario Inicial") Then
+            DGV_AllEmployees.Columns("Salario Inicial").Visible = False
+        End If
+
         DGV_AllEmployees.AutoResizeColumns()
 
     End Sub

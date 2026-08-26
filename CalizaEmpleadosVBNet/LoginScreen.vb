@@ -65,9 +65,9 @@ Public Class LoginScreen
         If cadenaConexion.Contains(".net") Then
             Envirotment = "PRODUCCIÓN"
         ElseIf cadenaConexion.Contains("SQLEXPRESS") Then
-            Envirotment = "DESARROLLO"
-            TB_UserName.Text = "ADMINCALIZA"
-            TB_Password.Text = "12345"
+            'Envirotment = "DESARROLLO"
+            ''TB_UserName.Text = "ADMINCALIZA"
+            ''TB_Password.Text = "12345"
         Else
             Envirotment = "DESCONOCIDO"
         End If

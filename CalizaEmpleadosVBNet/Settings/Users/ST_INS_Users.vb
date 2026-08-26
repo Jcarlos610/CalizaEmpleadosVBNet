@@ -37,6 +37,10 @@ Public Class ST_INS_Users
         Dim emp As New CL_Employee()
         DGV_Employees.DataSource = emp.Get_AllEmployeesAllDepartments()
 
+        If DGV_Employees.Columns.Contains("Salario Inicial") Then
+            DGV_Employees.Columns("Salario Inicial").Visible = False
+        End If
+
         DGV_Employees.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
 
     End Sub

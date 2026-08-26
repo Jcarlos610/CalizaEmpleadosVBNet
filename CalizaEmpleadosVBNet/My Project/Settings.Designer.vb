@@ -15,7 +15,7 @@ Option Explicit On
 Namespace My
     
     <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.13.0.0"),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.14.0.0"),  _
      Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
     Partial Friend NotInheritable Class MySettings
         Inherits Global.System.Configuration.ApplicationSettingsBase
@@ -71,27 +71,7 @@ Namespace My
                 Return CType(Me("WorkTimeFiles"),String)
             End Get
         End Property
-
-        <Global.System.Configuration.ApplicationScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=JUANSANCHEZ\SQLEXPRESS;Initial Catalog=CalizaEmpleados;Integrated Sec" &
-            "urity=True;TrustServerCertificate=True")>
-        Public ReadOnly Property ConnectionString() As String
-            Get
-                Return CType(Me("ConnectionString"), String)
-            End Get
-        End Property
-
-        <Global.System.Configuration.ApplicationScopedSettingAttribute(),
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
-         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=Diana\SQLEXPRESS;Initial Catalog=CalizaEmpleados2;Integrated Security=True;TrustServerCertificate=True" &
-            "urity=True;TrustServerCertificate=True")>
-        Public ReadOnly Property ConnectionString2() As String
-            Get
-                Return CType(Me("ConnectionString2"), String)
-            End Get
-        End Property
-
+        
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("C:\Temp\CalizaEmpleados\RelojChecador\Entradas")>  _
@@ -107,6 +87,34 @@ Namespace My
         Public ReadOnly Property WorkTimeFilesExit() As String
             Get
                 Return CType(Me("WorkTimeFilesExit"),String)
+            End Get
+        End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=Diana\SQLEXPRESS;Initial Catalog=CalizaEmpleados3;Integrated Security"& _ 
+            "=True;TrustServerCertificate=True")>  _
+        Public ReadOnly Property ConnectionString() As String
+            Get
+                Return CType(Me("ConnectionString"),String)
+            End Get
+        End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("C:\Temp\CalizaEmpleados\Contratos\Plantillas")>  _
+        Public ReadOnly Property ContractTemplatesFolder() As String
+            Get
+                Return CType(Me("ContractTemplatesFolder"),String)
+            End Get
+        End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("C:\Temp\CalizaEmpleados\Contratos\Generados")>  _
+        Public ReadOnly Property ContractsOutputFolder() As String
+            Get
+                Return CType(Me("ContractsOutputFolder"),String)
             End Get
         End Property
     End Class
