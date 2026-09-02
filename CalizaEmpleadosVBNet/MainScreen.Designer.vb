@@ -753,6 +753,8 @@ Partial Class MainScreen
         AnalisisSemanalToolStripMenuItem = New ToolStripMenuItem()
         AnalisisDeSalarioToolStripMenuItem = New ToolStripMenuItem()
         AprobaciónDeNominaToolStripMenuItem = New ToolStripMenuItem()
+        DispersiónToolStripMenuItem = New ToolStripMenuItem()
+        NominaToolStripMenuItem = New ToolStripMenuItem()
         MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -1370,7 +1372,7 @@ Partial Class MainScreen
         ' 
         ' DocumentosToolStripMenuItem
         ' 
-        DocumentosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {ContratosToolStripMenuItem})
+        DocumentosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {ContratosToolStripMenuItem, DispersiónToolStripMenuItem})
         DocumentosToolStripMenuItem.Name = "DocumentosToolStripMenuItem"
         DocumentosToolStripMenuItem.Size = New Size(87, 19)
         DocumentosToolStripMenuItem.Text = "Documentos"
@@ -1416,6 +1418,20 @@ Partial Class MainScreen
         AprobaciónDeNominaToolStripMenuItem.Size = New Size(218, 22)
         AprobaciónDeNominaToolStripMenuItem.Tag = "OP_PayrollApproval"
         AprobaciónDeNominaToolStripMenuItem.Text = "Aprobación de nomina"
+        ' 
+        ' DispersiónToolStripMenuItem
+        ' 
+        DispersiónToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {NominaToolStripMenuItem})
+        DispersiónToolStripMenuItem.Name = "DispersiónToolStripMenuItem"
+        DispersiónToolStripMenuItem.Size = New Size(180, 22)
+        DispersiónToolStripMenuItem.Text = "Dispersión "
+        ' 
+        ' NominaToolStripMenuItem
+        ' 
+        NominaToolStripMenuItem.Name = "NominaToolStripMenuItem"
+        NominaToolStripMenuItem.Size = New Size(180, 22)
+        NominaToolStripMenuItem.Tag = "OP_PayrollDispersion"
+        NominaToolStripMenuItem.Text = "Nomina"
         ' 
         ' MainScreen
         ' 
@@ -1533,4 +1549,6 @@ Partial Class MainScreen
     Friend WithEvents DocumentosToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ContratosToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents DispersiónToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents NominaToolStripMenuItem As ToolStripMenuItem
 End Class

@@ -35,6 +35,8 @@ Public Class MD_INS_Employees
         TB_CivilStatus.Text = ""
         TB_Curp.Text = ""
         TB_SocialNumber.Text = ""
+        TB_Nationality.Text = "Mexicana"
+        TB_INE.Text = ""
 
         TB_RFC.Text = ""
         TB_FiscalAddress.Text = ""
@@ -272,7 +274,9 @@ Public Class MD_INS_Employees
             CB_Confidential.Checked,
             plantIdSelected,
             CB_InfonavitCredit.Checked,
-            CB_Gender.SelectedItem.ToString()
+            CB_Gender.SelectedItem.ToString(),
+            TB_Nationality.Text.Trim,
+            TB_INE.Text.Trim
         )
 
 
@@ -368,7 +372,9 @@ Public Class MD_INS_Employees
             DGV_AllEmployees.DataSource = report.Get_AllEmployeesOnlyFewDepartments
         End If
 
-        DGV_AllEmployees.Columns("Salario Inicial").Visible = False
+        If DGV_AllEmployees.Columns.Contains("Salario Inicial") Then
+            DGV_AllEmployees.Columns("Salario Inicial").Visible = False
+        End If
 
         If DGV_AllEmployees.Columns.Contains("Planta") Then
             DGV_AllEmployees.Columns("Planta").HeaderText = "Planta Asignada"

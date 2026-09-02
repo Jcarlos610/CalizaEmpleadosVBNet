@@ -30,6 +30,8 @@ Public Class MD_UPD_Employees
         TB_CivilStatus.Text = ""
         TB_Curp.Text = ""
         TB_SocialNumber.Text = ""
+        TB_Nationality.Text = ""
+        TB_INE.Text = ""
 
         TB_RFC.Text = ""
         TB_FiscalAddress.Text = ""
@@ -182,7 +184,9 @@ Public Class MD_UPD_Employees
         End If
 
         DGV_AllEmployees.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
-        DGV_AllEmployees.Columns("Salario Inicial").Visible = False
+        If DGV_AllEmployees.Columns.Contains("Salario Inicial") Then
+            DGV_AllEmployees.Columns("Salario Inicial").Visible = False
+        End If
         DGV_AllEmployees.AutoResizeColumns()
 
     End Sub
@@ -206,7 +210,10 @@ Public Class MD_UPD_Employees
                 MessageBox.Show("Ingrese un correo válido.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Exit Sub
             End If
-
+            If CB_Gender.SelectedItem Is Nothing OrElse CB_Gender.SelectedItem.ToString() = "Seleccione un género" Then
+                MessageBox.Show("Favor de seleccionar el género.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
             Dim companyID As Integer = CInt(CB_Company.SelectedValue)
             Dim typeEmployee As ComboItem = CType(CB_EmployeeType.SelectedItem, ComboItem)
             Dim position As ComboItem = CType(CB_Position.SelectedItem, ComboItem)
@@ -328,7 +335,9 @@ Public Class MD_UPD_Employees
                 CB_Status.Checked,
                 plantIdSelected,
                 CB_InfonavitCredit.Checked,
-                CB_Gender.SelectedItem.ToString()
+                CB_Gender.SelectedItem.ToString(),
+                TB_Nationality.Text.Trim,
+                TB_INE.Text.Trim
             )
 
 
@@ -569,7 +578,23 @@ Public Class MD_UPD_Employees
                     CB_InfonavitCredit.Checked = False
                 End If
 
-                CB_Gender.SelectedItem = Item(39).ToString()
+                If Not IsDBNull(Item(39)) Then
+                    CB_Gender.SelectedItem = Item(39).ToString()
+                Else
+                    CB_Gender.SelectedIndex = 0
+                End If
+
+                If EmployeeInfo.Columns.Contains("EMPL_NATIONALITY") AndAlso Not IsDBNull(Item("EMPL_NATIONALITY")) Then
+                    TB_Nationality.Text = Item("EMPL_NATIONALITY").ToString
+                Else
+                    TB_Nationality.Text = ""
+                End If
+
+                If EmployeeInfo.Columns.Contains("EMPL_INE") AndAlso Not IsDBNull(Item("EMPL_INE")) Then
+                    TB_INE.Text = Item("EMPL_INE").ToString
+                Else
+                    TB_INE.Text = ""
+                End If
 
                 Original_Dept = CB_Department.Text
                 Original_Pos = CB_Position.Text
@@ -643,5 +668,6 @@ Public Class MD_UPD_Employees
             End If
         End Using
     End Sub
+
 
 End Class

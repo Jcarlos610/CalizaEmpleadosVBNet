@@ -46,7 +46,14 @@ Public Class CL_Contract
                     If(Date.Today < CDate(Employee.EMPL_BDATE).AddYears(Date.Today.Year - CDate(Employee.EMPL_BDATE).Year), 1, 0)).ToString()},
         {"<SEXO>", If(Employee.EMPL_GENDER?.ToString().ToUpper() = "FEMENINO", "FEMENINO", "MASCULINO")},
         {"<PUESTO>", If(Position.POSIT_NAME?.ToString(), "")},
-        {"<EMPRESA>", If(Company.COMP_ONAME?.ToString(), "")}
+        {"<EMPRESA>", If(Company.COMP_ONAME?.ToString(), "")},
+        {"<NACIONALIDAD>", If(Employee.EMPL_NATIONALITY?.ToString(), "")},
+        {"<NO DE INE>", If(Employee.EMPL_INE?.ToString(), "")},
+        {"<DIRECCION>", If(Employee.EMPL_PADDR?.ToString(), "")},
+        {"<CELULAR>", If(Employee.EMPL_PHONE?.ToString(), "")},
+        {"<REGISTRO AL IMSS>", If(Employee.EMPL_RDATE Is Nothing, "", CDate(Employee.EMPL_RDATE).ToString("dd/MM/yyyy"))},
+        {"<BENEFICIARIO>", If(Employee.EMPL_EBENE?.ToString(), "")},
+        {"<PARENTESCO>", If(Employee.EMPL_EPARE?.ToString(), "")}
     }
     End Function
 

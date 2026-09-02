@@ -102,7 +102,7 @@ Namespace My
         
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("C:\Temp\CalizaEmpleados\Contratos\Plantillas")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("C:\Temp\CalizaEmpleados\Documentos\Contratos\Plantillas")>  _
         Public ReadOnly Property ContractTemplatesFolder() As String
             Get
                 Return CType(Me("ContractTemplatesFolder"),String)
@@ -111,10 +111,19 @@ Namespace My
         
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("C:\Temp\CalizaEmpleados\Contratos\Generados")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("C:\Temp\CalizaEmpleados\Documentos\Contratos\Generados")>  _
         Public ReadOnly Property ContractsOutputFolder() As String
             Get
                 Return CType(Me("ContractsOutputFolder"),String)
+            End Get
+        End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("C:\Temp\CalizaEmpleados\Documentos\Dispersión de nomina")>  _
+        Public ReadOnly Property DispersionOutputPath() As String
+            Get
+                Return CType(Me("DispersionOutputPath"),String)
             End Get
         End Property
     End Class

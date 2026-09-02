@@ -180,6 +180,10 @@ Public Class OP_INS_Contract
             CLEmployee.POSIT_ID = fila("POSIT_ID")
             CLEmployee.COMP_ID = fila("COMP_ID")
             CLEmployee.EMPL_GENDER = fila("EMPL_GENDER")
+            CLEmployee.EMPL_NATIONALITY = fila("EMPL_NATIONALITY")
+            CLEmployee.EMPL_INE = fila("EMPL_INE")
+            CLEmployee.EMPL_EBENE = fila("EMPL_EBENE")
+            CLEmployee.EMPL_EPARE = fila("EMPL_EPARE")
 
             Dim CLContract As New CL_Contract(CLEmployee)
 

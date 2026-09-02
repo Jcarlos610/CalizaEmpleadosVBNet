@@ -76,6 +76,7 @@ Partial Class MD_UPD_Plants
         ' 
         ' CB_Plants
         ' 
+        CB_Plants.DropDownStyle = ComboBoxStyle.DropDownList
         CB_Plants.FormattingEnabled = True
         CB_Plants.Location = New Point(6, 31)
         CB_Plants.Name = "CB_Plants"

@@ -23,6 +23,10 @@ Partial Class MD_UPD_Employees
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         GB_PersonalInformation = New GroupBox()
+        TB_Nationality = New TextBox()
+        LB_Nationality = New Label()
+        LB_Gender = New Label()
+        CB_Gender = New ComboBox()
         CB_InfonavitCredit = New CheckBox()
         CB_Status = New CheckBox()
         BT_EmployeeUpdate = New Button()
@@ -96,8 +100,8 @@ Partial Class MD_UPD_Employees
         GroupBox1 = New GroupBox()
         DGV_AllEmployees = New DataGridView()
         LB_Title = New Label()
-        LB_Gender = New Label()
-        CB_Gender = New ComboBox()
+        TB_INE = New TextBox()
+        LB_INE = New Label()
         GB_PersonalInformation.SuspendLayout()
         GB_EmergencyInfo.SuspendLayout()
         GB_EmployeeInformation.SuspendLayout()
@@ -109,6 +113,10 @@ Partial Class MD_UPD_Employees
         ' 
         ' GB_PersonalInformation
         ' 
+        GB_PersonalInformation.Controls.Add(TB_INE)
+        GB_PersonalInformation.Controls.Add(LB_INE)
+        GB_PersonalInformation.Controls.Add(TB_Nationality)
+        GB_PersonalInformation.Controls.Add(LB_Nationality)
         GB_PersonalInformation.Controls.Add(LB_Gender)
         GB_PersonalInformation.Controls.Add(CB_Gender)
         GB_PersonalInformation.Controls.Add(CB_InfonavitCredit)
@@ -149,10 +157,44 @@ Partial Class MD_UPD_Employees
         GB_PersonalInformation.TabStop = False
         GB_PersonalInformation.Text = "Información personal"
         ' 
+        ' TB_Nationality
+        ' 
+        TB_Nationality.Location = New Point(1179, 52)
+        TB_Nationality.Name = "TB_Nationality"
+        TB_Nationality.Size = New Size(150, 23)
+        TB_Nationality.TabIndex = 416
+        ' 
+        ' LB_Nationality
+        ' 
+        LB_Nationality.AutoSize = True
+        LB_Nationality.Location = New Point(1179, 34)
+        LB_Nationality.Name = "LB_Nationality"
+        LB_Nationality.Size = New Size(80, 15)
+        LB_Nationality.TabIndex = 415
+        LB_Nationality.Text = "Nacionalidad:"
+        ' 
+        ' LB_Gender
+        ' 
+        LB_Gender.AutoSize = True
+        LB_Gender.Location = New Point(841, 131)
+        LB_Gender.Name = "LB_Gender"
+        LB_Gender.Size = New Size(48, 15)
+        LB_Gender.TabIndex = 412
+        LB_Gender.Text = "Genero:"
+        ' 
+        ' CB_Gender
+        ' 
+        CB_Gender.DropDownStyle = ComboBoxStyle.DropDownList
+        CB_Gender.FormattingEnabled = True
+        CB_Gender.Location = New Point(841, 149)
+        CB_Gender.Name = "CB_Gender"
+        CB_Gender.Size = New Size(148, 23)
+        CB_Gender.TabIndex = 411
+        ' 
         ' CB_InfonavitCredit
         ' 
         CB_InfonavitCredit.AutoSize = True
-        CB_InfonavitCredit.Location = New Point(1003, 152)
+        CB_InfonavitCredit.Location = New Point(1160, 152)
         CB_InfonavitCredit.Name = "CB_InfonavitCredit"
         CB_InfonavitCredit.Size = New Size(170, 19)
         CB_InfonavitCredit.TabIndex = 409
@@ -162,7 +204,7 @@ Partial Class MD_UPD_Employees
         ' CB_Status
         ' 
         CB_Status.AutoSize = True
-        CB_Status.Location = New Point(1272, 22)
+        CB_Status.Location = New Point(1283, 22)
         CB_Status.Name = "CB_Status"
         CB_Status.Size = New Size(58, 19)
         CB_Status.TabIndex = 408
@@ -810,23 +852,21 @@ Partial Class MD_UPD_Employees
         LB_Title.TabIndex = 103
         LB_Title.Text = "Edición de empleados"
         ' 
-        ' LB_Gender
+        ' TB_INE
         ' 
-        LB_Gender.AutoSize = True
-        LB_Gender.Location = New Point(841, 131)
-        LB_Gender.Name = "LB_Gender"
-        LB_Gender.Size = New Size(48, 15)
-        LB_Gender.TabIndex = 412
-        LB_Gender.Text = "Genero:"
+        TB_INE.Location = New Point(995, 148)
+        TB_INE.Name = "TB_INE"
+        TB_INE.Size = New Size(150, 23)
+        TB_INE.TabIndex = 418
         ' 
-        ' CB_Gender
+        ' LB_INE
         ' 
-        CB_Gender.DropDownStyle = ComboBoxStyle.DropDownList
-        CB_Gender.FormattingEnabled = True
-        CB_Gender.Location = New Point(841, 149)
-        CB_Gender.Name = "CB_Gender"
-        CB_Gender.Size = New Size(148, 23)
-        CB_Gender.TabIndex = 411
+        LB_INE.AutoSize = True
+        LB_INE.Location = New Point(995, 130)
+        LB_INE.Name = "LB_INE"
+        LB_INE.Size = New Size(50, 15)
+        LB_INE.TabIndex = 417
+        LB_INE.Text = "No. INE:"
         ' 
         ' MD_UPD_Employees
         ' 
@@ -934,4 +974,8 @@ Partial Class MD_UPD_Employees
     Friend WithEvents CB_InfonavitCredit As CheckBox
     Friend WithEvents LB_Gender As Label
     Friend WithEvents CB_Gender As ComboBox
+    Friend WithEvents TB_Nationality As TextBox
+    Friend WithEvents LB_Nationality As Label
+    Friend WithEvents TB_INE As TextBox
+    Friend WithEvents LB_INE As Label
 End Class

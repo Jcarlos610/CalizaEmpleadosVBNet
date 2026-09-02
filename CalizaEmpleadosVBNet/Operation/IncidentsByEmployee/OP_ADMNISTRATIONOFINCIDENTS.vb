@@ -52,6 +52,11 @@ Public Class OP_ADMNISTRATIONOFINCIDENTS
         DGV_Employees.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         Dim obj As New CL_Incidents
         DGV_Employees.DataSource = obj.GetAllEmployeesInfo()
+
+        If DGV_Employees.Columns.Contains("Salario Inicial") Then
+            DGV_Employees.Columns("Salario Inicial").Visible = False
+        End If
+
     End Sub
 
     'REGISTRAR CON GOCE
@@ -414,12 +419,21 @@ Public Class OP_ADMNISTRATIONOFINCIDENTS
         DGV_Employees.AutoResizeColumns()
         DGV_Employees.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         DGV_Employees.DataSource = report.Get_EmployeesInfoByID(TB_EmployeeId.Text)
+
+        If DGV_Employees.Columns.Contains("Salario Inicial") Then
+            DGV_Employees.Columns("Salario Inicial").Visible = False
+        End If
+
     End Sub
 
     Private Sub BT_Refresh_Click(sender As Object, e As EventArgs) Handles BT_Refresh.Click
         Dim report As New CL_Employee()
 
         DGV_Employees.DataSource = report.Get_AllEmployeesAllDepartments()
+
+        If DGV_Employees.Columns.Contains("Salario Inicial") Then
+            DGV_Employees.Columns("Salario Inicial").Visible = False
+        End If
     End Sub
 
     'Private Sub DGV_Employees_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Employees.CellClick

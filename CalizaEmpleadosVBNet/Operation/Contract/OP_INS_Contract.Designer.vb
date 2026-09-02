@@ -69,6 +69,7 @@ Partial Class OP_INS_Contract
         ' 
         ' CB_TypeDoc
         ' 
+        CB_TypeDoc.DropDownStyle = ComboBoxStyle.DropDownList
         CB_TypeDoc.FormattingEnabled = True
         CB_TypeDoc.Location = New Point(148, 158)
         CB_TypeDoc.Name = "CB_TypeDoc"

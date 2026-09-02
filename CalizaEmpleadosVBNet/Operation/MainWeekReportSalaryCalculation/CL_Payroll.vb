@@ -1,4 +1,6 @@
-﻿Imports Microsoft.Data.SqlClient
+﻿Imports System.Globalization
+Imports System.Text
+Imports Microsoft.Data.SqlClient
 
 Public Class CL_Payroll
     Public DB_Connection As SqlConnection
@@ -749,6 +751,48 @@ Public Class CL_Payroll
         End Try
     End Function
 
+    Public Function GetDispersionByBatch(batchID As String) As DataTable
+        Dim dt As New DataTable
+        Try
+            DB_Command = New SqlCommand With {
+            .CommandText = "SEL_GETDISPERSIONBYPAYROLL",
+            .CommandType = CommandType.StoredProcedure
+        }
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+            DB_Command.Parameters.AddWithValue("@BatchID", batchID)
+            Dim adapter As New SqlDataAdapter(DB_Command)
+            adapter.Fill(dt)
+            DB_Connection.Close()
+            Return dt
+        Catch ex As Exception
+            If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
+            MsgBox("Error: " & ex.Message & " CL_Payroll.GetDispersionByBatch()")
+            Return dt
+        End Try
+    End Function
+
+
+    Public Function GetApprovedBatches() As DataTable
+        Dim dt As New DataTable
+        Try
+            DB_Command = New SqlCommand With {
+            .CommandText = "SEL_APPROVED_PAYROLL_APPROVALS",
+            .CommandType = CommandType.StoredProcedure
+        }
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+            Dim adapter As New SqlDataAdapter(DB_Command)
+            adapter.Fill(dt)
+            DB_Connection.Close()
+            Return dt
+        Catch ex As Exception
+            If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
+            MsgBox("Error: " & ex.Message & " CL_Payroll.GetApprovedBatches()")
+            Return dt
+        End Try
+    End Function
+
     Public Function GetLatestApprovalByWeek(startDate As Date, endDate As Date) As DataTable
         Dim dt As New DataTable
         Try
@@ -771,4 +815,60 @@ Public Class CL_Payroll
         End Try
     End Function
 
+    Public Shared Function LimpiarTexto(texto As String) As String
+        Dim normalizado As String = texto.Normalize(NormalizationForm.FormD)
+        Dim sb As New StringBuilder()
+
+        For Each c As Char In normalizado
+            If CharUnicodeInfo.GetUnicodeCategory(c) <> UnicodeCategory.NonSpacingMark Then
+                sb.Append(c)
+            End If
+        Next
+
+        Dim resultado As String = sb.ToString().Normalize(NormalizationForm.FormC)
+        resultado = resultado.Replace("Ñ", "N").Replace("ñ", "n")
+        Return resultado.ToUpper()
+    End Function
+
+    Public Function GetApprovedWeeks() As DataTable
+        Dim dt As New DataTable
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "SEL_GETAPPROVEDWEEKS",
+                .CommandType = CommandType.StoredProcedure
+            }
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+            Dim adapter As New SqlDataAdapter(DB_Command)
+            adapter.Fill(dt)
+            DB_Connection.Close()
+            Return dt
+        Catch ex As Exception
+            If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
+            MsgBox("Error: " & ex.Message & " CL_Payroll.GetApprovedWeeks()")
+            Return dt
+        End Try
+    End Function
+
+    Public Function GetDispersionByWeek(startDate As Date, endDate As Date) As DataTable
+        Dim dt As New DataTable
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "SEL_GETDISPERSIONBYPAYROLL",
+                .CommandType = CommandType.StoredProcedure
+            }
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+            DB_Command.Parameters.AddWithValue("@StartDate", startDate)
+            DB_Command.Parameters.AddWithValue("@EndDate", endDate)
+            Dim adapter As New SqlDataAdapter(DB_Command)
+            adapter.Fill(dt)
+            DB_Connection.Close()
+            Return dt
+        Catch ex As Exception
+            If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
+            MsgBox("Error: " & ex.Message & " CL_Payroll.GetDispersionByWeek()")
+            Return dt
+        End Try
+    End Function
 End Class

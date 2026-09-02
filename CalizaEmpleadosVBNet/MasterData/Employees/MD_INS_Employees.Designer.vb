@@ -24,6 +24,8 @@ Partial Class MD_INS_Employees
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MD_INS_Employees))
         GB_PersonalInformation = New GroupBox()
+        LB_Gender = New Label()
+        CB_Gender = New ComboBox()
         CB_InfonavitCredit = New CheckBox()
         BT_EmployeeRegister = New Button()
         TB_SocialNumber = New TextBox()
@@ -96,8 +98,10 @@ Partial Class MD_INS_Employees
         GroupBox1 = New GroupBox()
         DGV_AllEmployees = New DataGridView()
         LB_Title = New Label()
-        CB_Gender = New ComboBox()
-        LB_Gender = New Label()
+        TB_INE = New TextBox()
+        LB_INE = New Label()
+        TB_Nationality = New TextBox()
+        LB_Nationality = New Label()
         GB_PersonalInformation.SuspendLayout()
         GB_EmergencyInfo.SuspendLayout()
         GB_EmployeeInformation.SuspendLayout()
@@ -109,6 +113,10 @@ Partial Class MD_INS_Employees
         ' 
         ' GB_PersonalInformation
         ' 
+        GB_PersonalInformation.Controls.Add(TB_Nationality)
+        GB_PersonalInformation.Controls.Add(LB_Nationality)
+        GB_PersonalInformation.Controls.Add(TB_INE)
+        GB_PersonalInformation.Controls.Add(LB_INE)
         GB_PersonalInformation.Controls.Add(LB_Gender)
         GB_PersonalInformation.Controls.Add(CB_Gender)
         GB_PersonalInformation.Controls.Add(CB_InfonavitCredit)
@@ -148,10 +156,28 @@ Partial Class MD_INS_Employees
         GB_PersonalInformation.TabStop = False
         GB_PersonalInformation.Text = "Información personal"
         ' 
+        ' LB_Gender
+        ' 
+        LB_Gender.AutoSize = True
+        LB_Gender.Location = New Point(837, 130)
+        LB_Gender.Name = "LB_Gender"
+        LB_Gender.Size = New Size(48, 15)
+        LB_Gender.TabIndex = 410
+        LB_Gender.Text = "Genero:"
+        ' 
+        ' CB_Gender
+        ' 
+        CB_Gender.DropDownStyle = ComboBoxStyle.DropDownList
+        CB_Gender.FormattingEnabled = True
+        CB_Gender.Location = New Point(837, 148)
+        CB_Gender.Name = "CB_Gender"
+        CB_Gender.Size = New Size(148, 23)
+        CB_Gender.TabIndex = 409
+        ' 
         ' CB_InfonavitCredit
         ' 
         CB_InfonavitCredit.AutoSize = True
-        CB_InfonavitCredit.Location = New Point(997, 152)
+        CB_InfonavitCredit.Location = New Point(1146, 148)
         CB_InfonavitCredit.Name = "CB_InfonavitCredit"
         CB_InfonavitCredit.Size = New Size(170, 19)
         CB_InfonavitCredit.TabIndex = 408
@@ -799,23 +825,37 @@ Partial Class MD_INS_Employees
         LB_Title.TabIndex = 109
         LB_Title.Text = "Registro de empleados"
         ' 
-        ' CB_Gender
+        ' TB_INE
         ' 
-        CB_Gender.DropDownStyle = ComboBoxStyle.DropDownList
-        CB_Gender.FormattingEnabled = True
-        CB_Gender.Location = New Point(837, 148)
-        CB_Gender.Name = "CB_Gender"
-        CB_Gender.Size = New Size(148, 23)
-        CB_Gender.TabIndex = 409
+        TB_INE.Location = New Point(991, 148)
+        TB_INE.Name = "TB_INE"
+        TB_INE.Size = New Size(150, 23)
+        TB_INE.TabIndex = 412
         ' 
-        ' LB_Gender
+        ' LB_INE
         ' 
-        LB_Gender.AutoSize = True
-        LB_Gender.Location = New Point(837, 130)
-        LB_Gender.Name = "LB_Gender"
-        LB_Gender.Size = New Size(48, 15)
-        LB_Gender.TabIndex = 410
-        LB_Gender.Text = "Genero:"
+        LB_INE.AutoSize = True
+        LB_INE.Location = New Point(991, 130)
+        LB_INE.Name = "LB_INE"
+        LB_INE.Size = New Size(50, 15)
+        LB_INE.TabIndex = 411
+        LB_INE.Text = "No. INE:"
+        ' 
+        ' TB_Nationality
+        ' 
+        TB_Nationality.Location = New Point(1180, 52)
+        TB_Nationality.Name = "TB_Nationality"
+        TB_Nationality.Size = New Size(150, 23)
+        TB_Nationality.TabIndex = 414
+        ' 
+        ' LB_Nationality
+        ' 
+        LB_Nationality.AutoSize = True
+        LB_Nationality.Location = New Point(1180, 34)
+        LB_Nationality.Name = "LB_Nationality"
+        LB_Nationality.Size = New Size(80, 15)
+        LB_Nationality.TabIndex = 413
+        LB_Nationality.Text = "Nacionalidad:"
         ' 
         ' MD_INS_Employees
         ' 
@@ -920,4 +960,8 @@ Partial Class MD_INS_Employees
     Friend WithEvents LB_Title As Label
     Friend WithEvents CB_Gender As ComboBox
     Friend WithEvents LB_Gender As Label
+    Friend WithEvents TB_INE As TextBox
+    Friend WithEvents LB_INE As Label
+    Friend WithEvents TB_Nationality As TextBox
+    Friend WithEvents LB_Nationality As Label
 End Class

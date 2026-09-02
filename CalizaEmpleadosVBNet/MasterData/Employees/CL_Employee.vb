@@ -43,7 +43,8 @@ Public Class CL_Employee
     Private _PLANT_ID As Object
     Private _EMPL_INFONAVIT As Object
     Private _EMPL_GENDER As Object
-
+    Private _EMPL_NATIONALITY As Object
+    Private _EMPL_INE As Object
 
     Public Property EMPL_ID As Object
         Get
@@ -378,11 +379,29 @@ Public Class CL_Employee
         End Set
     End Property
 
+    Public Property EMPL_NATIONALITY As Object
+        Get
+            Return _EMPL_NATIONALITY
+        End Get
+        Set(value As Object)
+            _EMPL_NATIONALITY = value
+        End Set
+    End Property
+
+    Public Property EMPL_INE As Object
+        Get
+            Return _EMPL_INE
+        End Get
+        Set(value As Object)
+            _EMPL_INE = value
+        End Set
+    End Property
+
     Sub New()
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
     End Sub
 
-    Sub New(EMPL_ID, EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, DEPT_ID, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_COSTC, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT, EMPL_CONF, PLANT_ID, EMPL_INFONAVIT, EMPL_GENDER)
+    Sub New(EMPL_ID, EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, DEPT_ID, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_COSTC, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT, EMPL_CONF, PLANT_ID, EMPL_INFONAVIT, EMPL_GENDER, EMPL_INE, EMPL_NATIONALITY)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
         _EMPL_ID = EMPL_ID
@@ -422,9 +441,11 @@ Public Class CL_Employee
         _PLANT_ID = PLANT_ID
         _EMPL_INFONAVIT = EMPL_INFONAVIT
         _EMPL_GENDER = EMPL_GENDER
+        _EMPL_NATIONALITY = EMPL_NATIONALITY
+        _EMPL_INE = EMPL_INE
 
     End Sub
-    Sub New(EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, DEPT_ID, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_COSTC, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT, EMPL_CONF, PLANT_ID, EMPL_INFONAVIT, EMPL_GENDER)
+    Sub New(EMPL_NAME, EMPL_LNAM1, EMPL_LNAM2, EMPL_BDATE, EMPL_BCITY, EMPL_PADDR, EMPL_PHONE, EMPL_EMAIL, EMPL_CSTAT, EMPL_CURP, EMPL_NSS, EMPL_RFC, EMPL_FADD, EMPL_NBANK, EMPL_BACCO, COMP_ID, EMPL_ETYPE, EMPL_EDATE, EMPL_RDATE, POSIT_ID, EMPL_SUPER, EMPL_DVAC, EMPL_SALAR, DEPT_ID, EMPL_ECONT, EMPL_EPARE, EMPL_ETELE, EMPL_EBENE, EMPL_COSTC, EMPL_CREBY, EMPL_PHOTO, EMPL_STAT, EMPL_CONF, PLANT_ID, EMPL_INFONAVIT, EMPL_GENDER, EMPL_NATIONALITY, EMPL_INE)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
         _EMPL_NAME = EMPL_NAME
@@ -463,7 +484,8 @@ Public Class CL_Employee
         _PLANT_ID = PLANT_ID
         _EMPL_INFONAVIT = EMPL_INFONAVIT
         _EMPL_GENDER = EMPL_GENDER
-
+        _EMPL_NATIONALITY = EMPL_NATIONALITY
+        _EMPL_INE = EMPL_INE
     End Sub
 
     Public Function InsertEmployee()
@@ -515,6 +537,8 @@ Public Class CL_Employee
             DB_Command.Parameters.AddWithValue("PLANT_ID", _PLANT_ID)
             DB_Command.Parameters.AddWithValue("EMPL_INFONAVIT", _EMPL_INFONAVIT)
             DB_Command.Parameters.AddWithValue("EMPL_GENDER", _EMPL_GENDER)
+            DB_Command.Parameters.AddWithValue("EMPL_NATIONALITY", _EMPL_NATIONALITY)
+            DB_Command.Parameters.AddWithValue("EMPL_INE", _EMPL_INE)
 
             DB_Command.ExecuteNonQuery()
 
@@ -724,6 +748,8 @@ Public Class CL_Employee
             DB_Command.Parameters.AddWithValue("PLANT_ID", _PLANT_ID)
             DB_Command.Parameters.AddWithValue("EMPL_INFONAVIT", _EMPL_INFONAVIT)
             DB_Command.Parameters.AddWithValue("EMPL_GENDER", _EMPL_GENDER)
+            DB_Command.Parameters.AddWithValue("EMPL_NATIONALITY", _EMPL_NATIONALITY)
+            DB_Command.Parameters.AddWithValue("EMPL_INE", _EMPL_INE)
 
             For Each p As SqlParameter In DB_Command.Parameters
                 Debug.WriteLine(p.ParameterName & " = " & p.Value.ToString())
@@ -815,6 +841,8 @@ Public Class CL_Employee
             DB_Command.Parameters.AddWithValue("PLANT_ID", _PLANT_ID)
             DB_Command.Parameters.AddWithValue("EMPL_INFONAVIT", _EMPL_INFONAVIT)
             DB_Command.Parameters.AddWithValue("EMPL_GENDER", _EMPL_GENDER)
+            DB_Command.Parameters.AddWithValue("EMPL_NATIONALITY", _EMPL_NATIONALITY)
+            DB_Command.Parameters.AddWithValue("EMPL_INE", _EMPL_INE)
 
             For Each p As SqlParameter In DB_Command.Parameters
                 Debug.WriteLine(p.ParameterName & " = " & p.Value.ToString())

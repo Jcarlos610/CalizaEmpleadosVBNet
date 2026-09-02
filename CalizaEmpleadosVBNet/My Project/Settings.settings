@@ -18,10 +18,13 @@
       <Value Profile="(Default)">Data Source=Diana\SQLEXPRESS;Initial Catalog=CalizaEmpleados3;Integrated Security=True;TrustServerCertificate=True</Value>
     </Setting>
     <Setting Name="ContractTemplatesFolder" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">C:\Temp\CalizaEmpleados\Contratos\Plantillas</Value>
+      <Value Profile="(Default)">C:\Temp\CalizaEmpleados\Documentos\Contratos\Plantillas</Value>
     </Setting>
     <Setting Name="ContractsOutputFolder" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">C:\Temp\CalizaEmpleados\Contratos\Generados</Value>
+      <Value Profile="(Default)">C:\Temp\CalizaEmpleados\Documentos\Contratos\Generados</Value>
+    </Setting>
+    <Setting Name="DispersionOutputPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\Temp\CalizaEmpleados\Documentos\Dispersión de nomina</Value>
     </Setting>
   </Settings>
 </SettingsFile>
