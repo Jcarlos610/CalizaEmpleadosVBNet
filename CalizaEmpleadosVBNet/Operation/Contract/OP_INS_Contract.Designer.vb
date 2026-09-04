@@ -73,7 +73,7 @@ Partial Class OP_INS_Contract
         CB_TypeDoc.FormattingEnabled = True
         CB_TypeDoc.Location = New Point(148, 158)
         CB_TypeDoc.Name = "CB_TypeDoc"
-        CB_TypeDoc.Size = New Size(408, 23)
+        CB_TypeDoc.Size = New Size(515, 23)
         CB_TypeDoc.TabIndex = 25
         ' 
         ' LB_TypeDoc

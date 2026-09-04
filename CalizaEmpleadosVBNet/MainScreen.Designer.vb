@@ -749,12 +749,13 @@ Partial Class MainScreen
         DocumentosToolStripMenuItem = New ToolStripMenuItem()
         ContratosToolStripMenuItem = New ToolStripMenuItem()
         ToolStripMenuItem1 = New ToolStripMenuItem()
+        DispersiónToolStripMenuItem = New ToolStripMenuItem()
+        NominaToolStripMenuItem = New ToolStripMenuItem()
         ReportesToolStripMenuItem2 = New ToolStripMenuItem()
         AnalisisSemanalToolStripMenuItem = New ToolStripMenuItem()
         AnalisisDeSalarioToolStripMenuItem = New ToolStripMenuItem()
         AprobaciónDeNominaToolStripMenuItem = New ToolStripMenuItem()
-        DispersiónToolStripMenuItem = New ToolStripMenuItem()
-        NominaToolStripMenuItem = New ToolStripMenuItem()
+        ReporteGeneralDeNominaToolStripMenuItem = New ToolStripMenuItem()
         MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -1229,27 +1230,27 @@ Partial Class MainScreen
         ' 
         BeneficiosToolStripMenuItem2.DropDownItems.AddRange(New ToolStripItem() {RegistroDePrestamoToolStripMenuItem, ReportesToolStripMenuItem})
         BeneficiosToolStripMenuItem2.Name = "BeneficiosToolStripMenuItem2"
-        BeneficiosToolStripMenuItem2.Size = New Size(129, 22)
+        BeneficiosToolStripMenuItem2.Size = New Size(180, 22)
         BeneficiosToolStripMenuItem2.Text = "Ahorros"
         ' 
         ' RegistroDePrestamoToolStripMenuItem
         ' 
         RegistroDePrestamoToolStripMenuItem.Name = "RegistroDePrestamoToolStripMenuItem"
-        RegistroDePrestamoToolStripMenuItem.Size = New Size(160, 22)
+        RegistroDePrestamoToolStripMenuItem.Size = New Size(180, 22)
         RegistroDePrestamoToolStripMenuItem.Tag = "OP_RecordsByEmployeeMoneySaved"
         RegistroDePrestamoToolStripMenuItem.Text = "Registro manual"
         ' 
         ' ReportesToolStripMenuItem
         ' 
         ReportesToolStripMenuItem.Name = "ReportesToolStripMenuItem"
-        ReportesToolStripMenuItem.Size = New Size(160, 22)
+        ReportesToolStripMenuItem.Size = New Size(180, 22)
         ReportesToolStripMenuItem.Text = "Reportes"
         ' 
         ' PrestamosToolStripMenuItem
         ' 
         PrestamosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {RegistrarPrestamoToolStripMenuItem, EditarExistenteToolStripMenuItem5, RegistrarAbonoToolStripMenuItem, ReportesToolStripMenuItem1})
         PrestamosToolStripMenuItem.Name = "PrestamosToolStripMenuItem"
-        PrestamosToolStripMenuItem.Size = New Size(129, 22)
+        PrestamosToolStripMenuItem.Size = New Size(180, 22)
         PrestamosToolStripMenuItem.Text = "Prestamos"
         ' 
         ' RegistrarPrestamoToolStripMenuItem
@@ -1391,9 +1392,23 @@ Partial Class MainScreen
         ToolStripMenuItem1.Tag = "OP_INS_Contract"
         ToolStripMenuItem1.Text = "Generación de contrato"
         ' 
+        ' DispersiónToolStripMenuItem
+        ' 
+        DispersiónToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {NominaToolStripMenuItem})
+        DispersiónToolStripMenuItem.Name = "DispersiónToolStripMenuItem"
+        DispersiónToolStripMenuItem.Size = New Size(180, 22)
+        DispersiónToolStripMenuItem.Text = "Dispersión "
+        ' 
+        ' NominaToolStripMenuItem
+        ' 
+        NominaToolStripMenuItem.Name = "NominaToolStripMenuItem"
+        NominaToolStripMenuItem.Size = New Size(180, 22)
+        NominaToolStripMenuItem.Tag = "OP_PayrollDispersion"
+        NominaToolStripMenuItem.Text = "Archivo para banco"
+        ' 
         ' ReportesToolStripMenuItem2
         ' 
-        ReportesToolStripMenuItem2.DropDownItems.AddRange(New ToolStripItem() {AnalisisSemanalToolStripMenuItem, AnalisisDeSalarioToolStripMenuItem, AprobaciónDeNominaToolStripMenuItem})
+        ReportesToolStripMenuItem2.DropDownItems.AddRange(New ToolStripItem() {AnalisisSemanalToolStripMenuItem, AnalisisDeSalarioToolStripMenuItem, AprobaciónDeNominaToolStripMenuItem, ReporteGeneralDeNominaToolStripMenuItem})
         ReportesToolStripMenuItem2.Name = "ReportesToolStripMenuItem2"
         ReportesToolStripMenuItem2.Size = New Size(65, 19)
         ReportesToolStripMenuItem2.Text = "Reportes"
@@ -1419,19 +1434,12 @@ Partial Class MainScreen
         AprobaciónDeNominaToolStripMenuItem.Tag = "OP_PayrollApproval"
         AprobaciónDeNominaToolStripMenuItem.Text = "Aprobación de nomina"
         ' 
-        ' DispersiónToolStripMenuItem
+        ' ReporteGeneralDeNominaToolStripMenuItem
         ' 
-        DispersiónToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {NominaToolStripMenuItem})
-        DispersiónToolStripMenuItem.Name = "DispersiónToolStripMenuItem"
-        DispersiónToolStripMenuItem.Size = New Size(180, 22)
-        DispersiónToolStripMenuItem.Text = "Dispersión "
-        ' 
-        ' NominaToolStripMenuItem
-        ' 
-        NominaToolStripMenuItem.Name = "NominaToolStripMenuItem"
-        NominaToolStripMenuItem.Size = New Size(180, 22)
-        NominaToolStripMenuItem.Tag = "OP_PayrollDispersion"
-        NominaToolStripMenuItem.Text = "Nomina"
+        ReporteGeneralDeNominaToolStripMenuItem.Name = "ReporteGeneralDeNominaToolStripMenuItem"
+        ReporteGeneralDeNominaToolStripMenuItem.Size = New Size(218, 22)
+        ReporteGeneralDeNominaToolStripMenuItem.Tag = "OP_PayrollGeneralReport"
+        ReporteGeneralDeNominaToolStripMenuItem.Text = "Reporte general de nomina"
         ' 
         ' MainScreen
         ' 
@@ -1551,4 +1559,5 @@ Partial Class MainScreen
     Friend WithEvents ToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents DispersiónToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents NominaToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ReporteGeneralDeNominaToolStripMenuItem As ToolStripMenuItem
 End Class

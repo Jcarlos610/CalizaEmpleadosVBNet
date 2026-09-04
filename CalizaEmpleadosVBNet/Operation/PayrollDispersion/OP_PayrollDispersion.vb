@@ -72,6 +72,12 @@ Public Class OP_PayrollDispersion
                 col.HeaderText = nombres(col.Name)
             End If
         Next
+
+        If DGV_Dispersion.Columns.Contains("TransferAmount") Then
+            DGV_Dispersion.Columns("TransferAmount").DefaultCellStyle.Format = "C2"
+        End If
+
+        DGV_Dispersion.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells)
     End Sub
 
     Private Sub BT_Register_Click(sender As Object, e As EventArgs) Handles BT_Register.Click

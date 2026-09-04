@@ -2367,14 +2367,24 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         End If
         Dim MontoTotalBatch As Decimal = 0.0D
 
-        If objP.ValidatePayrollWeek(DTP_StartDate.Value.Date,
-                            DTP_EndDate.Value.Date) Then
+        Dim empleadosDuplicados As New List(Of String)
 
-            MessageBox.Show("Esta nómina ya fue confirmada anteriormente.",
-                    "Nómina duplicada",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning)
+        For Each row As DataGridViewRow In DGV_CompleteWeekInfo.Rows
+            If row.Cells("No.").Value Is Nothing OrElse row.IsNewRow Then Continue For
 
+            Dim empID As Integer = CInt(row.Cells("No.").Value)
+
+            If objP.ValidatePayrollWeek(empID, DTP_StartDate.Value.Date, DTP_EndDate.Value.Date) Then
+                empleadosDuplicados.Add(row.Cells("Nombre Completo").Value.ToString())
+            End If
+        Next
+
+        If empleadosDuplicados.Count > 0 Then
+            MessageBox.Show(
+        "Los siguientes empleados ya tienen nómina guardada para esta semana:" & vbCrLf & vbCrLf &
+        String.Join(vbCrLf, empleadosDuplicados) & vbCrLf & vbCrLf &
+        "No se guardó ningún registro. Revisa la situación antes de volver a intentar.",
+        "Nómina duplicada", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 

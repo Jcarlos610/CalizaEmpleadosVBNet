@@ -649,47 +649,27 @@ Public Class CL_Payroll
 
     End Function
 
-    Public Function ValidatePayrollWeek(startDate As Date,
-                                    endDate As Date) As Boolean
-
+    Public Function ValidatePayrollWeek(employeeID As Integer, startDate As Date, endDate As Date) As Boolean
         Dim dt As New DataTable
-
         Try
-
             DB_Command = New SqlCommand With {
-                .CommandText = "SEL_VALIDATE_PAYROLL_WEEK",
-                .CommandType = CommandType.StoredProcedure
-            }
-
+            .CommandText = "SEL_VALIDATE_PAYROLL_WEEK",
+            .CommandType = CommandType.StoredProcedure
+        }
             DB_Connection.Open()
-
             DB_Command.Connection = DB_Connection
-
+            DB_Command.Parameters.AddWithValue("@EmployeeID", employeeID)
             DB_Command.Parameters.AddWithValue("@StartDate", startDate)
             DB_Command.Parameters.AddWithValue("@EndDate", endDate)
-
             Dim adapter As New SqlDataAdapter(DB_Command)
-
             adapter.Fill(dt)
-
             DB_Connection.Close()
-
-            If dt.Rows.Count > 0 Then
-                Return True
-            Else
-                Return False
-            End If
-
+            Return dt.Rows.Count > 0
         Catch ex As Exception
-
             DB_Connection.Close()
-
             MsgBox(ex.Message)
-
             Return False
-
         End Try
-
     End Function
 
     Public Function GetLatestBatchID(startDate As Date, endDate As Date) As String
@@ -868,6 +848,28 @@ Public Class CL_Payroll
         Catch ex As Exception
             If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
             MsgBox("Error: " & ex.Message & " CL_Payroll.GetDispersionByWeek()")
+            Return dt
+        End Try
+    End Function
+
+    Public Function GetApprovedPayrollByWeek(startDate As Date, endDate As Date) As DataTable
+        Dim dt As New DataTable
+        Try
+            DB_Command = New SqlCommand With {
+                .CommandText = "SEL_GETAPPROVEDPAYROLLBYWEEK",
+                .CommandType = CommandType.StoredProcedure
+            }
+            DB_Connection.Open()
+            DB_Command.Connection = DB_Connection
+            DB_Command.Parameters.AddWithValue("@StartDate", startDate)
+            DB_Command.Parameters.AddWithValue("@EndDate", endDate)
+            Dim adapter As New SqlDataAdapter(DB_Command)
+            adapter.Fill(dt)
+            DB_Connection.Close()
+            Return dt
+        Catch ex As Exception
+            If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
+            MsgBox("Error: " & ex.Message & " CL_Payroll.GetApprovedPayrollByWeek()")
             Return dt
         End Try
     End Function
