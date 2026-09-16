@@ -156,21 +156,45 @@ Public Class CL_BenefitsEmployee
         End Try
     End Function
 
-    Public Function Upd_BenefitsByEmployeeID(ByVal EMPL_ID As Integer, ByVal BENEF_ID As Integer, ByVal BEEMP_STAT As Boolean) As DataTable
+    'Public Function Upd_BenefitsByEmployeeID(ByVal EMPL_ID As Integer, ByVal BENEF_ID As Integer, ByVal BEEMP_STAT As Boolean) As DataTable
+    '    Try
+    '        DB_Command = New SqlCommand With {
+    '            .CommandText = "UPD_DEACTIVATEBENEFITTOEMPLOYEE ",
+    '            .CommandType = CommandType.StoredProcedure
+    '        }
+    '        DB_Connection.Open()
+    '        DB_Command.Connection = DB_Connection
+    '        DB_Command.Parameters.AddWithValue("EMPL_ID", EMPL_ID)
+    '        DB_Command.Parameters.AddWithValue("BENEF_ID", BENEF_ID)
+    '        DB_Command.Parameters.AddWithValue("BEEMP_STAT", BEEMP_STAT)
+    '        DB_Reader = DB_Command.ExecuteReader()
+    '        DB_Command.Connection = DB_Connection
+    '        Dim LocalTable As New DataTable
+
+    '        LocalTable.Load(DB_Reader)
+    '        DB_Reader.Close()
+    '        DB_Connection.Close()
+    '        Return LocalTable
+    '    Catch ex As Exception
+    '        DB_Connection.Close()
+    '        MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_BenefitEmployees.Upd_BenefitsByEmployeeID()")
+
+    '        Return Nothing
+    '    End Try
+    'End Function
+
+    Public Function Upd_BenefitsByEmployeeID(ByVal BEEMP_ID As Integer, ByVal BEEMP_STAT As Boolean) As DataTable
         Try
             DB_Command = New SqlCommand With {
-                .CommandText = "UPD_DEACTIVATEBENEFITTOEMPLOYEE ",
+                .CommandText = "UPD_DEACTIVATEBENEFITTOEMPLOYEE",
                 .CommandType = CommandType.StoredProcedure
             }
             DB_Connection.Open()
             DB_Command.Connection = DB_Connection
-            DB_Command.Parameters.AddWithValue("EMPL_ID", EMPL_ID)
-            DB_Command.Parameters.AddWithValue("BENEF_ID", BENEF_ID)
+            DB_Command.Parameters.AddWithValue("BEEMP_ID", BEEMP_ID)
             DB_Command.Parameters.AddWithValue("BEEMP_STAT", BEEMP_STAT)
             DB_Reader = DB_Command.ExecuteReader()
-            DB_Command.Connection = DB_Connection
             Dim LocalTable As New DataTable
-
             LocalTable.Load(DB_Reader)
             DB_Reader.Close()
             DB_Connection.Close()
@@ -178,7 +202,6 @@ Public Class CL_BenefitsEmployee
         Catch ex As Exception
             DB_Connection.Close()
             MsgBox("Ocurrio el siguiente error: " & ex.Message & " CL_BenefitEmployees.Upd_BenefitsByEmployeeID()")
-
             Return Nothing
         End Try
     End Function

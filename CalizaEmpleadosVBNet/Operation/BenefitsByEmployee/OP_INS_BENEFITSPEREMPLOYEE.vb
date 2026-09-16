@@ -49,18 +49,46 @@ Public Class OP_INS_BENEFITSPEREMPLOYEE
         Return Convert.ToInt32(DGV_Employees.SelectedRows(0).Cells(0).Value)
     End Function
 
-    Private Sub Definition_DGV_BenefitsByEmployee()
+    'Private Sub Definition_DGV_BenefitsByEmployee()
 
+    '    With DGV_BenefitsByEmployee
+    '        .Columns.Clear()
+    '        .AutoGenerateColumns = False
+    '        .Columns.Add("NoEmpleado", "No. Empleado")
+    '        .Columns.Add("IdBeneficio", "ID Beneficio")
+    '        .Columns.Add("NombreBeneficio", "Beneficio")
+    '        .Columns.Add("Monto", "Monto")
+    '        .Columns.Add("ValidoDesde", "Válido desde")
+    '        .Columns.Add("ValidoHasta", "Válido hasta")
+    '        '.Columns("Monto").DefaultCellStyle.Format = "C2"
+
+    '        Dim colCheck As New DataGridViewCheckBoxColumn()
+    '        colCheck.Name = "Status"
+    '        colCheck.HeaderText = "Status"
+    '        colCheck.Width = 60
+    '        .Columns.Add(colCheck)
+    '    End With
+    '    AddActivateButton()
+    '    AddDeactivateButton()
+
+    '    DGV_BenefitsByEmployee.Columns("NoEmpleado").Visible = False
+    '    DGV_BenefitsByEmployee.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+    '    DGV_BenefitsByEmployee.AutoResizeColumns()
+    '    DGV_BenefitsByEmployee.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+
+    'End Sub
+
+    Private Sub Definition_DGV_BenefitsByEmployee()
         With DGV_BenefitsByEmployee
             .Columns.Clear()
             .AutoGenerateColumns = False
+            .Columns.Add("BeempId", "BEEMP_ID")
             .Columns.Add("NoEmpleado", "No. Empleado")
             .Columns.Add("IdBeneficio", "ID Beneficio")
             .Columns.Add("NombreBeneficio", "Beneficio")
             .Columns.Add("Monto", "Monto")
             .Columns.Add("ValidoDesde", "Válido desde")
             .Columns.Add("ValidoHasta", "Válido hasta")
-            '.Columns("Monto").DefaultCellStyle.Format = "C2"
 
             Dim colCheck As New DataGridViewCheckBoxColumn()
             colCheck.Name = "Status"
@@ -71,11 +99,11 @@ Public Class OP_INS_BENEFITSPEREMPLOYEE
         AddActivateButton()
         AddDeactivateButton()
 
+        DGV_BenefitsByEmployee.Columns("BeempId").Visible = False
         DGV_BenefitsByEmployee.Columns("NoEmpleado").Visible = False
         DGV_BenefitsByEmployee.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
         DGV_BenefitsByEmployee.AutoResizeColumns()
         DGV_BenefitsByEmployee.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-
     End Sub
 
     'Add button asignar
@@ -170,6 +198,48 @@ Public Class OP_INS_BENEFITSPEREMPLOYEE
     End Sub
 
     'Deactivate benefits to Employee
+    'Private Sub DGV_BenefitsByEmployee_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) _
+    'Handles DGV_BenefitsByEmployee.CellContentClick
+
+    '    If e.RowIndex < 0 Then Exit Sub
+
+    '    If DGV_BenefitsByEmployee.Columns(e.ColumnIndex).Name = "BT_Deactivate" Or DGV_BenefitsByEmployee.Columns(e.ColumnIndex).Name = "BT_Activate" Then
+
+    '        Dim EmployeeId = DGV_BenefitsByEmployee.Rows(e.RowIndex).Cells(0).Value
+    '        Dim BenefitId = DGV_BenefitsByEmployee.Rows(e.RowIndex).Cells(1).Value
+
+    '        Dim BenefitByEmployee = New CL_BenefitsEmployee
+    '        'If DGV_BenefitsByEmployee.Columns(e.ColumnIndex).Name = "BT_Activate" Then
+    '        '    BenefitByEmployee.Upd_BenefitsByEmployeeID(EmployeeId, BenefitId, True)
+    '        'ElseIf DGV_BenefitsByEmployee.Columns(e.ColumnIndex).Name = "BT_Deactivate" Then
+    '        '    BenefitByEmployee.Upd_BenefitsByEmployeeID(EmployeeId, BenefitId, False)
+    '        'End If
+
+    '        If DGV_BenefitsByEmployee.Columns(e.ColumnIndex).Name = "BT_Activate" Then
+    '            BenefitByEmployee.Upd_BenefitsByEmployeeID(EmployeeId, BenefitId, True)
+
+    '            ' Log al Activar
+    '            Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+    '                Dim desc As String = $"CAMBIO DE ESTADO: Se ACTIVÓ el beneficio ID: {BenefitId} para el EMPL_ID: {EmployeeId}."
+    '                InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Beneficios", "ACTIVATE_EMPLOYEE_BENEFIT", desc, CInt(EmployeeId), "INFO")
+    '            End Using
+
+    '        ElseIf DGV_BenefitsByEmployee.Columns(e.ColumnIndex).Name = "BT_Deactivate" Then
+    '            BenefitByEmployee.Upd_BenefitsByEmployeeID(EmployeeId, BenefitId, False)
+
+    '            'Log al Desactivar
+    '            Using connTmp As New SqlConnection(My.Settings.ConnectionString)
+    '                Dim desc As String = $"CAMBIO DE ESTADO: Se DESACTIVÓ el beneficio ID: {BenefitId} para el EMPL_ID: {EmployeeId}."
+    '                InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Beneficios", "DEACTIVATE_EMPLOYEE_BENEFIT", desc, CInt(EmployeeId), "INFO")
+    '            End Using
+    '        End If
+
+    '        Get_AvailableBenefitByEmployee(EmployeeId)
+    '        Get_UpdatedSalaryByEmployee(EmployeeId)
+
+    '    End If
+    'End Sub
+
     Private Sub DGV_BenefitsByEmployee_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) _
     Handles DGV_BenefitsByEmployee.CellContentClick
 
@@ -177,38 +247,31 @@ Public Class OP_INS_BENEFITSPEREMPLOYEE
 
         If DGV_BenefitsByEmployee.Columns(e.ColumnIndex).Name = "BT_Deactivate" Or DGV_BenefitsByEmployee.Columns(e.ColumnIndex).Name = "BT_Activate" Then
 
-            Dim EmployeeId = DGV_BenefitsByEmployee.Rows(e.RowIndex).Cells(0).Value
-            Dim BenefitId = DGV_BenefitsByEmployee.Rows(e.RowIndex).Cells(1).Value
+            Dim BeempId As Integer = CInt(DGV_BenefitsByEmployee.Rows(e.RowIndex).Cells("BeempId").Value)
+            Dim EmployeeId = DGV_BenefitsByEmployee.Rows(e.RowIndex).Cells("NoEmpleado").Value
+            Dim BenefitId = DGV_BenefitsByEmployee.Rows(e.RowIndex).Cells("IdBeneficio").Value
 
             Dim BenefitByEmployee = New CL_BenefitsEmployee
-            'If DGV_BenefitsByEmployee.Columns(e.ColumnIndex).Name = "BT_Activate" Then
-            '    BenefitByEmployee.Upd_BenefitsByEmployeeID(EmployeeId, BenefitId, True)
-            'ElseIf DGV_BenefitsByEmployee.Columns(e.ColumnIndex).Name = "BT_Deactivate" Then
-            '    BenefitByEmployee.Upd_BenefitsByEmployeeID(EmployeeId, BenefitId, False)
-            'End If
 
             If DGV_BenefitsByEmployee.Columns(e.ColumnIndex).Name = "BT_Activate" Then
-                BenefitByEmployee.Upd_BenefitsByEmployeeID(EmployeeId, BenefitId, True)
+                BenefitByEmployee.Upd_BenefitsByEmployeeID(BeempId, True)
 
-                ' Log al Activar
                 Using connTmp As New SqlConnection(My.Settings.ConnectionString)
-                    Dim desc As String = $"CAMBIO DE ESTADO: Se ACTIVÓ el beneficio ID: {BenefitId} para el EMPL_ID: {EmployeeId}."
+                    Dim desc As String = $"CAMBIO DE ESTADO: Se ACTIVÓ el beneficio ID: {BenefitId} (registro {BeempId}) para el EMPL_ID: {EmployeeId}."
                     InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Beneficios", "ACTIVATE_EMPLOYEE_BENEFIT", desc, CInt(EmployeeId), "INFO")
                 End Using
 
             ElseIf DGV_BenefitsByEmployee.Columns(e.ColumnIndex).Name = "BT_Deactivate" Then
-                BenefitByEmployee.Upd_BenefitsByEmployeeID(EmployeeId, BenefitId, False)
+                BenefitByEmployee.Upd_BenefitsByEmployeeID(BeempId, False)
 
-                'Log al Desactivar
                 Using connTmp As New SqlConnection(My.Settings.ConnectionString)
-                    Dim desc As String = $"CAMBIO DE ESTADO: Se DESACTIVÓ el beneficio ID: {BenefitId} para el EMPL_ID: {EmployeeId}."
+                    Dim desc As String = $"CAMBIO DE ESTADO: Se DESACTIVÓ el beneficio ID: {BenefitId} (registro {BeempId}) para el EMPL_ID: {EmployeeId}."
                     InsertLog(connTmp, GlobalSession.GlobalUserName, "OP_Beneficios", "DEACTIVATE_EMPLOYEE_BENEFIT", desc, CInt(EmployeeId), "INFO")
                 End Using
             End If
 
             Get_AvailableBenefitByEmployee(EmployeeId)
             Get_UpdatedSalaryByEmployee(EmployeeId)
-
         End If
     End Sub
 
@@ -348,37 +411,57 @@ Public Class OP_INS_BENEFITSPEREMPLOYEE
         End If
     End Sub
 
+    'Private Sub Get_AvailableBenefitByEmployee(ByVal Employee_Id As Integer)
+    '    DGV_BenefitsByEmployee.Rows.Clear()
+
+    '    Dim BenefitsByEmployee = New CL_BenefitsEmployee
+    '        Dim Result As DataTable = BenefitsByEmployee.Get_BenefitsByEmployeeID(Employee_Id)
+
+    '        For Each Item As DataRow In Result.Rows
+    '            If Item(6) Then
+    '                DGV_BenefitsByEmployee.Rows.Add(
+    '                Item(0),
+    '                Item(1),
+    '                Item(2),
+    '                Item(3),
+    '                Item(4),
+    '                Item(5),
+    '                True
+    '                )
+    '            Else
+    '                DGV_BenefitsByEmployee.Rows.Add(
+    '                Item(0),
+    '                Item(1),
+    '                Item(2),
+    '                Item(3),
+    '                Item(4),
+    '                Item(5),
+    '                False
+    '                )
+    '            End If
+
+    '        Next
+
+    'End Sub
+
     Private Sub Get_AvailableBenefitByEmployee(ByVal Employee_Id As Integer)
         DGV_BenefitsByEmployee.Rows.Clear()
 
         Dim BenefitsByEmployee = New CL_BenefitsEmployee
-            Dim Result As DataTable = BenefitsByEmployee.Get_BenefitsByEmployeeID(Employee_Id)
+        Dim Result As DataTable = BenefitsByEmployee.Get_BenefitsByEmployeeID(Employee_Id)
 
-            For Each Item As DataRow In Result.Rows
-                If Item(6) Then
-                    DGV_BenefitsByEmployee.Rows.Add(
-                    Item(0),
-                    Item(1),
-                    Item(2),
-                    Item(3),
-                    Item(4),
-                    Item(5),
-                    True
-                    )
-                Else
-                    DGV_BenefitsByEmployee.Rows.Add(
-                    Item(0),
-                    Item(1),
-                    Item(2),
-                    Item(3),
-                    Item(4),
-                    Item(5),
-                    False
-                    )
-                End If
-
-            Next
-
+        For Each Item As DataRow In Result.Rows
+            DGV_BenefitsByEmployee.Rows.Add(
+                Item(0),        ' BEEMP_ID
+                Item(1),        ' EMPL_ID
+                Item(2),        ' BENEF_ID
+                Item(3),        ' BENEF_NAME
+                Item(4),        ' BEEMP_AMOUN
+                Item(5),        ' BENEF_VALFR
+                Item(6),        ' BENEF_VALTO
+                CBool(Item(7))  ' BEEMP_STAT
+            )
+        Next
     End Sub
 
     Private Sub Get_UpdatedSalaryByEmployee(ByVal Employee_Id As Integer)

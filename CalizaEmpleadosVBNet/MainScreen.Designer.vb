@@ -692,6 +692,8 @@ Partial Class MainScreen
         DepartamentosToolStripMenuItem = New ToolStripMenuItem()
         CrearDepartamentoToolStripMenuItem = New ToolStripMenuItem()
         EditarExistenteToolStripMenuItem4 = New ToolStripMenuItem()
+        TabuladorDeViToolStripMenuItem = New ToolStripMenuItem()
+        CrearNuevoToolStripMenuItem2 = New ToolStripMenuItem()
         MovimientosToolStripMenuItem = New ToolStripMenuItem()
         CrearMovimientoToolStripMenuItem = New ToolStripMenuItem()
         EditarMovimientoToolStripMenuItem = New ToolStripMenuItem()
@@ -756,6 +758,7 @@ Partial Class MainScreen
         AnalisisDeSalarioToolStripMenuItem = New ToolStripMenuItem()
         AprobaciónDeNominaToolStripMenuItem = New ToolStripMenuItem()
         ReporteGeneralDeNominaToolStripMenuItem = New ToolStripMenuItem()
+        EditarExistenteToolStripMenuItem10 = New ToolStripMenuItem()
         MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -848,7 +851,7 @@ Partial Class MainScreen
         ' 
         EmpresasToolStripMenuItem1.DropDownItems.AddRange(New ToolStripItem() {CrearEmpresaToolStripMenuItem, EditarEmpresaToolStripMenuItem1})
         EmpresasToolStripMenuItem1.Name = "EmpresasToolStripMenuItem1"
-        EmpresasToolStripMenuItem1.Size = New Size(144, 22)
+        EmpresasToolStripMenuItem1.Size = New Size(180, 22)
         EmpresasToolStripMenuItem1.Text = "Empresas"
         ' 
         ' CrearEmpresaToolStripMenuItem
@@ -869,7 +872,7 @@ Partial Class MainScreen
         ' 
         PlantasToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {CrearPlantaToolStripMenuItem, EditarExistenteToolStripMenuItem6})
         PlantasToolStripMenuItem.Name = "PlantasToolStripMenuItem"
-        PlantasToolStripMenuItem.Size = New Size(144, 22)
+        PlantasToolStripMenuItem.Size = New Size(180, 22)
         PlantasToolStripMenuItem.Text = "Plantas"
         ' 
         ' CrearPlantaToolStripMenuItem
@@ -888,16 +891,16 @@ Partial Class MainScreen
         ' 
         ' CatálogosToolStripMenuItem
         ' 
-        CatálogosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {BeneficiosToolStripMenuItem, AmonestacionesToolStripMenuItem, PuestosToolStripMenuItem, DescuentosToolStripMenuItem, DepartamentosToolStripMenuItem})
+        CatálogosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {BeneficiosToolStripMenuItem, AmonestacionesToolStripMenuItem, PuestosToolStripMenuItem, DescuentosToolStripMenuItem, DepartamentosToolStripMenuItem, TabuladorDeViToolStripMenuItem})
         CatálogosToolStripMenuItem.Name = "CatálogosToolStripMenuItem"
-        CatálogosToolStripMenuItem.Size = New Size(144, 22)
+        CatálogosToolStripMenuItem.Size = New Size(180, 22)
         CatálogosToolStripMenuItem.Text = "Catálogos"
         ' 
         ' BeneficiosToolStripMenuItem
         ' 
         BeneficiosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {CrearNuevoToolStripMenuItem1, EditarExistenteToolStripMenuItem1})
         BeneficiosToolStripMenuItem.Name = "BeneficiosToolStripMenuItem"
-        BeneficiosToolStripMenuItem.Size = New Size(166, 22)
+        BeneficiosToolStripMenuItem.Size = New Size(180, 22)
         BeneficiosToolStripMenuItem.Text = "Beneficios/Bonos"
         ' 
         ' CrearNuevoToolStripMenuItem1
@@ -918,7 +921,7 @@ Partial Class MainScreen
         ' 
         AmonestacionesToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {CrearNuevaToolStripMenuItem, EditarExistenteToolStripMenuItem2})
         AmonestacionesToolStripMenuItem.Name = "AmonestacionesToolStripMenuItem"
-        AmonestacionesToolStripMenuItem.Size = New Size(166, 22)
+        AmonestacionesToolStripMenuItem.Size = New Size(180, 22)
         AmonestacionesToolStripMenuItem.Text = "Amonestaciones"
         ' 
         ' CrearNuevaToolStripMenuItem
@@ -939,7 +942,7 @@ Partial Class MainScreen
         ' 
         PuestosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {CrearPuestoToolStripMenuItem, ActualizarPuestoToolStripMenuItem})
         PuestosToolStripMenuItem.Name = "PuestosToolStripMenuItem"
-        PuestosToolStripMenuItem.Size = New Size(166, 22)
+        PuestosToolStripMenuItem.Size = New Size(180, 22)
         PuestosToolStripMenuItem.Text = "Puestos"
         ' 
         ' CrearPuestoToolStripMenuItem
@@ -960,7 +963,7 @@ Partial Class MainScreen
         ' 
         DescuentosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {CrearDescuentoToolStripMenuItem, EditarExistenteToolStripMenuItem3})
         DescuentosToolStripMenuItem.Name = "DescuentosToolStripMenuItem"
-        DescuentosToolStripMenuItem.Size = New Size(166, 22)
+        DescuentosToolStripMenuItem.Size = New Size(180, 22)
         DescuentosToolStripMenuItem.Text = "Descuentos"
         ' 
         ' CrearDescuentoToolStripMenuItem
@@ -981,7 +984,7 @@ Partial Class MainScreen
         ' 
         DepartamentosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {CrearDepartamentoToolStripMenuItem, EditarExistenteToolStripMenuItem4})
         DepartamentosToolStripMenuItem.Name = "DepartamentosToolStripMenuItem"
-        DepartamentosToolStripMenuItem.Size = New Size(166, 22)
+        DepartamentosToolStripMenuItem.Size = New Size(180, 22)
         DepartamentosToolStripMenuItem.Text = "Departamentos"
         ' 
         ' CrearDepartamentoToolStripMenuItem
@@ -998,11 +1001,25 @@ Partial Class MainScreen
         EditarExistenteToolStripMenuItem4.Tag = "MD_UPD_Departments"
         EditarExistenteToolStripMenuItem4.Text = "Editar Existente"
         ' 
+        ' TabuladorDeViToolStripMenuItem
+        ' 
+        TabuladorDeViToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {CrearNuevoToolStripMenuItem2, EditarExistenteToolStripMenuItem10})
+        TabuladorDeViToolStripMenuItem.Name = "TabuladorDeViToolStripMenuItem"
+        TabuladorDeViToolStripMenuItem.Size = New Size(180, 22)
+        TabuladorDeViToolStripMenuItem.Text = "Tabulador de viajes"
+        ' 
+        ' CrearNuevoToolStripMenuItem2
+        ' 
+        CrearNuevoToolStripMenuItem2.Name = "CrearNuevoToolStripMenuItem2"
+        CrearNuevoToolStripMenuItem2.Size = New Size(180, 22)
+        CrearNuevoToolStripMenuItem2.Tag = "MD_INS_Tabulador"
+        CrearNuevoToolStripMenuItem2.Text = "Crear nuevo"
+        ' 
         ' MovimientosToolStripMenuItem
         ' 
         MovimientosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {CrearMovimientoToolStripMenuItem, EditarMovimientoToolStripMenuItem})
         MovimientosToolStripMenuItem.Name = "MovimientosToolStripMenuItem"
-        MovimientosToolStripMenuItem.Size = New Size(144, 22)
+        MovimientosToolStripMenuItem.Size = New Size(180, 22)
         MovimientosToolStripMenuItem.Text = "Movimientos"
         ' 
         ' CrearMovimientoToolStripMenuItem
@@ -1230,27 +1247,27 @@ Partial Class MainScreen
         ' 
         BeneficiosToolStripMenuItem2.DropDownItems.AddRange(New ToolStripItem() {RegistroDePrestamoToolStripMenuItem, ReportesToolStripMenuItem})
         BeneficiosToolStripMenuItem2.Name = "BeneficiosToolStripMenuItem2"
-        BeneficiosToolStripMenuItem2.Size = New Size(180, 22)
+        BeneficiosToolStripMenuItem2.Size = New Size(129, 22)
         BeneficiosToolStripMenuItem2.Text = "Ahorros"
         ' 
         ' RegistroDePrestamoToolStripMenuItem
         ' 
         RegistroDePrestamoToolStripMenuItem.Name = "RegistroDePrestamoToolStripMenuItem"
-        RegistroDePrestamoToolStripMenuItem.Size = New Size(180, 22)
+        RegistroDePrestamoToolStripMenuItem.Size = New Size(160, 22)
         RegistroDePrestamoToolStripMenuItem.Tag = "OP_RecordsByEmployeeMoneySaved"
         RegistroDePrestamoToolStripMenuItem.Text = "Registro manual"
         ' 
         ' ReportesToolStripMenuItem
         ' 
         ReportesToolStripMenuItem.Name = "ReportesToolStripMenuItem"
-        ReportesToolStripMenuItem.Size = New Size(180, 22)
+        ReportesToolStripMenuItem.Size = New Size(160, 22)
         ReportesToolStripMenuItem.Text = "Reportes"
         ' 
         ' PrestamosToolStripMenuItem
         ' 
         PrestamosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {RegistrarPrestamoToolStripMenuItem, EditarExistenteToolStripMenuItem5, RegistrarAbonoToolStripMenuItem, ReportesToolStripMenuItem1})
         PrestamosToolStripMenuItem.Name = "PrestamosToolStripMenuItem"
-        PrestamosToolStripMenuItem.Size = New Size(180, 22)
+        PrestamosToolStripMenuItem.Size = New Size(129, 22)
         PrestamosToolStripMenuItem.Text = "Prestamos"
         ' 
         ' RegistrarPrestamoToolStripMenuItem
@@ -1382,7 +1399,7 @@ Partial Class MainScreen
         ' 
         ContratosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {ToolStripMenuItem1})
         ContratosToolStripMenuItem.Name = "ContratosToolStripMenuItem"
-        ContratosToolStripMenuItem.Size = New Size(180, 22)
+        ContratosToolStripMenuItem.Size = New Size(132, 22)
         ContratosToolStripMenuItem.Text = "Contratos"
         ' 
         ' ToolStripMenuItem1
@@ -1396,13 +1413,13 @@ Partial Class MainScreen
         ' 
         DispersiónToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {NominaToolStripMenuItem})
         DispersiónToolStripMenuItem.Name = "DispersiónToolStripMenuItem"
-        DispersiónToolStripMenuItem.Size = New Size(180, 22)
+        DispersiónToolStripMenuItem.Size = New Size(132, 22)
         DispersiónToolStripMenuItem.Text = "Dispersión "
         ' 
         ' NominaToolStripMenuItem
         ' 
         NominaToolStripMenuItem.Name = "NominaToolStripMenuItem"
-        NominaToolStripMenuItem.Size = New Size(180, 22)
+        NominaToolStripMenuItem.Size = New Size(177, 22)
         NominaToolStripMenuItem.Tag = "OP_PayrollDispersion"
         NominaToolStripMenuItem.Text = "Archivo para banco"
         ' 
@@ -1440,6 +1457,13 @@ Partial Class MainScreen
         ReporteGeneralDeNominaToolStripMenuItem.Size = New Size(218, 22)
         ReporteGeneralDeNominaToolStripMenuItem.Tag = "OP_PayrollGeneralReport"
         ReporteGeneralDeNominaToolStripMenuItem.Text = "Reporte general de nomina"
+        ' 
+        ' EditarExistenteToolStripMenuItem10
+        ' 
+        EditarExistenteToolStripMenuItem10.Name = "EditarExistenteToolStripMenuItem10"
+        EditarExistenteToolStripMenuItem10.Size = New Size(180, 22)
+        EditarExistenteToolStripMenuItem10.Tag = "MD_UPD_Tabulador"
+        EditarExistenteToolStripMenuItem10.Text = "Editar existente"
         ' 
         ' MainScreen
         ' 
@@ -1560,4 +1584,7 @@ Partial Class MainScreen
     Friend WithEvents DispersiónToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents NominaToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ReporteGeneralDeNominaToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TabuladorDeViToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CrearNuevoToolStripMenuItem2 As ToolStripMenuItem
+    Friend WithEvents EditarExistenteToolStripMenuItem10 As ToolStripMenuItem
 End Class

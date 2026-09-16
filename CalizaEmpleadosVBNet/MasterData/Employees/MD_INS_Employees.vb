@@ -188,7 +188,7 @@ Public Class MD_INS_Employees
                 MessageBox.Show("Favor de seleccionar la posición a ocupar.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Exit Sub
             End If
-            If CB_Department.SelectedItem Is Nothing Then
+            If CB_Department.SelectedItem Is Nothing OrElse CType(CB_Department.SelectedItem, ComboItem).Id = 0 Then
                 MessageBox.Show("Favor de seleccionar un departamento.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Exit Sub
             End If

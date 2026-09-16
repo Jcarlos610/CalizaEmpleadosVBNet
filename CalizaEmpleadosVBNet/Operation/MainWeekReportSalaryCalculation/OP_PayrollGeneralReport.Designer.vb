@@ -56,14 +56,14 @@ Partial Class OP_PayrollGeneralReport
         GroupBox1.Controls.Add(CB_Week)
         GroupBox1.Location = New Point(12, 46)
         GroupBox1.Name = "GroupBox1"
-        GroupBox1.Size = New Size(723, 138)
+        GroupBox1.Size = New Size(444, 126)
         GroupBox1.TabIndex = 113
         GroupBox1.TabStop = False
         GroupBox1.Text = "Semanas"
         ' 
         ' BT_ExportExcel
         ' 
-        BT_ExportExcel.Location = New Point(631, 97)
+        BT_ExportExcel.Location = New Point(359, 93)
         BT_ExportExcel.Name = "BT_ExportExcel"
         BT_ExportExcel.Size = New Size(75, 23)
         BT_ExportExcel.TabIndex = 113
@@ -76,11 +76,11 @@ Partial Class OP_PayrollGeneralReport
         DGV_ReportGeneral.AllowUserToDeleteRows = False
         DGV_ReportGeneral.AllowUserToOrderColumns = True
         DGV_ReportGeneral.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_ReportGeneral.Location = New Point(12, 199)
+        DGV_ReportGeneral.Location = New Point(12, 179)
         DGV_ReportGeneral.Name = "DGV_ReportGeneral"
         DGV_ReportGeneral.ReadOnly = True
         DGV_ReportGeneral.RowHeadersWidth = 62
-        DGV_ReportGeneral.Size = New Size(1218, 472)
+        DGV_ReportGeneral.Size = New Size(1218, 482)
         DGV_ReportGeneral.TabIndex = 114
         ' 
         ' OP_PayrollGeneralReport

@@ -53,7 +53,7 @@ Partial Class OP_PayrollDispersion
         GroupBox1.Controls.Add(CB_BatchID)
         GroupBox1.Location = New Point(12, 46)
         GroupBox1.Name = "GroupBox1"
-        GroupBox1.Size = New Size(1218, 159)
+        GroupBox1.Size = New Size(565, 132)
         GroupBox1.TabIndex = 112
         GroupBox1.TabStop = False
         GroupBox1.Text = "Información"
@@ -78,7 +78,7 @@ Partial Class OP_PayrollDispersion
         ' 
         ' BT_Register
         ' 
-        BT_Register.Location = New Point(1087, 116)
+        BT_Register.Location = New Point(429, 97)
         BT_Register.Name = "BT_Register"
         BT_Register.Size = New Size(125, 28)
         BT_Register.TabIndex = 26
@@ -99,19 +99,19 @@ Partial Class OP_PayrollDispersion
         DGV_Dispersion.AllowUserToAddRows = False
         DGV_Dispersion.AllowUserToDeleteRows = False
         DGV_Dispersion.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DGV_Dispersion.Location = New Point(12, 245)
+        DGV_Dispersion.Location = New Point(12, 202)
         DGV_Dispersion.MultiSelect = False
         DGV_Dispersion.Name = "DGV_Dispersion"
         DGV_Dispersion.ReadOnly = True
         DGV_Dispersion.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        DGV_Dispersion.Size = New Size(1218, 403)
+        DGV_Dispersion.Size = New Size(1218, 433)
         DGV_Dispersion.TabIndex = 113
         ' 
         ' LB_Estado
         ' 
         LB_Estado.AutoSize = True
         LB_Estado.ForeColor = SystemColors.Desktop
-        LB_Estado.Location = New Point(12, 211)
+        LB_Estado.Location = New Point(12, 182)
         LB_Estado.Name = "LB_Estado"
         LB_Estado.Size = New Size(41, 15)
         LB_Estado.TabIndex = 115
@@ -120,9 +120,9 @@ Partial Class OP_PayrollDispersion
         ' 
         ' PB_Progress
         ' 
-        PB_Progress.Location = New Point(160, 211)
+        PB_Progress.Location = New Point(160, 184)
         PB_Progress.Name = "PB_Progress"
-        PB_Progress.Size = New Size(1070, 10)
+        PB_Progress.Size = New Size(417, 10)
         PB_Progress.TabIndex = 114
         PB_Progress.Visible = False
         ' 
