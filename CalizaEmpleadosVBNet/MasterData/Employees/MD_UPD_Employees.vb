@@ -214,6 +214,10 @@ Public Class MD_UPD_Employees
                 MessageBox.Show("Favor de seleccionar el género.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Exit Sub
             End If
+            If CB_Plant.SelectedItem Is Nothing OrElse CType(CB_Plant.SelectedItem, ComboItem).Id = 0 Then
+                MessageBox.Show("Favor de seleccionar una planta o 'Sin planta'.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
             Dim companyID As Integer = CInt(CB_Company.SelectedValue)
             Dim typeEmployee As ComboItem = CType(CB_EmployeeType.SelectedItem, ComboItem)
             Dim position As ComboItem = CType(CB_Position.SelectedItem, ComboItem)

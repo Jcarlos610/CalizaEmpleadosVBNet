@@ -2,6 +2,7 @@
 Imports System.Diagnostics
 Imports Xceed.Words.NET
 Imports Xceed.Document.NET
+Imports System.Globalization
 Public Class CL_Contract
     Public Property Employee As CL_Employee
     Public Property Position As CL_Positions
@@ -53,7 +54,8 @@ Public Class CL_Contract
         {"<CELULAR>", If(Employee.EMPL_PHONE?.ToString(), "")},
         {"<REGISTRO AL IMSS>", If(Employee.EMPL_RDATE Is Nothing, "", CDate(Employee.EMPL_RDATE).ToString("dd/MM/yyyy"))},
         {"<BENEFICIARIO>", If(Employee.EMPL_EBENE?.ToString(), "")},
-        {"<PARENTESCO>", If(Employee.EMPL_EPARE?.ToString(), "")}
+        {"<PARENTESCO>", If(Employee.EMPL_EPARE?.ToString(), "")},
+        {"<FECHA>", FechaEnLetras(Date.Today)}
     }
     End Function
 
@@ -212,6 +214,11 @@ Public Class CL_Contract
         End If
 
         Return unidades(CInt(numero))
+    End Function
+
+    Private Function FechaEnLetras(fecha As Date) As String
+        Dim cultura As New CultureInfo("es-MX")
+        Return fecha.ToString("d 'de' MMMM 'de' yyyy", cultura)
     End Function
 
 End Class

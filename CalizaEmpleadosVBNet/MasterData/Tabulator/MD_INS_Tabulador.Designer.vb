@@ -23,6 +23,8 @@ Partial Class MD_INS_Tabulador
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         GroupBox1 = New GroupBox()
+        LB_Percentage = New Label()
+        TB_Percentage = New TextBox()
         TB_PriceIncrease = New TextBox()
         LB_PriceIncreaseTitle = New Label()
         TB_Price = New TextBox()
@@ -40,6 +42,8 @@ Partial Class MD_INS_Tabulador
         ' 
         ' GroupBox1
         ' 
+        GroupBox1.Controls.Add(LB_Percentage)
+        GroupBox1.Controls.Add(TB_Percentage)
         GroupBox1.Controls.Add(TB_PriceIncrease)
         GroupBox1.Controls.Add(LB_PriceIncreaseTitle)
         GroupBox1.Controls.Add(TB_Price)
@@ -55,9 +59,25 @@ Partial Class MD_INS_Tabulador
         GroupBox1.TabIndex = 114
         GroupBox1.TabStop = False
         ' 
+        ' LB_Percentage
+        ' 
+        LB_Percentage.AutoSize = True
+        LB_Percentage.Location = New Point(112, 66)
+        LB_Percentage.Name = "LB_Percentage"
+        LB_Percentage.Size = New Size(58, 15)
+        LB_Percentage.TabIndex = 26
+        LB_Percentage.Text = "Elija un %"
+        ' 
+        ' TB_Percentage
+        ' 
+        TB_Percentage.Location = New Point(112, 84)
+        TB_Percentage.Name = "TB_Percentage"
+        TB_Percentage.Size = New Size(100, 23)
+        TB_Percentage.TabIndex = 25
+        ' 
         ' TB_PriceIncrease
         ' 
-        TB_PriceIncrease.Location = New Point(117, 84)
+        TB_PriceIncrease.Location = New Point(220, 83)
         TB_PriceIncrease.Name = "TB_PriceIncrease"
         TB_PriceIncrease.ReadOnly = True
         TB_PriceIncrease.Size = New Size(100, 23)
@@ -66,11 +86,11 @@ Partial Class MD_INS_Tabulador
         ' LB_PriceIncreaseTitle
         ' 
         LB_PriceIncreaseTitle.AutoSize = True
-        LB_PriceIncreaseTitle.Location = New Point(117, 66)
+        LB_PriceIncreaseTitle.Location = New Point(220, 65)
         LB_PriceIncreaseTitle.Name = "LB_PriceIncreaseTitle"
-        LB_PriceIncreaseTitle.Size = New Size(87, 15)
+        LB_PriceIncreaseTitle.Size = New Size(81, 15)
         LB_PriceIncreaseTitle.TabIndex = 23
-        LB_PriceIncreaseTitle.Text = "Incremento 3%"
+        LB_PriceIncreaseTitle.Text = "Incremento %"
         ' 
         ' TB_Price
         ' 
@@ -148,6 +168,7 @@ Partial Class MD_INS_Tabulador
         ' 
         ' DGV_Tabulator
         ' 
+        DGV_Tabulator.AllowUserToAddRows = False
         DGV_Tabulator.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DGV_Tabulator.Location = New Point(12, 167)
         DGV_Tabulator.Name = "DGV_Tabulator"
@@ -185,4 +206,6 @@ Partial Class MD_INS_Tabulador
     Friend WithEvents LB_Price As Label
     Friend WithEvents LB_PriceIncreaseTitle As Label
     Friend WithEvents TB_PriceIncrease As TextBox
+    Friend WithEvents LB_Percentage As Label
+    Friend WithEvents TB_Percentage As TextBox
 End Class

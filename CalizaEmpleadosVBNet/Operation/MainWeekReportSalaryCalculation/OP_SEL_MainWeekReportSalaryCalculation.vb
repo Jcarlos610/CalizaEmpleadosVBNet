@@ -16,7 +16,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
     Dim PlantId As Integer = 0
     Dim PlantName As String = ""
     Dim ReleasePayment As Boolean = True
-
+    Dim HolidaysThisWeek As New Dictionary(Of Date, Boolean)
     Private Sub OP_SEL_MainWeekReportSalaryCalculation_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LB_Progress.Text = ""
         DTP_WeekSelector.Value = Today
@@ -139,6 +139,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         DTP_EndDate.Value = endDate
         DTP_EndDate.Enabled = False
 
+        CargarFestivosDeLaSemana()
         BuildWeeklyGrid_Movements(dt, startDate)
 
         'Aviso si la semana tiene rechazo 
@@ -151,6 +152,19 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                              "Corrige lo necesario y vuelve a guardar; se creará automáticamente la versión corregida.",
                              "Nómina rechazada", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End If
+    End Sub
+
+    Private Sub CargarFestivosDeLaSemana()
+        HolidaysThisWeek.Clear()
+        Dim holiday As New CL_Holiday()
+        Dim dt As DataTable = holiday.Get_AllHolidays()
+        If dt Is Nothing Then Exit Sub
+
+        For Each row As DataRow In dt.Rows
+            If Convert.ToBoolean(row("HOL_STAT")) Then
+                HolidaysThisWeek(Convert.ToDateTime(row("HOL_DATE")).Date) = Convert.ToBoolean(row("SCHM_PAYSBONOS"))
+            End If
+        Next
     End Sub
 
     Private Sub BuildWeeklyGrid_Movements(sourceTable As DataTable, startDate As Date)
@@ -337,6 +351,8 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         EmployeesInfo.Columns.Add("Botonero Fijo Final", GetType(String))
         EmployeesInfo.Columns.Add("Fecha inicio", GetType(Date))
         EmployeesInfo.Columns.Add("Fecha Fin", GetType(Date))
+
+        EmployeesInfo.Columns.Add("Monto por Viajes", GetType(String))
         EmployeesInfo.Columns.Add("Prestado", GetType(String))
         EmployeesInfo.Columns.Add("Pagado", GetType(String))
         EmployeesInfo.Columns.Add("Saldo a pagar", GetType(String))
@@ -582,6 +598,10 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         DGV_CompleteWeekInfo.Columns("Fecha fin").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Fecha fin").ToolTipText = "Fecha fin"
 
+        DGV_CompleteWeekInfo.Columns("Monto por Viajes").Width = 90
+        DGV_CompleteWeekInfo.Columns("Monto por Viajes").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+        DGV_CompleteWeekInfo.Columns("Monto por Viajes").ToolTipText = "Monto total de viajes pendientes de pago esta semana (La Mina)"
+
         DGV_CompleteWeekInfo.Columns("Prestado").Width = 70
         DGV_CompleteWeekInfo.Columns("Prestado").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         DGV_CompleteWeekInfo.Columns("Prestado").ToolTipText = "Monto Prestado"
@@ -663,6 +683,7 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                                 "Monto en efectivo",
                                 "Monto infonavit",
                                 "Desc. Horas A.",
+                                "Monto por Viajes",
                                 "Desc. por adeudo",
                                 "Transporte entre Empleados"
 }
@@ -692,6 +713,25 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
         For Each row As DataGridViewRow In DGV_CompleteWeekInfo.Rows
 
             For i = 8 To DGV_CompleteWeekInfo.Columns.Count - 1
+
+                Dim colDate As Date
+                Dim esFestivo As Boolean = Date.TryParseExact(DGV_CompleteWeekInfo.Columns(i).HeaderText, "dd/MM/yyyy",
+                    Globalization.CultureInfo.InvariantCulture, Globalization.DateTimeStyles.None, colDate) _
+                    AndAlso HolidaysThisWeek.ContainsKey(colDate)
+
+                If esFestivo Then
+                    If HolidaysThisWeek(colDate) Then
+                        row.Cells(i).Value = "A"
+                        row.Cells(i).Style.BackColor = System.Drawing.Color.FromArgb(CByte(255), CByte(230), CByte(150))
+                        row.Cells(i).ToolTipText = "Día festivo (paga completo + bonos)"
+                    Else
+                        row.Cells(i).Value = "FS"
+                        row.Cells(i).Style.BackColor = System.Drawing.Color.FromArgb(CByte(255), CByte(200), CByte(200))
+                        row.Cells(i).ToolTipText = "Día festivo (paga sueldo, sin bonos)"
+                    End If
+                    Continue For
+                End If
+
 
                 Dim value = row.Cells(i).Value
 
@@ -734,6 +774,10 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                         row.Cells(i).ToolTipText = "Asistencia"
                     Case 122
                         row.Cells(i).Value = "A" 'JI-ET-SA Jornada Incompleta - Entrada con tolerancia salida anticipada
+                        row.Cells(i).Style.BackColor = System.Drawing.Color.FromArgb(CByte(192), CByte(255), CByte(192))
+                        row.Cells(i).ToolTipText = "Asistencia"
+                    Case 123
+                        row.Cells(i).Value = "A" ' JC-EPSTA Jornada Completa - Entrada Puntual Salida con Tiempo Adicional
                         row.Cells(i).Style.BackColor = System.Drawing.Color.FromArgb(CByte(192), CByte(255), CByte(192))
                         row.Cells(i).ToolTipText = "Asistencia"
                     Case 130
@@ -1044,6 +1088,15 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
             Next
             DGV_CompleteWeekInfo.Item("Transporte entre Empleados", CounterLine).Value = TEmployeesAmount.ToString("C2")
             'Dim TransporteEntreEmpFinal As Decimal = 0.0
+
+            ' Pagos por viaje pendientes (La Mina)
+            Dim TruckPaymentsCL As New CL_TruckDriverPayment
+            Dim TruckPayments As DataTable = TruckPaymentsCL.GetPendingPaymentsByEmployeeAndWeek(EmployeeID, DTP_StartDate.Value, DTP_EndDate.Value)
+            Dim TruckDriverPaymentAmmount As Decimal = 0.0
+            For Each TripRow As DataRow In TruckPayments.Rows
+                TruckDriverPaymentAmmount += CDec(TripRow("PAYAMOUNT"))
+            Next
+            DGV_CompleteWeekInfo.Item("Monto por Viajes", CounterLine).Value = TruckDriverPaymentAmmount.ToString("C2")
 
             ' Bonus Botonero
             Dim BotoneroRecords As DataTable = RecordsbyEmployee.Get_BotoneroDetailsByEmployee(DTP_StartDate.Value, DTP_EndDate.Value, EmployeeID, 900)
@@ -1676,6 +1729,8 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                                               BonoProdFinal, BonoBPFinal, BonoBPFinalFJ, BonoProdFinalFJ, MontoComidaFinal,
                                               BonoBPFinalPV, BonoProdFinalPV, BonoBPFinalGeneral, BonoProdFinalGeneral, DescHorasAusencia)
 
+            NewSalary = NewSalary + TruckDriverPaymentAmmount
+
             'Calculado
             ' 34 - "Calculado"
             'DGV_CompleteWeekInfo.Rows(CounterLine).Cells(34).Value = NewSalary.ToString("C2")
@@ -1780,6 +1835,9 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
 
             'Count Permissions with salary
             CounterPG = CountLetterByEmployee(EmployeeID, "PG")
+
+            ' Festivos "sin bono" cuentan igual que Permiso Con Goce para el cálculo de nómina
+            CounterPG += CountLetterByEmployee(EmployeeID, "FS")
 
             'Count Permissions without salary
             CounterPSG = CountLetterByEmployee(EmployeeID, "PSG")
@@ -2471,6 +2529,10 @@ Public Class OP_SEL_MainWeekReportSalaryCalculation
                     ' Marcar los permisos de horas ausente de esta semana como pagados, para bloquear su edición
                     Dim HoursAbsenceCL As New CL_RecordByEmployeeHoursAbsence
                     HoursAbsenceCL.MarkHoursAbsenceAsPaid(CInt(row.Cells("No.").Value), DTP_StartDate.Value, DTP_EndDate.Value)
+
+
+                    Dim TruckPaymentsMarkCL As New CL_TruckDriverPayment
+                    TruckPaymentsMarkCL.MarkPaymentsAsPaid(CInt(row.Cells("No.").Value), DTP_StartDate.Value, DTP_EndDate.Value, CInt(currentID))
 
                     'Hice cambio
                     'Se hce el calculo de descuento por amonestaciones

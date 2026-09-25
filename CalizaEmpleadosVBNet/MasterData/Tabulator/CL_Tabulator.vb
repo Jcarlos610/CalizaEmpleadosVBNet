@@ -11,6 +11,7 @@ Public Class CL_Tabulator
     Private _PRICE As Object
     Private _PRICEINCREASE As Object
     Private _DATECREATED As Object
+    Private _PERCENTAGE As Object
 
 
     Public Property TABID As Object
@@ -67,11 +68,20 @@ Public Class CL_Tabulator
         End Set
     End Property
 
+    Public Property PERCENTAGE As Object
+        Get
+            Return _PERCENTAGE
+        End Get
+        Set(value As Object)
+            _PERCENTAGE = value
+        End Set
+    End Property
+
     Sub New()
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
     End Sub
 
-    Sub New(TABID, CUSCODE, CUSNAME, PRICE, PRICEINCREASE, DATECREATED)
+    Sub New(TABID, CUSCODE, CUSNAME, PRICE, PRICEINCREASE, DATECREATED, PERCENTAGE)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
         _TABID = TABID
@@ -80,10 +90,11 @@ Public Class CL_Tabulator
         _PRICE = PRICE
         _PRICEINCREASE = PRICEINCREASE
         _DATECREATED = DATECREATED
+        _PERCENTAGE = PERCENTAGE
 
     End Sub
 
-    Sub New(CUSCODE, CUSNAME, PRICE, PRICEINCREASE, DATECREATED)
+    Sub New(CUSCODE, CUSNAME, PRICE, PRICEINCREASE, DATECREATED, PERCENTAGE)
         DB_Connection = New SqlConnection(My.Settings.ConnectionString)
 
         _CUSCODE = CUSCODE
@@ -91,10 +102,10 @@ Public Class CL_Tabulator
         _PRICE = PRICE
         _PRICEINCREASE = PRICEINCREASE
         _DATECREATED = DATECREATED
-
+        _PERCENTAGE = PERCENTAGE
     End Sub
 
-    Public Function InsertTabulator(cusCode As String, cusName As String, shipId As Object, shipName As Object, price As Decimal, priceIncrease As Decimal) As Boolean
+    Public Function InsertTabulator(cusCode As String, cusName As String, shipId As Object, shipName As Object, price As Decimal, percentage As Object, priceIncrease As Decimal) As Boolean
         Try
             DB_Command = New SqlCommand("INS_MD_TABULATOR", DB_Connection) With {.CommandType = CommandType.StoredProcedure}
             DB_Command.Parameters.AddWithValue("@CUSCODE", cusCode)
@@ -102,6 +113,7 @@ Public Class CL_Tabulator
             DB_Command.Parameters.AddWithValue("@SHIPID", If(shipId Is Nothing, DBNull.Value, shipId))
             DB_Command.Parameters.AddWithValue("@SHIPNAME", If(shipName Is Nothing, DBNull.Value, shipName))
             DB_Command.Parameters.AddWithValue("@PRICE", price)
+            DB_Command.Parameters.AddWithValue("@PERCENTAGE", If(percentage Is Nothing, DBNull.Value, percentage))
             DB_Command.Parameters.AddWithValue("@PRICEINCREASE", priceIncrease)
 
             DB_Connection.Open()
@@ -148,7 +160,7 @@ Public Class CL_Tabulator
         Return dt
     End Function
 
-    Public Function UpdateTabulator(tabId As Integer, cusCode As String, cusName As String, shipId As Object, shipName As Object, price As Decimal, priceIncrease As Decimal) As Boolean
+    Public Function UpdateTabulator(tabId As Integer, cusCode As String, cusName As String, shipId As Object, shipName As Object, price As Decimal, percentage As Object, priceIncrease As Decimal) As Boolean
         Try
             DB_Command = New SqlCommand("UPD_MD_TABULATOR", DB_Connection) With {.CommandType = CommandType.StoredProcedure}
             DB_Command.Parameters.AddWithValue("@TABID", tabId)
@@ -157,6 +169,7 @@ Public Class CL_Tabulator
             DB_Command.Parameters.AddWithValue("@SHIPID", If(shipId Is Nothing, DBNull.Value, shipId))
             DB_Command.Parameters.AddWithValue("@SHIPNAME", If(shipName Is Nothing, DBNull.Value, shipName))
             DB_Command.Parameters.AddWithValue("@PRICE", price)
+            DB_Command.Parameters.AddWithValue("@PERCENTAGE", If(percentage Is Nothing, DBNull.Value, percentage))
             DB_Command.Parameters.AddWithValue("@PRICEINCREASE", priceIncrease)
 
             DB_Connection.Open()

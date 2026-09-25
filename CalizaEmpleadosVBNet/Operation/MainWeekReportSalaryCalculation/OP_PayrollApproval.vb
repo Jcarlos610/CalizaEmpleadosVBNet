@@ -125,6 +125,10 @@
 
             Dim CL As New CL_Payroll
             If CL.UpdatePayrollApprovalStatus(approvalID, "Rechazado", AppUser, motivo) Then
+
+                Dim TruckPaymentsCL As New CL_TruckDriverPayment
+                TruckPaymentsCL.RevertPaymentsByBatch(batchID)
+
                 MessageBox.Show($"Nómina {batchID} rechazada." & vbCrLf &
                                  "Ve al módulo de cálculo de nómina, corrige lo necesario, y vuelve a liberar la nómina de esa misma semana " &
                                  "para que se genere automáticamente la versión corregida.",

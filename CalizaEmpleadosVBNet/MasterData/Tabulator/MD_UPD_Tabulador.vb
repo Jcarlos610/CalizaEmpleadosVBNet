@@ -34,7 +34,8 @@
             DGV_Tabulator.Columns("SHIPID").HeaderText = "Cód. Sucursal"
             DGV_Tabulator.Columns("SHIPNAME").HeaderText = "Sucursal"
             DGV_Tabulator.Columns("PRICE").HeaderText = "Precio"
-            DGV_Tabulator.Columns("PRICEINCREASE").HeaderText = "Incremento 3%"
+            DGV_Tabulator.Columns("PERCENTAGE").HeaderText = "% Incremento"
+            DGV_Tabulator.Columns("PRICEINCREASE").HeaderText = "Monto a Pagar"
 
             DGV_Tabulator.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
         End If
@@ -66,6 +67,12 @@
 
                 TB_Price.Text = price.ToString("0.00")
 
+                If Not IsDBNull(row.Cells("PERCENTAGE").Value) Then
+                    TB_Percentage.Text = CDec(row.Cells("PERCENTAGE").Value).ToString("0.##")
+                Else
+                    TB_Percentage.Text = ""
+                End If
+
             Catch ex As Exception
                 MsgBox("Error al seleccionar el registro del tabulador: " & ex.Message, MsgBoxStyle.Exclamation, "Aviso")
             End Try
@@ -96,14 +103,37 @@
         CB_LocationList.Enabled = True
     End Sub
 
-    Private Sub TB_Price_TextChanged(sender As Object, e As EventArgs) Handles TB_Price.TextChanged
+    Private Sub RecalculatePriceIncrease()
         Dim price As Decimal
-        If Decimal.TryParse(TB_Price.Text, price) Then
-            Dim increase As Decimal = Math.Round(price * 1.03D, 0)
-            TB_PriceIncrease.Text = increase.ToString("C0")
-        Else
+        If Not Decimal.TryParse(TB_Price.Text, price) Then
             TB_PriceIncrease.Text = ""
+            Return
         End If
+
+        Dim percentText As String = TB_Percentage.Text.Trim()
+
+        If percentText = "" Then
+            TB_PriceIncrease.Text = price.ToString("C0")
+        Else
+            Dim percent As Decimal
+            If Decimal.TryParse(percentText, percent) Then
+                Dim finalAmount As Decimal = Math.Round(price * (1 + percent / 100D), 0)
+                TB_PriceIncrease.Text = finalAmount.ToString("C0")
+            Else
+                TB_PriceIncrease.Text = ""
+            End If
+        End If
+    End Sub
+
+    Private Sub TB_Price_TextChanged(sender As Object, e As EventArgs) Handles TB_Price.TextChanged
+        'Dim price As Decimal
+        'If Decimal.TryParse(TB_Price.Text, price) Then
+        '    Dim increase As Decimal = Math.Round(price * 1.03D, 0)
+        '    TB_PriceIncrease.Text = increase.ToString("C0")
+        'Else
+        '    TB_PriceIncrease.Text = ""
+        'End If
+        RecalculatePriceIncrease()
     End Sub
 
     Private Sub BT_Upd_Click(sender As Object, e As EventArgs) Handles BT_Upd.Click
@@ -123,7 +153,18 @@
             Exit Sub
         End If
 
-        Dim priceIncrease As Decimal = Math.Round(price * 1.03D, 0)
+        Dim percentage As Object = Nothing
+        Dim percentValue As Decimal
+        If TB_Percentage.Text.Trim() <> "" AndAlso Decimal.TryParse(TB_Percentage.Text, percentValue) Then
+            percentage = percentValue
+        End If
+
+        Dim priceIncrease As Decimal
+        If percentage Is Nothing Then
+            priceIncrease = price
+        Else
+            priceIncrease = Math.Round(price * (1 + percentValue / 100D), 0)
+        End If
 
         Dim cusCode As String = CB_CustomerList.Text.Substring(0, 10)
         Dim cusName As String = CB_CustomerList.Text.Substring(13)
@@ -137,7 +178,7 @@
 
         Try
             Dim tab As New CL_Tabulator()
-            If tab.UpdateTabulator(currentTabId, cusCode, cusName, shipId, shipName, price, priceIncrease) Then
+            If tab.UpdateTabulator(currentTabId, cusCode, cusName, shipId, shipName, price, percentage, priceIncrease) Then
                 MessageBox.Show("Tabulador actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 F_Load_Tabulator()
                 F_ClearForm()
@@ -153,7 +194,11 @@
         CB_LocationList.Items.Clear()
         CB_LocationList.Enabled = False
         TB_Price.Text = ""
+        TB_Percentage.Text = ""
         TB_PriceIncrease.Text = ""
     End Sub
 
+    Private Sub TB_Percentage_TextChanged(sender As Object, e As EventArgs) Handles TB_Percentage.TextChanged
+        RecalculatePriceIncrease()
+    End Sub
 End Class

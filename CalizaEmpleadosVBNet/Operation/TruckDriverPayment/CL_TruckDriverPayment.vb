@@ -255,4 +255,58 @@ Public Class CL_TruckDriverPayment
         End Try
         Return dt
     End Function
+
+    Public Function GetPendingPaymentsByEmployeeAndWeek(employeeID As Integer, startDate As Date, endDate As Date) As DataTable
+        Dim dt As New DataTable()
+        Try
+            DB_Command = New SqlCommand("SEL_TruckDriverPaymentsByEmployeeWeek", DB_Connection) With {.CommandType = CommandType.StoredProcedure}
+            DB_Command.Parameters.AddWithValue("@EMPL_ID", employeeID)
+            DB_Command.Parameters.AddWithValue("@STARTDATE", startDate)
+            DB_Command.Parameters.AddWithValue("@ENDDATE", endDate)
+
+            DB_Connection.Open()
+            Dim adapter As New SqlDataAdapter(DB_Command)
+            adapter.Fill(dt)
+            DB_Connection.Close()
+        Catch ex As Exception
+            If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
+            MsgBox("Error al consultar pagos de viajes: " & ex.Message)
+        End Try
+        Return dt
+    End Function
+
+    Public Function MarkPaymentsAsPaid(employeeID As Integer, startDate As Date, endDate As Date, payrollID As Integer) As Boolean
+        Try
+            DB_Command = New SqlCommand("UPD_TruckDriverPaymentsMarkPaid", DB_Connection) With {.CommandType = CommandType.StoredProcedure}
+            DB_Command.Parameters.AddWithValue("@EMPL_ID", employeeID)
+            DB_Command.Parameters.AddWithValue("@STARTDATE", startDate)
+            DB_Command.Parameters.AddWithValue("@ENDDATE", endDate)
+            DB_Command.Parameters.AddWithValue("@PAYROLL_ID", payrollID)
+
+            DB_Connection.Open()
+            DB_Command.ExecuteNonQuery()
+            DB_Connection.Close()
+            Return True
+        Catch ex As Exception
+            If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
+            MsgBox("Error al marcar pagos de viajes: " & ex.Message)
+            Return False
+        End Try
+    End Function
+
+    Public Function RevertPaymentsByBatch(batchID As String) As Boolean
+        Try
+            DB_Command = New SqlCommand("UPD_TruckDriverPaymentsRevertByBatch", DB_Connection) With {.CommandType = CommandType.StoredProcedure}
+            DB_Command.Parameters.AddWithValue("@BATCHID", batchID)
+
+            DB_Connection.Open()
+            DB_Command.ExecuteNonQuery()
+            DB_Connection.Close()
+            Return True
+        Catch ex As Exception
+            If DB_Connection.State = ConnectionState.Open Then DB_Connection.Close()
+            MsgBox("Error al revertir pagos de viajes: " & ex.Message)
+            Return False
+        End Try
+    End Function
 End Class
